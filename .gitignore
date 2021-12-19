@@ -120,4 +120,7 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/eclipse,windows
 
 Servers/
-pom.properties
+*/target/*
+.project
+.classpath
+.settings
