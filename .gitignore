@@ -124,3 +124,4 @@ Servers/
 .project
 .classpath
 .settings
+pom.properties
