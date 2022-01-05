@@ -12,6 +12,7 @@
 <link rel="icon" type="image/png" sizes="16x16" href="${contextPath}/assets/resources/images/favicon.png">
 <!-- Custom Stylesheet -->
 <link href="${contextPath}/resources/assets/css/style.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 </head>
 <body>
 
@@ -37,8 +38,6 @@
         <div class="nav-header">
             <a href="${contextPath}/admin/mlist.ad" class="brand-logo" style="background: #2b2d35;">
                 <img class="logo-abbr" src="${contextPath}/resources/assets/images/logo.png" alt="" style="border-radius: 100%; width: 170px; height: 32px;">
-               <%--  <img class="logo-compact" src="${contextPath}/resources/assets/images/logo-text.png" alt=""> --%>
-               <%--  <img class="brand-title" src="${contextPath}/resources/assets/images/logo-text.png" alt="" style="width: 200px; height: 100px;"> --%>
                	<b class="logo-compact" style="font-size: x-large;">CODEUS</b>
                	<b class="brand-title" style="font-size: x-large;">CODEUS</b>
             </a>
@@ -95,7 +94,7 @@
                 <ul class="metismenu" id="menu">
                 	<li class="nav-label first">Admin Menu</li>
                     <li><a class="has-arrow" href="${contextPath}" aria-expanded="false">
-                    	<i class="fa fa-sitemap"></i><!-- <i class="fa fa-user-plus"></i> --><span class="nav-text">조직 관리</span></a>
+                    	<i class="bi bi-diagram-3"></i><span class="nav-text">조직 관리</span></a>
                      	  <ul aria-expanded="false">
                             <li><a href="mlist.ad">사원 관리</a></li>
                             <li><a href="deptlist.ad">부서 관리</a></li>
@@ -119,8 +118,8 @@
                     		<i class="fa fa-bars"></i><span class="nav-text">신고글 관리</span></a>
 
                     </li>
-                    <li><a href="javascript:void()" aria-expanded="false"><i
-                                class="fa fa-pencil-square-o"></i><span class="nav-text">회의실 관리</span></a>
+                    <li><a href="javascript:void()" aria-expanded="false">
+                    	<i class="bi bi-pencil-square"></i><span class="nav-text">회의실 관리</span></a>
                     </li>
                 </ul>
             </div>
@@ -137,5 +136,7 @@
 	    <script src="${contextPath}/resources/assets/vendor/global/global.min.js"></script>
 	    <script src="${contextPath}/resources/assets/js/quixnav-init.js"></script>
 	    <script src="${contextPath}/resources/assets/js/custom.min.js"></script>      
+	    
+	    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
