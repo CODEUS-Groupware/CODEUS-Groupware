@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.codeusgroup.codeus.address.model.exception.AddressException;
 import com.codeusgroup.codeus.address.model.service.AddressService;
 import com.codeusgroup.codeus.address.model.vo.PageInfo;
-import com.codeusgroup.codeus.common.Pagination;
+import com.codeusgroup.codeus.address.common.Pagination;
 import com.codeusgroup.codeus.member.model.vo.Member;
 
 @Controller
