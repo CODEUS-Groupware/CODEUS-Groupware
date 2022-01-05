@@ -1,5 +1,4 @@
 package com.codeusgroup.codeus.common;
-
 import com.codeusgroup.codeus.address.model.vo.PageInfo;
 
 public class Pagination {
