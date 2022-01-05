@@ -1,4 +1,4 @@
-package com.codeusgroup.codeus.common;
+package com.codeusgroup.codeus.commonaddress;
 
 import com.codeusgroup.codeus.address.model.vo.PageInfo;
 
