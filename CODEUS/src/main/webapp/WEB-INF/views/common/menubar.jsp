@@ -183,8 +183,8 @@
                    <!--  <li class="nav-label">Apps</li> -->
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
                     		<i class="fa fa-comments"></i><span class="nav-text">채팅</span></a>
-	                    	<ul aria-expanded="false">
-		                    		<li><a href="chetList.ch">채팅방 목록</a></li>
+	                    <ul aria-expanded="false">
+		                    <li><a href="chetList.ch">채팅방 목록</a></li>
                             <li><a href="chetSearch.ch">채팅방 검색</a></li>
                        	</ul>
                     </li>
@@ -202,9 +202,8 @@
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
                     		<i class="bi bi-people"></i><span class="nav-text">커뮤니티</span></a>
                         <ul aria-expanded="false">
-                            <li><a href="javascript:void()">자유게시판</a></li>
+                            <li><a href="Commblist.bo">자유게시판</a></li>
                             <li><a href="javascript:void()">중고장터</a></li>
-
                         </ul>
                     </li>
                     <li><a href="javascript:void()" aria-expanded="false">
@@ -228,8 +227,8 @@
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
                     	<i class="bi bi-briefcase-fill"></i><span class="nav-text">근태관리</span></a>
                         <ul aria-expanded="false">
-                            <li><a href="javascript:void()">근태 현황</a></li>
-                            <li><a href="javascript:void()">Datatable</a></li>
+                            <li><a href="empStatusMain.em">근태 현황</a></li>
+                            <li><a href="annualLeaveMain.al">연차현황</a></li>
                         </ul>
                     </li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">

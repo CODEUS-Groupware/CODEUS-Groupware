@@ -1,6 +1,6 @@
 package com.codeusgroup.codeus.member.model.vo;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Member {
 	private String mId;
@@ -23,14 +23,14 @@ public class Member {
 	private String jobName;
 	private String deptId;
 	private String deptName;
-    
+    private int comYear;
 	
-	public Member() {}
-
+    public Member() {}
 
 	public Member(String mId, String mPwd, String mName, String birthDate, String email, String phone, String address,
 			String profile, String imgOriginName, String imgChangeName, Date enrollDate, Date updateDate, Date hireDate,
-			Date endDate, int status, String managerYn, String jobId, String jobName, String deptId, String deptName) {
+			Date endDate, int status, String managerYn, String jobId, String jobName, String deptId, String deptName,
+			int comYear) {
 		super();
 		this.mId = mId;
 		this.mPwd = mPwd;
@@ -52,208 +52,176 @@ public class Member {
 		this.jobName = jobName;
 		this.deptId = deptId;
 		this.deptName = deptName;
+		this.comYear = comYear;
 	}
-
 
 	public String getmId() {
 		return mId;
 	}
 
-
 	public void setmId(String mId) {
 		this.mId = mId;
 	}
-
 
 	public String getmPwd() {
 		return mPwd;
 	}
 
-
 	public void setmPwd(String mPwd) {
 		this.mPwd = mPwd;
 	}
-
 
 	public String getmName() {
 		return mName;
 	}
 
-
 	public void setmName(String mName) {
 		this.mName = mName;
 	}
-
 
 	public String getBirthDate() {
 		return birthDate;
 	}
 
-
 	public void setBirthDate(String birthDate) {
 		this.birthDate = birthDate;
 	}
-
 
 	public String getEmail() {
 		return email;
 	}
 
-
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
 
 	public String getPhone() {
 		return phone;
 	}
 
-
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-
 
 	public String getAddress() {
 		return address;
 	}
 
-
 	public void setAddress(String address) {
 		this.address = address;
 	}
-
 
 	public String getProfile() {
 		return profile;
 	}
 
-
 	public void setProfile(String profile) {
 		this.profile = profile;
 	}
-
 
 	public String getImgOriginName() {
 		return imgOriginName;
 	}
 
-
 	public void setImgOriginName(String imgOriginName) {
 		this.imgOriginName = imgOriginName;
 	}
-
 
 	public String getImgChangeName() {
 		return imgChangeName;
 	}
 
-
 	public void setImgChangeName(String imgChangeName) {
 		this.imgChangeName = imgChangeName;
 	}
-
 
 	public Date getEnrollDate() {
 		return enrollDate;
 	}
 
-
 	public void setEnrollDate(Date enrollDate) {
 		this.enrollDate = enrollDate;
 	}
-
 
 	public Date getUpdateDate() {
 		return updateDate;
 	}
 
-
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 	}
-
 
 	public Date getHireDate() {
 		return hireDate;
 	}
 
-
 	public void setHireDate(Date hireDate) {
 		this.hireDate = hireDate;
 	}
-
 
 	public Date getEndDate() {
 		return endDate;
 	}
 
-
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-
 
 	public int getStatus() {
 		return status;
 	}
 
-
 	public void setStatus(int status) {
 		this.status = status;
 	}
-
 
 	public String getManagerYn() {
 		return managerYn;
 	}
 
-
 	public void setManagerYn(String managerYn) {
 		this.managerYn = managerYn;
 	}
-
 
 	public String getJobId() {
 		return jobId;
 	}
 
-
 	public void setJobId(String jobId) {
 		this.jobId = jobId;
 	}
-
 
 	public String getJobName() {
 		return jobName;
 	}
 
-
 	public void setJobName(String jobName) {
 		this.jobName = jobName;
 	}
-
 
 	public String getDeptId() {
 		return deptId;
 	}
 
-
 	public void setDeptId(String deptId) {
 		this.deptId = deptId;
 	}
-
 
 	public String getDeptName() {
 		return deptName;
 	}
 
-
 	public void setDeptName(String deptName) {
 		this.deptName = deptName;
 	}
 
+	public int getComYear() {
+		return comYear;
+	}
+
+	public void setComYear(int comYear) {
+		this.comYear = comYear;
+	}
 
 	@Override
 	public String toString() {
@@ -262,7 +230,7 @@ public class Member {
 				+ imgOriginName + ", imgChangeName=" + imgChangeName + ", enrollDate=" + enrollDate + ", updateDate="
 				+ updateDate + ", hireDate=" + hireDate + ", endDate=" + endDate + ", status=" + status + ", managerYn="
 				+ managerYn + ", jobId=" + jobId + ", jobName=" + jobName + ", deptId=" + deptId + ", deptName="
-				+ deptName + "]";
+				+ deptName + ", comYear=" + comYear + "]";
 	}
 
 	

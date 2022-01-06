@@ -59,11 +59,14 @@
 	</resultMap>
 	
 	<select id="selectDepartmentList" resultMap="departmentResultSet">
-		SELECT D.DEPT_ID, DEPT_NAME, DEPT_MANAGER, M_NAME, UPPER_DEPT, DEPT_LEVEL, DEPT_ORDER, DEPT_STATUS, DEPT_CREATE_DATE
+		SELECT D.DEPT_ID, DEPT_NAME, DEPT_MANAGER, M_NAME, UPPER_DEPT, DEPT_LEVEL, 
+       		  DEPT_ORDER, DEPT_STATUS, DEPT_CREATE_DATE, LEVEL, CONNECT_BY_ISLEAF AS ISLEAF
 		FROM DEPARTMENT D
 		     LEFT JOIN MEMBER ON(DEPT_MANAGER = M_ID)
 		WHERE DEPT_STATUS = 0
-		ORDER BY DEPT_LEVEL
+		START WITH UPPER_DEPT IS NULL
+		CONNECT BY PRIOR D.DEPT_ID = UPPER_DEPT
+		ORDER BY LEVEL, DEPT_ORDER
 	</select>
 	
 	<resultMap type="Department" id="departmentResultSet">
@@ -76,6 +79,7 @@
 		<result column="DEPT_ORDER" property="deptOrder"/>
 		<result column="DEPT_STATUS" property="deptStatus"/>
 		<result column="DEPT_CREATE_DATE" property="createDate"/>
+		<result column="ISLEAF" property="hasChildren"/>
 	</resultMap>
 	
 	<select id="selectJobList" resultMap="jobResultSet">
@@ -189,10 +193,24 @@
 		where job_id = #{jobId}
 	</update>
 	
-	<select id="selectCandidateList" resultMap="memberResultSet">
-		select m_id, m_name, job_name, job_order, m_enroll_date
-		from member left join job using(job_id)
-		where m_status = 0
-		order by job_order
+	<select id="selectDeptMemberList" resultMap="memberResultSet">
+		SELECT M_ID, M_PWD, M_NAME, M_BIRTH_DATE, M_EMAIL, M_PHONE, M_ADDRESS, M_PROFILE, M_IMG_ORIGIN_NAME, M_IMG_CHANGE_NAME, M_ENROLL_DATE, M_UPDATE_DATE, 
+		       M_HIRE_DATE, M_END_DATE, M_STATUS, M_MANAGER_YN, JOB_ID, JOB_NAME, DEPT_ID, DEPT_NAME
+		FROM MEMBER
+		     LEFT JOIN DEPARTMENT USING(DEPT_ID)
+		     LEFT JOIN JOB USING(JOB_ID)
+		WHERE M_STATUS = 0
+		ORDER BY JOB_ORDER
+	</select>
+	
+	<select id="getSubDeptList" resultMap="departmentResultSet">
+		SELECT D.DEPT_ID, DEPT_NAME, DEPT_MANAGER, M_NAME, UPPER_DEPT, DEPT_LEVEL, 
+	       DEPT_ORDER, DEPT_STATUS, DEPT_CREATE_DATE, LEVEL, CONNECT_BY_ISLEAF AS SUB_DEPT_YN
+		FROM DEPARTMENT D
+		     LEFT JOIN MEMBER ON(DEPT_MANAGER = M_ID)
+		WHERE DEPT_STATUS = 0 AND UPPER_DEPT = #{deptId}
+		START WITH UPPER_DEPT IS NULL
+		CONNECT BY PRIOR D.DEPT_ID = UPPER_DEPT
+		ORDER BY DEPT_ORDER
 	</select>
 </mapper>
