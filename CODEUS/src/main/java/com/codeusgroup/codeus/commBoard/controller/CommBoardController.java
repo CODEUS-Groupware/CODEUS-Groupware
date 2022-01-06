@@ -1,4 +1,4 @@
-package com.codeusgroup.codeus.commBoard.controller;
+﻿package com.codeusgroup.codeus.commBoard.controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,7 +27,7 @@ import com.codeusgroup.codeus.commBoard.model.service.CommBoardService;
 import com.codeusgroup.codeus.commBoard.model.vo.CommBoard;
 import com.codeusgroup.codeus.commBoard.model.vo.PageInfo;
 import com.codeusgroup.codeus.commBoard.model.vo.Reply;
-import com.codeusgroup.codeus.common.Pagination;
+import com.codeusgroup.codeus.commBoard.common.Pagination;
 import com.codeusgroup.codeus.member.model.vo.Member;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
