@@ -12,11 +12,12 @@ public class Department {
 	private int deptOrder;
 	private int deptStatus;
 	private Date createDate;
+	private int hasChildren;
 	
 	public Department() {}
 
 	public Department(int deptId, String deptName, String deptManager, String deptManagerName, int upperDept,
-			int deptLevel, int deptOrder, int deptStatus, Date createDate) {
+			int deptLevel, int deptOrder, int deptStatus, Date createDate, int hasChildren) {
 		super();
 		this.deptId = deptId;
 		this.deptName = deptName;
@@ -27,6 +28,7 @@ public class Department {
 		this.deptOrder = deptOrder;
 		this.deptStatus = deptStatus;
 		this.createDate = createDate;
+		this.hasChildren = hasChildren;
 	}
 
 	public int getDeptId() {
@@ -101,11 +103,20 @@ public class Department {
 		this.createDate = createDate;
 	}
 
+	public int getHasChildren() {
+		return hasChildren;
+	}
+
+	public void setHasChildren(int hasChildren) {
+		this.hasChildren = hasChildren;
+	}
+
 	@Override
 	public String toString() {
 		return "Department [deptId=" + deptId + ", deptName=" + deptName + ", deptManager=" + deptManager
 				+ ", deptManagerName=" + deptManagerName + ", upperDept=" + upperDept + ", deptLevel=" + deptLevel
-				+ ", deptOrder=" + deptOrder + ", deptStatus=" + deptStatus + ", createDate=" + createDate + "]";
+				+ ", deptOrder=" + deptOrder + ", deptStatus=" + deptStatus + ", createDate=" + createDate
+				+ ", hasChildren=" + hasChildren + "]";
 	}
-	
+
 }

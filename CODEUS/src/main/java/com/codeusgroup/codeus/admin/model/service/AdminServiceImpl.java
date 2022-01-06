@@ -101,8 +101,13 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public ArrayList<Member> selectCandidateList() {
-		return aDAO.selectCandidateList(sqlSession);
+	public ArrayList<Member> selectDeptMemberList() {
+		return aDAO.selectDeptMemberList(sqlSession);
+	}
+
+	@Override
+	public ArrayList<Department> getSubDeptList(int upperDept) {
+		return aDAO.getSubDeptList(sqlSession, upperDept);
 	}
 
 }

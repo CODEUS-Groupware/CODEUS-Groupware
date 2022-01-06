@@ -228,14 +228,7 @@
 	                				var message = '${message}' == "u" ? "변경이 완료되었습니다." : "계정 삭제가 완료되었습니다.";
 	                				
 	                				if ('${message}' != '') {
-	                					Swal.fire({
-		  	                				position: 'top',
-		  	                				background: '#292B30',
-						       				color: 'white',
-		  	                				text: message,
-		  	                				showConfirmButton: false,
-		  	                				timer: 1500
-		  	                			});
+	                					alert(message);
 	                					<c:remove var="message" scope="request"/>
 		                				history.replaceState({}, null, location.pathname);
 	                				}
@@ -312,24 +305,9 @@
 	                       				  }
                        					});
                        				} else if (managerYn) {
-                       					Swal.fire({
-						       				position: 'top',
-						       				background: '#292B30',
-						       				color: 'white',
-						       				title: managerId + '은 관리자 계정입니다.',
-						      				text: '삭제하려면, 먼저 관리자 설정을 해제하여 주세요.',
-						       				showConfirmButton: false,
-						       				timer: 2000
-						       			});
+                       					alert('삭제하려면, 먼저 관리자 설정을 해제하여 주세요.', managerId + '은 관리자 계정입니다.')
                        				} else {
-                       					Swal.fire({
-						       				position: 'top',
-						       				background: '#292B30',
-						       				color: 'white',
-						      				text: '적용할 사원을 선택하세요.',
-						       				showConfirmButton: false,
-						       				timer: 2000
-						       			});
+                       					alert('적용할 사원을 선택하세요.');
                        				}
                        				
                        			});
@@ -351,7 +329,7 @@
                        					$('#countCheck').html(count);
                        					$(this).attr('data-toggle', 'modal');
                        				} else {
-                       					Swal.fire('적용할 사원을 선택하세요.');
+                       					alert('적용할 사원을 선택하세요.');
                        				}
                        			});
                        			
@@ -381,16 +359,7 @@
                        					$(this).parents('form').attr('action', '${ contextPath }/admin/mupdatemulti.ad');
                        					$(this).parents('form').submit();
                        				} else {
-                       					Swal.fire({
-						       				position: 'top',
-						       				background: '#292B30',
-						       				color: 'white',
-						       				title: managerId + '은 관리자 계정입니다.',
-						      				text: '계정을 중지하려면, 먼저 관리자 설정을 해제하여 주세요.',
-						       				showConfirmButton: false,
-						       				timer: 2000
-						       			});
-                       				
+                       					alert('계정을 중지하려면, 먼저 관리자 설정을 해제하여 주세요.', managerId + '은 관리자 계정입니다.');
                        				} 
                        				                      				
                        			});
@@ -450,7 +419,22 @@
 	                       					$('#deleteForm').submit();
 	                       				}
                      				}); 
-                       			});                       			
+                       			});      
+                       			
+                       			// sweet alert customize
+				        		var alert = function(msg, title, icon) {
+				        			Swal.fire({
+				        				position: 'top',
+				        				background: '#292B30',
+					       				color: 'white',
+				        				title : title,
+				        				text : msg,
+				        				icon: icon,
+				        				timer : 2000,
+				        				customClass : 'sweet-size',
+				        				showConfirmButton : false
+				        			});
+				        		}
                        		</script> 
                         
                             <!-- 페이징 영역 시작 -->
@@ -552,7 +536,6 @@
    <!--**********************************
         Scripts
     ***********************************-->
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>

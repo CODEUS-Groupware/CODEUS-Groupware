@@ -10,16 +10,21 @@
 	.modal input{display: inline; width: 150px;}
 	a:hover{cursor: pointer;}
 	.guide{margin-left: 110px;}
-	.col-form-label{font-weight: bolder; width: 100px;}
+	.col-form-label{width: 100px;}
 	.form-col{padding-left: 15px;}
-	.dept-detail{color: black; font-size: medium;}
+	.dept-detail{color: black;}
 	.dept-detail input[type=text], .dept-detail input[type=search], .dept-detail select{display: inline;  width: 150px;}
 	.tree-div{overflow-x: hidden; color: black;}
 	.card-body{min-height: 800px;}
 </style>
+<style>
+
+
+</style>
+
 	<!-- tree viewer CSS
 		============================================ -->
-    <link rel="stylesheet" href="${contextPath}/resources/assets/vendor/deptList/css/tree-viewer.css">
+	<link rel="stylesheet" href="${contextPath}/resources/assets/vendor/deptList/css/jquery.treeview.css">
 </head>
 <body>
 
@@ -29,7 +34,37 @@
     <div id="main-wrapper">	
 
 		<c:import url="../common/menubar_admin.jsp"/>
+    	
+    	    <script>/* 
+		function initTrees() {
+			$("#black").treeview({
+				url: "source.php"
+			})
+	
+			$("#mixed").treeview({
+				url: "source.php",
+				// add some additional, dynamic data and request with POST
+				ajax: {
+					data: {
+						"additional": function() {
+							return "yeah: " + new Date;
+						}
+					},
+					type: "post"
+				}
+			});
+		}
+		$(document).ready(function(){
+			initTrees();
+			$("#refresh").click(function() {
+				$("#black").empty();
+				$("#mixed").empty();
+				initTrees();
+			});
+		}); */
     
+    </script>
+    	
         <!--**********************************
             Content body start
         ***********************************-->
@@ -77,94 +112,113 @@
                        <!--  <div class="sparkline9-list shadow-reset responsive-mg-b-30"> -->
                     	<div class="card">
                            	<div class="card-body tree-div">
-                               <h4 class="card-intro-title" style="font-weight: bold;">부서 목록</h4>
+                               <h4 class="card-intro-title" style="font-weight: bold;">조직도</h4>
 							   <br>
-	                           <div class="sparkline9-graph">
-	                                <div class="edu-content res-tree-ov">
-	                                    <div id="jstree1">
-	                                        <ul>
-	                                            <li class="jstree-open">${ dList[0].deptName }
-	                                            	<ul>
-	                                            	<c:forEach var="d2" items="${ dList }">
-	                                            		<c:if test="${ d2.deptLevel == 2}">
-	                                            			<li>${ d2.deptName }
-	                                            				<ul>
-		                                            			<c:forEach var="d3" items="${ dList }">
-		                                            				<c:if test="${ d3.upperDept == d2.deptId }">
-			                                                            <li>${ d3.deptName }
-			                                                            	<ul>
-			                                                            	<c:forEach var="d4" items="${ dList }">
-			                                                            		<c:if test="${ d4.upperDept == d3.deptId }">
-		                                            							
-		                                            								<li>${ d4.deptName }
-		                                            								</li>
-			                                                       			 	</c:if>
-			                                                            	</c:forEach>
-			                                                            	</ul>
-			                                                            </li>
-			                                                        </c:if>	
-		                                            			</c:forEach>
-		                                            			</ul>
-	                                            			</li>
-	                                            		</c:if>
-	                                            	</c:forEach>
-	                                            	</ul>
-	                                            	
-<!-- 	                                                <ul> -->
-<!-- 	                                                    <li>css -->
-<!-- 	                                                        <ul> -->
-<!-- 	                                                            <li>bootstrap.min.css</li> -->
-<!-- 	                                                            <li>font-awesome.min.css</li> -->
-<!-- 	                                                            <li>responsive.css</li> -->
-<!-- 	                                                            <li>tree-viewer.css</li> -->
-<!-- 	                                                        </ul> -->
-<!-- 	                                                    </li> -->
-<!-- 	                                                    <li>sounds -->
-<!-- 	                                                        <ul> -->
-<!-- 	                                                            <li>bootstrap.min.css</li> -->
-<!-- 	                                                            <li>font-awesome.min.css</li> -->
-<!-- 	                                                            <li>responsive.css</li> -->
-<!-- 	                                                            <li>tree-viewer.css</li> -->
-<!-- 	                                                        </ul> -->
-<!-- 	                                                    </li> -->
-<!-- 	                                                    <li>fonts -->
-<!-- 	                                                        <ul> -->
-<!-- 	                                                           <li>bootstrap.min.css</li> -->
-<!-- 	                                                            <li>font-awesome.min.css</li> -->
-<!-- 	                                                            <li>responsive.css</li> -->
-<!-- 	                                                            <li>tree-viewer.css</li> -->
-<!-- 	                                                        </ul> -->
-<!-- 	                                                    </li> -->
-<!-- 	                                                    <li class="jstree-open">img -->
-<!-- 	                                                        <ul> -->
-<!-- 	                                                            <li>bootstrap.min.css</li> -->
-<!-- 	                                                            <li>font-awesome.min.css</li> -->
-<!-- 	                                                            <li>responsive.css</li> -->
-<!-- 	                                                            <li>tree-viewer.css</li> -->
-<!-- 	                                                        </ul> -->
-<!-- 	                                                    </li> -->
-<!-- 	                                                    <li class="jstree-open">js -->
-<!-- 	                                                        <ul> -->
-<!-- 	                                                            <li>bootstrap.min.css</li> -->
-<!-- 	                                                            <li>font-awesome.min.css</li> -->
-<!-- 	                                                            <li>responsive.css</li> -->
-<!-- 	                                                            <li>tree-viewer.css</li> -->
-<!-- 	                                                        </ul> -->
-<!-- 	                                                    </li> -->
-<!-- 	                                                    <li>bootstrap.min.css</li> -->
-<!-- 	                                                    <li>font-awesome.min.css</li> -->
-<!-- 	                                                    <li>responsive.css</li> -->
-<!-- 	                                                    <li>tree-viewer.css</li> -->
-<!-- 	                                                </ul> -->
+							   <div style="float: right;">
+								   <b>부서</b> 
+								   <a class="badge badge-light"><i class="bi bi-plus-lg" style="color: black;"></i> 추가</a>
+								   <a class="badge badge-light"><i class="bi bi-dash-lg"></i> 삭제</a>
+							   </div>
+							   <br>
+							   <hr>
+	                           <div id="treeView">
+	                                        <ul id="deptList">
+	                                            <li><a class="selectDept">${ dList[0].deptName }</a>
+		                                            <c:set var="hasChildren" value="false"/> 
+		                                            <c:forEach var="m" items="${ mList }">
+						                        		<c:if test="${ m.deptId == dList[0].deptId }">
+						                        			 <c:set var="hasChildren" value="true"/> 
+						                        		</c:if>
+				 	                                </c:forEach>
+	                                            	<c:if test="${ dList[0].hasChildren == 0 || hasChildren }">
+		                                            	<ul class="hasChildren">
+		                                            	<c:forEach var="m" items="${ mList }">
+									                    	<c:if test="${ m.deptId == dList[0].deptId }">
+									                    		<li><span><i class="bi bi-person-fill" style="color: gray;"></i>${ m.jobName } ${ m.mName }</span></li>
+									                        </c:if>
+							 	                        </c:forEach>
+		                                            	<c:forEach var="d2" items="${ dList }">
+		                                            		<c:if test="${ d2.deptLevel == 2}">
+		                                            			<li class="deptNode"><input type="hidden" name="deptId" value="${ d2.deptId }"><a class="selectDept">${ d2.deptName }</a>
+		                                            			<c:if test="${ d2.hasChildren == 0 }">
+		                                            				<ul class="hasChildren">
+	<%-- 		                                            			<c:forEach var="d3" items="${ dList }"> --%>
+	<%-- 		                                            				<c:if test="${ d3.upperDept == d2.deptId }"> --%>
+	<%-- 			                                                            <li><a>${ d3.deptName }</a> --%>
+	<%-- 			                                                            <c:if test="${ d3.subDeptYn == 0 }"> --%>
+	<!-- 			                                                            	<ul class="hasChildren"> -->
+	<%-- 			                                                            	<c:forEach var="d4" items="${ dList }"> --%>
+	<%-- 			                                                            		<c:if test="${ d4.upperDept == d3.deptId }"> --%>
+	<%-- 		                                            								<li><a>${ d4.deptName }</a> --%>
+	<!-- 		                                            								</li> -->
+	<%-- 			                                                       			 	</c:if> --%>
+	<%-- 			                                                            	</c:forEach> --%>
+	<!-- 			                                                            	</ul> -->
+	<%-- 			                                                            </c:if> --%>
+	<!-- 			                                                            </li> -->
+	<%-- 			                                                        </c:if>	 --%>
+	<%-- 		                                            			</c:forEach> --%>
+			                                            			</ul>
+			                                            		</c:if>
+		                                            			</li>
+		                                            		</c:if>
+		                                            	</c:forEach>
+		                                            	</ul>
+	                                            	</c:if>
 	                                            </li>
 	                                        </ul>
-	                                    </div>
-	                                </div>
-	                            </div>
+	                        	</div>
                         	</div>
                     	</div>
                    </div> 
                     
+		            <script>
+		            	$(function(){
+		            		$("#deptList").treeview({
+		            			//animated: "fast",
+		            			//collapsed: true,
+		            			//unique: true,
+		            			//persist: "location",
+		            			//persist: "cookie",
+// 		            			toggle: function() {
+// 		            				window.console && console.log("%o was toggled", this);
+// 		            			}
+		            		});
+		            	});
+		            	
+		            	$(document).on('click', '.selectDept', function(){
+		            		$('.selectDept').css('background', '');
+		            		$(this).css('background', '#FFF8DC');
+		            		
+		            		console.log($(this).text());
+							
+		            	});
+		            	
+// 		            	$(document).on('click', '.deptNode', function(){
+// 		            		console.log($(this).children().eq(1).val());
+// 		            	})
+		            	
+		            	$(document).on('click', '.hitarea', function(){ // 트리뷰의 + 버튼을 클릭하면 실행되는 함수
+		            		console.log($(this).next().val());
+		            		var upperDept = $(this).next().val();
+		            		var rootNode = console.log($(this).parent().find('ul'));
+		            		$.ajax({
+		            			url: 'subDeptList.ad',
+		            			dataType: 'json',
+		            			data: {upperDept:upperDept},
+		            			type: 'GET',
+		            			success: function(data) {
+		            				console.log(data);
+		            			},
+		            			error: function(data) {
+		            				console.log(data);
+		            			}
+		            		});
+		            		
+		            	})
+		            	
+		            	// +버튼 누를시 ajax호출 -> node List에 deptMember랑 부서랑 저장하여 반환하기 -> nodeId nodeName nodeType(m, d) hasChildren 
+		            </script>
                     <div class="col-lg-8 card2">
                         <div class="card">
                             <div class="card-body">
@@ -178,8 +232,8 @@
 			                        <label class="col-form-label">부서책임자</label>
 			                        <input type="search" class="form-control updateInput" name="deptManager" list="memberList" placeholder="사원 아이디" autocomplete="off">
 			                        <datalist id="memberList">
-			                        	<c:forEach var="c" items="${ cList }">
-			                        		<option value="${ c.mId }"> ${ c.jobName } ${ c.mName } </option> 
+			                        	<c:forEach var="m" items="${ mList }">
+			                        		<option value="${ m.mId }"> ${ m.jobName } ${ m.mName } </option> 
 	 	                                 </c:forEach>
 			                        </datalist>
 									<br>
@@ -204,11 +258,35 @@
 		                });
 		            </script>
 		            
-		            <script>
-		            	$('.jstree').on('click', function(){
-		            		console.log($(this).text());
-		            	});
-		            </script>
+					<!-- <script type="text/javascript">
+				        $(document).ready(function () {
+				            //[1] 리스트의 기본 모양 지정 : <ul>를 자식으로 가지지 않는 li의 블릿기호는 기본 모양
+				            $('li:not(:has(ul))').css({ cursor: 'default', 'list-style-image':'none'});
+				           
+				            //[2] 자식 요소를 갖는 li에 대해서는 블릿이미지를 plus.gif를 지정
+				            $('li:has(ul)') //자식 요소(ul)를 갖는 요소(li)에 대해서
+				                .css({cursor: 'pointer', 'list-style-image':'url(${contextPath}/resources/assets/vendor/deptList/css/plus-square.svg)'})//+기호로 설정
+				                // .children().hide(); //자식요소 숨기기
+				               
+				            //[3] +로 설정된 항목에 대해서 click이벤트 적용
+				            $('li:has(ul)').click(function(event){
+				                //this == event.target으로 현재 선택된 개체에 대해서 처리
+				                if(this == event.target){
+				                    //숨겨진 상태면 보이고 -기호로 설정 그렇지 않으면 숨기고 + 기호로 설정
+				                      if ($(this).children().is(':hidden')) {
+				                        $(this).css('list-style-image', 'url(${contextPath}/resources/assets/vendor/deptList/css/dash-square.svg)').children().nextAll().slideDown();
+				                   	  } else {
+				                        // 숨기기
+				                        $(this).css('list-style-image', 'url(${contextPath}/resources/assets/vendor/deptList/css/plus-square.svg)').children().nextAll().slideUp();
+				                       // $(this).prop('hidden', false)
+				                      }
+				                }
+				                return false;          
+				            });
+				                
+				              
+				        });
+				    </script> -->
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
@@ -322,36 +400,6 @@
         ***********************************-->      
           
     </div>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            //[1] 리스트의 기본 모양 지정 : <ul>를 자식으로 가지지 않는 li의 블릿기호는 기본 모양
-            $('li:not(:has(ul))').css({ cursor: 'default', 'list-style-image':'none'});
-           
-            //[2] 자식 요소를 갖는 li에 대해서는 블릿이미지를 plus.gif를 지정
-            $('li:has(ul)') //자식 요소(ul)를 갖는 요소(li)에 대해서
-                .css({cursor: 'pointer', 'list-style-image':'url(plus.gif)'})//+기호로 설정
-                .children().hide(); //자식요소 숨기기
-               
-            //[3] +로 설정된 항목에 대해서 click이벤트 적용
-            $('li:has(ul)').click(function(event){
-                           
-                //this == event.target으로 현재 선택된 개체에 대해서 처리
-                if(this == event.target){
-                    //숨겨진 상태면 보이고 -기호로 설정 그렇지 않으면 숨기고 + 기호로 설정
-                      if ($(this).children().is(':hidden')) {
-                        // 보이기
-                        $(this).css('list-style-image', 'url(minus.gif)').children().slideDown();
-                    }
-                    else {
-                        // 숨기기
-                        $(this).css('list-style-image', 'url(plus.gif)').children().slideUp();
-                    }
- 
-                }
-                return false;          
-            });
-        });
-    </script>
     
     <!--**********************************
         Main wrapper end
@@ -360,12 +408,15 @@
    <!--**********************************
         Scripts
     ***********************************-->
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     
    <!-- Tree Viewer JS
 	============================================ -->
-<%--     <script src="${contextPath}/resources/assets/vendor/deptList/js/jstree.min.js"></script> --%>
-<%--     <script src="${contextPath}/resources/assets/vendor/deptList/js/jstree.active.js"></script> --%>
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script> -->
+	<%-- <script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.cookie.js"></script> --%>
+	<script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.treeview.js" type="text/javascript"></script>
+	<script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.treeview.edit.js" type="text/javascript"></script>
+	<script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.treeview.async.js" type="text/javascript"></script>
 </body>
 
 </html>
