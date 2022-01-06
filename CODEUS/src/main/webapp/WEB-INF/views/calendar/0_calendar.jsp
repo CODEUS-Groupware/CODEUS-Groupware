@@ -521,7 +521,7 @@
 
 </head>
 <body class='stop-dragging'>
-	<c:import url="../member/menubar_1.3.jsp"/>
+	<c:import url="../common/menubar.jsp"/>
 	<!--**********************************
 	            Content body start
 	***********************************-->
