@@ -107,8 +107,12 @@ public class AdminDAO {
 		return sqlSession.update("adminMapper.updateJob", job);
 	}
 
-	public ArrayList<Member> selectCandidateList(SqlSessionTemplate sqlSession) {
-		return (ArrayList)sqlSession.selectList("adminMapper.selectCandidateList");
+	public ArrayList<Member> selectDeptMemberList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("adminMapper.selectDeptMemberList");
+	}
+
+	public ArrayList<Department> getSubDeptList(SqlSessionTemplate sqlSession, int upperDept) {
+		return (ArrayList)sqlSession.selectList("adminMapper.getSubDeptList", upperDept);
 	}
 
 }

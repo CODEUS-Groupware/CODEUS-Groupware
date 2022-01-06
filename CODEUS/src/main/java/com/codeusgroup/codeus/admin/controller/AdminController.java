@@ -295,16 +295,36 @@ public class AdminController {
 	public String selectDepartmentList(Model model) {
 		
 		ArrayList<Department> dList = aService.selectDepartmentList();
-		ArrayList<Member> cList = aService.selectCandidateList();
+		ArrayList<Member> mList = aService.selectDeptMemberList();
 		
-		if(dList != null && cList != null) {
+		if(dList != null && mList != null) {
 			model.addAttribute("dList", dList);
-			model.addAttribute("cList", cList);
+			model.addAttribute("mList", mList);
 		} else {
 			throw new AdminException("직위 목록 조회에 실패하엿습니다.");
 		}
 		
 		return "deptList";		
 	}	
+	
+	@RequestMapping("admin/subDeptList.ad")
+	public void getSubDeptList(@RequestParam("upperDept") int upperDept, HttpServletResponse response) {
+		System.out.println(upperDept);
+		ArrayList<Department> subDeptList = aService.getSubDeptList(upperDept);
+		
+		if(subDeptList == null) {
+			throw new AdminException("하위 부서 목록 불러오기에 실패하였습니다.");
+		}
+		
+		Gson gson = new Gson();
+		try {
+			gson.toJson(subDeptList, response.getWriter());
+		} catch (JsonIOException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	
+	}
 	
 }
