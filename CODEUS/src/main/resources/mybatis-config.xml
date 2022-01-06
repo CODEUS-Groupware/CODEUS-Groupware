@@ -9,7 +9,7 @@
  		<typeAlias type="com.codeusgroup.codeus.member.model.vo.Member" alias="Member"/>
  		<typeAlias type="com.codeusgroup.codeus.admin.model.vo.Department" alias="Department"/>
  		<typeAlias type="com.codeusgroup.codeus.admin.model.vo.Job" alias="Job"/>
-		<typeAlias type="com.codeusgroup.codeus.calender.model.vo.Calendar" alias="Calendar"/>
+		<typeAlias type="com.codeusgroup.codeus.calendar.model.vo.Calendar" alias="Calendar"/>
 	  	<typeAlias type="com.codeusgroup.codeus.annualLeave.model.vo.AnnualLeave" alias="AnnualLeave"/>
 		<typeAlias type="com.codeusgroup.codeus.empStatus.model.vo.EmpStatus" alias="EmpStatus"/>
 	  <typeAlias type="com.codeusgroup.codeus.leaveRecode.model.vo.LeaveRecode" alias="LeaveRecode"/>
