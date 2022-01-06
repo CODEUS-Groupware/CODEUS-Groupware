@@ -3,6 +3,27 @@
 <configuration>
 	<settings>
  		<setting name="jdbcTypeForNull" value="NULL"/> 
- 		<!-- 비어있는 값 또는 null값이 DB에 NULL값으로 들어갈 수 있게 세팅 -->
  	</settings>
+ 	
+ 	<typeAliases>
+ 		<typeAlias type="com.codeusgroup.codeus.member.model.vo.Member" alias="Member"/>
+ 		<typeAlias type="com.codeusgroup.codeus.admin.model.vo.Department" alias="Department"/>
+ 		<typeAlias type="com.codeusgroup.codeus.admin.model.vo.Job" alias="Job"/>
+		<typeAlias type="com.codeusgroup.codeus.calender.model.vo.Calendar" alias="Calendar"/>
+	  	<typeAlias type="com.codeusgroup.codeus.annualLeave.model.vo.AnnualLeave" alias="AnnualLeave"/>
+		<typeAlias type="com.codeusgroup.codeus.empStatus.model.vo.EmpStatus" alias="EmpStatus"/>
+	  <typeAlias type="com.codeusgroup.codeus.leaveRecode.model.vo.LeaveRecode" alias="LeaveRecode"/>
+ 	</typeAliases>
+ 	
+ 	<mappers>
+ 		<mapper resource="mappers/member-mapper.xml"/>
+ 		<mapper resource="mappers/admin-mapper.xml"/>
+		<mapper resource="mappers/address-mapper.xml"/>
+ 		<mapper resource="mappers/chetting-mapper.xml"/>
+		<mapper resource="mappers/calendar-mapper.xml"/>
+	  	<mapper resource="mappers/empStatus-mapper.xml"/>
+		<mapper resource="mappers/annualLeave-mapper.xml"/>
+		<mapper resource="mappers/leaveRecode-mapper.xml"/>
+ 	</mappers>
+ 	
 </configuration>

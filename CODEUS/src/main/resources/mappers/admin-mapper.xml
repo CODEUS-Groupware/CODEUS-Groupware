@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="adminMapper">
+	
+	<select id="getListCount" resultType="_int">
+		select count(*)
+		from member
+		where m_status != 3
+	</select>
+	
+	<select id="selectMemberList" resultMap="memberResultSet">
+		SELECT *
+		FROM (SELECT M_ID, M_PWD, M_NAME, M_BIRTH_DATE, M_EMAIL, M_PHONE, M_ADDRESS, M_PROFILE, M_IMG_ORIGIN_NAME, M_IMG_CHANGE_NAME, M_ENROLL_DATE, M_UPDATE_DATE, 
+       			M_HIRE_DATE, M_END_DATE, M_STATUS, M_MANAGER_YN, JOB_ID, JOB_NAME, DEPT_ID, DEPT_NAME
+     		  FROM MEMBER
+          	  	   LEFT JOIN DEPARTMENT USING(DEPT_ID)
+         		   LEFT JOIN JOB USING(JOB_ID)
+     		  WHERE M_STATUS = 2
+      		  ORDER BY M_ENROLL_DATE DESC)
+		UNION ALL
+		SELECT *
+		FROM (SELECT M_ID, M_PWD, M_NAME, M_BIRTH_DATE, M_EMAIL, M_PHONE, M_ADDRESS, M_PROFILE, M_IMG_ORIGIN_NAME, M_IMG_CHANGE_NAME, M_ENROLL_DATE, M_UPDATE_DATE, 
+		       M_HIRE_DATE, M_END_DATE, M_STATUS, M_MANAGER_YN, JOB_ID, JOB_NAME, DEPT_ID, DEPT_NAME
+		      FROM MEMBER
+		          LEFT JOIN DEPARTMENT USING(DEPT_ID)
+		          LEFT JOIN JOB USING(JOB_ID)
+		      WHERE M_STATUS NOT IN (2, 3)
+		      ORDER BY M_STATUS, <!-- JOB_ORDER, --> M_ENROLL_DATE DESC)
+	</select>
+	
+	<select id="selectMemberList2" resultMap="memberResultSet">
+		select distinct m_name
+		from member left join job using(job_id)
+		where m_status != 3
+		order by m_name
+	</select>
+	
+	<resultMap type="Member" id="memberResultSet">
+		<id column="M_ID" property="mId" />
+		<result column="M_PWD" property="mPwd"/>
+		<result column="M_NAME" property="mName"/>
+		<result column="M_BIRTH_DATE" property="birthDate"/>
+		<result column="M_EMAIL" property="email"/>
+		<result column="M_PHONE" property="phone"/>
+		<result column="M_ADDRESS" property="address"/>
+		<result column="M_PROFILE" property="profile"/>
+		<result column="M_IMG_ORIGIN_NAME" property="imgOriginName"/>
+		<result column="M_IMG_CHANGE_NAME" property="imgChangeName"/>
+		<result column="M_ENROLL_DATE" property="enrollDate"/>
+		<result column="M_UPDATE_DATE" property="updateDate"/>
+		<result column="M_HIRE_DATE" property="hireDate"/>
+		<result column="M_END_DATE" property="endDate"/>
+		<result column="M_STATUS" property="status"/>
+		<result column="M_MANAGER_YN" property="managerYn"/>
+		<result column="JOB_ID" property="jobId"/>
+		<result column="JOB_NAME" property="jobName"/>
+		<result column="DEPT_ID" property="deptId"/>
+		<result column="DEPT_NAME" property="deptName"/>
+	</resultMap>
+	
+	<select id="selectDepartmentList" resultMap="departmentResultSet">
+		SELECT D.DEPT_ID, DEPT_NAME, DEPT_MANAGER, M_NAME, UPPER_DEPT, DEPT_LEVEL, DEPT_ORDER, DEPT_STATUS, DEPT_CREATE_DATE
+		FROM DEPARTMENT D
+		     LEFT JOIN MEMBER ON(DEPT_MANAGER = M_ID)
+		WHERE DEPT_STATUS = 0
+		ORDER BY DEPT_LEVEL
+	</select>
+	
+	<resultMap type="Department" id="departmentResultSet">
+		<id column="DEPT_ID" property="deptId"/>
+		<result column="DEPT_NAME" property="deptName"/>
+		<result column="DEPT_MANAGER" property="deptManager"/>
+		<result column="M_NAME" property="deptManagerName"/>
+		<result column="UPPER_DEPT" property="upperDept"/>
+		<result column="DEPT_LEVEL" property="deptLevel"/>
+		<result column="DEPT_ORDER" property="deptOrder"/>
+		<result column="DEPT_STATUS" property="deptStatus"/>
+		<result column="DEPT_CREATE_DATE" property="createDate"/>
+	</resultMap>
+	
+	<select id="selectJobList" resultMap="jobResultSet">
+		SELECT JOB_ID, JOB_ORDER, JOB_NAME, COUNT(M_ID) MEMBER_COUNT
+		FROM JOB LEFT JOIN MEMBER USING(JOB_ID)
+		WHERE JOB_STATUS = 0
+		GROUP BY JOB_ID, JOB_ORDER, JOB_NAME
+		ORDER BY JOB_ORDER, JOB_ID
+	</select>
+	
+	<resultMap type="Job" id="jobResultSet">
+		<id column="JOB_ID" property="jobId"/>
+		<result column="JOB_NAME" property="jobName"/>
+		<result column="JOB_ORDER" property="jobOrder"/>
+		<result column="JOB_STATUS" property="jobStatus"/>
+		<result column="MEMBER_COUNT" property="memberCount"/>
+	</resultMap>	
+	
+	<select id="getSearchListCount" resultType="_int">
+		select count(*)
+		from member
+		where m_status != 3
+		<if test="selectDept != ''">
+			and dept_id = #{selectDept}
+		</if>
+		<if test="selectJob != ''">
+			and job_id = #{selectJob}
+		</if>
+		<if test="searchValue != ''">
+			and m_name like '%' || #{searchValue} || '%'
+		</if>
+	</select>
+	
+	<select id="selectSearchMemberList" resultMap="memberResultSet">
+			SELECT M_ID, M_PWD, M_NAME, M_BIRTH_DATE, M_EMAIL, M_PHONE, M_ADDRESS, M_PROFILE, M_IMG_ORIGIN_NAME, M_IMG_CHANGE_NAME, M_ENROLL_DATE, M_UPDATE_DATE, 
+			       M_HIRE_DATE, M_END_DATE, M_STATUS, M_MANAGER_YN, JOB_NAME, DEPT_ID, DEPT_NAME
+			FROM MEMBER
+			     LEFT JOIN DEPARTMENT USING(DEPT_ID)
+			     LEFT JOIN JOB USING(JOB_ID)
+			WHERE M_STATUS != 3
+			<if test="selectDept != ''">
+				and dept_id = #{selectDept}
+			</if>
+			<if test="selectJob != ''">
+				and job_id = #{selectJob}
+			</if>
+			<if test="searchValue != ''">
+				and m_name like '%' || #{searchValue} || '%'
+			</if>			
+			ORDER BY M_STATUS, <!-- JOB_ORDER, --> M_ENROLL_DATE DESC
+	</select>
+		
+	<select id="getMemberCount" resultType="int">
+		select count(*)
+		from member
+		where m_status = 0
+		union all
+		select count(*)
+		from member
+		where m_status = 1
+	</select>
+	
+	<update id="updateMultiMember">
+		update member
+		set m_status = #{status},
+			m_update_date = SYSDATE
+		where m_id = #{mId}
+	</update>
+	
+	<update id="deleteMember">
+		update member
+		set m_status = 3
+		where m_id = #{mId}
+	</update>
+		
+	<select id="selectMember" resultMap="memberResultSet">
+		SELECT M_ID, M_PWD, M_NAME, M_BIRTH_DATE, M_EMAIL, M_PHONE, M_ADDRESS, M_PROFILE, M_IMG_ORIGIN_NAME, M_IMG_CHANGE_NAME, 
+			   M_ENROLL_DATE, M_UPDATE_DATE, M_HIRE_DATE, M_END_DATE, M_STATUS, M_MANAGER_YN, JOB_ID, JOB_NAME, DEPT_ID, DEPT_NAME
+     	FROM MEMBER
+          	 LEFT JOIN DEPARTMENT USING(DEPT_ID)
+         	 LEFT JOIN JOB USING(JOB_ID)
+        WHERE M_ID = #{mId}
+	</select>
+
+	<update id="updateMember">
+		update member
+		set m_hire_date = #{hireDate},
+			m_end_date = #{endDate},
+			m_status = #{status},
+			m_manager_yn = #{managerYn},
+			job_id = #{jobId},
+			dept_id = #{deptId},
+			m_update_date = SYSDATE
+		where m_id = #{mId}
+	</update>
+	
+	<update id="deleteJob">
+		update job
+		set job_status = 1
+		where job_id = #{jobId}
+	</update>
+	
+	<insert id="insertJob">
+		insert into job
+		values(seq_job_id.nextval, #{jobName}, #{jobOrder}, default)
+	</insert>
+	
+	<update id="updateJob">
+		update job
+		set job_name = #{jobName}, job_order = #{jobOrder}
+		where job_id = #{jobId}
+	</update>
+	
+	<select id="selectCandidateList" resultMap="memberResultSet">
+		select m_id, m_name, job_name, job_order, m_enroll_date
+		from member left join job using(job_id)
+		where m_status = 0
+		order by job_order
+	</select>
+</mapper>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="boardMapper">
+	<select id="getListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM BOARD
+		WHERE B_STATUS = '0'
+	</select>
+	
+	<select id="CommBoardSelectList" resultMap="boardResultSet">
+		SELECT *
+		FROM board
+		ORDER BY B_NUM DESC
+	</select>
+	
+	<resultMap type="Board" id="boardResultSet">
+		<id property="bId" column="B_NUM"/>
+		<result property="bType" column="B_TYPE"/>
+		<result property="bTitle" column="B_TITLE"/>
+		<result property="bContent" column="B_CONTENT"/>
+		<result property="bViews" column="B_VIEWS"/>
+		<result property="originalFileName" column="FILE_ORIGIN_NAME"/>
+		<result property="renameFileName" column="FILE__CHANGE_NAME"/>
+		<result property="bCreateDate" column="B_CREARE_DATE"/>
+		<result property="bModifyDate" column="B_MODIFY_DATE"/>
+		<result property="bStatus" column="B_STATUS"/>
+		<result property="bPin" column="B_PIN"/>
+		<result property="bWriter" column="M_ID"/>
+		
+	</resultMap>
+	
+	<insert id="insertBoard">
+
+	INSERT INTO BOARD 
+		VALUES(SEQ_BID.NEXTVAL,#{bType},#{bTitle},#{bContent},#{bViews},
+								 #{originalFileName}, #{renameFileName},
+								 SYSDATE, SYSDATE, DEFAULT, DEFAULT, #{bWriter})
+	</insert>
+	
+	
+	
+	<select id="MarketSelectList" resultMap="boardResultSet">
+		SELECT * 
+		FROM BOARD
+            JOIN ATTACHMENT using (B_NUM)	
+		WHERE B_STATUS = '0'
+		ORDER BY B_NUM DESC
+	</select>
+	
+	<update id="addReadCount">
+		UPDATE BOARD 
+		SET B_views = B_views + 1
+		WHERE B_NUM = #{bId}
+	</update>
+	
+	<select id="selectBoard" resultMap="boardResultSet">
+		SELECT * 
+		FROM BOARD
+		WHERE B_NUM = #{bId}
+	</select>
+	
+	
+	<update id="CommBoardDelete">
+		UPDATE BOARD SET B_STATUS = '1'
+		WHERE B_NUM = #{bId}
+	</update>
+	
+	
+
+	
+	
+	<!-- 댓글  -->
+	
+	
+	<insert id="addReply">
+		INSERT INTO REPLY 
+		VALUES(SEQ_REPLY_NO.NEXTVAL, #{rContent},SYSDATE,SYSDATE,DEFAULT,#{refBid},#{rWriter})
+	</insert>
+	
+	<resultMap type="Reply" id="replyResultSet">
+		<id property="rId" column="REPLY_NO"/>
+		<result property="rContent" column="REPLY_CONTENT"/>
+		<result property="rCreateDate" column="REPLY_CREATE_DATE"/>
+		<result property="rModifyDate" column="REPLY_MODIFY_DATE"/>
+		<result property="rStatus" column="REPLY_STATUS"/>
+		<result property="refBid" column="B_NUM"/>
+		<result property="rWriter" column="M_ID"/>
+	</resultMap>
+	
+	<select id="selectReplyList" resultMap="replyResultSet">
+		SELECT * 
+		FROM REPLY
+		WHERE B_NUM = #{refBid} AND REPLY_STATUS = '0'
+		ORDER BY REPLY_NO DESC
+	</select>
+	
+	
+</mapper>
