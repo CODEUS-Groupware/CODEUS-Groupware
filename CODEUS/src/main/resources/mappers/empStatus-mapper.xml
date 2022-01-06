@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="empStatusMapper">
+
+	<insert id="insertComTime"><!-- parameterType은 생략가능/  -->
+		insert into emp_status 
+		values(SEQ_EMP_NUM.NEXTVAL, sysdate, current_timestamp , null,
+				default, null, #{mId})
+	</insert>
+	<select id="selectComTime" resultMap="empResultSet">
+		select *
+		from emp_status e
+			 left join member m on (e.m_id = m.m_id)
+		where e.m_id = #{id}  
+			  and to_date(emp_regi_date,'YY/MM/DD') in (SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD') FROM emp_status)
+			  and emp_on_time is not null
+     		  and m_status = 0
+			  
+	</select>
+	<resultMap type="EmpStatus" id="empResultSet">
+		<id column="EMP_NUM" property="empNum"/>
+		<result column="EMP_REGI_DATE" property="empRegiDate"/>
+		<result column="EMP_ON_TIME" property="empOnTime"/>
+		<result column="EMP_OFF_TIME" property="empOffTime"/>
+		<result column="EMP_STATUS" property="empStatus"/>
+		<result column="EMP_QRCODE" property="empQrCode"/>
+		<result column="M_ID" property="mId"/>		
+	</resultMap>
+	<update id="updateOffTime">
+		update emp_status 
+		set emp_off_time = current_timestamp
+		where m_id = #{mId}
+     		  and to_date(emp_regi_date,'YY/MM/DD') in (SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD') FROM emp_status)
+	</update>
+	
+	<select id="selectOffTime" resultMap="empResultSet">
+		select *
+		from emp_status e
+			 join member m on (e.m_id = m.m_id)
+		where e.m_id = #{mId}  
+			  and to_date(emp_regi_date,'YY/MM/DD') in (SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD') FROM emp_status)
+			  and emp_off_time is not null
+     		  and m_status = 0
+	</select>
+	<update id="updateStatus">
+		update emp_status 
+		set emp_status = #{empStatus}
+		where m_id = #{mId}
+     		  and to_date(emp_regi_date,'YY/MM/DD') in (SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD') FROM emp_status)
+	</update>
+
+</mapper>
