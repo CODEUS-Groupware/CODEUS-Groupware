@@ -1,6 +1,6 @@
 package com.codeusgroup.codeus.commBoard.model.vo;
 
-import com.codeusgroup.codeus.common.Pagination;
+import com.codeusgroup.codeus.commBoard.common.Pagination;
 
 public class Search extends Pagination{
 
