@@ -1,6 +1,6 @@
 package com.codeusgroup.codeus.member.model.vo;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Member {
 	private String mId;
