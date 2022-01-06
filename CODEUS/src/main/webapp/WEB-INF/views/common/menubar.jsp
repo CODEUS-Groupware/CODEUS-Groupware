@@ -12,6 +12,7 @@
 <link rel="icon" type="image/png" sizes="16x16" href="${contextPath}/assets/resources/images/favicon.png">
 <!-- Custom Stylesheet -->
 <link href="${contextPath}/resources/assets/css/style.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 </head>
 <body>
 
@@ -180,7 +181,7 @@
                     </li>
                     
                    <!--  <li class="nav-label">Apps</li> -->
-                    <li><a href="chetList.ch" aria-expanded="false">
+                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
                     		<i class="fa fa-comments"></i><span class="nav-text">채팅</span></a>
 	                    	<ul aria-expanded="false">
 		                    		<li><a href="chetList.ch">채팅방 목록</a></li>
@@ -199,50 +200,47 @@
                         </ul>
                     </li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                    		<i class="icon icon-users-mm"></i><!-- <i class="fa fa-child"></i> --><span class="nav-text">커뮤니티</span></a>
+                    		<i class="bi bi-people"></i><span class="nav-text">커뮤니티</span></a>
                         <ul aria-expanded="false">
                             <li><a href="javascript:void()">자유게시판</a></li>
                             <li><a href="javascript:void()">중고장터</a></li>
 
                         </ul>
                     </li>
-                    <li><a href="javascript:void()" aria-expanded="false"><i
-                                class="fa fa-bullhorn"></i><span class="nav-text">공지사항</span></a>
+                    <li><a href="javascript:void()" aria-expanded="false">
+                    	<i class="bi bi-megaphone-fill"></i><span class="nav-text">공지사항</span></a>
                     </li>
-                    <li><a href="aList.addr" aria-expanded="false">
+                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
                     		<i class="fa fa-phone-square"></i><span class="nav-text">주소록</span></a>
-                    		<ul aria-expanded="false">
-		                    		<li><a href="list.addr">주소록 목록</a></li>
+                    	<ul aria-expanded="false">
+		                    <li><a href="list.addr">주소록 목록</a></li>
                             <li><a href="search.addr">주소록 검색</a></li>
                        	</ul>
                     </li>
-                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
-                                class="fa fa-pencil-square-o"></i><span class="nav-text">회의실예약</span></a>
+                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                                <i class="bi bi-pencil-square"></i><span class="nav-text">회의실예약</span></a>
                         <ul aria-expanded="false">
 							<li><a href="mrlist.mr">회의실 목록</a></li>
                             <li><a href="mrcal.mr">예약하기</a></li>
 							<li><a href="mrcal.mr">예약일정 캘린더</a></li>
                         </ul>
                     </li>
-                   	<li><a href="javascript:void()" aria-expanded="false">
-                    		<i class="fa fa-phone-square"></i><span class="nav-text">주소록</span></a>
-                    </li>  
-                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
-                                class="fa fa-briefcase"></i><span class="nav-text">근태관리</span></a>
+                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                    	<i class="bi bi-briefcase-fill"></i><span class="nav-text">근태관리</span></a>
                         <ul aria-expanded="false">
                             <li><a href="javascript:void()">근태 현황</a></li>
                             <li><a href="javascript:void()">Datatable</a></li>
                         </ul>
                     </li>
-                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
-                                class="fa fa-calendar"></i><span class="nav-text">캘린더</span></a>
+                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                    	<i class="bi bi-calendar4-week"></i><span class="nav-text">캘린더</span></a>
                         <ul aria-expanded="false">
                             <li><a href="calendar.ca">전체 캘린더</a></li>
                             <li><a href="calendar2.ca">부서 캘린더</a></li>
                         </ul>
                     </li>                    
-                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
-                                class="icon icon-single-04"></i><span class="nav-text">마이페이지</span></a>
+                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                    	<i class="bi bi-person-circle"></i><span class="nav-text">마이페이지</span></a>
                         <ul aria-expanded="false">
                             <li><a href="javascript:void()">내 정보</a></li>
                             <li><a href="javascript:void()">스크랩 관리</a></li>
@@ -262,6 +260,8 @@
 	    <!-- Required vendors -->
 	    <script src="${contextPath}/resources/assets/vendor/global/global.min.js"></script>
 	    <script src="${contextPath}/resources/assets/js/quixnav-init.js"></script>
-	    <script src="${contextPath}/resources/assets/js/custom.min.js"></script>      
+	    <script src="${contextPath}/resources/assets/js/custom.min.js"></script>   
+	    
+	    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>   
 </body>
 </html>
