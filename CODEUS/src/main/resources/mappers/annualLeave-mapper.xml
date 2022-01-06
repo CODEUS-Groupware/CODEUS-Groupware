@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="annualLeaveMapper">
+	<select id="selectAnnualCount" resultMap="memberResultSet">
+		select m_id, m_name, trunc(months_between(sysdate, m_hire_date) /12) com_year
+		from member
+	</select>
+	
+	<insert id="insertAnnualCount">
+		insert into annual_leave
+		values(seq_annual_no.nextval, #{annualCount}, 'a', sysdate, #{mId})
+	</insert>
+	<select id="selectAnnualStatus"  resultType="_int">
+		SELECT SUM(annual_count) 
+		FROM annual_leave
+		where m_id = #{mId}
+		group by m_id
+	</select>
+	<select id="selectAnnualStatusId" resultType="_int">
+		select sum(annual_count)
+		from annual_leave
+		where m_id = #{id}
+		group by m_id
+	</select>
+	
+	
+	<resultMap type="AnnualLeave" id="annualResultSet">
+		<id column="ANNUAL_NO" property="annualNo"/><!-- 기본키 -->
+	 	<result column="ANNUAL_COUNT" property="annualCount"/><!-- 일반컬럼 -->
+	 	<result column="ANNUAL_TYPE" property="annualType"/>
+	 	<result column="ANNUAL_REGI_DATE" property="annualRegiDate"/>
+	 	<result column="M_ID" property="mId"/>
+	</resultMap>
+	<resultMap type="Member" id="memberResultSet">
+		<id column="M_ID" property="mId" />
+		<result column="M_PWD" property="mPwd"/>
+		<result column="M_NAME" property="mName"/>
+		<result column="M_BIRTH_DATE" property="birthDate"/>
+		<result column="M_EMAIL" property="email"/>
+		<result column="M_PHONE" property="phone"/>
+		<result column="M_ADDRESS" property="address"/>
+		<result column="M_PROFILE" property="profile"/>
+		<result column="M_IMG_ORIGIN_NAME" property="imgOriginName"/>
+		<result column="M_IMG_CHANGE_NAME" property="imgChangeName"/>
+		<result column="M_ENROLL_DATE" property="enrollDate"/>
+		<result column="M_UPDATE_DATE" property="updateDate"/>
+		<result column="M_HIRE_DATE" property="hireDate"/>
+		<result column="M_END_DATE" property="endDate"/>
+		<result column="M_STATUS" property="status"/>
+		<result column="M_MANAGER_YN" property="managerYn"/>
+		<result column="JOB_NAME" property="jobName"/>
+		<result column="DEPT_ID" property="deptId"/>
+		<result column="DEPT_NAME" property="deptName"/>
+		<result column="COM_YEAR" property="comYear"/>
+		<!-- <collection property="alList" resultMap="annualResultSet" /> -->
+	</resultMap>
+	
+	<select id="selectAddAnnual" resultType="_int">
+		select count(*)
+		from annual_leave
+		where TO_CHAR(SYSDATE, 'yyyy') = TO_CHAR(annual_regi_date, 'yyyy')
+	</select>
+	<select id="selectCheckAnnual" resultMap="memberResultSet">
+		select m_id, m_name, m_hire_date, job_id, dept_id, annual_type, annual_count,trunc(months_between(sysdate, m_hire_date) /12) com_year
+		from (select m.m_id, m_name, m_hire_date, job_id, dept_id, annual_type, annual_regi_date, annual_count
+		        from member m
+		            left join annual_leave a on (m.m_id = a.m_id)
+		        where m.m_id = 'admin')
+		where TO_CHAR(SYSDATE, 'yyyy') = TO_CHAR(annual_regi_date, 'yyyy')
+	</select>
+	
+</mapper>

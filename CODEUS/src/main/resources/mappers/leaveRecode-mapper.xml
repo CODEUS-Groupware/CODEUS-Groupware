@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="LeaveRecodeMapper">
+	<select id="selectLeaveRecode" resultMap="lrResultSet">
+		<![CDATA[
+		select *
+		from(
+		    select *
+		    from leave_recode
+		    where m_id = #{id}
+		    order by enroll_date desc
+		)
+		where rownum <= 3
+		]]>
+	</select>
+
+	<resultMap type="LeaveRecode" id="lrResultSet">
+		<id column="M_ID" property="mId"/>
+		<id column="LEAVE_USE_DATE" property="leaveUseDate"/>
+		<result column="LEAVE_REASON" property="leaveReason"/>
+		<result column="LEAVE_TYPE" property="leaveType"/>
+		<result column="LEAVE_STATUS" property="leaveStatus"/>	
+	</resultMap>
+  
+</mapper>
