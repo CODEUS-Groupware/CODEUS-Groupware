@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="meetResrvMapper">
+
+    <select id="getListCount" resultType="_int">
+        select count(*)
+        from meet_reservation
+    </select>
+    
+    <select id="selectList" resultMap="meetResrvResultSet">
+        select rev_no, rev_date, rev_start_time, rev_end_time, rev_content,
+               rev_status, rev_apply_date, meet_name, m_name
+        from meet_reservation
+             join member using(m_id)
+             join meeting_room using(meet_no)
+        order by rev_date desc, rev_start_time
+    </select>
+    
+    <resultMap type="MeetingResrv" id="meetResrvResultSet">
+        <id column="REV_NO" property="rev_no"/>
+        <result column="REV_DATE" property="rev_date"/>
+        <result column="REV_START_TIME" property="rev_start_time"/>
+        <result column="REV_END_TIME" property="rev_end_time"/>
+        <result column="REV_CONTENT" property="rev_content"/>
+        <result column="REV_STATUS" property="rev_status"/>
+        <result column="REV_APPLY_DATE" property="rev_apply_date"/>
+        <result column="MEET_NAME" property="meet_name"/>
+        <result column="M_NAME" property="mName"/>
+    </resultMap>
+    
+    <select id="getMyListCount" resultType="_int">
+        select count(*)
+        from meet_reservation
+        where m_id = #{mId}
+    </select>
+    
+    <select id="selectMyList" resultMap="meetResrvResultSet">
+        select rev_no, rev_date, rev_start_time, rev_end_time, rev_content,
+               rev_status, rev_apply_date, meet_name, m_name
+        from meet_reservation
+             join member using(m_id)
+             join meeting_room using(meet_no)
+        where m_id = #{mId}
+        order by rev_date desc, rev_start_time
+    </select>
+
+</mapper>
