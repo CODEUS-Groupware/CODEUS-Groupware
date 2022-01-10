@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="LeaveRecodeMapper">
+<mapper namespace="leaveRecodeMapper">
 	<select id="selectLeaveRecode" resultMap="lrResultSet">
 		<![CDATA[
 		select *
@@ -16,10 +16,60 @@
 
 	<resultMap type="LeaveRecode" id="lrResultSet">
 		<id column="M_ID" property="mId"/>
-		<id column="LEAVE_USE_DATE" property="leaveUseDate"/>
+		<!-- <id column="LEAVE_USE_DATE" property="leaveUseDate"/> -->
 		<result column="LEAVE_REASON" property="leaveReason"/>
 		<result column="LEAVE_TYPE" property="leaveType"/>
 		<result column="LEAVE_STATUS" property="leaveStatus"/>	
+		<result column="totalLeave" property="totalLeave"/>	
+		<result column="usedLeave" property="usedLeave"/>	
+		<result column="restLeveCount" property="restLeveCount"/>
+	<!-- 	<collection property="AnnualLeave" resultMap="AnnualLeave"></collection>	 -->
+		
 	</resultMap>
+	
+	<resultMap type="AnnualLeave" id="AnnualLeave">
+		<id column="ANNUAL_NO" property="annualNo"/><!-- 기본키 -->
+	 	<result column="ANNUAL_COUNT" property="annualCount"/><!-- 일반컬럼 -->
+	 	<result column="ANNUAL_TYPE" property="annualType"/>
+	 	<result column="ANNUAL_REGI_DATE" property="annualRegiDate"/>
+	 	<result column="M_ID" property="mId"/>
+	</resultMap>
+	
+	
+	
+  	<select id="selectLrCount" parameterType="string" resultType="_int">
+  		<!-- <![CDATA[
+  		select DISTINCT(SELECT SUM(annual_count) 
+                  FROM annual_leave a
+                  where a.m_id = #{id}
+                  group by a.m_id) totalLeave,
+       (select count(*)
+                  from leave_recode l
+                  where l.m_id = #{id}
+                        and leave_status = '승인'
+                        and leave_use_date <= sysdate) usedLeave, 
+       (SELECT SUM(annual_count) 
+                 FROM annual_leave a
+                 where a.m_id = #{id}
+                 group by a.m_id) - (select count(*)
+                                    from leave_recode l
+                                    where l.m_id = #{id}
+                                          and leave_status = '승인'
+                                          and leave_use_date <= sysdate) restLeveCount                 
+		from leave_recode l
+		 where l.m_id = #{id}
+		 ]]> 
+ -->
+ 
+	<![CDATA[
+		select count(*) usedLeave
+        from leave_recode 
+        where m_id = #{id}
+              and leave_status = '승인'
+              and leave_use_date <= sysdate
+	]]> 
+  	</select>
+  
+  
   
 </mapper>

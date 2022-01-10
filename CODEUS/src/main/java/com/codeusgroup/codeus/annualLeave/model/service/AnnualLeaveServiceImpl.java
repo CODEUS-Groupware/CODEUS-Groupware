@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.codeusgroup.codeus.annualLeave.model.dao.AnnualLeaveDAO;
 import com.codeusgroup.codeus.annualLeave.model.vo.AnnualLeave;
+import com.codeusgroup.codeus.leaveRecode.model.vo.LeaveRecode;
 import com.codeusgroup.codeus.member.model.vo.Member;
 
 @Service("alService")
@@ -61,6 +62,7 @@ public class AnnualLeaveServiceImpl implements AnnualLeaveService{
 		
 		return alDAO.selectCheckAnnual(sqlSession, id);
 	}
+
 
 	
 

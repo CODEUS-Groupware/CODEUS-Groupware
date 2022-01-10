@@ -8,25 +8,28 @@
 		order by SCHE_NO       
 	</select>
 
-
-
-	<!--  <select id="selectScheList"  parameterType="HashMap" resultMap="calendarResultSet">
+	<select id="selectSchList" parameterType="CalArrTemp" resultMap="calendarResultSet">
 		SELECT *
-		from CALENDAR S
-		LEFT JOIN
-		(
-		    SELECT SCHE_NO, SCHE_TYPE
-		    from CALENDAR
-		) C
-		on S.SCHE_NO = C.SCHE_NO
-		where M_ID = 'admin'
+		from CALENDAR 
+		where M_ID = #{mId}
 			<if test="calNoArr != null">
 				AND SCHE_NO IN
 				<foreach collection="calNoArr" index="i" open="(" separator="," close=")">
-		    		'${calNoArr[i]}'
+					${calNoArr[i]}
+				</foreach>
+	    	</if>
+	</select>
+	
+	<select id="selectNoCalSchList" parameterType="CalArrTemp" resultMap="calendarResultSet">
+		select SCHE_NO, M_ID, SCHE_TITLE, SCHE_START_DATE, SCHE_END_DATE, SCHE_CONTENT
+		from calendar S
+		where M_ID != #{mId} 
+			<if test="noInvitecalArr.length != 0">
+				<foreach collection="noInvitecalArr" index="index" separator=" ">
+		    		and SCHE_NO != ${noInvitecalArr[index]}
 		    	</foreach>
 	    	</if>
-	</select> -->
+	</select>
 	<resultMap type="Calendar" id="calendarResultSet">
 		<id column="SCHE_NO" property="scheNo"/>
 		<result column="SCHE_TYPE" property="scheType"/>
@@ -40,9 +43,9 @@
 		<result column="M_ID" property="mId"/>
 	</resultMap>
 	<insert id="insertCal">
-		INSERT INTO CALENDAR VALUES(SEQ_SCHE_NO.NEXTVAL, 'B', #{SCHE_TITLE}, #{SCHE_CONTENT}, DEFAULT, 
+		INSERT INTO CALENDAR VALUES(SEQ_SCHE_NO.NEXTVAL, default, #{scheTitle}, #{scheContent}, DEFAULT, 
                             SYSDATE, SYSDATE,
-                            DEFAULT, DEFAULT, #{M_ID})
+                            DEFAULT, DEFAULT, #{mId})
 		 
 	</insert>
 	<select id="scheNo" resultMap="calendarResultSet">

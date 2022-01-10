@@ -2,10 +2,10 @@ package com.codeusgroup.codeus.calendar.model.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.codeusgroup.codeus.calendar.model.vo.CalArrTemp;
 import com.codeusgroup.codeus.calendar.model.vo.Calendar;
 
 @Repository("cDAO")
@@ -28,6 +28,15 @@ public class CalendarDAO {
 		
 		return seq;
 	}
-	
+
+	public ArrayList<Calendar> selectSchList(SqlSessionTemplate sqlSession, CalArrTemp cat) {
+		System.out.println("DAOCat1: " + cat);
+		return (ArrayList)sqlSession.selectList("calendarMapper.selectSchList", cat);
+	}
+
+	public ArrayList<Calendar> selectNoCalSchList(SqlSessionTemplate sqlSession, CalArrTemp cat) {
+		System.out.println("DAOCat2: " + cat);
+		return (ArrayList)sqlSession.selectList("calendarMapper.selectNoCalSchList", cat);
+	}
 
 }
