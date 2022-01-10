@@ -1,6 +1,7 @@
 package com.codeusgroup.codeus.address.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -48,6 +49,36 @@ public class addressController {
 		}
 		
 		//return "boardListView";
+		return mv;
+	}
+	
+	@RequestMapping("research.addr")
+	public ModelAndView addressSearch(@RequestParam(value="input", required = false) String input,
+									  @RequestParam(value="field", required = false) String field,
+									  @RequestParam(value="page", required = false) Integer page,
+									  ModelAndView mv) {
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		System.out.println(input);
+		System.out.println(field);
+
+		int listCount = addrService.getListCount();
+		
+		PageInfo pi =  Pagination.getPageInfo(currentPage, listCount);
+		
+		ArrayList<Member> list = addrService.searchMemebrList(pi, input, field);
+		
+		if(list != null) {
+			mv.addObject("pi", pi);
+			mv.addObject("list", list);
+			mv.setViewName("searchResultView");
+			
+		} else {
+			throw new AddressException("주소록 검색에 실패했습니다.");
+		}
 		return mv;
 	}
 }

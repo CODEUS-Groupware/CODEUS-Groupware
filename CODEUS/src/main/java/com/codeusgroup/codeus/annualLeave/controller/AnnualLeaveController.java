@@ -110,17 +110,16 @@ public class AnnualLeaveController {
 		System.out.println("연차리스트:"+checkAl);
 		if(checkAl == 0) {
 
-			for(int i = 0; i < list.size(); i++) {
-				
-				int comYear = list.get(i).getComYear();
-				System.out.println(comYear);
-				//연차갯수 구하는 공식
-				annual = 15 + (comYear - 1)/2;
-
-				AnnualLeave al = new AnnualLeave(0, annual, null, null, list.get(i).getmId()); 
-				alService.insertAnnualCount(al); 
-				strResult = "올해 연차가 발생하였습니다.";
-			}
+			/*
+			 * for(int i = 0; i < list.size(); i++) {
+			 * 
+			 * int comYear = list.get(i).getComYear(); System.out.println(comYear); //연차갯수
+			 * 구하는 공식 annual = 15 + (comYear - 1)/2;
+			 * 
+			 * AnnualLeave al = new AnnualLeave(0, annual, null, null,
+			 * list.get(i).getmId()); alService.insertAnnualCount(al); strResult =
+			 * "올해 연차가 발생하였습니다."; }
+			 */
 		}else {
 			strResult = "이미 올해 연차가 발생되었습니다.";
 		}

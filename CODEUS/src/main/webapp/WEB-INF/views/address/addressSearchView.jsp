@@ -42,16 +42,16 @@
                                     <table class="table student-data-table m-t-20" style="color : black; text-align: center;">
                                         <thead>
                                             <tr>
-                                                <th>프로필 사진 영역
+                                                <th>
                                                 <div class="media-left">
-                                            		<a href="#"><img class="media-object mr-3" src="./images/avatar/4.png" alt="..."></a>
+                                            		<a href="#"><img src="/codeus/resources/assets/images/empty-profile.png" class="img-fluid rounded-circle" alt="" style="width: 150px"></a>
                                         		</div>
                                         		</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td id="mName">사원 이름</td>
+                                                <td id="mName">사원 이름<br></td>
                                             </tr>
                                             <tr>
                                                 <td id="mJob">직급</td>
@@ -63,7 +63,7 @@
                                                 <td id="mPhone">연락처</td>
                                             </tr>
                                             <tr>
-                                                <td id="mEamil">이메일</td>
+                                                <td id="mEmail">이메일</td>
                                             </tr>
                                             <tr>
                                                 <td><button class="form-control input-default" style="background: #593bdb; color: white;">+</button></td>
@@ -78,6 +78,7 @@
                     <div class="col-xl-9 col-lg-10 col-xxl-10 col-md-10">
                         <div class="card">
                             <div class="card-header">
+                            <form name="searchform" method="post" action="research.addr" style="width: 100%">
                                 <table style="border: none; width: 100%">
 		                        	<tr>
 		                        		<td>
@@ -87,14 +88,15 @@
                                                 <option value="dept">부서</option>
 											</select>
 		                        		</td>
-		                        		<td><input id="addrSearch" name="input" type="text" class="form-control input-default" placeholder="검색어 입력"></td>
+		                        		<td><input id="input" name="input" type="text" class="form-control input-default" placeholder="검색어 입력" value="${ input }"></td>
 		                        		<td>
-		                        			<button id="searchBtn" class="form-control input-default" style="background: #593bdb; color: white;">
+		                        			<button id="searchBtn" class="form-control input-default" style="background: #593bdb; color: white;" type="submit">
 		                        				<i class="bi bi-search"></i>
 		                        			</button>
 		                        		</td>
 		                        	</tr>
                        	 		</table>
+                       	 		</form>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -117,20 +119,20 @@
                                         		</tr>
                                         	</c:if>
                                         	<c:if test="${ !empty list }">
-	                                            <tr>
+	                                            <tr id="info">
 	                                            	<td></td>
-	                                                <td>${ addr.mName }</td>
-	                                                <td>${ addr.jobName }</td>
-	                                                <td>${ addr.deptName }</td>
-	                                                <td>${ addr.phone }</td>
-	                                                <td>${ addr.email }</td>
-	                                                <td><button class="form-control input-default" style="background: #593bdb; color: white;">&nbsp+&nbsp</button></td>
+	                                                <td id="name">${ addr.mName }</td>
+	                                                <td id="job">${ addr.jobName }</td>
+	                                                <td id="dept">${ addr.deptName }</td>
+	                                                <td id="phone">${ addr.phone }</td>
+	                                                <td id="email">${ addr.email }</td>
+	                                                <td><button id="addrPlus" class="form-control input-default" style="background: #593bdb; color: white;">&nbsp+&nbsp</button></td>
 	                                            </tr>
                                             </c:if>
                                         </c:forEach>
                                         	<tr>
-                                        		<td align="center" colspan="7">
-                                        			<div>
+                                        		<td style="text-align:center" colspan="7">
+                                        			<div style="display:inline-block;">
 					                                    <nav>
 						                                    <ul class="pagination pagination-xs">
 						                                    	
@@ -189,6 +191,7 @@
                             </div>
                         </div>
                     </div>
+                </div>
             </div>
         </div>
         
@@ -220,25 +223,42 @@
 	    ***********************************-->
 	    
 	    <script>
+	    // 사원 정보 누를 시 프로필 표시
 		$(function() {
 			$('#mSearchList td').mouseenter(function() {
 				$(this).parent().css({'color':'purple', 'cursor':'pointer'});
 			}).mouseout(function() {
 				$(this).parent().css({'color':'black'});
 			}).click(function() {
+				var tdName = $(this).parent().children().eq(1).text();
+				var tdJob = $(this).parent().children().eq(2).text();
+				var tdDept = $(this).parent().children().eq(3).text();
+				var tdPhone = $(this).parent().children().eq(4).text();
+				var tdEmail = $(this).parent().children().eq(5).text();
+				
+				$("#mName").text(tdName);
+				$("#mJob").html(tdJob);
+				$("#mDept").html(tdDept);
+				$("#mPhone").html(tdPhone);
+				$("#mEmail").html(tdEmail);
 				
 			});
 		});
 		
-		document.getElementById("searchBtn").onclick = function(){
-			var input = document.getElementById("addrSearch").value;
-			var field = document.getElementById('field').value;
+		// 주소록 검색 버튼
+		$("#searchBtn").click(function(){
+			var input = $("#input").val();
+			var field = $("#field").val();
 			
-			console.log(search);
+			console.log(input);
 			console.log(field);
 			
-			location.href='${ contextPath }/search.re?field=' + field + '&input=' + input;													
-		}
+		});
+		
+		// 주소록 추가 버튼
+		$('#addrPlus').click(function() {
+			alert("추가되었습니다.");
+		});
 	</script>
 	    
     <!-- Datatable -->

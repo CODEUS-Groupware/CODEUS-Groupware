@@ -34,4 +34,21 @@
 		<result column="DEPT_ID" property="deptId"/>
 		<result column="DEPT_NAME" property="deptName"/>
 	</resultMap>
+	
+	<select id="searchMemebrList" resultMap="memberResultSet">
+		select *
+		from member
+		where m_status = '0'
+		<choose>
+			<when test="field == 'name'">
+				and m_name like '%' || #{input} || '%'
+			</when>
+			<when test="field == 'job'">
+				and job_name like '%' || #{input} || '%'
+			</when>
+			<otherwise>
+				and dept_name like '%' || #{input} || '%'
+			</otherwise>
+		</choose>
+	</select>
 </mapper>
