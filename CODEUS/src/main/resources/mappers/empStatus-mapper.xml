@@ -5,7 +5,7 @@
 	<insert id="insertComTime"><!-- parameterType은 생략가능/  -->
 		insert into emp_status 
 		values(SEQ_EMP_NUM.NEXTVAL, sysdate, current_timestamp , null,
-				default, null, #{mId})
+				#{empStatus}, null, #{mId}, null, null)
 	</insert>
 	<select id="selectComTime" resultMap="empResultSet">
 		select *
@@ -24,23 +24,31 @@
 		<result column="EMP_OFF_TIME" property="empOffTime"/>
 		<result column="EMP_STATUS" property="empStatus"/>
 		<result column="EMP_QRCODE" property="empQrCode"/>
-		<result column="M_ID" property="mId"/>		
+		<result column="M_ID" property="mId"/>	
+		<result column="WORK_TIME" property="gapTime"/>
+		<result column="OVER_TIME" property="overTime"/>
+		<result column="WORK_TIME1" property="strGapTime"/>
+		<result column="OVER_TIME1" property="strOverTime"/>		
 	</resultMap>
 	<update id="updateOffTime">
 		update emp_status 
-		set emp_off_time = current_timestamp
+		set emp_off_time = current_timestamp, emp_status = #{empStatus}
 		where m_id = #{mId}
      		  and to_date(emp_regi_date,'YY/MM/DD') in (SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD') FROM emp_status)
 	</update>
 	
 	<select id="selectOffTime" resultMap="empResultSet">
-		select *
+		select  EMP_NUM, EMP_REGI_DATE, EMP_ON_TIME, EMP_OFF_TIME, EMP_STATUS, M_ID,SUBSTR(work_time , 9,9) work_time1, SUBSTR(over_time , 9,9) over_time1
+		from emp_status
+		where m_id = #{id}
+		        and to_date(emp_regi_date,'YY/MM/DD') in (SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD') FROM emp_status)
+		<!-- select *
 		from emp_status e
 			 join member m on (e.m_id = m.m_id)
 		where e.m_id = #{mId}  
 			  and to_date(emp_regi_date,'YY/MM/DD') in (SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD') FROM emp_status)
 			  and emp_off_time is not null
-     		  and m_status = 0
+     		  and m_status = 0 -->
 	</select>
 	<update id="updateStatus">
 		update emp_status 
@@ -48,5 +56,49 @@
 		where m_id = #{mId}
      		  and to_date(emp_regi_date,'YY/MM/DD') in (SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD') FROM emp_status)
 	</update>
+	<update id="updateGapTime">
+		update emp_status 
+		set work_time = #{gapTime}, over_time = #{overTime}
+		where m_id = #{mId}
+     		  and to_date(emp_regi_date,'YY/MM/DD') in (SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD') FROM emp_status)
+	</update>
+	<select id="selectWeekTime" parameterType="string" resultMap="empResultSet">
+		select  substr(SUM(to_number(to_char(work_time, 'yyyymmddhh24missff'))),6,2)||':'|| 
+        substr(SUM(to_number(to_char(work_time, 'yyyymmddhh24missff'))),8,2)||':'||
+        substr(SUM(to_number(to_char(work_time, 'yyyymmddhh24missff'))),10,2) as WORK_TIME1,
+                SUM(to_number(to_char(over_time, 'yyyymmddhh24missff'))) as OVER_TIME1
+		from emp_status
+		where
+		            emp_regi_date between (select to_char(a.s_date, 'yyyy-mm-dd')   monday
+		                                       from (
+		                                       select sysdate - (to_number(to_char(sysdate,'d'))-2) s_date
+		                                       from dual ) a) 
+		                                  and (select  to_char(a.s_date+6, 'yyyy-mm-dd')  sunday
+		                                       from (
+		                                       select sysdate - (to_number(to_char(sysdate,'d'))-2) s_date
+		                                       from dual) a)
+		and m_id = #{id}                                    
+		group by m_id
+	</select>
+	<select id="selectMonthTime" parameterType="string" resultMap="empResultSet">
+		select  substr(SUM(to_number(to_char(work_time, 'yyyymmddhh24missff'))),6,2)||':'|| 
+        substr(SUM(to_number(to_char(work_time, 'yyyymmddhh24missff'))),8,2)||':'||
+        substr(SUM(to_number(to_char(work_time, 'yyyymmddhh24missff'))),10,2) as WORK_TIME1,
+                SUM(to_number(to_char(over_time, 'yyyymmddhh24missff'))) as OVER_TIME1
+		from emp_status
+		where
+		            emp_regi_date between (select TRUNC(sysdate,'MM')
+		                                    from dual) 
+		                                  and (select LAST_DAY(sysdate)
+		                                        from dual)
+		and m_id = #{id}                                    
+		group by m_id
+	</select>
+	<select id="monthWorkTime" parameterType="hashmap" resultMap="empResultSet">
+		select *
+		from emp_Status
+		where emp_regi_date between (select to_date(#{currentYearMonth},'YYMM') from dual) and (select last_Day(to_date(#{currentYearMonth},'YYMM')) from dual)
+			  and m_id = #{id}
+	</select>
 
 </mapper>
