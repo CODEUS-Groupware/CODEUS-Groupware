@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.codeusgroup.codeus.annualLeave.model.vo.AnnualLeave;
+import com.codeusgroup.codeus.leaveRecode.model.vo.LeaveRecode;
 import com.codeusgroup.codeus.member.model.vo.Member;
 
 @Repository("AnnualLeaveDAO")
@@ -38,8 +39,6 @@ public class AnnualLeaveDAO {
 				
 	}
 
-	
-
 	public ArrayList<Member> selectMember(SqlSessionTemplate sqlSession) {
 		
 		return (ArrayList)sqlSession.selectList("annualLeaveMapper.selectMember");
@@ -50,6 +49,6 @@ public class AnnualLeaveDAO {
 		return (ArrayList)sqlSession.selectList("annualLeaveMapper.selectCheckAnnual", id);
 	}
 
-	
+
 
 }

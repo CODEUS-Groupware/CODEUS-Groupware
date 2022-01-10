@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.codeusgroup.codeus.annualLeave.model.vo.AnnualLeave;
 import com.codeusgroup.codeus.empStatus.model.vo.EmpStatus;
+import com.codeusgroup.codeus.leaveRecode.model.vo.LeaveRecode;
 import com.codeusgroup.codeus.member.model.vo.Member;
 
 public interface AnnualLeaveService {
@@ -22,6 +23,7 @@ public interface AnnualLeaveService {
 	ArrayList<Member> selectMember();
 
 	ArrayList<AnnualLeave> selectCheckAnnual(String id);
+
 
 	
 

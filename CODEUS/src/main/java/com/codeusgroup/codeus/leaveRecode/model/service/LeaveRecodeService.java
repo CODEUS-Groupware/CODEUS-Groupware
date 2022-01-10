@@ -6,6 +6,8 @@ import com.codeusgroup.codeus.leaveRecode.model.vo.LeaveRecode;
 
 public interface LeaveRecodeService {
 
-	ArrayList<LeaveRecode> selectLeaveRecode(String id);
+
+
+	int selectLrCount(String id);
 
 }
