@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>게시판</title>
+<title>중고 게시판</title>
 <style type="text/css">
 	#boardDetailTable{width: 800px; margin: auto; border-collapse: collapse; border-left: hidden; border-right: hidden;}
 	#boardDetailTable tr td{padding: 5px;}
@@ -57,17 +57,19 @@
                         </ol>
                     </div>
                 </div>
-               <div class="row">
+			<div class="row">
                    <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">게시판</h4>
+                               <h3 style="width: 200px; height: 30px;">${ b.bTitle }</h3>
                            </div>
                             <div class="card-body">
-	 							<button  type="button" 
-                                    id="bookmark" class="btn btn-primary">BOOKMARK</button>	
-                                
-                                    
+                                 <c:if test="${ loginUser.mId ne b.bWriter || loginUser.mId eq 'admin' }">   
+								  <p align="right">
+								  <button  type="button"  id="popup_open_btn"
+					                                   class="btn btn-primary" id="report">REPORT</button>	
+					               <p>                   
+					              </c:if>                     
                                  <c:if test="${ loginUser.mId ne b.bWriter || loginUser.mId eq 'admin' }">   
 								  <button  type="button"  id="popup_open_btn"
 					                                   class="btn btn-primary" id="report">REPORT</button>	
@@ -75,81 +77,113 @@
 					              </c:if>                     
 					                                   
 						 <!-- 본문 시작 -->
-					<div class="col-lg-12">
-                        <div class="card">
-                            <div class="card-header">
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-hover table-responsive-sm" style="color:black">
-                                        <thead>
-                                            <tr>
-								<tr>
-									<th>번호</th>
-									<td>${ b.bId }</td>
-								</tr>
-								<tr>
-									<th>제목</th>
-									<td>${ b.bTitle }</td>
-								</tr>
-								<tr>
-									<th>작성자</th>
-									<td>${ b.bWriter }</td>
-								</tr>
-								<tr>
+						<div class="col-lg-12">
+							<div class="card">
+								 <div class="card-body">
+								     <main class="e-approval-article">
+									    <h3 style="width: 200px; height: 30px;">중고게시판</h3>
+											<form name="frm_market_view" method="get">
+												<div class="card-body">
+			                                		<div class="table-responsive">
+			                                		<div class="market-btn-zone" align="right">
+										<c:if test="${ loginUser.mId ne b.bWriter || loginUser.mId eq 'admin' }">   
+											<button type="button" class="btn btn-primary" onclick="location.href='${ marketupView }'">수정</button>
+											<button type="button" class="btn btn-primary" onclick="location.href='${ marketDelete }'">삭제</button>
+										</c:if>
+										</div>
+										<br><br>
+                                 <table class="table table-hover table-responsive-sm" style="color:black">
+								  <thead>
+								    <tr >
+								    <th>카테고리</th>
+								    <td>${vo.marketCategory }</td>
+								    <tr>
 									<th>작성날짜</th>
 									<td>${ b.bCreateDate }</td>
-								</tr>
-								<tr>
-									<th>내용</th>
-									<%-- <td>${ board.bContent }</td> --%>
-									<!-- 
-										이렇게만 두면 엔터가 먹지 않음. 
-										DB에는 엔터가 \r\n으로 들어가서 이를 치환해주는 작업 필요
-									-->
+									</tr>
+								    <tr>
+									<th>작성자</th>
+									<td>${ b.bWriter }</td>
+									</tr>
+									<tr>
+									<th>조회수</th>
+									<td>${ b.bViews }</td>
+									</tr>
 									
-								<% pageContext.setAttribute("newLineChar", "\r\n"); %> <!-- \r\n 말고 그냥 \n도, \r도 가능하다 -->
-								<td>${ fn:replace(b.bContent, newLineChar, "<br>") }</td>
+								  </thead>
+								  
+								</table>
+								<div class='market-view-container'>
 								
-								</tr>
-								<c:url var="bupView" value="bupView.bo">
-									<c:param name="bId" value="${ b.bId }"/>
+								<%-- 	<div class='market-view-form' style="display:flex;min-height:350px;">	
+									
+											<div id="marketSlider" class="carousel slide" data-ride="carousel" style="width:250px;">
+										  <div class="carousel-inner">
+											    <div class="carousel-item active">
+													<img src='images/market/${vo.attlist[0].oriFile }' class='d-block w-100' alt="..."/>	
+												</div>
+												<c:choose>
+													<c:when test="${fn:length(vo.attlist) > 1 }">
+														<c:forEach  var="i" begin="1" end ="${fn:length(vo.attlist)-1 }" >
+															<div class="carousel-item ">
+																<img src='images/market/${vo.attlist[i].oriFile}' class='d-block w-100' alt="..."/>	
+															</div>
+														</c:forEach>
+													</c:when>
+												</c:choose>
+												 --%>
+									  </div>
+										  <a class="carousel-control-prev" href="#marketSlider" role="button" data-slide="prev">
+										    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+										    <span class="sr-only">Previous</span>
+										  </a>
+										  <a class="carousel-control-next" href="#marketSlider" role="button" data-slide="next">
+										    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+										    <span class="sr-only">Next</span>
+										  </a>
+										</div>	
+									
+												
+										<div class="form-group-container" style="width:100%; margin-left:50px;">	
+										  <div class="form-group row">
+										    <label for="inputEmail3" class="col-sm-2 col-form-label">제품명</label>
+										    <div class="col-sm-8">
+										     <%--  <div class="form-control" id="inputEmail3" >${vo.marketSubject }</div> --%>
+										    </div>
+										  </div>
+						
+										  <div class="form-group row">
+										    <label for="inputEmail3" class="col-sm-2 col-form-label">가격</label>
+										    
+										    <div class="col-sm-6" style="display: flex;">
+										      <div class="form-control" id="inputEmail3" >
+										      	<%-- <fmt:formatNumber value="${b.marketPrice}" pattern="#,###원" /> --%>
+										     </div>
+					
+										    </div>
+					  							<button  type="button"  id ="#jjim" class="btn btn-primary mb-2">찜하기</button>&nbsp&nbsp
+					  							<button  type="button"  class="btn btn-primary mb-2">연락하기</button>
+										  </div>
+									<div class="card">
+									  <div class="card-body">
+											${b.bContent }
+										</div>
+									</div>
+									<!-- 상품 설명 영역 -->
+									
+									
+									<!-- 버튼 영역  -->
+									<c:url var="marketupView" value="marketupView.bo">
+									<c:param name="mbId" value="${ m.mbId }"/>
 									<c:param name="page" value="${ page }"/>
-								</c:url>
-								<c:url var="bDelete" value="commbDelete.bo">
-										<c:param name="bId" value="${b.bId}"></c:param>
-										<c:param name="fileName" value="${b.renameFileName }"></c:param>
-								</c:url>
-								
-								
-								<tr>
-										<p align="right">
-										 <c:if test="${ loginUser.mId eq b.bWriter }">
-													<button type="button" class="btn btn-primary" onclick="location.href='${ bupView }'">수정</button>
-													<button type="button" class="btn btn-primary" onclick="location.href='${ bDelete }'">삭제</button>
-										</c:if>	
-										</p>
-								</tr>
-								
-								
-								  <script>
-										$(function(){
-											$('#delete').click(function(){
-													var con = confirm("정말 삭제하시겠습니까?");
-													if(con){
-													var bId = ${b.bId}
-													
-													location.href='commbDelete.bo?bId=' + bId;
-													}else{
-														return false;
-													}
-											});
-										});
-										</script>
-								
-								
-							</table>
-	
+									</c:url>
+									<c:url var="marketDelete" value="marketDelete.bo">
+										<c:param name="bId" value="${m.mbId}"></c:param>
+										<c:param name="fileName" value="${m.renameFileName }"></c:param>
+									</c:url>
+								 </div>
+							</form>			 
+						</main>
 							<br><br>
 							
 							<!-- 본문 끝-->
@@ -166,7 +200,7 @@
 								<button  type="button" 
 						            onclick="location.href='home.do'" class="btn btn-primary">홈으로</button>	
 								<button  type="button" 
-						            onclick="location.href='Commblist.bo'" class="btn btn-primary">목록</button>
+						            onclick="location.href='marketblist.bo'" class="btn btn-primary">목록</button>
 							</p>
 	
 	
@@ -207,7 +241,7 @@
 						<br><br>
 						
 					</div>
-					        
+					   
 				
 					        <script>
 					        
@@ -352,3 +386,4 @@
 </body>
 
 </html>
+	

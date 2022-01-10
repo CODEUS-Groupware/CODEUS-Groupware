@@ -10,6 +10,7 @@
 	<select id="CommBoardSelectList" resultMap="boardResultSet">
 		SELECT *
 		FROM board
+		WHERE B_TYPE = '자유'
 		ORDER BY B_NUM DESC
 	</select>
 	
@@ -29,21 +30,35 @@
 		
 	</resultMap>
 	
-	<insert id="insertBoard">
+	<insert id="insertcommBoard" parameterType="Board">
 
 	INSERT INTO BOARD 
-		VALUES(SEQ_BID.NEXTVAL,#{bType},#{bTitle},#{bContent},#{bViews},
-								 #{originalFileName}, #{renameFileName},
-								 SYSDATE, SYSDATE, DEFAULT, DEFAULT, #{bWriter})
+		VALUES(SEQ_B_NUM.nextval,'자유',#{bTitle},#{bContent},0,SYSDATE, SYSDATE, DEFAULT, DEFAULT, #{bWriter})
+								 				 
 	</insert>
 	
+	
+	<delete id="CommBoardDelete">
+		DELETE FROM BOARD 
+		WHERE B_NUM = #{bId}
+	</delete>
+	
+	<update id="commUpdateBoard">
+		UPDATE BOARD 
+		SET B_TITLE = #{bTitle}, B_CONTENT = #{bContent}, B_MODIFY_DATE = SYSDATE
+		WHERE B_NUM = #{bId}
+	</update>
+	
+
+	<!-- 마켓 시작 -->
 	
 	
 	<select id="MarketSelectList" resultMap="boardResultSet">
 		SELECT * 
 		FROM BOARD
             JOIN ATTACHMENT using (B_NUM)	
-		WHERE B_STATUS = '0'
+            
+		WHERE B_STATUS = '0' and WHERE B_TYPE = '중고'
 		ORDER BY B_NUM DESC
 	</select>
 	
@@ -56,26 +71,37 @@
 	<select id="selectBoard" resultMap="boardResultSet">
 		SELECT * 
 		FROM BOARD
-		WHERE B_NUM = #{bId}
+		WHERE B_NUM = #{bId} 
 	</select>
 	
-	
-	<update id="CommBoardDelete">
-		UPDATE BOARD SET B_STATUS = '1'
-		WHERE B_NUM = #{bId}
-	</update>
-	
-	
+	<insert id="insertmarketBoard" parameterType="Board">
 
+	INSERT INTO BOARD 
+		VALUES(SEQ_B_NUM.nextval,'중고',#{bTitle},#{bContent},0,SYSDATE, SYSDATE, DEFAULT, DEFAULT, #{bWriter})
+								 				 
+	</insert>
+	
+	
+	<!-- 게시글 신고 -->
+	
+		<select id="selectPostReport" resultMap="ReportResultMap">
+  		SELECT * FROM REPORT WHERE B_NUM = #{bId}
+  	</select>
+  	
+  	<select id="selectPostReportCount" resultType="_int">
+  		SELECT COUNT(*)FROM BOARD B JOIN REPORT BR ON B.B_NUM = BR.B_NUM
+  	</select>
+ 
+ 	
+  	
+  	<insert id="insertPostReport">
+  		INSERT INTO REPORT 
+  		VALUES(SEQ_REPORT_NO.NEXTVAL,#{reportType},'게시글',SYSDATE,DEFAULT,#{mId},#{bId},#{rId})
+  	</insert>
 	
 	
 	<!-- 댓글  -->
 	
-	
-	<insert id="addReply">
-		INSERT INTO REPLY 
-		VALUES(SEQ_REPLY_NO.NEXTVAL, #{rContent},SYSDATE,SYSDATE,DEFAULT,#{refBid},#{rWriter})
-	</insert>
 	
 	<resultMap type="Reply" id="replyResultSet">
 		<id property="rId" column="REPLY_NO"/>
@@ -87,12 +113,65 @@
 		<result property="rWriter" column="M_ID"/>
 	</resultMap>
 	
+	
+
+  	<resultMap type="Report" id="ReportResultMap">
+  		<id property="reportId" column="REPORT_NO"/>
+  		<result property="reportType" column="REPORT_TYPE"/>
+  		<result property="reportCategory" column="REPORT_CATEGORY"/>
+  		<result property="reportDate" column="REPORT_DATE"/>
+  		<result property="reportStatus" column="REPORT_STATUS"/>
+  		<result property="mId" column="M_ID"/>
+  		<result property="bId" column="B_NUM"/>
+  		<result property="rId" column="REPLY_NO"/>
+  	</resultMap>
+	
+	
+	<insert id="addReply">
+		INSERT INTO REPLY 
+		VALUES(SEQ_REPLY_NO.NEXTVAL, #{rContent},SYSDATE,SYSDATE,DEFAULT,#{refBid},#{rWriter})
+	</insert>
+	
+	
 	<select id="selectReplyList" resultMap="replyResultSet">
 		SELECT * 
 		FROM REPLY
 		WHERE B_NUM = #{refBid} AND REPLY_STATUS = '0'
 		ORDER BY REPLY_NO DESC
 	</select>
-	
+
+
+	<update id="deleteReply">
+  		UPDATE 
+  		REPLY SET REPLY_STATUS = '1' 
+  		WHERE B_NUM = #{refBid} AND REPLY_NO = #{rId}
+  		
+  	</update>
+  	
+  	
+  	<update id="updateReply" parameterType="Reply">
+  		UPDATE reply  
+  		SET REPLY_CONTENT = #{rContent}, REPLY_CREATE_DATE = SYSDATE
+  		WHERE B_NUM = #{refBid}  AND REPLY_NO = #{rId} AND REPLY_STATUS = '0' 
+ 
+  	</update>
+  	
+  	
+  	<select id="selectReplyReport" resultMap="ReportResultMap">
+  		SELECT * FROM REPORT WHERE REPLY_NO = #{rId}
+  	</select>
+  	
+  	
+  	<select id="selectReplyReporCount" resultType="_int">
+  		SELECT COUNT(*)FROM REPLY R JOIN REPORT RR ON R.REPLY_NO = RR.REPLY_NO
+  	</select>
+  	
+  	
+  	<insert id="insertReplyReport">
+  		INSERT INTO REPORT 
+  		VALUES(SEQ_REPORT_NO.NEXTVAL,'A','댓글',SYSDATE,DEFAULT,#{mId},#{bId},#{rId})
+  	</insert>
+  	
+
 	
 </mapper>

@@ -12,6 +12,8 @@ import com.codeusgroup.codeus.commBoard.model.dao.CommbDAO;
 import com.codeusgroup.codeus.commBoard.model.vo.CommBoard;
 import com.codeusgroup.codeus.commBoard.model.vo.PageInfo;
 import com.codeusgroup.codeus.commBoard.model.vo.Reply;
+import com.codeusgroup.codeus.commBoard.model.vo.Report;
+
 
 @Service("bService")
 public class CommBoardServiceImpl implements CommBoardService {
@@ -43,24 +45,64 @@ public class CommBoardServiceImpl implements CommBoardService {
 			
 			return b;
 		}
+		
+		@Override
+		public int commInsertBoard(CommBoard b) {
+			return bDAO.insertBoard(sqlSession, b);
+			
+		}
+		@Override
+		public int commUpdateBoard(CommBoard b) {
+			return bDAO.commUpdateBoard(sqlSession, b);
+		}
+		
+		
+		@Override
+		public int CommBoardDelete(int bId) {
+			return bDAO.commBoardDelete(sqlSession, bId);
+		}
+	
+		// 댓글 
+		
 		@Override
 		public ArrayList<Reply> selectReplyList(int bId) {
 			return bDAO.selectReplyList(sqlSession, bId);
 		}
 	
 		@Override
-		public int addReply(Reply r) {
-			return bDAO.addReply(sqlSession, r);
+		public int addCommReply(Reply r) {
+			return bDAO.addCommReply(sqlSession, r);
 		}
 		@Override
-		public int CommBoardDelete(int bId) {
-			return sqlSession.update("boardMapper.CommBoardDelete", bId);
+		public int modifyReply(Reply r) {
+			return bDAO.modifyReply(sqlSession,r);
+
+		}
+
+		@Override
+		public int deleteReply(Reply r) {
+			return bDAO.deleteReply(sqlSession,r);
+
+	
 		}
 		@Override
-		public int commInsertBoard(CommBoard b) {
-			return sqlSession.update("boardMapper.commInsertBoard", b);
-			
+		public Report ckReportReply(int rId) {
+			return bDAO.selectReplyReport(sqlSession,rId);
 		}
+		@Override
+		public int reportReply(Report rep) {
+			return bDAO.insertReportReply(sqlSession,rep);
+		}
+		@Override
+		public int reportPost(Report rep) {
+			return bDAO.insertReportPost(sqlSession,rep);
+		}
+		@Override
+		public Report ckReportPost(int bId) {
+			return bDAO.selectPostReport(sqlSession,bId);
+		}
+	
+		
 	
 	}
 
