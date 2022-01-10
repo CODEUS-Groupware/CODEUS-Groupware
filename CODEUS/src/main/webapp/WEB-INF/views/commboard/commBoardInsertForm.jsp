@@ -1,49 +1,34 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<!-- include libraries(jQuery, bootstrap) -->
-		<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
-		<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
-		<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
-		<!-- include summernote css/js-->
-		<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.css" rel="stylesheet">
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.js"></script>
-		<!-- include summernote-ko-KR -->
-		<script src="/resources/js/summernote-ko-KR.js"></script>
+<meta charset="UTF-8">
+<title>게시글 등록</title>
 
-<title>자유게시판</title>
-<style type="text/css">
-	#tb{margin: auto; width: 700px; border-collapse: collapse;}
-	#tb tr td{padding: 5px;}
-	#buttonTab{border-left: hidden; border-right: hidden;}
-</style>
-	<!-- Favicon icon -->
+
+<!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon.png">
     <!-- Datatable -->
     <link href="${contextPath}/resources/assets/vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet">
     <!-- Custom Stylesheet -->
     <link href="${contextPath}/resources/assets/css/style.css" rel="stylesheet">
+    
+   <!-- include libraries(jQuery, bootstrap) -->
+<!-- include libraries(jQuery, bootstrap) -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-<script>
-$(document).ready(function() {
-	  $('#summernote').summernote({
- 	    	placeholder: 'content',
-	        minHeight: 370,
-	        maxHeight: null,
-	        focus: true, 
-	        lang : 'ko-KR'
-	  });
-	});
-</script>
+<!-- include summernote css/js -->
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
 </head>
 <body>
-	
-	
-	     <!--**********************************
+
+	<!--**********************************
             Content body start
         ***********************************-->
          <div class="content-body">
@@ -81,94 +66,97 @@ $(document).ready(function() {
 								     <div class="card-header">
                                		 <h4 class="card-title">자유게시판</h4>
                           					 </div>
-									      <table class="table table-write" id="add_mt" style="color:black" >
+                          				<form action="binsert.bo" method="post" enctype="Multipart/form-data">	 
+									      <table class="table table-write" id="add_mt" style="color:black ">
 											<colgroup>			
 											<col style="width:120px" />
 											<col style="width:*" />						
 											</colgroup>
 											<tr>						
 												<th>제목</th>
-												<td><input type="text" class="form-control" id="title" name="title" placeholder="제목" value="${title}" required></td>
+												<td><input type="text" class="form-control" id="bTitle" name="bTitle" placeholder="제목" value="${title}" required></td>
 											</tr>
 											<tr>
-												<th>내용</th>
-												<td>
-													<div id="summernote" name="content">${content}</div>
-												</td>
+											<th>작성자</th>
+											<td>
+												<input type="text" class="form-control" id="bWriter" name="bWriter" readonly value="${ sessionScope.loginUser.mId }">
+											</td>
 											</tr>
-										</table>			      
-								      <input type="hidden" id="division" name="division" value="test1" />
-								    </div>
-								     <div class="form-group">
-	                               
+											<tr>
+											<th>내용</th>
+											<td>
+												<div class="container">
+												  <textarea id="summernote" class="summernote" name="bContent" >${placeholder = "글 내용을 작성하세요"}</textarea>    
+												</div>
+											</td>
+											</tr>
+	                           		        <tr>
+	                           		        <td>
 	                                        <label for="file">파일 찾기</label>
-	                                        <input type="file" name="uploadFile" id="file" class="ex_file" multiple="multiple">
-	                                    </div>
-							    <div style="text-align: center;">
-									<button title="목록" type="button" class="btn btn-primary" onclick="">목록</button>
-								
-									<button title="저장" type="button" id="a_save_btn" class="btn btn-primary"  onclick="save_note()">저장</button>
-									<button title="삭제" type="button" class="btn btn-primary" onclick="#">취소</button>
-									
-								</div>
-              </div>
-            </div>
-		  </div>
-        </div>
-        <!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content -->
+	                                     	<td>
+	                                     	<input type="file" name="uploadFile"></td>
+	                                   		</td>
+	                                   		</tr>
+	                                   		
+	                                    	<tr> 
+	                                    	<td colspan ="4" style="text-align: center;">
+											<button type="button" onclick="location.href='Commblist.bo'" class="btn btn-primary">취소</button>
+											<input type="submit" value="등록 하기" id="bSubmit" class="btn btn-primary">
+											</td>
+											</tr>
+											
+											
+	
+									</table>
+								</form>
+              				</div>
+           				 </div>
+		  			</div>
+       			 </div>
+      		</div>
+   		 </div>
+  	</div>
   </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>	
   <!-- /.content-wrapper -->
-  
 
-<script src="${pageContext.request.contextPath}/resources/AdminLTE/plugins/summernote/summernote-bs4.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/AdminLTE/plugins/summernote/lang/summernote-ko-KR.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/AdminLTE/plugins/moment/moment.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/AdminLTE/plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
-//${pageContext.request.contextPath}/resources/AdminLTE/
+
+
+
+
+
+
+
 <script>
-$(function () {
-    //Money Euro
-    $('[data-mask]').inputmask()
-	if($("#mdate").val()=='')
-	{
-		$("#mdate").val(getTimeStamp());
+$('.summernote').summernote({
+	  height: 150,
+	  lang: "ko-KR"
+	});
+</script>
+
+
+<script>
+$('bSubmit').click( function() {
+	var title = bTitle.value;
+	var content = bContent.value;
+	
+	if (title.trim() == ''){
+		alert("제목을 입력해주세요");
+		return false;
 	}
-    // Summernote
-	$('#summernote').summernote({
-	    lang: 'ko-KR', // default: 'en-US'
-	   	height: 500,                 // set editor height
-		minHeight: 500,             // set minimum height of editor
-		maxHeight: 500,             // set maximum height of editor
-		focus: true,                  // set focus to editable area after initializing summe
-	  });
-  })
-</script> 
+	if (content.trim() == ''){
+		alert("내용을 입력해주세요");
+		return false;
+	}
 
-<script>
-function uploadSummernoteImageFile(file, editor) {
-    data = new FormData();
-    data.append("file", file);
-    $.ajax({
-        data : data,
-        type : "POST",
-        url : "/uploadSummernoteImageFile",
-        contentType : false,
-        processData : false,
-        success : function(data) {
-            //항상 업로드된 파일의 url이 있어야 한다.
-            $(editor).summernote('insertImage', data.url);
-        }
-    });
-}
+</script>
 
 
-
-</script> 
-						
 
 </body>
-
 </html>

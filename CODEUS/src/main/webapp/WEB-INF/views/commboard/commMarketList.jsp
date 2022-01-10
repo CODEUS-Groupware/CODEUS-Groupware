@@ -125,7 +125,7 @@
 									
 										<td colspan="6" align="right" id="buttonTab">
 												<button  type="button" 
-							                                    onclick="location.href='CommboardinsertView.bo';" class="btn btn-primary">글쓰기</button>		
+							                                    onclick="location.href='mboardinsert.bo';" class="btn btn-primary">글쓰기</button>		
 										</td>
 									</tr>
 							<!-- 본문 테이블 영역  끝-->
@@ -139,7 +139,7 @@
 												[이전] &nbsp;
 											</c:if>
 											<c:if test="${ pi.currentPage > 1 }">
-												<c:url var="before" value="Commblist.bo">
+												<c:url var="before" value="marketblist.bo">
 													<c:param name="page" value="${ pi.currentPage - 1 }"/>
 												</c:url>
 												<a href="${ before }">[이전]</a> &nbsp;
@@ -152,7 +152,7 @@
 												</c:if>
 												
 												<c:if test="${ p ne pi.currentPage }">
-													<c:url var="pagination" value="Commblist.bo">
+													<c:url var="pagination" value="marketblist.bo">
 														<c:param name="page" value="${ p }"/>
 													</c:url>
 													<a href="${ pagination }">${ p }</a> &nbsp;
@@ -164,7 +164,7 @@
 												[다음]
 											</c:if>
 											<c:if test="${ pi.currentPage < pi.maxPage }">
-												<c:url var="after" value="Commblist.bo">
+												<c:url var="after" value="marketblist.bo">
 													<c:param name="page" value="${ pi.currentPage + 1 }"/>
 												</c:url> 
 												<a href="${ after }">[다음]</a>
@@ -184,7 +184,7 @@
 			$('.contentTR').click(function() {
 				var bId = $(this).children("th").eq(0).text();
 
-				location.href = 'CommBoardDetail.bo?bId=' + bId + "&page=" + ${pi.currentPage}
+				location.href = 'marketDetail.bo?bId=' + bId + "&page=" + ${pi.currentPage}
 			});
 		});
 	</script>
