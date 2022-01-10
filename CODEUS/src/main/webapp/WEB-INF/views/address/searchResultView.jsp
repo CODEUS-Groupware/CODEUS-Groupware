@@ -27,7 +27,7 @@
                 <div class="row page-titles mx-0">
                     <div class="col-sm-12 p-md-0">
                         <div class="welcome-text">
-                            <h4>주소록</h4>
+                            <h4>주소록 검색</h4>
                         </div>
                     </div>
                 </div>
@@ -66,7 +66,7 @@
                                                 <td id="mEmail">이메일</td>
                                             </tr>
                                             <tr>
-                                                <td><button class="form-control input-default" style="background: #593bdb; color: white;">-</button></td>
+                                                <td><button class="form-control input-default" style="background: #593bdb; color: white;">+</button></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -77,9 +77,30 @@
                 	
                     <div class="col-xl-9 col-lg-10 col-xxl-10 col-md-10">
                         <div class="card">
+                            <div class="card-header">
+                                <form name="searchform" method="post" action="research.addr" style="width: 100%">
+                                <table style="border: none; width: 100%">
+		                        	<tr>
+		                        		<td>
+		                        			<select id="field" name="field" class="form-control" style="background: #593bdb; color: white;">
+                                                <option selected value="name">이름</option>
+                                                <option value="job">직급</option>
+                                                <option value="dept">부서</option>
+											</select>
+		                        		</td>
+		                        		<td><input id="input" name="input" type="text" class="form-control input-default" placeholder="검색어 입력" value="${ input }"></td>
+		                        		<td>
+		                        			<button id="searchBtn" class="form-control input-default" style="background: #593bdb; color: white;" type="submit">
+		                        				<i class="bi bi-search"></i>
+		                        			</button>
+		                        		</td>
+		                        	</tr>
+                       	 		</table>
+                       	 		</form>
+                            </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table id="mList" class="table student-data-table m-t-20" style="color : black; text-align: center; border: none;">
+                                    <table id="mSearchList" class="table student-data-table m-t-20" style="color : black; text-align: center; border: none;">
                                         <thead>
                                             <tr>
                                             	<th></th>
@@ -87,83 +108,29 @@
                                                 <th>직급</th>
                                                 <th>부서</th>
                                                 <th>연락처</th>
-                                                <th>상태</th>
+                                                <th>메일</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                        <c:forEach var="addr" items="${ list }">
+                                        	<c:if test="${ empty list }">
+                                        		<tr>
+                                        			<td colspan="7">조회된 사원이 없습니다.</td>
+                                        		</tr>
+                                        	</c:if>
+                                        	<c:if test="${ !empty list }">
+	                                            <tr id="info">
+	                                            	<td></td>
+	                                                <td id="name">${ addr.mName }</td>
+	                                                <td id="job">${ addr.jobName }</td>
+	                                                <td id="dept">${ addr.deptName }</td>
+	                                                <td id="phone">${ addr.phone }</td>
+	                                                <td id="email">${ addr.email }</td>
+	                                                <td><button id="addrPlus" class="form-control input-default" style="background: #593bdb; color: white;">&nbsp+&nbsp</button></td>
+	                                            </tr>
+                                            </c:if>
+                                        </c:forEach>
                                         	<tr>
-                                        		<td></td>
-	                                            <td id="name">강건강</td>
-	                                            <td id="job">대리</td>
-	                                            <td id="dept">영업1팀</td>
-	                                            <td id="phone">010-1111-2222</td>
-	                                            <td id="email">gang@com.kh</td>
-	                                            <td><button id="addrMinus" class="form-control input-default" style="background: #593bdb; color: white;">&nbsp-&nbsp</button></td>
-                                        	</tr>
-                                            <tr>
-                                            	<td></td>
-                                                <td>강건강</td>
-                                                <td>대리</td>
-                                                <td>영업1팀</td>
-                                                <td>010-1111-2222</td>
-                                                <td>gang@com.kh</td>
-                                                <td><button class="form-control input-default" style="background: #593bdb; color: white;">&nbsp-&nbsp</button></td>
-                                            </tr>
-                                            <tr>
-                                            	<td></td>
-                                                <td>강건강</td>
-                                                <td>대리</td>
-                                                <td>영업1팀</td>
-                                                <td>010-1111-2222</td>
-                                                <td>근무중</td>
-                                                <td><button class="form-control input-default" style="background: #593bdb; color: white;">&nbsp-&nbsp</button></td>
-                                            </tr>
-                                            <tr>
-                                            	<td></td>
-                                                <td>강건강</td>
-                                                <td>대리</td>
-                                                <td>영업1팀</td>
-                                                <td>010-1111-2222</td>
-                                                <td>근무중</td>
-                                                <td><button class="form-control input-default" style="background: #593bdb; color: white;">&nbsp-&nbsp</button></td>
-                                            </tr>
-                                            <tr>
-                                            	<td></td>
-                                                <td>강건강</td>
-                                                <td>대리</td>
-                                                <td>영업1팀</td>
-                                                <td>010-1111-2222</td>
-                                                <td>근무중</td>
-                                                <td><button class="form-control input-default" style="background: #593bdb; color: white;">&nbsp-&nbsp</button></td>
-                                            </tr>
-                                            <tr>
-                                            	<td></td>
-                                                <td>강건강</td>
-                                                <td>대리</td>
-                                                <td>영업1팀</td>
-                                                <td>010-1111-2222</td>
-                                                <td>근무중</td>
-                                                <td><button class="form-control input-default" style="background: #593bdb; color: white;">&nbsp-&nbsp</button></td>
-                                            </tr>
-                                            <tr>
-                                            	<td></td>
-                                                <td>강건강</td>
-                                                <td>대리</td>
-                                                <td>영업1팀</td>
-                                                <td>010-1111-2222</td>
-                                                <td>근무중</td>
-                                                <td><button class="form-control input-default" style="background: #593bdb; color: white;">&nbsp-&nbsp</button></td>
-                                            </tr>
-                                            <tr>
-                                            	<td></td>
-                                                <td>강건강</td>
-                                                <td>대리</td>
-                                                <td>영업1팀</td>
-                                                <td>010-1111-2222</td>
-                                                <td>근무중</td>
-                                                <td><button class="form-control input-default" style="background: #593bdb; color: white;">&nbsp-&nbsp</button></td>
-                                            </tr>
-                                            <tr>
                                         		<td style="text-align:center" colspan="7">
                                         			<div style="display:inline-block;">
 					                                    <nav>
@@ -175,7 +142,7 @@
 						                                        		<i class="icon-arrow-left"></i>
 						                                        	</c:if>
 						                                        	<c:if test="${ pi.currentPage > 1 }">
-						                                        		<c:url var="before" value="list.addr">
+						                                        		<c:url var="before" value="research.addr">
 																			<c:param name="page" value="${ pi.currentPage - 1 }"/>
 																		</c:url>
 						                                            	<a class="page-link" href="${ before }">
@@ -191,7 +158,7 @@
 						                                        	</c:if>
 						                                        	
 						                                        	<c:if test="${ p ne pi.currentPage }">
-						                                        		<c:url var="pagination" value="list.addr">
+						                                        		<c:url var="pagination" value="research.addr">
 																			<c:param name="page" value="${ p }"/>
 																		</c:url>
 						                                        		<li class="page-item"><a class="page-link" href="${ pagination }">${ p }</a></li>
@@ -204,7 +171,7 @@
 						                                        		<i class="icon-arrow-right"></i>
 						                                        	</c:if>
 						                                        	<c:if test="${ pi.currentPage < pi.maxPage }">
-						                                        		<c:url var="after" value="list.addr">
+						                                        		<c:url var="after" value="research.addr">
 																			<c:param name="page" value="${ pi.currentPage + 1 }"/>
 																		</c:url>
 						                                            	<a class="page-link" href="${ after }">
@@ -218,13 +185,13 @@
                                         	</tr>
                                         </tbody>
                                     </table>
-                                </div>
-                                <div style="text-align: right">
-                                	<button class="form-control input-default" style="background: #593bdb; color: white; display:inline-block; width: 150px;" onclick="location.href='search.addr'">주소록 검색</button>
+                                    
+                                    
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
             </div>
         </div>
         
@@ -254,9 +221,11 @@
 	    <!--**********************************
 	        Scripts
 	    ***********************************-->
+	    
 	    <script>
-	    $(function() {
-			$('#mList td').mouseenter(function() {
+	    // 사원 정보 누를 시 프로필 표시
+		$(function() {
+			$('#mSearchList td').mouseenter(function() {
 				$(this).parent().css({'color':'purple', 'cursor':'pointer'});
 			}).mouseout(function() {
 				$(this).parent().css({'color':'black'});
@@ -275,7 +244,23 @@
 				
 			});
 		});
-	    </script>
+		
+		// 주소록 검색 버튼
+		$("#searchBtn").click(function(){
+			var input = $("#input").val();
+			var field = $("#field").val();
+			
+			console.log(input);
+			console.log(field);
+			
+		});
+		
+		// 주소록 추가 버튼
+		$('#addrPlus').click(function() {
+			alert("추가되었습니다.");
+		});
+	</script>
+	    
     <!-- Datatable -->
     <script src="${contextPath}/resources/assets/vendor/datatables/js/jquery.dataTables.min.js"></script>
     <script src="${contextPath}/resources/assets/js/plugins-init/datatables.init.js"></script>

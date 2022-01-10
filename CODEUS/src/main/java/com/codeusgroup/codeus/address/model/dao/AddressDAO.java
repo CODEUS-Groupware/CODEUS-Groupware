@@ -1,6 +1,7 @@
 package com.codeusgroup.codeus.address.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -20,5 +21,16 @@ public class AddressDAO {
 		RowBounds rowBounds = new RowBounds(offset, pi.getAddressLimit());
 		
 		return (ArrayList)sqlSession.selectList("addressMapper.selectMemberList", null, rowBounds);
+	}
+
+	public ArrayList<Member> searchMemebrList(SqlSessionTemplate sqlSession, PageInfo pi, String input, String field) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getAddressLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getAddressLimit());
+		
+		HashMap<String, String> map = new HashMap<>();
+		map.put("input", input);
+		map.put("field", field);
+		
+		return (ArrayList)sqlSession.selectList("addressMapper.searchMemebrList", map, rowBounds);
 	}
 }

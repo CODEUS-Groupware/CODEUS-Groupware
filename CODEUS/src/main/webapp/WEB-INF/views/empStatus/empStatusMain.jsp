@@ -60,7 +60,7 @@
 	#workingTime{
 		font-size:25px;
 	}
-
+	
 
 </style>
 
@@ -197,13 +197,33 @@
                                                 </td>                                               
                                             </tr>
                                             <tr>
-                                                <td style="border: 1px solid #eaeaea; height: 90px;" id="workingTime">
-													
-                                                </td> 
-                                                <td style="border: 1px solid #eaeaea;" id="overTime">
-													 
-                                                </td> 
-                                                                                              
+                                            <c:choose>
+                                            	<c:when test="${empStatus1.getEmpStatus() eq '업무종료' && empStatus1.getEmpOffTime() ne null}">                                           		                                            			
+			                                           <td style="border: 1px solid #eaeaea; height: 90px;" id="workingTime">
+			                                                	${ empStatus1.strGapTime }
+			                                           </td>
+			                                       <c:choose>
+			                                            <c:when test="${empStatus1.getOverTime() ne null}">
+			                                                <td style="border: 1px solid #eaeaea;" id="overTime">
+																 ${ empStatus1.strOverTime }
+			                                                </td>
+			                                            </c:when>
+			                                            <c:otherwise>
+			                                            	<td style="border: 1px solid #eaeaea;" id="overTime">
+																 
+			                                                </td>
+			                                            </c:otherwise> 
+		                                            </c:choose>
+	                                            </c:when>
+	                                            <c:otherwise>
+	                                            	<td style="border: 1px solid #eaeaea; height: 90px;" id="workingTime">
+																
+			                                        </td>
+			                                        <td style="border: 1px solid #eaeaea;" id="overTime">
+																 
+			                                        </td>
+	                                            </c:otherwise>
+                                            </c:choose>                                                  
                                             </tr>
                                         </tbody>
                                     </table>
@@ -286,7 +306,7 @@
                             
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table student-data-table m-t-20">
+                                    <table class="table student-data-table m-t-20" id="totalWorkTime">
                                         
                                         <tbody>
                                             <tr>
@@ -304,17 +324,34 @@
                                                 </td>                                                
                                             </tr>
                                             <tr>
-                                                <td style="height: 90px;">
-													업무시간
+                                            <c:choose>
+                                            	<c:when test="empWeekTime.strGapTime ne ::">
+	                                                <td style="height: 90px; font-size:25px;">
+														${empWeekTime.strGapTime }
+	                                                </td>
+	                                            </c:when>
+	                                            <c:otherwise>
+	                                            	<td style="height: 90px;">
+														
+	                                                </td>
+	                                            </c:otherwise>
+                                            </c:choose> 
+                                            <c:choose>
+                                            	<c:when test="empWeekTime.strOverTime ne ::">
+	                                                <td style="height: 90px; font-size:25px;">
+														${empWeekTime.strOverTime }
+	                                                </td>
+	                                            </c:when>
+	                                            <c:otherwise>
+	                                            	<td>
+	                                                </td>
+	                                            </c:otherwise>
+                                            </c:choose>    
+                                                 <td style="height: 90px; font-size:25px;">
+													${empMonthTime.strGapTime }
                                                 </td> 
-                                                <td>
-													초과근무시간
-                                                </td>
-                                                 <td style="height: 90px;">
-													업무시간
-                                                </td> 
-                                                <td>
-													초과근무시간
+                                                <td style="height: 90px; font-size:25px;">
+													${empMonthTime.strOverTime }
                                                 </td>
                                                                                                
                                             </tr>
@@ -372,6 +409,7 @@
     <script src="${contextPath}/resources/assets/js/dashboard/dashboard-2.js"></script>
     
     <script>
+    var statusValue = $('#changeStatus').val();
 	//현재시간 출력
 	function printTime() {
 
@@ -481,39 +519,14 @@
 	        var gapTime = strDay + " 일 " + strHour + " 시간 " + strMinute + " 분" + strSec + " 초";
 	        
 	        if(wtVal !='' ){	        	
-	        		//점심시간에는 시간딜레이하기        		
+	        	if(statusValue != "업무종료"){
 	        		gap.innerHTML = gapTime;
-	        		//gapTime이 9시간이상 차이나면 초과시간영역에서 차이나는만큼 시간 출력?????????????????????????
-	        		/* var startdate = "120000";
-	        		var enddate = "130000";
+	        	}else{
+	        		${ empStatus1.strGapTime }
+	        	}	
 
-	        		var now = new Date(); //현재시간
-
-	        		
-	        		hour = now.getHours(); //현재 시간 중 시간.
-	        		if((hour+"").length < 2){
-	        		hour="0"+hour;
-	        		}
-	        		minute = now.getMinutes();
-	        		if((minute+"").length < 2){
-	        			minute="0"+minute;
-	            	}
-	        		second = now.getSeconds();
-	        		if((second+"").length < 2){
-	        			second="0"+second;
-	            	}
-	        		today = hour + "" + minute + "" + second; //오늘 날짜 완성.
-	        		// 시간비교
-	        		if ((eval(today) > eval(startdate)) && ((eval(today) < eval(enddate)))) {
-
-	        		$('.popup.popup800');
-
-	        		} */
-
-	        	//근무시간이 9시간을 초과하게되면 overTime에 찍히게 하기
-	        	
 	       }
-	        var statusValue = $('#changeStatus').val();
+	        
 
     		if(statusValue!="업무종료"){
 
@@ -576,7 +589,8 @@
 				
 	});	
 	
-	
+	//누적시간 계산
+ 
 	
 
 

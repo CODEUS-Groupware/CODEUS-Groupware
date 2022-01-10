@@ -1,6 +1,8 @@
 package com.codeusgroup.codeus.empStatus.model.service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -18,6 +20,16 @@ public interface EmpStatusService {
 	EmpStatus selectOffTime(String id);
 
 	int updateStatus(EmpStatus empStatus);
+
+	int updateGapTime(EmpStatus emp);
+
+	EmpStatus selectWeekTime(String id);
+
+	EmpStatus selectMonthTime(String id);
+
+	ArrayList<EmpStatus> monthWorkTime(HashMap<String, String> map);
+
+	
 
 	
 	
