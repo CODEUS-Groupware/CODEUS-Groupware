@@ -1,6 +1,8 @@
 package com.codeusgroup.codeus.empStatus.model.dao;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -42,6 +44,25 @@ public class EmpStatusDAO {
 		int result = sqlSession.update("empStatusMapper.updateStatus", empStatus);
 		System.out.println(result);
 		return result;
+	}
+
+	public int updateGapTime(SqlSessionTemplate sqlSession, EmpStatus emp) {
+		
+		return sqlSession.update("empStatusMapper.updateGapTime", emp);
+	}
+
+	public EmpStatus selectWeekTime(SqlSessionTemplate sqlSession, String id) {
+		
+		return sqlSession.selectOne("empStatusMapper.selectWeekTime", id);
+	}
+
+	public EmpStatus selectMonthTime(SqlSessionTemplate sqlSession, String id) {
+		return sqlSession.selectOne("empStatusMapper.selectMonthTime", id);
+	}
+
+	public ArrayList<EmpStatus> monthWorkTime(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		
+		return (ArrayList)sqlSession.selectList("empStatusMapper.monthWorkTime", map);
 	}
 
 	
