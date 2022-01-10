@@ -217,11 +217,11 @@
                        	</ul>
                     </li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                                <i class="bi bi-pencil-square"></i><span class="nav-text">회의실예약</span></a>
+                                <i class="bi bi-pencil-square"></i><span class="nav-text">회의실 예약</span></a>
                         <ul aria-expanded="false">
-							<li><a href="mrlist.mr">회의실 목록</a></li>
-                            <li><a href="mrcal.mr">예약하기</a></li>
-							<li><a href="mrcal.mr">예약일정 캘린더</a></li>
+							<li><a href="mrlist.mr">예약 목록</a></li>
+							<li><a href="mrcal.mr">예약 캘린더</a></li>
+                            <li><a href="mrresrvinsert.mr">예약 신청</a></li>
                         </ul>
                     </li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
