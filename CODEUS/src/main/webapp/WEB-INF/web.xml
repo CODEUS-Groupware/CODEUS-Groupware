@@ -226,5 +226,19 @@
 
 
 	
+	<!-- 전자결재 관련 -->
+	<servlet>
+		<servlet-name>documentServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/document-context.xml</param-value>
+	 	</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>documentServlet</servlet-name>
+		<url-pattern>*.dc</url-pattern>
+	</servlet-mapping>
+	
 	 
 </web-app>

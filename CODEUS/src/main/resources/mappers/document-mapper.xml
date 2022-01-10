@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="documentMapper">
+
+<select id="getTotalWaitingCount">
+	select count(*)
+	from document
+	WHERE DOC_APPROVAL_STATUS = 0 
+</select>
+
+<!-- <select id="waitingApprList" parameterType="HashMap" resultType="com.codeusgroup.codeus.document.model.vo.Document">
+		
+</select> -->
+
+<insert id="insertNewApproval">
+	insert into document
+	values(seq_doc_Num.nextval, #{docName}, #{docContent}, sysdate,
+			sysdate, default, default, sysdate, 
+			#{docStartDate}, #{docEndDate}, #{drafterMId}, #{approvalMId}, #{formNum})
+</insert>
+	
+	
+</mapper>

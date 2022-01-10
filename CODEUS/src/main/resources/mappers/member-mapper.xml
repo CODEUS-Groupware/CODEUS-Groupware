@@ -38,7 +38,7 @@
 			   #{email}, #{phone}, #{address}, #{profile},
 			   #{imgOriginName}, #{imgChangeName}, sysdate, sysdate,
 			   sysdate, sysdate, default, default, #{jobId},
-			   #{jobName}, #{deptId}, #{deptName})
+			   #{deptId})
 	</insert>
 	
 	<select id="idSearchMember" resultMap="memberResultSet">
