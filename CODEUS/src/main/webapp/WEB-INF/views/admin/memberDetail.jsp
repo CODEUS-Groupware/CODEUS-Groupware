@@ -182,13 +182,7 @@
 		                			$(function(){
 		                				console.log('${selectDept}')
 		                				if ('${message}' != '') {
-		                					Swal.fire({
-			  	                				position: 'top',
-			  	                				icon: 'success',
-			  	                				title: "변경이 완료되었습니다.",
-			  	                				showConfirmButton: false,
-			  	                				timer: 1500
-			  	                			});
+		                					alert('변경되었습니다.')
 		                					<c:remove var="message" scope="request"/>
 		                					
 		                					var url = location.pathname + "?mId=" + '${member.mId}' + "&page=" + '${page}';
@@ -198,7 +192,23 @@
 		                					history.replaceState({}, null, url);
 		                				}
 		                			});
+									
+		                					// sweet alert customize
+		    				        		var alert = function(msg, title, icon) {
+		    				        			Swal.fire({
+		    				        				position: 'top', // top : 상단 중앙에 띄우기
+		    				        				background: '#292B30', // 알럿창 배경색
+		    					       				color: 'white', // 글자색
+		    				        				title : title, // 제목(큰 글씨)
+		    				        				text : msg, // 내용(작은 글씨)
+		    				        				icon: icon, // info, error 등 icon type
+		    				        				timer : 2000, // 자동 종료 타이머
+		    				        				customClass : 'sweet-size', 
+		    				        				showConfirmButton : false // ok버튼 표시 여부
+		    				        			});
+		    				        		}
                                 </script>
+                                
                                 
                                 <!-- datepicker cdn  -->
 								<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>

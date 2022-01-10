@@ -167,8 +167,8 @@
 	                       			
 	                       			$('#jobName1').on('change', function(){
 	                       				dupCheck = false;
-	                       				
 	                       				var jobName = document.getElementById('jobName1');
+	                       				jobName.value = jobName.value.trim();
 	                       				var jobNameArr = document.getElementsByClassName('updateBtnModal');
 	                       				
 	                       				if(jobName.value.trim().length < 1 || jobName.value.trim().length > 10) {									        			
@@ -217,7 +217,6 @@
 											$.ajax({
 												url: 'jinsert.ad',
 		                       					dataType: 'json',
-		                       					traditional : true,
 		                       					data: {jobName:jobName.value, jobOrder:jobOrder.value},
 		                       					type: 'POST',
 		                       					success: function(data){
@@ -316,7 +315,6 @@
 											$.ajax({
 												url: 'jupdate.ad',
 		                       					dataType: 'json',
-		                       					traditional : true,
 		                       					data: {jobId:$('#jobId').val(), jobName:jobName.value, jobOrder:jobOrder.value},
 		                       					type: 'POST',
 		                       					success: function(data){
@@ -383,7 +381,7 @@
 				                       				$.ajax({
 				                       					url: 'jdelete.ad',
 				                       					dataType: 'json',
-				                       					traditional : true,
+				                       					traditional : true, // 배열 전송 위한 옵션
 				                       					data: {jobIdArr:jobIdArr},
 				                       					type: 'POST',
 				                       					success: function(data){
