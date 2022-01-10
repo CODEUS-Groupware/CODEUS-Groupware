@@ -11,4 +11,6 @@ public interface AddressService {
 
 	ArrayList<Member> selectMemebrList(PageInfo pi);
 
+	ArrayList<Member> searchMemebrList(PageInfo pi, String input, String field);
+
 }

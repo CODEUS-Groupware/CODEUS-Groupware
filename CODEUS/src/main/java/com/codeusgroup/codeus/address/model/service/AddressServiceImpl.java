@@ -29,4 +29,9 @@ public class AddressServiceImpl implements AddressService {
 		return addrDAO.selectMemberList(sqlSession, pi);
 	}
 
+	@Override
+	public ArrayList<Member> searchMemebrList(PageInfo pi, String input, String field) {
+		return addrDAO.searchMemebrList(sqlSession, pi, input, field);
+	}
+
 }
