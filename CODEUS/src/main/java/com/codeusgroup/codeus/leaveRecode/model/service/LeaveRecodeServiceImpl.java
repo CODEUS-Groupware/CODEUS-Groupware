@@ -16,10 +16,11 @@ public class LeaveRecodeServiceImpl implements LeaveRecodeService{
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 
+
 	@Override
-	public ArrayList<LeaveRecode> selectLeaveRecode(String id) {
+	public int selectLrCount(String id) {
 		
-		return lrDAO.selectLeaveRecode(sqlSession, id);
+		return lrDAO.selectLrCount(sqlSession, id);
 	}
 
 }

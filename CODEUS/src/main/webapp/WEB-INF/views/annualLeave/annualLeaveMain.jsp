@@ -130,7 +130,7 @@
 								<div class="basic-dropdown">
                                     <div class="dropdown">
                                          <c:choose>
-	                                        <c:when  test="${empStatus1.getEmpStatus() eq '업무종료'}">
+	                                        <c:when  test="${empStatus1.getEmpStatus() eq '업무종료' || empStatus1.getEmpOffTime() ne null}">
 		                                        <select id="changeStatus" disabled="disabled">
 		                                        	<option value="업무상태선택">업무상태선택</option>
 		                                        	<option value="업무">업무</option>
@@ -140,6 +140,7 @@
 		                                        	<option value="반차">반차</option>
 		                                        </select>
 	                                        </c:when>
+	                                          
 	                                        <c:otherwise>
 	                                        	<select id="changeStatus">
 	                                        	<option value="업무상태선택">업무상태선택</option>	                                        
@@ -290,10 +291,10 @@
 											${ alCount }
                                         </td> 
                                         <td style="border: 1px solid #eaeaea;" id="usedAnnualLeave">
-											2개
+											
                                         </td> 
                                            <td style="border: 1px solid #eaeaea;" id="restAnnualLeave">
-											 13개
+											
                                         </td> 
                                    </tr>   
                                 </table>

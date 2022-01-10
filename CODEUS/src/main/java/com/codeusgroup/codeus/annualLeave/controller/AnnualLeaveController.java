@@ -45,7 +45,7 @@ public class AnnualLeaveController {
 		session = request.getSession();
 		Member member = (Member)session.getAttribute("loginUser");
 		String id = member.getmId();
-		EmpStatus empStatus = new EmpStatus(0, null, null, null, null, null, id);
+		EmpStatus empStatus = new EmpStatus(0, null, null, null, null, null, id, null, null);
 		EmpStatus empStatus1 = esService.selectComTime(id);
 		EmpStatus empOffTime = esService.selectOffTime(id);
 
@@ -68,15 +68,16 @@ public class AnnualLeaveController {
 		DateFormat sdFormat = new SimpleDateFormat("MM/dd");
 
 		String tempDate = sdFormat.format(member.getHireDate());
-		System.out.println("hireDate:"+tempDate);
 
-		int result = alService.selectAnnualStatus(id);
-		System.out.println("연차갯수:" + result);
-		model.addAttribute("alCount", result);
-		System.out.println("아이디:"+id);
-		ArrayList<LeaveRecode> list = lrService.selectLeaveRecode(id);
-		System.out.println("list:"+list);
-		model.addAttribute("list", list);
+		int alCount = alService.selectAnnualStatus(id);
+		System.out.println("연차갯수:" + alCount);
+		model.addAttribute("alCount", alCount);
+
+		//연차사용갯수 가져오기
+		int lr = lrService.selectLrCount(id);
+		System.out.println("lr:"+lr);
+		model.addAttribute("lr:"+lr);
+		
 		return "annualLeaveMain";
 	}
 	
@@ -110,16 +111,17 @@ public class AnnualLeaveController {
 		System.out.println("연차리스트:"+checkAl);
 		if(checkAl == 0) {
 
-			/*
-			 * for(int i = 0; i < list.size(); i++) {
-			 * 
-			 * int comYear = list.get(i).getComYear(); System.out.println(comYear); //연차갯수
-			 * 구하는 공식 annual = 15 + (comYear - 1)/2;
-			 * 
-			 * AnnualLeave al = new AnnualLeave(0, annual, null, null,
-			 * list.get(i).getmId()); alService.insertAnnualCount(al); strResult =
-			 * "올해 연차가 발생하였습니다."; }
-			 */
+			for(int i = 0; i < list.size(); i++) {
+				
+				int comYear = list.get(i).getComYear();
+				System.out.println(comYear);
+				//연차갯수 구하는 공식
+				annual = 15 + (comYear - 1)/2;
+
+				AnnualLeave al = new AnnualLeave(0, annual, null, null, list.get(i).getmId()); 
+				alService.insertAnnualCount(al); 
+				strResult = "올해 연차가 발생하였습니다.";
+			}
 		}else {
 			strResult = "이미 올해 연차가 발생되었습니다.";
 		}
