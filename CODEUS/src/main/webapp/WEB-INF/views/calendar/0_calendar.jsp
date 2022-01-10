@@ -150,7 +150,6 @@
 	    $('.modal').modal('hide');
 	};
 	$(document).ready(function() {
-		
 		readCalList();
 		
 		// 내 캘린더의 체크박스를 조작했을 때 를 실행
@@ -224,8 +223,40 @@
 				}
 	          }
 	          
-	          
-	      }
+	      },
+	         events: function (info, successCallback, failureCallback){
+	        	 setCheckbox();
+	        	 $.ajax({
+	     			url:"<%= request.getContextPath() %>/selectSchList.ca",
+	     			data:{sCalNo:localStorage.getItem("checkCal")},
+	     			dataType:"JSON",
+	     			success:function(json){
+						console.log(json);
+	     				var events = [];
+						$.each(json, function(index, item){
+							if (json.length > 0) {
+								events.push({
+		                            title: item.title,
+		                            start: item.startday,
+		                            end: item.endday,
+		                           // color: item.color,
+		                            id: item.scheNo
+		                         });
+							}else{
+								// 검색된 결과가 없을 때	
+							}
+							
+						});
+
+						 successCallback(events);  
+	     			},
+	     			error: function(request, status, error){
+	     				console.log(json);
+
+	     		 	}
+	     		});
+	        	 
+	         }
 	    });
 	    checkDate();
 	    calendar.render();
@@ -255,94 +286,88 @@
 	
 	// 새 캘린더 추가 함수
 	function addCal() {
-		  var name = $("input[name=cal_name]").val();
-		  
-		  if (name.trim() == "") {
-			  alert("캘린더명을 입력해주세요.");
-			  return false;
-		  }
-		  
-		  $.ajax({
-				url:"addCal.ca",
-				data: {title:title},
-				dataType:"JSON",
-				success:function(json){
-					var html = "";
-					if (json.n == 1) {
-						readCalList();
-					}else{
-						alert("DB오류");
-					}
-					var name = $("input[name=cal_name]").val("");
-				},
-				error: function(request, status, error){
-					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-			 	}
-			});
-		  
-	}
+			  var name = $("input[name=cal_name]").val();
+			  
+			  if (name.trim() == "") {
+				  alert("캘린더명을 입력해주세요.");
+				  return false;
+			  }
+			  
+			  $.ajax({
+					url:"addCal.ca",
+					data: {title:title},
+					dataType:"JSON",
+					success:function(json){
+						var html = "";
+						if (json.n == 1) {
+							readCalList();
+						}else{
+							alert("DB오류");
+						}
+						var name = $("input[name=cal_name]").val("");
+					},
+					error: function(request, status, error){
+						alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				 	}
+				});
+			  
+		}
 	
-	
-	// 일정수정 modal 생성, editCal에서도 일정 수정할 수 있게 변경
-	function editMyCal(scheType){
-		  $("iframe.editIframe").attr('src', '<%= request.getContextPath() %>/editTodo.ca');
-	}
-	
-	// 캘린더(내일정)를 읽어오는 함수
-	function readCalList(){
-		  $.ajax({
-				url:"<%= request.getContextPath() %>/readCalList.ca",
-				type:"get",
-				dataType:"JSON",
-				success:function(json){
-					var html = "<div style='margin-bottom: 10px;'></div>";
-					if (json.length > 0) {
-						$.each(json, function(index, item){
-							var name = "";
-							if (item.name.length > 8) {
-								name = item.name.substring(0,8) + "...";
-							}else{
-								name = item.name;
-							}
-							
-							html += "<li>";
-							html += "<p class='nav_ul_p'>";
-							html += "<input id='calendar_id_" + index + "' class='calCheckbox' type='checkbox' />";
-							html += "<input type='hidden' value='" + item.scheType + "' />";
-							html += "<label for='calendar_id_" + index + "' class='smallText'>&nbsp;" + name + "</label>";
-							html += "<span class='btn_wrap'>";
-							html += "<span class='dot' style='background-color: " + item.color + "'></span>";
-							html += "</span>";
-							html += "</p>";
-							html += "</li>";
-						});
-					}else{
-						html += "<li style='height: 20px;'> 캘린더를 생성해주세요.";
-						html += "</li><br>";
-					}
-					
-					
-					
-					$("ul.nav_ul").html(html);
-					setCheckbox();
-				},
-				error: function(request, status, error){
-					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-			 	}
-			});
-		  
-	}
+		// 캘린더(내일정)를 읽어오는 함수
+		function readCalList(){
+			  $.ajax({
+					url:"<%= request.getContextPath() %>/readCalList.ca",
+					type:"get",
+					dataType:"JSON",
+					success:function(json){
+						var html = "<div style='margin-bottom: 10px;'></div>";
+						if (json.length > 0) {
+							$.each(json, function(index, item){
+								var name = "";
+								if (item.name.length > 8) {                                                               
+									name = item.name.substring(0,8) + "...";
+								}else{
+									name = item.name;
+								}
+								
+								html += "<li>";
+								html += "<p class='nav_ul_p'>";
+								html += "<input id='calendar_id_" + index + "' class='calCheckbox' type='checkbox' value='${ Calendar.scheNo }' />";
+								html += "<input type='hidden' value='" + item.scheNo + "' />";
+								html += "<label for='calendar_id_" + index + "' class='smallText'>&nbsp;" + name + "</label>";
+								html += "<span class='btn_wrap'>";
+								html += "<span class='dot' style='background-color: " + item.color + "'></span>";
+								html += "</span>";
+								html += "</p>";
+								html += "</li>";
+							});
+						}else{
+							html += "<li style='height: 20px;'> 캘린더를 생성해주세요.";
+							html += "</li><br>";
+						}
+						
+						
+						
+						$("ul.nav_ul").html(html);
+						setCheckbox();
+					},
+					error: function(request, status, error){
+						alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error:yyyy "+error);
+				 	}
+				});
+			  
+		}
 	
 	// 체크된 내 캘린더를 검사하는 함수
 	function checkCal(){
 		  
-		  var totalLength = $("input.calCheckbox:checked").length;
+		  var totalLength = $(".calCheckbox:checked").length;
 		  
 		  var sCalNo = "";
 		  var selCalNoArr = [];
-		  
 		  $("input.calCheckbox:checked").each(function(index) {
 			  if (index+1 == totalLength) {
+			  console.log(selCalNoArr);
 				  // 마지막에는 , 추가하지 않음
 				  sCalNo += $(this).next().val();
 			  }else{
@@ -353,10 +378,7 @@
 		  
 		  // 로컬 스토리지에 저장하기
 		  var checkCal = localStorage.getItem("checkCal");
-		  
-		  if(checkCal == null){
-			  localStorage.setItem("checkCal", sCalNo);
-		  }
+		 //alert(localStorage.getItem("checkCal"));
 		  
 		  localStorage.removeItem("checkCal");
 		  localStorage.setItem("checkCal", sCalNo);
@@ -368,13 +390,16 @@
 		  
 		  var sCalNo = localStorage.getItem("checkCal");
 		  var selCalNoArr = [];
+		  
 		  if (sCalNo != null) {
 			  selCalNoArr = sCalNo.split(",");
-			  
+			 console.log(selCalNoArr); 
 			  $("input.calCheckbox").each(function(index) {
-				  var scheType = $(this).next().val();
+				  var scheNo = $(this).next().val();
 				  for (var i = 0; i < selCalNoArr.length; i++) {
-					  if(scheType == selCalNoArr[i]){
+					  console.log(scheNo);
+					  console.log(selCalNoArr[i]);
+					  if(scheNo == selCalNoArr[i]){
 						  $(this).prop("checked", true);
 						  break;
 					  }
@@ -408,7 +433,7 @@
 							name = item.name;
 						}
 						
-						html += "<option value='" + item.scheType + "'>" + item.name + "</option>";
+						html += "<option value='" + item.scheNo + "'>" + item.name + "</option>";
 					});
 				}else{
 					html += "<option value='-9999'>캘린더를 생성해주세요.</option>";
@@ -451,8 +476,8 @@
 		  }
 		  
 		  
-		  var shceNo = $("select[name=shceNo]").val();
-		  if (shceNo.trim() == "" || shceNo == "-9999") {
+		  var scheNo = $("select[name=scheNo]").val();
+		  if (scheNo.trim() == "" || scheNo == "-9999") {
 			  alert("캘린더를 선택해주세요.");
 			  return false;
 		  }
@@ -463,23 +488,29 @@
 			  $("input[name=content]").focus();
 			  return false;
 		  }
+		  var writer = $("input[name=writer]").val();
+		  if (writer.trim() == "" ){
+			  alert("등록자를 입력해주세요.");
+			  $("input[name=writer]").focus();
+			  return false;
+		  }
 		  
 		// 입력받은 값들 유효성 검사: 끝
 		
 		// db에 넣기
 		$.ajax({
 			url:"<%= request.getContextPath() %>/addModalSch.ca",
-			data:{title:title, startday:startday, endday:endday, shceNo:shceNo, content:content},
+			data:{title:title, startday:startday, endday:endday, scheNo:scheNo, content:content, writer:writer},
 			type:"POST",
 			dataType:"JSON",
 			success:function(json){
-				
-				if (json.n == 1) {
+				console.log(json);
+				if (json.result == 1) {
 					window.closeModal();
 					calendar.refetchEvents();
 					
 				}else{
-					alert("DB 오류");
+					alert("db 오류");
 				}
 				
 			},
@@ -554,7 +585,7 @@
 												<div style='margin-bottom: 10px;'></div>
 												<li>
 													<p class='nav_ul_p'>
-													<input id='calendar_id_-9999' class='calCheckbox' type='checkbox' />
+													<input id='calendar_id_-9999' class='calCheckbox' type='checkbox' value='${Calendar.scheNo}'/>
 													<input type='hidden' value='-9999' />
 														<label for='calendar_id_-9999' class='smallText'>&nbsp;초대받은 일정</label>
 															<span class='btn_wrap'>
@@ -597,10 +628,7 @@
 								<div class="fc-event">My Event 3</div>
 								<div class="fc-event">My Event 4</div>
 								<div class="fc-event">My Event 5</div>
-								<p>
-									<input type="checkbox" id="drop-remove">
-									<label for="drop-remove">remove after drop</label>
-								</p>
+								
 							</div>
 						</div>
 					</div>
@@ -670,11 +698,15 @@
 													</tr>
 													<tr>
 														<th>내 캘린더</th>
-														<td><select class="addSchSelect" name="shceNo"></select></td>
+														<td><select class="addSchSelect" name="scheNo"></select></td>
 													</tr>
 													<tr>
 														<th>일정내용</th>
 														<td><input class="form-control modal_input" name="content" type="text" style="height: 30px;" /></td>
+													</tr>
+													<tr>
+														<th>등록자</th>
+														<td><input class="form-control writer modal_input" maxlength="13" name="writer" type="text" readonly value="${sessionScope.loginUser.mId}" />  </td>
 													</tr>
 												</tbody>
 											</table>

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.codeusgroup.codeus.calendar.model.dao.CalendarDAO;
+import com.codeusgroup.codeus.calendar.model.vo.CalArrTemp;
 import com.codeusgroup.codeus.calendar.model.vo.Calendar;
 
 @Service("cService")
@@ -33,10 +34,21 @@ public class CalendarServiceImpl implements CalendarService{
 	public int addModalSch(HashMap<String, String> map) {
 		String seq = cDAO.scheNo(sqlSession);
 		map.put("seq", seq);
-		int result = 0;
 		int result2 = cDAO.addModalSch(sqlSession, map);
 		
-		return result;
+		return result2;
+	}
+
+	@Override
+	public ArrayList<Calendar> selectSchList(CalArrTemp cat) {
+		System.out.println("serviceCat1 : " + cat);
+		return cDAO.selectSchList(sqlSession, cat);
+	}
+
+	@Override
+	public ArrayList<Calendar> selectNoCalSchList(CalArrTemp cat) {
+		System.out.println("serviceCat2 : " + cat);
+		return cDAO.selectNoCalSchList(sqlSession, cat);
 	}
 
 }
