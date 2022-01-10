@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-    <title>회의실 예약 - 예약하기 </title>
+    <title>회의실 예약 - 예약 하기 </title>
     <!-- Clockpicker -->
     <link href="${contextPath}/resources/assets/vendor/clockpicker/css/bootstrap-clockpicker.min.css" rel="stylesheet">
     <!-- Pick date -->
@@ -34,13 +34,12 @@
                     <div class="col-sm-6 p-md-0">
                         <div class="welcome-text">
                             <h4>예약 신청</h4>
-                            <p class="mb-1">예약 정보 입력</p>
                         </div>
                     </div>
                     <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">회의실예약</a></li>
-                            <li class="breadcrumb-item active"><a href="mrresrvlist.mr">예약하기</a></li>
+                            <li class="breadcrumb-item">회의실 예약</li>
+                            <li class="breadcrumb-item active"><a href="mrresrvlist.mr">예약 하기</a></li>
                             <li class="breadcrumb-item active"><a href="mrresrvinsert.mr">예약 신청</a></li>
                         </ol>
                     </div>
@@ -58,35 +57,35 @@
                                         <div class="row">
                                             <div class="col-xl-6">
                                                 <div class="form-group row">
-                                                    <label class="col-lg-4 col-form-label" for="val-username">사원명
+                                                    <label class="col-lg-4 col-form-label" for="username">사원명
                                                         <span class="text-danger"></span>
                                                     </label>
                                                     <div class="col-lg-6">
-                                                        <input type="text" class="form-control" id="val-username" name="val-username" value="사원명" readonly>
+                                                        <input type="text" class="form-control" id="username" name="username" value="${ loginUser.mName != NULL ? loginUser.mName : '    -' }" readonly>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label class="col-lg-4 col-form-label" for="val-email">이메일
+                                                    <label class="col-lg-4 col-form-label" for="email">이메일
                                                         <span class="text-danger"></span>
                                                     </label>
                                                     <div class="col-lg-6">
-                                                        <input type="text" class="form-control" id="val-email" name="val-email" value="123@456.com" readonly>
+                                                        <input type="text" class="form-control" id="email" name="email" value="${ loginUser.email != NULL ? loginUser.email : '    -' }" readonly>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label class="col-lg-4 col-form-label" for="val-jobName">직급
+                                                    <label class="col-lg-4 col-form-label" for="jobName">직급
                                                         <span class="text-danger"></span>
                                                     </label>
                                                     <div class="col-lg-6">
-                                                        <input type="text" class="form-control" id="val-jobName" name="val-jobName" value="직급" readonly>
+                                                        <input type="text" class="form-control" id="jobName" name="jobName" value="${ loginUser.jobName != NULL ? loginUser.jobName : '    -' }" readonly>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label class="col-lg-4 col-form-label" for="val-deptName">부서
+                                                    <label class="col-lg-4 col-form-label" for="deptName">부서
                                                         <span class="text-danger"></span>
                                                     </label>
                                                     <div class="col-lg-6">
-                                                        <input type="text" class="form-control" id="val-deptName" name="val-deptName" value="부서" readonly>
+                                                        <input type="text" class="form-control" id="deptName" name="deptName" value="${ loginUser.deptName != NULL ? loginUser.deptName : '    -' }" readonly>
                                                     </div>
                                                 </div>
                                             </div>

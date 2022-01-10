@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-    <title>회의실 예약 - 예약일정 캘린더 </title>
+    <title>회의실 예약 - 예약 캘린더 </title>
     <link href="${contextPath}/resources/assets/vendor/fullcalendar/css/fullcalendar.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/assets/css/style.css" rel="stylesheet">
 </head>
@@ -27,14 +27,13 @@
                 <div class="row page-titles mx-0">
                     <div class="col-sm-6 p-md-0">
                         <div class="welcome-text">
-                            <h4>회의실 예약일정 캘린더</h4>
-                            <p class="mb-0">예약된 회의실 사용 일정 확인</p>
+                            <h4>회의실 예약 캘린더</h4>
                         </div>
                     </div>
                     <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">회의실예약</a></li>
-                            <li class="breadcrumb-item active"><a href="mrcal.mr">예약일정 캘린더</a></li>
+                            <li class="breadcrumb-item">회의실 예약</li>
+                            <li class="breadcrumb-item active"><a href="mrcal.mr">예약 캘린더</a></li>
                         </ol>
                     </div>
                 </div>
