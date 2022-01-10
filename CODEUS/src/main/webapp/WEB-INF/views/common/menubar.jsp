@@ -191,12 +191,10 @@
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
                     		<i class="fa fa-file-text"></i><span class="nav-text">전자결재</span></a>
                         <ul aria-expanded="false">
-                            <li><a href="javascript:void()">Flot</a></li>
-                            <li><a href="javascript:void()">Morris</a></li>
-                            <li><a href="javascript:void()">Chartjs</a></li>
-                            <li><a href="javascript:void()">Chartist</a></li>
-                            <li><a href="javascript:void()">Sparkline</a></li>
-                            <li><a href="javascript:void()">Peity</a></li>
+                            <li><a href="mydocView.dc">내 문서함</a></li>
+                            <li><a href="teamdocView.dc">부서 문서함</a></li>
+                            <li><a href="newApprovalView.dc">문서 기안</a></li>
+                            <li><a href="approvalView.dc">문서 전체 목록</a></li>
                         </ul>
                     </li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
