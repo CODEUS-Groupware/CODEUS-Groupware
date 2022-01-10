@@ -107,12 +107,22 @@ public class AdminDAO {
 		return sqlSession.update("adminMapper.updateJob", job);
 	}
 
-	public ArrayList<Member> selectDeptMemberList(SqlSessionTemplate sqlSession) {
-		return (ArrayList)sqlSession.selectList("adminMapper.selectDeptMemberList");
+	public ArrayList<Member> selectDeptMemberList(SqlSessionTemplate sqlSession, Integer upperDept) {
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("upperDept", upperDept); // mapper에서 if로 upperDept속성 사용하기 위해 map의 속성으로 추가
+		return (ArrayList)sqlSession.selectList("adminMapper.selectDeptMemberList", map);
 	}
 
 	public ArrayList<Department> getSubDeptList(SqlSessionTemplate sqlSession, int upperDept) {
 		return (ArrayList)sqlSession.selectList("adminMapper.getSubDeptList", upperDept);
+	}
+
+	public int insertDept(SqlSessionTemplate sqlSession, Department dept) {
+		return sqlSession.insert("adminMapper.insertDept", dept);
+	}
+	
+	public Department selectDept(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("adminMapper.selectDept");
 	}
 
 }

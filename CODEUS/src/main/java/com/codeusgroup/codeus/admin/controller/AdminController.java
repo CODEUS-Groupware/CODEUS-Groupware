@@ -10,12 +10,15 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -27,6 +30,7 @@ import com.codeusgroup.codeus.admin.model.vo.Job;
 import com.codeusgroup.codeus.admin.model.vo.PageInfo;
 import com.codeusgroup.codeus.member.model.vo.Member;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 
 @Controller
@@ -295,7 +299,7 @@ public class AdminController {
 	public String selectDepartmentList(Model model) {
 		
 		ArrayList<Department> dList = aService.selectDepartmentList();
-		ArrayList<Member> mList = aService.selectDeptMemberList();
+		ArrayList<Member> mList = aService.selectDeptMemberList(null);
 		
 		if(dList != null && mList != null) {
 			model.addAttribute("dList", dList);
@@ -308,23 +312,62 @@ public class AdminController {
 	}	
 	
 	@RequestMapping("admin/subDeptList.ad")
-	public void getSubDeptList(@RequestParam("upperDept") int upperDept, HttpServletResponse response) {
-		System.out.println(upperDept);
-		ArrayList<Department> subDeptList = aService.getSubDeptList(upperDept);
+	@ResponseBody
+	public String getSubDeptList(@RequestParam("upperDept") Integer upperDept, HttpServletResponse response) {
 		
-		if(subDeptList == null) {
+		ArrayList<Department> subDeptList = aService.getSubDeptList(upperDept);
+		ArrayList<Member> deptMemberList = aService.selectDeptMemberList(upperDept);
+		
+		if(subDeptList == null || deptMemberList == null) {
 			throw new AdminException("하위 부서 목록 불러오기에 실패하였습니다.");
 		}
 		
-		Gson gson = new Gson();
+		JSONArray jArr = new JSONArray();
+		JSONObject jObj = null;
+		for (Member m : deptMemberList) {
+			jObj = new JSONObject();
+			jObj.put("nodeId", m.getmId());
+			jObj.put("nodeType", "member");
+			jObj.put("nodeName", m.getmName());
+			jObj.put("hasChildren", null);
+			jObj.put("jobName", m.getJobName());
+			
+			jArr.add(jObj);
+		}
+		
+		for (Department d : subDeptList) {
+			jObj = new JSONObject();
+			jObj.put("nodeId", d.getDeptId());
+			jObj.put("nodeType", "dept");
+			jObj.put("nodeName", d.getDeptName());
+			jObj.put("hasChildren", d.getHasChildren());
+			jObj.put("jobName", null);
+			
+			jArr.add(jObj);
+		}
+		
+		return jArr.toJSONString();
+	}
+	
+	@RequestMapping("admin/dinsert.ad")
+	public void insertDept(@ModelAttribute Department dept, HttpServletResponse response) {
+		
+		ArrayList<Department> subDeptList = aService.getSubDeptList(dept.getUpperDept());
+		dept.setDeptOrder(subDeptList.size() + 1);
+		Department d = aService.insertDept(dept);
+		if (d == null) {
+			throw new AdminException("부서 등록에 실패하였습니다.");
+		}
+		System.out.println(d);
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		try {
-			gson.toJson(subDeptList, response.getWriter());
+			gson.toJson(d, response.getWriter());
 		} catch (JsonIOException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-	
+		}	
 	}
 	
 }

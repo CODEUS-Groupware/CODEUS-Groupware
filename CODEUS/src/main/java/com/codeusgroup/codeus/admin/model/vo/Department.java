@@ -7,6 +7,7 @@ public class Department {
 	private String deptName;
 	private String deptManager;
 	private String deptManagerName;
+	private String deptManagerJob;
 	private	int upperDept;
 	private int deptLevel;
 	private int deptOrder;
@@ -16,13 +17,14 @@ public class Department {
 	
 	public Department() {}
 
-	public Department(int deptId, String deptName, String deptManager, String deptManagerName, int upperDept,
-			int deptLevel, int deptOrder, int deptStatus, Date createDate, int hasChildren) {
+	public Department(int deptId, String deptName, String deptManager, String deptManagerName, String deptManagerJob,
+			int upperDept, int deptLevel, int deptOrder, int deptStatus, Date createDate, int hasChildren) {
 		super();
 		this.deptId = deptId;
 		this.deptName = deptName;
 		this.deptManager = deptManager;
 		this.deptManagerName = deptManagerName;
+		this.deptManagerJob = deptManagerJob;
 		this.upperDept = upperDept;
 		this.deptLevel = deptLevel;
 		this.deptOrder = deptOrder;
@@ -61,6 +63,14 @@ public class Department {
 
 	public void setDeptManagerName(String deptManagerName) {
 		this.deptManagerName = deptManagerName;
+	}
+
+	public String getDeptManagerJob() {
+		return deptManagerJob;
+	}
+
+	public void setDeptManagerJob(String deptManagerJob) {
+		this.deptManagerJob = deptManagerJob;
 	}
 
 	public int getUpperDept() {
@@ -114,9 +124,9 @@ public class Department {
 	@Override
 	public String toString() {
 		return "Department [deptId=" + deptId + ", deptName=" + deptName + ", deptManager=" + deptManager
-				+ ", deptManagerName=" + deptManagerName + ", upperDept=" + upperDept + ", deptLevel=" + deptLevel
-				+ ", deptOrder=" + deptOrder + ", deptStatus=" + deptStatus + ", createDate=" + createDate
-				+ ", hasChildren=" + hasChildren + "]";
+				+ ", deptManagerName=" + deptManagerName + ", deptManagerJob=" + deptManagerJob + ", upperDept="
+				+ upperDept + ", deptLevel=" + deptLevel + ", deptOrder=" + deptOrder + ", deptStatus=" + deptStatus
+				+ ", createDate=" + createDate + ", hasChildren=" + hasChildren + "]";
 	}
 
 }

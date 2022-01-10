@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.codeusgroup.codeus.admin.model.dao.AdminDAO;
 import com.codeusgroup.codeus.admin.model.vo.Department;
@@ -101,13 +102,29 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public ArrayList<Member> selectDeptMemberList() {
-		return aDAO.selectDeptMemberList(sqlSession);
+	public ArrayList<Member> selectDeptMemberList(Integer upperDept) {
+		System.out.println(upperDept);
+		return aDAO.selectDeptMemberList(sqlSession, upperDept);
+		
 	}
 
 	@Override
 	public ArrayList<Department> getSubDeptList(int upperDept) {
 		return aDAO.getSubDeptList(sqlSession, upperDept);
+	}
+
+	@Override
+	@Transactional // 트랜잭션 관리
+	public Department insertDept(Department dept) {
+		int result = aDAO.insertDept(sqlSession, dept);
+		// 부서 등록 후 등록한 부서 정보 가져오기
+		Department d = null;
+		if (result > 0) {
+			d = aDAO.selectDept(sqlSession);
+		}
+		
+		return d;
+				
 	}
 
 }
