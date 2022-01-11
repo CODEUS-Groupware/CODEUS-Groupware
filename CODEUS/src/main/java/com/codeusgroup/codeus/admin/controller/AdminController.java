@@ -15,6 +15,7 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -296,7 +297,7 @@ public class AdminController {
 	}
 	
 	@RequestMapping("admin/deptlist.ad")
-	public String selectDepartmentList(Model model) {
+	public String selectDepartmentList(Model model, @RequestParam(value="message", required=false) String message) {
 		
 		ArrayList<Department> dList = aService.selectDepartmentList();
 		ArrayList<Member> mList = aService.selectDeptMemberList(null);
@@ -304,6 +305,7 @@ public class AdminController {
 		if(dList != null && mList != null) {
 			model.addAttribute("dList", dList);
 			model.addAttribute("mList", mList);
+			model.addAttribute("message", message);
 		} else {
 			throw new AdminException("직위 목록 조회에 실패하엿습니다.");
 		}
@@ -351,9 +353,13 @@ public class AdminController {
 	
 	@RequestMapping("admin/dinsert.ad")
 	public void insertDept(@ModelAttribute Department dept, HttpServletResponse response) {
+		if (dept.getUpperDept() != null) {
+			ArrayList<Department> subDeptList = aService.getSubDeptList(dept.getUpperDept());
+			dept.setDeptOrder(subDeptList.size() + 1);
+		} else {
+			dept.setDeptOrder(1);
+		}
 		
-		ArrayList<Department> subDeptList = aService.getSubDeptList(dept.getUpperDept());
-		dept.setDeptOrder(subDeptList.size() + 1);
 		Department d = aService.insertDept(dept);
 		if (d == null) {
 			throw new AdminException("부서 등록에 실패하였습니다.");
@@ -368,6 +374,64 @@ public class AdminController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}	
+	}
+	
+	@RequestMapping("admin/ddelete.ad")
+	public String deleteDept(@RequestParam("deptId") int deptId) {
+		System.out.println(deptId);
+		int result = aService.deleteDept(deptId);
+		
+		if (result < 0) {
+			throw new AdminException("부서 삭제에 실패하였습니다.");
+		} else {
+			return "redirect:deptlist.ad?message=d";
+		}
+	}
+	
+	@RequestMapping("admin/dupdate.ad")
+	@ResponseBody
+	public String updateDept(@ModelAttribute Department dept, HttpServletResponse response) {
+		int result = aService.updateDept(dept);
+		
+		if (result < 0) {
+			throw new AdminException("부서 수정에 실패하였습니다.");
+		} else {
+			return "success";
+		}
+	}	
+	
+	@RequestMapping("admin/dmove.ad")
+	@ResponseBody
+	public String moveDept(@RequestParam("moveDeptId") int moveDeptId, @RequestParam("upperDeptId") int upperDeptId, 
+						  @RequestParam("upperDeptLevel") int upperDeptLevel, HttpServletResponse response) {
+		
+		int deptLevel = upperDeptLevel + 1;
+		
+		ArrayList<Department> subDeptList = aService.getSubDeptList(upperDeptId);
+		int deptOrder = 0;
+		if (subDeptList.size() > 0) {
+			for (Department d : subDeptList) {
+				if (deptOrder < d.getDeptOrder()) {
+					deptOrder = d.getDeptOrder();
+				}
+			}
+			deptOrder += 1;
+		} else {
+			deptOrder = 1;
+		}
+		
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("moveDeptId", moveDeptId);
+		map.put("upperDeptId", upperDeptId);
+		map.put("deptLevel", deptLevel);
+		map.put("deptOrder", deptOrder);
+		int result = aService.moveDept(map);
+		
+		if (result < 0) {
+			throw new AdminException("부서 위치 이동에 실패하였습니다.");
+		} else {
+			return "success";
+		}
 	}
 	
 }
