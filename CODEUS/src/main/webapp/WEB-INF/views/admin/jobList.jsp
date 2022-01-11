@@ -244,6 +244,7 @@
 		                       					},
 		                       					error: function(data){
 		                       						console.log(data);
+		                       						$('#insertJob').modal('hide');
 		                       						alert('알 수 없는 오류가 발생했습니다.', '', 'error');
 		                       					}
 	                       					});
@@ -342,6 +343,7 @@
 		                       					},
 		                       					error: function(data){
 		                       						console.log(data);
+		                       						$('#updateJob').modal('hide');
 		                       						alert('알 수 없는 오류가 발생했습니다.', '', 'error');
 		                       					}
 	                       					});
