@@ -10,6 +10,13 @@
 		</layout>
 	</appender>
 	
+	<appender name="myConsole" class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.out" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%-5p:%C{1}.%M{%L} - %m%n" />
+		</layout>
+	</appender>
+	
 	<!-- Application Loggers -->
 	<logger name="com.codeusgroup.codeus">
 		<level value="info" />
@@ -30,6 +37,16 @@
 
 	<logger name="org.springframework.web">
 		<level value="info" />
+	</logger>
+	
+	<logger name="com.codeusgroup.codeus.common.aop" additivity="false"> 
+		<level value="debug"/>
+		<appender-ref ref="myConsole"/>		
+	</logger>
+	
+	<logger name="com.codeusgroup.codeus.common.interceptor.AdminEnterInterceptor" additivity="false"> 
+		<level value="debug"/>
+		<appender-ref ref="myConsole"/>
 	</logger>
 
 	<!-- Root Logger -->
