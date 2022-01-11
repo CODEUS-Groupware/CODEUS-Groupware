@@ -92,7 +92,7 @@
 		                                            <input id="insertDeptMgr" type="search" class="form-control insertInput" name="deptManager" list="memberList" placeholder="사원 아이디" autocomplete="off">
 							                        <datalist id="memberList">
 							                        	<c:forEach var="m" items="${ mList }">
-							                        		<option value="${ m.mId }"> ${ m.jobName } ${ m.mName } </option> 
+							                        		<option value="${ m.mId }">${ m.mName } ${ m.jobName }</option> 
 					 	                                 </c:forEach>
 							                        </datalist><br>
 		                                            <span id="insertDeptMgrGuide" class="guide text-danger"></span><br>
@@ -308,7 +308,7 @@
 		                                    	<ul class="hasChildren">
 		                                        	<c:forEach var="m" items="${ mList }">
 									                 	<c:if test="${ m.deptId == dList[0].deptId }">
-									                    	<li><span><i class="bi bi-person-fill"></i>${ m.jobName } ${ m.mName }</span></li>
+									                    	<li><span><i class="bi bi-person-fill"></i>${ m.mName } ${ m.jobName }</span></li>
 									                    </c:if>
 							 	                    </c:forEach>
 		                                            <c:forEach var="d2" items="${ dList }" varStatus="vs">
@@ -326,7 +326,7 @@
 			                                            			<ul class="hasChildren">
 				                                            			<c:forEach var="m" items="${ mList }">
 														                 	<c:if test="${ m.deptId ==  d2.deptId }">
-														                    	<li><span><i class="bi bi-person-fill"></i>${ m.jobName } ${ m.mName }</span></li>
+														                    	<li><span><i class="bi bi-person-fill"></i>${ m.mName } ${ m.jobName }</span></li>
 														                    </c:if>
 												 	                    </c:forEach>
 												 	                    <c:set var="lastIndex" value="0"/>
@@ -383,7 +383,7 @@
 						                                        	<ul class="hasChildren">
 								                                    	<c:forEach var="m" items="${ mList }">
 															            <c:if test="${ m.deptId == null }">
-															            	<li><span><i class="bi bi-person-fill"></i>${ m.jobName } ${ m.mName }</span></li>
+															            	<li><span><i class="bi bi-person-fill"></i>${ m.mName } ${ m.jobName }</span></li>
 															            </c:if>
 													 	                </c:forEach>
 												 	             	</ul>
@@ -468,7 +468,7 @@
 			            		$('#deptId').val(deptId);
 			            		$('#deptNameSpan').text(deptName);
 			            		$('#deptNameInput').val(deptName);
-			            		$('#deptMgrSpan').text(deptManagerName == "" ? "미지정" : deptManagerJob + deptManagerName);
+			            		$('#deptMgrSpan').text(deptManagerName == "" ? "미지정" : deptManagerName + " " + deptManagerJob);
 			            		$('#deptMgrInput').val(deptManager);
 			            		$('#upperDeptSpan').text(upperDeptName == "" ? "미지정" : upperDeptName);
 			            		$('#createDateSpan').text(createDate);
@@ -511,7 +511,7 @@
 							            					$li.attr('class', 'last');
 														}
 														var jobName = data[i].jobName == null ? "" : data[i].jobName;
-				            							$span = $('<span>').html('<i class="bi bi-person-fill"></i>' + jobName + ' ' + data[i].nodeName);
+				            							$span = $('<span>').html('<i class="bi bi-person-fill"></i>' + data[i].nodeName + ' ' + jobName);
 				            							$li.append($span);
 				            							$rootNode.append($li);
 				            						} else {
@@ -912,11 +912,11 @@
 				                     <input id="deptNameInput" type="text" class="form-control update" name="deptName" value="${ dList[0].deptName }" hidden="true">
 				                     <br>
 				                     <div class="guide-display"><span id="deptNameGuide" class="guide update-guide text-danger">2~10자리까지 입력해주세요.</span><br></div>
-				                      &nbsp;<label class="col-form-label update-form">부서 책임자</label><span id="deptMgrSpan" class="beforeUpdate">${dList[0].deptManagerJob == null ? "" : dList[0].deptManagerJob.concat(" ") }${ dList[0].deptManagerName == null ? "미지정" : dList[0].deptManagerName}</span>
+				                      &nbsp;<label class="col-form-label update-form">부서 책임자</label><span id="deptMgrSpan" class="beforeUpdate">${ dList[0].deptManagerName == null ? "미지정" : dList[0].deptManagerName} ${dList[0].deptManagerJob }</span>
 				                     <input id="deptMgrInput" type="search" class="form-control update" name="deptManager" value="${ dList[0].deptManager }" list="memberList" placeholder="사원 아이디" autocomplete="off" hidden="true">
 				                     <datalist id="memberList">
 				                     	<c:forEach var="m" items="${ mList }">
-				                      		<option value="${ m.mId }">${ m.jobName } ${ m.mName }</option> 
+				                      		<option value="${ m.mId }">${ m.mName } ${ m.jobName }</option> 
 		 	                            </c:forEach>
 				                     </datalist><br>
 								 	 <div class="guide-display"><span id="deptMgrGuide" class="guide update-guide text-danger">중지된 계정 또는 존재하지 않는 계정입니다.</span><br></div>
@@ -999,7 +999,7 @@
 								if ("${ m.mId }" == deptManager) {
 									existenceCheck2 = true;
 									deptManagerName = "${ m.mName }";
-									jobName = "${ m.jobName }" == "" ? "" : "${ m.jobName }" + " ";
+									jobName = "${ m.jobName }";
 								}
 					 	    </c:forEach>
 					 		
@@ -1017,7 +1017,7 @@
 			                			console.log(data);
 			                			$('.selectDept').text(deptName); 
 			                			$('#deptNameSpan').text(deptName);
-			                			$('#deptMgrSpan').text(jobName + deptManagerName);
+			                			$('#deptMgrSpan').text(deptManagerName + " " + jobName);
 			                			$('.update').prop('hidden', true);
 			                    		$('.beforeUpdate').prop('hidden', false);
 			                    		
