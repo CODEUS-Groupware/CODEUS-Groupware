@@ -62,7 +62,7 @@
 		                               	<div class="email-right-box ml-0 ml-sm-4 ml-sm-0" style="width: 800px; display: inline-block;">
 		                               		<label class="col-form-label">회의실 명</label><br>
 		                               		${ meetRoom.meet_name } 
-							                <br>
+							                <br><br>
 							                <label class="form-col col-form-label">회의실 정보</label>
 					                        <textarea rows="5" class="form-control" disabled style="resize: none;">${ meetRoom.meet_info }</textarea>
 					                        <br>
