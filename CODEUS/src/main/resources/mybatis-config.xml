@@ -18,6 +18,7 @@
  		<typeAlias type="com.codeusgroup.codeus.commBoard.model.vo.Report" alias="Report"/>
  		<typeAlias type="com.codeusgroup.codeus.calendar.model.vo.CalArrTemp" alias="CalArrTemp"/>
         <typeAlias type="com.codeusgroup.codeus.meetingResrv.model.vo.MeetingResrv" alias="MeetingResrv"/>
+        <typeAlias type="com.codeusgroup.codeus.meetingResrv.model.vo.MeetingRoom" alias="MeetingRoom"/>
  	</typeAliases>
  	
  	<mappers>
@@ -31,6 +32,7 @@
 		<mapper resource="mappers/leaveRecode-mapper.xml"/>
 		<mapper resource="mappers/board-mapper.xml"/>
         <mapper resource="mappers/meet-mapper.xml"/>
+        <mapper resource="mappers/meetRoom-mapper.xml"/>
  	</mappers>
  	
 </configuration>
