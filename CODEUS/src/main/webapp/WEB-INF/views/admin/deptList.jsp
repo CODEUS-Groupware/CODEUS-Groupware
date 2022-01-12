@@ -272,8 +272,10 @@
 				                       			confirmButtonText: '삭제',
 				                       		 	cancelButtonText: '취소'	
 					        				}).then((result) => {
-					        					$('#deleteDeptId').val(deptId);
-					        					$('#deleteForm').submit();
+					        					if (result.value) {
+					        						$('#deleteDeptId').val(deptId);
+						        					$('#deleteForm').submit();
+			                       				}
 					        				});
 								  		}
 								  		
@@ -585,15 +587,9 @@
                  		$(function(){
                  			let upperDeptId = "";
                  			let moveDeptId = "";
-						 	let topDis=0;
-		                    let leftDis=0;
 	
 		                    //boolean to revert check
 		                    let isRevert = false;
-	
-		                    //final object loc
-		                    let fTop=0;
-		                    let fLeft=0;
 	
 		                    //droppable target 
 		                    $contain= $(".dropable");
@@ -634,16 +630,8 @@
 	
 		                            },
 	
-		                            //드래그 도중 발생
-		                            drag:function(event,ui){
-										
-		                            },
-	
 		                            //드래그가 중지됬을때 발생
 		                            stop:function(event,ui){
-		                                //console.log(event.target); 
-		                                
-		                                //console.log(ui.offset); // 최종 좌표
 
 		                                moveDeptId = $(this).prev().val();
 		                                
@@ -679,53 +667,13 @@
 								                			console.log(data);
 								                			alert('알 수 없는 오류가 발생했습니다.', '', 'error');
 								                		}
-													})
+													});
 		                                		}
 		                                	} else {
 		                                		alert('하위 부서로 이동할 수 없습니다.');
 		                                	}
 										  	         
-		                                    //최종 객체의 위치를 지정 후 거리 계산
-		                                    //visibility 속성은 해당위치에 존재함으로 밑의 과정이 
-		                                    //display 속성은 해당위치에 존재하지 않기때문에 필요함
-		                                    $finalTop=$final.offset().top;
-		                                    $finalLeft=$final.offset().left;
-		                                    
-		                                    //객체를 숨기고
-		                                    $final.css("visibility","hidden");
-	
-		                                    //이동할 객체를 생성
-		                                    $clone.css("position","absolute");
-
-		                                    //drop 위치에 객체 배정
-		                                    $clone.offset({
-		                                        top:ui.offset.top,
-		                                        left:ui.offset.left
-		                                    })
-	
-		                                    //거리 계산
-		                                    topDis=$finalTop-ui.offset.top;
-		                                    leftDis=$finalLeft-ui.offset.left;
-		                                     
-		                                    $clone.animate({left:"+="+leftDis},function(){
-	
-		                                        //이동한 객체는 에니메이션 종료 후 삭제
-		                                        $(this).remove();
-	
-		                                        //완료될시 모든 객체를 보여줌
-// 		                                        $contain.children().css("visibility","visible");    
-// 		                                        $contain.children().find('input').css("visibility",'');    
-	
-		                                    });
-	
-		                                    $clone.animate(
-		                                            {top:"+="+topDis},
-		                                            {queue:false}
-	
-		                                    ); 
-		                                  	
 		                                }
-		                                //$(this).animate({marginLeft:"+="+leftDis});
 		                            }
 
 	                        	});
@@ -742,15 +690,9 @@
                  			let upperDeptId = "";
                  			let moveDeptId = "";
                  			let count = 0;
-                 			let topDis=0;
-		                    let leftDis=0;
 	
 		                    //boolean to revert check
 		                    let isRevert = false;
-	
-		                    //final object loc
-		                    let fTop=0;
-		                    let fLeft=0;
 	
 		                    //droppable target 
 		                    $contain= $(".dropable");
@@ -791,16 +733,8 @@
 	
 		                            },
 	
-		                            //드래그 도중 발생
-		                            drag:function(event,ui){
-										
-		                            },
-	
 		                            //드래그가 중지됬을때 발생
 		                            stop:function(event,ui){
-		                                //console.log(event.target); 
-		                                
-		                                //console.log(ui.offset); // 최종 좌표
 		                                
 		                                moveDeptId = $(this).prev().val();
 		                                
@@ -841,47 +775,7 @@
 		                                	} else {
 		                                		alert('하위 부서로 이동할 수 없습니다.');
 		                                	}
-										  	         
-		                                    //최종 객체의 위치를 지정 후 거리 계산
-		                                    //visibility 속성은 해당위치에 존재함으로 밑의 과정이 
-		                                    //display 속성은 해당위치에 존재하지 않기때문에 필요함
-		                                    $finalTop=$final.offset().top;
-		                                    $finalLeft=$final.offset().left;
-		                                    
-		                                    //객체를 숨기고
-		                                    $final.css("visibility","hidden");
-	
-		                                    //이동할 객체를 생성
-		                                    $clone.css("position","absolute");
-
-		                                    //drop 위치에 객체 배정
-		                                    $clone.offset({
-		                                        top:ui.offset.top,
-		                                        left:ui.offset.left
-		                                    })
-	
-		                                    //거리 계산
-		                                    topDis=$finalTop-ui.offset.top;
-		                                    leftDis=$finalLeft-ui.offset.left;
-		                                     
-		                                    $clone.animate({left:"+="+leftDis},function(){
-	
-		                                        //이동한 객체는 에니메이션 종료 후 삭제
-		                                        $(this).remove();
-	
-		                                        //완료될시 모든 객체를 보여줌
-// 		                                        $contain.children().css("visibility","visible");    
-// 		                                        $contain.children().find('input').css("visibility",'');    
-	
-		                                    });
-	
-		                                    $clone.animate(
-		                                            {top:"+="+topDis},
-		                                            {queue:false}
-	
-		                                    ); 
 		                                }
-		                                //$(this).animate({marginLeft:"+="+leftDis});
 		                            }
 
 	                        	});			
@@ -987,6 +881,7 @@
 						     }
 		            	});
 		            	
+					 	// 부서 정보 수정 저장 버튼 눌렀을시 실행하는 함수
 					 	$(document).on('click', '#updateBtn', function(){
 					 		let deptId= $('#deptId').val();
 					 		let deptName = $('#deptNameInput').val();
@@ -1036,7 +931,7 @@
 			                			console.log(data);
 			                			alert('알 수 없는 오류가 발생했습니다.', '', 'error');
 			                		}
-			                	})
+			                	});
 			                }
 					 		
 					 		
@@ -1089,11 +984,6 @@
     
    <!-- Tree Viewer JS
 	============================================ -->
-<!-- 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script> -->
-
-
-<!-- <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script> -->
-
 	<script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.cookie.js"></script>
 	<script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.treeview.js" type="text/javascript"></script>
 	<script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.treeview.edit.js" type="text/javascript"></script>
