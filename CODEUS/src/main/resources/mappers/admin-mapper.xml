@@ -66,7 +66,7 @@
 		     LEFT JOIN JOB USING(JOB_ID)
 		WHERE DEPT_STATUS = 0
 		START WITH UPPER_DEPT IS NULL
-		CONNECT BY PRIOR D.DEPT_ID = UPPER_DEPT
+		CONNECT BY PRIOR D.DEPT_ID = UPPER_DEPT AND DEPT_STATUS = 0
 		ORDER BY LEVEL, DEPT_ORDER
 	</select>
 	
@@ -215,7 +215,7 @@
 		     LEFT JOIN MEMBER ON(DEPT_MANAGER = M_ID)
 		WHERE DEPT_STATUS = 0 AND UPPER_DEPT = #{deptId}
 		START WITH UPPER_DEPT IS NULL
-		CONNECT BY PRIOR D.DEPT_ID = UPPER_DEPT
+		CONNECT BY PRIOR D.DEPT_ID = UPPER_DEPT AND DEPT_STATUS = 0
 		ORDER BY DEPT_ORDER
 	</select>
 	
@@ -233,4 +233,22 @@
 		WHERE DEPT_STATUS = 0 AND DEPT_CREATE_DATE = (SELECT MAX(DEPT_CREATE_DATE)
                                                       FROM DEPARTMENT)
 	</select>
+	
+	<update id="deleteDept">
+		update department
+		set dept_status = 1
+		where dept_id = #{deptId}
+	</update>
+	
+	<update id="updateDept">
+		update department
+		set dept_name = #{deptName}, dept_manager = #{deptManager}
+		where dept_id = #{deptId}
+	</update>
+		
+	<update id="moveDept">
+		update department
+		set upper_dept = #{upperDeptId}, dept_level = #{deptLevel}, dept_order = #{deptOrder}
+		where dept_id = #{moveDeptId}
+	</update>
 </mapper>

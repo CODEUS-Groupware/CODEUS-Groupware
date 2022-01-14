@@ -101,24 +101,11 @@
                             <li><a href="joblist.ad">직위 관리</a></li>
                         </ul>                   	
                     </li>
-                    
-                   <!--  <li class="nav-label">Apps</li> -->
-                   <!-- 공지사항, 자료실은 멤버 페이지에서 관리자 여부로 작성/수정할 수 있게 하기 -->
-<!--                     <li><a href="javascript:void()" aria-expanded="false"> -->
-<!--                     		<i class="fa fa-bullhorn"></i><span class="nav-text">공지사항 관리</span></a> -->
-<!--                     </li> -->
-<!--                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"> -->
-<!--                     		<i class="fa fa-folder-open-o"></i><span class="nav-text">자료실 관리</span></a> -->
-<!--                         <ul aria-expanded="false"> -->
-<!--                             <li><a href="javascript:void()">자료 등록</a></li> -->
-<!--                             <li><a href="javascript:void()">자료실 용량</a></li> -->
-<!--                         </ul> -->
-<!--                     </li> -->
-                    <li><a href="javascript:void()" aria-expanded="false">
+                    <li><a href="reportList.ad" aria-expanded="false">
                     		<i class="fa fa-bars"></i><span class="nav-text">신고글 관리</span></a>
 
                     </li>
-                    <li><a href="javascript:void()" aria-expanded="false">
+                    <li><a href="meetList.ad" aria-expanded="false">
                     	<i class="bi bi-pencil-square"></i><span class="nav-text">회의실 관리</span></a>
                     </li>
                 </ul>

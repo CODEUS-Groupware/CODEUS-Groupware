@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="meetRoomMapper">
+	
+	<select id="selectMeetRoomList" resultMap="meetingRoomResultSet">
+		select *
+		from meeting_room
+		where meet_status = 0
+	</select>
+	<resultMap type="MeetingRoom" id="meetingRoomResultSet">
+		<id column="MEET_NO" property="meet_no"/>
+		<result column="MEET_NAME" property="meet_name"/>
+		<result column="MEET_INFO" property="meet_info"/>
+		<result column="MEET_REGI_DATE" property="meet_regi_date"/>
+		<result column="MEET_UPDATE_DATE" property="meet_update_date"/>
+		<result column="MEET_STATUS" property="meet_status"/>
+		<result column="IMG_ORIGIN_NAME" property="img_origin_name"/>
+		<result column="IMG_CHANGE_NAME" property="img_change_name"/>
+	</resultMap>
+	
+	<insert id="insertMeetRoom">
+		insert into meeting_room
+		values(seq_meet_no.nextval, #{meet_name}, #{meet_info}, default, default, default, #{img_origin_name}, #{img_change_name})
+	</insert>
+	
+	<select id="selectMeetRoom" resultMap="meetingRoomResultSet">
+		select *
+		from meeting_room
+		where meet_status = 0 and meet_no = #{meet_no}
+	</select>
+	
+	<update id="updateMeetRoom">
+		update meeting_room
+		set meet_name = #{meet_name}, meet_info = #{meet_info}, img_origin_name = #{img_origin_name}, 
+			img_change_name = #{img_change_name}, meet_update_date = sysdate
+		where meet_no = #{meet_no}
+	</update>
+	
+	<update id="deleteMeetRoom">
+		update meeting_room
+		set meet_status = 1
+		where meet_no = #{meet_no}
+	</update>	
+</mapper>
