@@ -27,11 +27,12 @@ public class FileManager {
     /**
      * 파일 업로드 메소든
      */
-	public String saveFile(MultipartFile file, HttpServletRequest request) {
+	public String saveFile(MultipartFile file, HttpServletRequest request, String path) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		// getServletContext() -> application에 접근
 		// resources : webapp 밑의 resources
-		String savePath = root + "/uploadFiles";
+		
+		String savePath = root + path;
 		
 		File folder = new File(savePath);
 		if (!folder.exists()) {
@@ -59,9 +60,9 @@ public class FileManager {
     /**
      * 파일 삭제 메소드
      */
-	public void deleteFile(String fileName, HttpServletRequest request) {
+	public void deleteFile(String fileName, HttpServletRequest request, String path) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
-		String savePath = root + "/uploadFiles";
+		String savePath = root + path;
 		
 		File f = new File(savePath + "/" + fileName);
 		
@@ -69,6 +70,19 @@ public class FileManager {
 			f.delete();
 		}
 	}
+	
+	/**
+     * 파일 경로 구하는 메소드
+     */
+//	public String getSavePath(HttpServletRequest request, String path) {
+//		String root = request.getSession().getServletContext().getRealPath("resources");
+//		// getServletContext() -> application에 접근
+//		// resources : webapp 밑의 resources
+//		
+//		String savePath = root + path;
+//		
+//		return savePath;
+//	}	
 	
 	/**
 	 * 파일을 다운로드하는 메소드
