@@ -523,7 +523,7 @@
 	                                        	<c:if test="${ searchValue ne null }"> 
 													<c:param name="selectDept" value="${ selectDept }"/>
 													<c:param name="selectJob" value="${ selectJob }"/>
-														c:param name="searchValue" value="${ searchValue }"/>
+													<c:param name="searchValue" value="${ searchValue }"/>
 												</c:if>	                                       		
                                          	</c:url>
 	                                        <li class="page-item page-indicator">

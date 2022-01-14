@@ -1,9 +1,5 @@
 package com.codeusgroup.codeus.admin.controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,9 +51,10 @@ public class MeetRoomCotroller {
 	public String insertMeetRoom(@ModelAttribute MeetingRoom meetRoom, 
 								 @RequestParam("uploadFile") MultipartFile uploadFile, HttpServletRequest request) {
 		
-		if (uploadFile != null && !uploadFile.isEmpty()) { // 수정할 파일 존재
+		String renameFileName = null;
+		if (uploadFile != null && !uploadFile.isEmpty()) { // 업로드할 파일 존재
 			
-			String renameFileName = fileManager.saveFile(uploadFile, request);
+			renameFileName = fileManager.saveFile(uploadFile, request, "/uploadFiles");
 			
 			if (renameFileName != null) {
 				meetRoom.setImg_origin_name(uploadFile.getOriginalFilename());
@@ -67,7 +64,10 @@ public class MeetRoomCotroller {
 		
 		int result = meetService.insertMeetRoom(meetRoom);
 		
-		if (result < 0) {
+		if (result <= 0) {
+			if (renameFileName != null) { // 등록 실패시 저장된 파일도 삭제
+				 fileManager.deleteFile(renameFileName, request, "/uploadFiles");
+			}
 			throw new AdminException("회의실 등록에 실패하였습니다.");
 		}
 		
@@ -90,7 +90,7 @@ public class MeetRoomCotroller {
 			model.addAttribute("message", message);
 			return "meetRoomDetail";
 		} else {
-			throw new AdminException("회의실 등록에 실패하였습니다.");
+			throw new AdminException("회의실 상세 보기에 실패하였습니다.");
 		}
 	}
 	
@@ -105,10 +105,10 @@ public class MeetRoomCotroller {
 			
 			// 수정할 파일 존재 + 기존 파일 존재 = 기존 파일 삭제
 			if (meetRoom.getImg_change_name() != null) {
-				 fileManager.deleteFile(meetRoom.getImg_origin_name(), request);
+				 fileManager.deleteFile(meetRoom.getImg_origin_name(), request, "/uploadFiles");
 			}
 			
-			String renameFileName =  fileManager.saveFile(reloadFile, request);
+			String renameFileName =  fileManager.saveFile(reloadFile, request, "/uploadFiles");
 			
 			if (renameFileName != null) {
 				meetRoom.setImg_origin_name(reloadFile.getOriginalFilename());
@@ -118,8 +118,8 @@ public class MeetRoomCotroller {
 		
 		int result = meetService.updateMeetRoom(meetRoom);
 		
-		if (result < 0) {
-			throw new AdminException("회의실 등록에 실패하였습니다.");
+		if (result <= 0) {
+			throw new AdminException("회의실 수정에 실패하였습니다.");
 		}
 		
 		return "redirect:meetdetail.ad?meet_no=" + meetRoom.getMeet_no() + "&message=success";
@@ -133,18 +133,20 @@ public class MeetRoomCotroller {
 								 @RequestParam("img_change_name") String img_change_name, 
 								 Model model, HttpServletRequest request) {
 		
-		// 회의실 삭제시 등록된 파일도 삭제
-		if (!img_change_name.equals("")) {
-			fileManager.deleteFile(img_change_name, request);
-		}
-		
 		int result = meetService.deleteMeetRoom(meet_no);
 		
-		if (result < 0) {
-			throw new AdminException("회의실 등록에 실패하였습니다.");
+		if (result > 0) {
+			// 회의실 삭제시 등록된 파일도 삭제
+			if (!img_change_name.equals("")) {
+				fileManager.deleteFile(img_change_name, request, "/uploadFiles");
+			}
+						
+			return "redirect:meetList.ad?message=d";
+			
+		} else {
+			throw new AdminException("회의실 삭제에 실패하였습니다.");
 		}
 		
-		return "redirect:meetList.ad?message=d";
 	}
 
 }

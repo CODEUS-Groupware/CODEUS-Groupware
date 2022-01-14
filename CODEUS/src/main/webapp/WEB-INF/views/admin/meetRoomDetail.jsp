@@ -85,11 +85,7 @@
                                 	$('#deleteBtn').on('click', function(){
                                 		Swal.fire({
   	                       				  text: '정말 삭제하시겠습니까?',
-  	                       				  background: '#292B30',
-					       				  color: 'white',
   	                       				  showCancelButton: true,
-  	                       				  confirmButtonColor: '#CD5C5C',
-  	                       				  cancelButtonColor: 'gray',
   	                       				  confirmButtonText: '삭제',
   	                       				  cancelButtonText: '취소'
   	                       				}).then((result) => {

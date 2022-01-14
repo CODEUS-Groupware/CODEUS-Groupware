@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title></title>
+<title>직위 목록</title>
 <style>
 	.modal input{display: inline; width: 150px;}
 	.col-form-label{width: 100px;}
@@ -254,7 +254,8 @@
 					        		// 직위 수정
 					        		var originJobName = "";
 					        		
-					        		$(document).on('click', '.updateBtnModal', function(){ // 수정 모달창 열릴시 해당 항목 값으로 초기화
+					        		// 수정 모달창 열릴시 해당 항목 값으로 초기화
+					        		$(document).on('click', '.updateBtnModal', function(){ 
 					        			$('#updateJob').find('input').val('');
 					        			$('#updateJob').find('.guide').text('');
 					        			
