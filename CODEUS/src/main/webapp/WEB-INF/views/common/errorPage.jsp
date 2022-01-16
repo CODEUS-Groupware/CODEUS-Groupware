@@ -23,10 +23,10 @@
                 <div class="col-md-5">
                     <div class="form-input-content text-center">
                         <div class="mb-5">
-                        	<c:if test="${ error_code ne '403' }"> 
+                        	<c:if test="${ error_code ne '403' && loginUser != null }"> 
                             	<a class="btn btn-primary" href="javascript:history.back()">이전 페이지</a> 
                             </c:if>
-                            <c:if test="${ error_code eq '403' }"> <!-- 403, 즉 접근 불가 에러일 경우 시작 페이지로 이동하는 버튼 -->
+                            <c:if test="${ error_code eq '403' || loginUser == null }"> <!-- 403, 즉 접근 불가 에러일 경우 시작 페이지로 이동하는 버튼 -->
                             	<a class="btn btn-primary" href="${ contextPath }">시작 페이지</a> 
                             </c:if>
                         </div>
