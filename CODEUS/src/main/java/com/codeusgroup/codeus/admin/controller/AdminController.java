@@ -138,7 +138,10 @@ public class AdminController {
 		
 		return "redirect:mlist.ad?message=u";
 	}
-
+	
+	/**
+     * 사원 삭제
+     */
 	@RequestMapping("admin/mdelete.ad")
 	public String deleteMember(@RequestParam("mId") String[] mIdArr) {
 		
@@ -152,7 +155,7 @@ public class AdminController {
 	}	
 	
     /**
-     * 사원 삭제
+     * 사원 상새
      */
 	@RequestMapping("admin/mdetail.ad")
 	public ModelAndView memberDetail(@RequestParam("mId") String mId, @RequestParam("page") int page, 
@@ -163,11 +166,11 @@ public class AdminController {
 		Member member = aService.selectMember(mId);
 		ArrayList<Department> dList = aService.selectDepartmentList();
 		ArrayList<Job> jList = aService.selectJobList();
-		mv.addObject("dList", dList);
-		mv.addObject("jList", jList);
 		
 		if (member != null && dList != null && jList != null) {
 			mv.addObject("member", member);
+			mv.addObject("dList", dList);
+			mv.addObject("jList", jList);
 			mv.addObject("page", page);
 			mv.addObject("selectDept", selectDept);
 			mv.addObject("selectJob", selectJob);
@@ -182,7 +185,7 @@ public class AdminController {
 	}
 	
     /**
-     * 사원 정보 수정
+     * 사원 정보 수정(1명)
      */
 	@RequestMapping("admin/mupdate.ad")
 	public String updateMember(@ModelAttribute Member m, @RequestParam("inputHireDate") String inputHireDate, 
@@ -324,7 +327,7 @@ public class AdminController {
 	}
 	
     /**
-     * 부서 목록
+     * 부서 목록 조회
      */
 	@RequestMapping("admin/deptlist.ad")
 	public String selectDepartmentList(Model model, @RequestParam(value="message", required=false) String message) {
@@ -344,11 +347,11 @@ public class AdminController {
 	}	
 	
     /**
-     * 하위 부서 목록
+     * 하위 부서 목록 조회
      */
 	@RequestMapping("admin/subDeptList.ad")
 	@ResponseBody
-	public String getSubDeptList(@RequestParam("upperDept") Integer upperDept, HttpServletResponse response) {
+	public String getSubDeptList(@RequestParam("upperDept") Integer upperDept) {
 		
 		ArrayList<Department> subDeptList = aService.getSubDeptList(upperDept);
 		ArrayList<Member> deptMemberList = aService.selectDeptMemberList(upperDept);
@@ -448,7 +451,7 @@ public class AdminController {
      */
 	@RequestMapping("admin/dupdate.ad")
 	@ResponseBody
-	public String updateDept(@ModelAttribute Department dept, HttpServletResponse response) {
+	public String updateDept(@ModelAttribute Department dept) {
 		
 		int result = aService.updateDept(dept);
 		
