@@ -123,16 +123,19 @@
 	                                        <br>
 	                                       
 	                                        <c:if test="${ member.managerYn == 'Y' && member.status != 2 && member.mId != 'admin'}">
-	                                        	<label class="col-form-label">관리자 여부</label>
+	                                        	<label class="col-form-label">관리자로 설정</label>
 	                                        	<input type="checkbox" name="managerYn" value="Y" checked> 
+	                                        	<span style="color: gray; font-size: small">&nbsp;관리자로 설정</span>
 	                                        </c:if>
 	                                        <c:if test="${ member.managerYn != 'Y' && member.status != 2 && member.mId != 'admin'}">
-	                                        	<label class="col-form-label">관리자 여부</label>
-	                                        	<input type="checkbox" name="managerYn" value="Y"> 
+	                                        	<label class="col-form-label">관리자로 설정</label>
+	                                        	<input type="checkbox" name="managerYn" value="Y">
+	                                        	<span style="color: gray; font-size: small">&nbsp;관리자로 설정</span>
 	                                        </c:if>
 	                                        <c:if test="${ member.mId == 'admin' }"> <!-- 최초 관리자 계정은 관리자 설정 해제 불가 -->
-	                                        	<label class="col-form-label">관리자 여부</label>
+	                                        	<label class="col-form-label">관리자로 설정</label>
 	                                        	<input type="checkbox" name="managerYn" value="Y" checked disabled="disabled">
+	                                        	<span style="color: gray; font-size: small">&nbsp;관리자 해제 불가</span>
 	                                        </c:if>	
 	                                        <c:if test="${ member.status == 2 }">
 	                                        	<input type="hidden" name="managerYn" value="N">
@@ -166,14 +169,14 @@
                                 <script>
 									$('#pause').on('click', function(){
 										if($(this).val() == 1 && $('input[name=managerYn]').prop('checked')) {
-											Swal.fire('계정을 중지시키려면\n 먼저 관리자 설정을 해제하여 주세요.');
+											alert('계정을 중지하려면 먼저 관리자 설정을 해제하여 주세요.');
 											$('#normal').prop('checked', true);
 										} 
 									});                 
                                 	
 									$('input[name=managerYn]').on('click', function(){
 										if($('#pause').prop('checked') && $(this).prop('checked')) {
-											Swal.fire('관리자로 설정하려면\n 계정 상태가 정상이어야 합니다.');
+											alert('관리자로 설정하려면 계정 상태가 정상이어야 합니다.');
 											$(this).prop('checked', false);
 										} 
 									}); 
@@ -182,7 +185,15 @@
 		                			$(function(){
 		                				console.log('${selectDept}')
 		                				if ('${message}' != '') {
-		                					alert('변경되었습니다.')
+		                					Swal.fire({
+	    				        				position: 'top', // top : 상단 중앙에 띄우기
+	    				        				background: '#292B30', // 알럿창 배경색
+	    					       				color: 'white', // 글자색
+	    				        				text : '변경되었습니다.', // 내용(작은 글씨)
+	    				        				timer : 2000, // 자동 종료 타이머
+	    				        				customClass : 'sweet-size', 
+	    				        				showConfirmButton : false // ok버튼 표시 여부
+	    				        			});
 		                					<c:remove var="message" scope="request"/>
 		                					
 		                					var url = location.pathname + "?mId=" + '${member.mId}' + "&page=" + '${page}';
@@ -196,15 +207,15 @@
 		                					// sweet alert customize
 		    				        		var alert = function(msg, title, icon) {
 		    				        			Swal.fire({
-		    				        				position: 'top', // top : 상단 중앙에 띄우기
+		    				        				// position: 'top', // top : 상단 중앙에 띄우기
 		    				        				background: '#292B30', // 알럿창 배경색
 		    					       				color: 'white', // 글자색
 		    				        				title : title, // 제목(큰 글씨)
 		    				        				text : msg, // 내용(작은 글씨)
 		    				        				icon: icon, // info, error 등 icon type
-		    				        				timer : 2000, // 자동 종료 타이머
+		    				        				//timer : 2000, // 자동 종료 타이머
 		    				        				customClass : 'sweet-size', 
-		    				        				showConfirmButton : false // ok버튼 표시 여부
+		    				        				//showConfirmButton : false // ok버튼 표시 여부
 		    				        			});
 		    				        		}
                                 </script>
@@ -214,6 +225,7 @@
 								<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
                                 <script>
                                 	$(function(){
+                                		// datepicker에 지우기 버튼 추가
                                 		var old_fn = $.datepicker._updateDatepicker;
                                 		
                                 		$.datepicker._updateDatepicker = function(inst) {
@@ -233,6 +245,7 @@
 	                            		prevText : '이전 달',
 	                            		nextText : '다음 달',
 	                            		cleanText : '지우기',
+	                            		//yearRange: '-100:+0', // ex)'1950:2013' : 지정한 년도 범위 내 선택 스크롤바
 	                            		monthNames : [ '1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월',
 	                            				'10월', '11월', '12월' ],
 	                            		monthNamesShort : [ '1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월',

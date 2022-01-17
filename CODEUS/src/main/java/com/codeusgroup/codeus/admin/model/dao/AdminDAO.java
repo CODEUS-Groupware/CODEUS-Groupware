@@ -125,4 +125,16 @@ public class AdminDAO {
 		return sqlSession.selectOne("adminMapper.selectDept");
 	}
 
+	public int deleteDept(SqlSessionTemplate sqlSession, int deptId) {
+		return sqlSession.update("adminMapper.deleteDept", deptId);
+	}
+
+	public int updateDept(SqlSessionTemplate sqlSession, Department dept) {
+		return sqlSession.update("adminMapper.updateDept", dept);
+	}
+
+	public int moveDept(SqlSessionTemplate sqlSession, HashMap<String, Integer> map) {
+		return sqlSession.update("adminMapper.moveDept", map);
+	}
+
 }

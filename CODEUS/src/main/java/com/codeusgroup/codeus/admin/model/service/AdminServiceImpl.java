@@ -127,4 +127,19 @@ public class AdminServiceImpl implements AdminService {
 				
 	}
 
+	@Override
+	public int deleteDept(int deptId) {
+		return aDAO.deleteDept(sqlSession, deptId);
+	}
+
+	@Override
+	public int updateDept(Department dept) {
+		return aDAO.updateDept(sqlSession, dept);
+	}
+
+	@Override
+	public int moveDept(HashMap<String, Integer> map) {
+		return aDAO.moveDept(sqlSession, map);
+	}
+
 }
