@@ -13,4 +13,6 @@ public interface AddressService {
 
 	ArrayList<Member> searchMemebrList(PageInfo pi, String input, String field);
 
+	int addAddress(String userId, String tdName);
+
 }
