@@ -7,6 +7,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.codeusgroup.codeus.address.model.vo.Address;
 import com.codeusgroup.codeus.address.model.vo.PageInfo;
 import com.codeusgroup.codeus.member.model.vo.Member;
 
@@ -32,5 +33,14 @@ public class AddressDAO {
 		map.put("field", field);
 		
 		return (ArrayList)sqlSession.selectList("addressMapper.searchMemebrList", map, rowBounds);
+	}
+
+	public int addAddress(SqlSessionTemplate sqlSession, String userId, String tdName) {
+		
+		HashMap<String, String> map = new HashMap<>();
+		map.put("userId", userId);
+		map.put("tdName", tdName);
+		
+		return sqlSession.insert("addressMapper.searchMemebrList", map);
 	}
 }

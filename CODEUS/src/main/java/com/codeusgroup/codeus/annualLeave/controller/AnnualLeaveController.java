@@ -45,7 +45,11 @@ public class AnnualLeaveController {
 		session = request.getSession();
 		Member member = (Member)session.getAttribute("loginUser");
 		String id = member.getmId();
+
+		//EmpStatus empStatus = new EmpStatus(0, null, null, null, null, null, id);
+
 		EmpStatus empStatus = new EmpStatus(0, null, null, null, null, null, id, null, null);
+
 		EmpStatus empStatus1 = esService.selectComTime(id);
 		EmpStatus empOffTime = esService.selectOffTime(id);
 
