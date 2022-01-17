@@ -227,7 +227,7 @@
 	         events: function (info, successCallback, failureCallback){
 	        	 setCheckbox();
 	        	 $.ajax({
-	     			url:"<%= request.getContextPath() %>/selectadminSchList.ca",
+	     			url:"<%= request.getContextPath() %>/selectSchList.ca",
 	     			data:{sCalNo:localStorage.getItem("checkCal")},
 	     			dataType:"JSON",
 	     			success:function(json){
@@ -317,7 +317,7 @@
 		// 캘린더(내일정)를 읽어오는 함수
 		function readCalList(){
 			  $.ajax({
-					url:"<%= request.getContextPath() %>/readAdminCalList.ca",
+					url:"<%= request.getContextPath() %>/readCalList.ca",
 					type:"get",
 					dataType:"JSON",
 					success:function(json){
@@ -572,14 +572,12 @@
 									<h2 class="pageTitleText">
 										<i class="fa fa-calendar fa-fw" aria-hidden="true"></i>캘린더
 									</h2>
-									<c:if test="${sessionScope.loginUser.mId eq 'admin'}">
 										<div class="center p-20" style="padding-top: 0px !important;">
 											<span class="hide-menu addSchedule">
 												<a class="btn btn-danger btn-block btn-rounded waves-effect waves-light" 
 												   href="<%= request.getContextPath() %>/goAddDetailSch.ca">일정등록</a>
 											</span>
 										</div>
-									</c:if>
 									<ul class="nav" id="side-menu" style="padding-left: 9%;">
 										<li style="padding: 10px 0 0;">
 											<span class="largeText">내 캘린더</span>
