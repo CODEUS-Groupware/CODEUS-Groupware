@@ -13,6 +13,15 @@
 <!-- Custom Stylesheet -->
 <link href="${contextPath}/resources/assets/css/style.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+<!-- Google fonts - Noto Sans Korean -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Noto+Sans+KR:wght@300;400&family=Open+Sans&display=swap" rel="stylesheet">
+<style>
+	 body, h1, h2, h3, h4, h5, h6, p, span {
+   	 	font-family: 'Noto Sans KR', sans-serif;
+  	 }
+</style>
 </head>
 <body>
 
@@ -153,11 +162,19 @@
 	                                        <i class="fa fa-mail-forward"></i>
 	                                        <span class="ml-2">Admin Page </span>
 	                                    </a>
-                                    </c:if>                                   
-                                    <a href="logout.me" class="dropdown-item">
-                                        <i class="icon-key"></i>
-                                        <span class="ml-2">Logout </span>
-                                    </a>
+                                    </c:if>
+                                     <c:if test="${ loginUser != null }">
+	                                    <a href="logout.me" class="dropdown-item">
+	                                        <i class="icon-key"></i>
+	                                        <span class="ml-2">Logout </span>
+                                    	</a>
+                                    </c:if>                                    
+                                    <c:if test="${ loginUser == null }">
+	                                    <a href="${ contextPath }" class="dropdown-item">
+	                                        <i class="icon-key"></i>
+	                                        <span class="ml-2">Login </span>
+                                    	</a>
+                                    </c:if>  
                                 </div>
                             </li>
                         </ul>
@@ -182,8 +199,8 @@
                     
                    <!--  <li class="nav-label">Apps</li> -->
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                    		<i class="fa fa-comments"></i><span class="nav-text">채팅</span></a>
-	                    <ul aria-expanded="false">
+                    		<i class="bi bi-chat-dots"></i><span class="nav-text">채팅</span></a>
+						<ul aria-expanded="false">
 		                    <li><a href="chetList.ch">채팅방 목록</a></li>
                             <li><a href="chetSearch.ch">채팅방 검색</a></li>
                        	</ul>
@@ -204,8 +221,11 @@
                             <li><a href="javascript:void()">중고장터</a></li>
                         </ul>
                     </li>
-                    <li><a href="javascript:void()" aria-expanded="false">
+                    <li><a href="noticeBoardList.nb" aria-expanded="false">
                     	<i class="bi bi-megaphone-fill"></i><span class="nav-text">공지사항</span></a>
+                    </li>
+                    <li><a href="archive.arch" aria-expanded="false">
+                    	<i class="bi bi-cloud-arrow-down"></i><span class="nav-text">자료실</span></a>
                     </li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
                     		<i class="fa fa-phone-square"></i><span class="nav-text">주소록</span></a>

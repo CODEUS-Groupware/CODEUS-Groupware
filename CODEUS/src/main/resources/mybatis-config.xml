@@ -12,17 +12,21 @@
 		<typeAlias type="com.codeusgroup.codeus.calendar.model.vo.Calendar" alias="Calendar"/>
 	  	<typeAlias type="com.codeusgroup.codeus.annualLeave.model.vo.AnnualLeave" alias="AnnualLeave"/>
 		<typeAlias type="com.codeusgroup.codeus.empStatus.model.vo.EmpStatus" alias="EmpStatus"/>
-	  	<typeAlias type="com.codeusgroup.codeus.leaveRecode.model.vo.LeaveRecode" alias="LeaveRecode"/>
+	 	<typeAlias type="com.codeusgroup.codeus.leaveRecode.model.vo.LeaveRecode" alias="LeaveRecode"/>
 		<typeAlias type="com.codeusgroup.codeus.commBoard.model.vo.CommBoard" alias="Board"/>
 		<typeAlias type="com.codeusgroup.codeus.commBoard.model.vo.Reply" alias="Reply"/>
  		<typeAlias type="com.codeusgroup.codeus.commBoard.model.vo.Report" alias="Report"/>
  		<typeAlias type="com.codeusgroup.codeus.calendar.model.vo.CalArrTemp" alias="CalArrTemp"/>
         <typeAlias type="com.codeusgroup.codeus.meetingResrv.model.vo.MeetingResrv" alias="MeetingResrv"/>
-
         <typeAlias type="com.codeusgroup.codeus.chetting.model.vo.Chetting" alias="Chetting"/>
-
         <typeAlias type="com.codeusgroup.codeus.meetingResrv.model.vo.MeetingRoom" alias="MeetingRoom"/>
-
+        <typeAlias type="com.codeusgroup.codeus.noticeBoard.model.vo.NoticeBoard" alias="NoticeBoard"/>
+	    <typeAlias type="com.codeusgroup.codeus.meetingResrv.model.vo.MeetingResrv" alias="MeetingResrv"/>
+	    <typeAlias type="com.codeusgroup.codeus.chetting.model.vo.Chetting" alias="Chetting"/>
+	    <typeAlias type="com.codeusgroup.codeus.meetingResrv.model.vo.MeetingRoom" alias="MeetingRoom"/>
+	    <typeAlias type="com.codeusgroup.codeus.noticeBoard.model.vo.NoticeBoard" alias="NoticeBoard"/>
+ 		<typeAlias type="com.codeusgroup.codeus.noticeBoard.model.vo.NoticeBoardReply" alias="NoticeBoardReply"/>
+ 		<typeAlias type="com.codeusgroup.codeus.noticeBoard.model.vo.NoticeBoardFile" alias="NoticeBoardFile"/>        
  	</typeAliases>
  	
  	<mappers>
@@ -35,8 +39,9 @@
 		<mapper resource="mappers/annualLeave-mapper.xml"/>
 		<mapper resource="mappers/leaveRecode-mapper.xml"/>
 		<mapper resource="mappers/board-mapper.xml"/>
-        <mapper resource="mappers/meet-mapper.xml"/>
-        <mapper resource="mappers/meetRoom-mapper.xml"/>
+	    <mapper resource="mappers/meet-mapper.xml"/>
+	    <mapper resource="mappers/meetRoom-mapper.xml"/>
+	    <mapper resource="mappers/noticeBoard-mapper.xml"/>
  	</mappers>
  	
 </configuration>
