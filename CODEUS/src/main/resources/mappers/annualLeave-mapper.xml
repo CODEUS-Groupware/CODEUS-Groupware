@@ -30,6 +30,8 @@
 	 	<result column="ANNUAL_TYPE" property="annualType"/>
 	 	<result column="ANNUAL_REGI_DATE" property="annualRegiDate"/>
 	 	<result column="M_ID" property="mId"/>
+	 	<result column="hureDate" property="hireDate"/>
+	 	<result column="comYear" property="comYear"/>
 	</resultMap>
 	<resultMap type="Member" id="memberResultSet">
 		<id column="M_ID" property="mId" />
@@ -52,6 +54,9 @@
 		<result column="DEPT_ID" property="deptId"/>
 		<result column="DEPT_NAME" property="deptName"/>
 		<result column="COM_YEAR" property="comYear"/>
+		<result column="comMonth" property="comMonth"/>
+		<result column="regiMonth" property="regiMonth"/>
+
 		<!-- <collection property="alList" resultMap="annualResultSet" /> -->
 	</resultMap>
 	
@@ -68,5 +73,18 @@
 		        where m.m_id = 'admin')
 		where TO_CHAR(SYSDATE, 'yyyy') = TO_CHAR(annual_regi_date, 'yyyy')
 	</select>
+	<select id="selectAnnual" resultMap="annualResultSet">
+		select m.m_id, m_name, m_hire_date, annual_count, annual_regi_date,trunc(months_between(sysdate, m_hire_date) /12) comYear,annual_type,
+				trunc(months_between(sysdate, m_hire_date))as comMonth, substr(annual_regi_date,4,2) regiMonth
+		from member m
+		    left join annual_leave a on (m.m_id = a.m_id)
+		where a.m_id = #{id}
+			and TO_CHAR(SYSDATE, 'yyyy') = TO_CHAR(annual_regi_date, 'yyyy')
+				
+	</select> 
+	<insert id="insertAnnual">
+		insert into annual_leave
+		values(seq_annual_no.nextval, #{annualCount}, 'a', sysdate, #{id})
+	</insert>
 	
 </mapper>
