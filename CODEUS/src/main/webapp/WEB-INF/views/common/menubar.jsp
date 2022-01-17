@@ -252,8 +252,94 @@
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
                     	<i class="bi bi-calendar4-week"></i><span class="nav-text">캘린더</span></a>
                         <ul aria-expanded="false">
-                            <li><a href="calendar.ca">전체 캘린더</a></li>
-                            <li><a href="calendar2.ca">부서 캘린더</a></li>
+                            ```jsx
+			<!--**********************************
+            Sidebar start
+        ***********************************-->
+        <div class="quixnav"  style="background: #292B48;">
+            <div class="quixnav-scroll">
+                <ul class="metismenu" id="menu">
+                	<li class="nav-label first"></li>
+                    <li><a href="home.do" aria-expanded="false"><!-- <i
+                                class="icon icon-app-store"></i> --><i class="fa fa-home"></i><span class="nav-text">대시보드</span></a>
+                    </li>
+                    
+                   <!--  <li class="nav-label">Apps</li> -->
+                    <li><a class="has-arrow"  aria-expanded="false">
+                    		<i class="fa fa-comments"></i><span class="nav-text">채팅</span></a>
+	                    	<ul aria-expanded="false">
+		                    		<li><a href="chetList.ch">채팅방 목록</a></li>
+                            <li><a href="chetSearch.ch">채팅방 검색</a></li>
+                       	</ul>
+                    </li>
+                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                    		<i class="fa fa-file-text"></i><span class="nav-text">전자결재</span></a>
+                        <ul aria-expanded="false">
+                            <li><a href="javascript:void()">Flot</a></li>
+                            <li><a href="javascript:void()">Morris</a></li>
+                            <li><a href="javascript:void()">Chartjs</a></li>
+                            <li><a href="javascript:void()">Chartist</a></li>
+                            <li><a href="javascript:void()">Sparkline</a></li>
+                            <li><a href="javascript:void()">Peity</a></li>
+                        </ul>
+                    </li>
+                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                    		<i class="icon icon-users-mm"></i><!-- <i class="fa fa-child"></i> --><span class="nav-text">커뮤니티</span></a>
+                        <ul aria-expanded="false">
+                            <li><a href="javascript:void()">자유게시판</a></li>
+                            <li><a href="javascript:void()">중고장터</a></li>
+
+                        </ul>
+                    </li>
+                    <li><a href="javascript:void()" aria-expanded="false"><i
+                                class="fa fa-bullhorn"></i><span class="nav-text">공지사항</span></a>
+                    </li>
+                    <li><a href="widget-basic.html" aria-expanded="false"><i class="fa fa-folder-open-o"></i><span
+                                class="nav-text">자료실</span></a>
+                    </li>
+                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
+                                class="fa fa-pencil-square-o"></i><span class="nav-text">회의실 예약</span></a>
+                        <ul aria-expanded="false">
+                            <li><a href="mrlist.mr">회의실 목록</a></li>
+														<li><a href="mrcal.mr">예약일정 캘린더</a></li>
+                            <li><a href="mrresrvlist.mr">예약하기</a></li>
+                        </ul>
+                    </li>
+                   	<li><a class="has-arrow" aria-expanded="false">
+                    		<i class="fa fa-phone-square"></i><span class="nav-text">주소록</span></a>
+                    		<ul aria-expanded="false">
+		                    		<li><a href="list.addr">주소록 목록</a></li>
+                            <li><a href="search.addr">주소록 검색</a></li>
+                       	</ul>
+                    </li>
+                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
+                                class="fa fa-briefcase"></i><span class="nav-text">근태관리</span></a>
+                        <ul aria-expanded="false">
+                           <li><a href="empStatusMain.em">근태 현황</a></li>
+                            <li><a href="annualLeaveMain.al">연차현황</a></li>
+                        </ul>
+                    </li>
+                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
+                                class="fa fa-calendar"></i><span class="nav-text">캘린더</span></a>
+                        <ul aria-expanded="false">
+                            <li><a href="calendar.ca">사내 일정 캘린더</a></li>
+                            <li><a href="calendar2.ca">내 일정 캘린더</a></li>
+                        </ul>
+                    </li>                    
+                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
+                                class="icon icon-single-04"></i><span class="nav-text">마이페이지</span></a>
+                        <ul aria-expanded="false">
+                            <li><a href="javascript:void()">내 정보</a></li>
+                            <li><a href="javascript:void()">스크랩 관리</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--**********************************
+            Sidebar end
+        ***********************************-->
+```
                         </ul>
                     </li>                    
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
