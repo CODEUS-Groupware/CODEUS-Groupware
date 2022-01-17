@@ -26,7 +26,10 @@
 	    <typeAlias type="com.codeusgroup.codeus.meetingResrv.model.vo.MeetingRoom" alias="MeetingRoom"/>
 	    <typeAlias type="com.codeusgroup.codeus.noticeBoard.model.vo.NoticeBoard" alias="NoticeBoard"/>
  		<typeAlias type="com.codeusgroup.codeus.noticeBoard.model.vo.NoticeBoardReply" alias="NoticeBoardReply"/>
- 		<typeAlias type="com.codeusgroup.codeus.noticeBoard.model.vo.NoticeBoardFile" alias="NoticeBoardFile"/>        
+ 		<typeAlias type="com.codeusgroup.codeus.noticeBoard.model.vo.NoticeBoardFile" alias="NoticeBoardFile"/> 
+ 		<typeAlias type="com.codeusgroup.codeus.commBoard.model.vo.MarketBoard" alias="MarketBoard"/>
+		<typeAlias type="com.codeusgroup.codeus.commBoard.model.vo.MarketBoard" alias="MarketAtt"/>
+		<typeAlias type="com.codeusgroup.codeus.commBoard.model.vo.Search" alias="Search"/>       
  	</typeAliases>
  	
  	<mappers>
@@ -42,6 +45,7 @@
 	    <mapper resource="mappers/meet-mapper.xml"/>
 	    <mapper resource="mappers/meetRoom-mapper.xml"/>
 	    <mapper resource="mappers/noticeBoard-mapper.xml"/>
+	    <mapper resource="mappers/market-mapper.xml"/>
  	</mappers>
  	
 </configuration>
