@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="marketMapper">
+	<select id="getListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM BOARD
+		WHERE B_STATUS = '0'
+	</select>
+	
+	<update id="addReadCount">
+		UPDATE BOARD 
+		SET B_views = B_views + 1
+		WHERE B_NUM = #{bId}
+	</update>
+	
+	
+	<select id="marketBoardSelectList" resultMap="marketboardResultSet">
+		SELECT *
+		FROM board
+		WHERE B_TYPE = '중고'
+		ORDER BY B_NUM DESC
+	</select>
+
+	
+	<resultMap type="MarketBoard" id="marketboardResultSet">
+		<id property="bId" column="B_NUM"/>
+		<result property="mbType" column="B_TYPE"/>
+		<result property="mbTitle" column="B_TITLE"/>
+		<result property="mbContent" column="B_CONTENT"/>
+		<result property="mbViews" column="B_VIEWS"/>
+		<result property="originalFileName" column="FILE_ORIGIN_NAME"/>
+		<result property="renameFileName" column="FILE__CHANGE_NAME"/>
+		<result property="mbCreateDate" column="B_CREARE_DATE"/>
+		<result property="mbModifyDate" column="B_MODIFY_DATE"/>
+		<result property="mbStatus" column="B_STATUS"/>
+		<result property="mbPin" column="B_PIN"/>
+		<result property="mbWriter" column="M_ID"/>
+		<result property="mbCategory" column="B_CATEGORY"/>
+		<result property="marketPrice" column="B_ETC"/>
+		
+	</resultMap>
+	
+	<select id="selectMarketBoard" resultMap="marketboardResultSet">
+		SELECT * 
+		FROM BOARD
+		WHERE B_NUM = #{bId} AND B_STATUS = '0'
+	</select>
+
+	<select id="selectAttachmentList" parameterType="_int" resultType="hashmap">
+		SELECT * FROM ATTACHMENT WHERE B_NUM = #{bId}
+	</select>
+	
+	
+	<update id="addReadViews">
+		UPDATE BOARD SET B_VIEWS = B_VIEWS + 1
+		WHERE B_NUM = #{bId}
+	</update>
+	
+	
+	<update id="updateMarketBoard">
+		UPDATE BOARD 
+		SET B_TITLE = #{mbTitle}, B_CONTENT = #{mbContent}, B_MODIFY_DATE = SYSDATE
+		<if test="originalFileName != null">
+				, ORIGINAL_FILENAME = #{originalFileName}, RENAME_FILENAME = #{renameFileName}
+			</if>
+		WHERE BID = #{bId}
+	</update>
+	
+	<update id="deleteBoard">
+		UPDATE BOARD SET B_STATUS = 'N'
+		WHERE BID = #{bId}
+	</update>
+	
+	<!-- 마켓 게시판 -->
+	
+	
+	<!-- 게시글 등록 -->
+	<insert  id = 'insertMarketBoard' parameterType="MarketBoard">
+		INSERT INTO BOARD VALUES(SEQ_B_NUM.nextval,'중고',#{mbTitle},#{mbContent,jdbcType=CLOB},0,SYSDATE,SYSDATE,DEFAULT,DEFAULT,#{mbWriter},#{marketPrice},#{mbCategory})
+	</insert>	
+	
+	<insert  id ='saveimage' parameterType="MarketAtt">
+	INSERT INTO ATTACHMENT
+	VALUES (SEQ_FILE_NO.NEXTVAL,#{path},SYSDATE,#{oriFileName}, #{reFileName},DEFAULT, DEFAULT,'MARKET',SEQ_B_NUM.currval,DEFAULT)
+	</insert>
+	 <resultMap type="MarketAtt" id="marketAttResultSet" >
+		<result property="filesNo" column="FILE_NO"/>
+		<result property="bId" column="B_NUM"/>
+		<result property="path" column="FILE_PATH"/>
+		<result property="oriFileName" column="FILE_ORIGIN_NAME"/>
+		<result property="reFileName" column="FILE_CHANGE_NAME"/>
+		<result property="fStatus" column="FILE_STATUS"/>
+	</resultMap>
+	 
+</mapper>
