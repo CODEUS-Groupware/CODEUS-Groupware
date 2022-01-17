@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.codeusgroup.codeus.empStatus.model.dao.EmpStatusDAO;
 import com.codeusgroup.codeus.empStatus.model.vo.EmpStatus;
+import com.codeusgroup.codeus.member.model.vo.Member;
 
 @Service("esService")
 public class EmpStatusServiceImpl implements EmpStatusService{
@@ -77,6 +78,42 @@ public class EmpStatusServiceImpl implements EmpStatusService{
 	public ArrayList<EmpStatus> monthWorkTime(HashMap<String, String> map) {
 		
 		return esDAO.monthWorkTime(sqlSession, map);
+	}
+
+	@Override
+	public ArrayList<EmpStatus> selectDeptEmpStatus(String id) {
+		
+		return esDAO.selectDeptEmpStatus(sqlSession, id);
+	}
+
+	@Override
+	public ArrayList<EmpStatus> selectDeptWorkTime(HashMap<String, String> map) {
+		
+		return esDAO.selectDetptWorkTime(sqlSession, map);
+	}
+
+	@Override
+	public ArrayList<EmpStatus> commuteList(HashMap<String, String> map) {
+		
+		return esDAO.commuteList(sqlSession, map);
+	}
+
+	@Override
+	public ArrayList<EmpStatus> overworkList(HashMap<String, String> map) {
+		
+		return esDAO.overworkList(sqlSession, map);
+	}
+
+	@Override
+	public EmpStatus monthTotalTime(HashMap<String, String> map) {
+		
+		return esDAO.monthTotalTime(sqlSession, map);
+	}
+
+	@Override
+	public ArrayList<EmpStatus> selectDeptWeekList(HashMap<String, String> map) {
+		
+		return esDAO.selectDeptWeekList(sqlSession, map);
 	}
 
 	

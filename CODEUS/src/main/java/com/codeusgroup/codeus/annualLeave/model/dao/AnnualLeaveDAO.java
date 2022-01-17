@@ -1,6 +1,7 @@
 package com.codeusgroup.codeus.annualLeave.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -47,6 +48,16 @@ public class AnnualLeaveDAO {
 	public ArrayList<AnnualLeave> selectCheckAnnual(SqlSessionTemplate sqlSession, String id) {
 		
 		return (ArrayList)sqlSession.selectList("annualLeaveMapper.selectCheckAnnual", id);
+	}
+
+	public AnnualLeave selectAnnual(SqlSessionTemplate sqlSession, String id) {
+		
+		return sqlSession.selectOne("annualLeaveMapper.selectAnnual", id);
+	}
+
+	public int insertAnnualCount(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		System.out.println("map:"+map);
+		return sqlSession.insert("annualLeaveMapper.insertAnnual", map);
 	}
 
 

@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="chettingMapper">
+
+	<select id="selectChatroom" resultMap="ChettingResultSet">
+		select *
+		from chat_room
+		join chat_message on(chat_message.chat_num = chat_room.chat_num)
+		where chat_status = '0'
+	</select>
 	
+	<resultMap type="Chetting" id="ChettingResultSet">
+		<id column="MSG_NUM" property="msgNum"/>
+		<result column="MSG_CONTENT" property="msgContent"/>
+		<result column="MSG_TIME" property="msgTime"/>
+		<result column="CHAT_NUM" property="roomNum"/>
+		<result column="GROUP_NUM" property="groupNum"/>
+		<result column="SANDER" property="sander"/>
+		<result column="CHAT_MESSAGE.M_ID" property="myMid"/>
+		<result column="MSG_STATUS" property="msgStatus"/>
+		<result column="CHAT_STATUS" property="roomStatus"/>
+	</resultMap>
 	
 </mapper>

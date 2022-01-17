@@ -238,7 +238,7 @@
 		<servlet-name>documentServlet</servlet-name>
 		<url-pattern>*.dc</url-pattern>
 	</servlet-mapping>
-	
+
 	<!-- 공지사항 관련 -->
 	<servlet>
 	 	<servlet-name>noticeBoardServlet</servlet-name>
@@ -255,6 +255,5 @@
 		<servlet-name>noticeBoardServlet</servlet-name>
 		<url-pattern>*.nb</url-pattern>
 	</servlet-mapping>  
-	
 	
 </web-app>
