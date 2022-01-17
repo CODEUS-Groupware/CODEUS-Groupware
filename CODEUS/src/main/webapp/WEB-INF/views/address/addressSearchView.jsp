@@ -118,7 +118,7 @@
                                         			<td colspan="7">조회된 사원이 없습니다.</td>
                                         		</tr>
                                         	</c:if>
-                                        	<c:if test="${ !empty list }">
+                                        	<c:if test="${ !empty list && loginUser != addr.mId }">
 	                                            <tr id="info">
 	                                            	<td></td>
 	                                                <td id="name">${ addr.mName }</td>
@@ -257,7 +257,19 @@
 		
 		// 주소록 추가 버튼
 		$('#addrPlus').click(function() {
-			alert("추가되었습니다.");
+			var tdName = $('#mSearchList td').parent().children().eq(1).text();
+			
+			$.ajax({
+				url: "add.addr",
+				data: {tdName:tdName},
+				type: "POST",
+				successs: function(data) {
+					console.log(data);
+				},
+				error: function() {
+					console.log(data);
+				}
+			});
 		});
 	</script>
 	    

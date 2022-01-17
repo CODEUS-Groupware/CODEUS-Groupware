@@ -10,7 +10,7 @@
 	<select id="selectMemberList" resultMap="memberResultSet">
 		select *
 		from member
-		where m_status = '0' <!--  and m_manager_yn = 'N' -->
+		where m_status = '0' and m_manager_yn = 'N'
 	</select>
 	
 	<resultMap type="Member" id="memberResultSet">
@@ -51,4 +51,10 @@
 			</otherwise>
 		</choose>
 	</select>
+	
+	<insert id="addAddress">
+		insert into address
+		values(addr_seq.nextval, ${userId}, ${tdName})
+	</insert>
+	
 </mapper>

@@ -30,7 +30,8 @@
 		
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
-		<url-pattern>/</url-pattern>
+		<!-- <url-pattern>/</url-pattern> -->
+		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
 	
 	<!-- 인코딩 필터 적용 -->
@@ -51,7 +52,7 @@
 	   <url-pattern>/*</url-pattern> 
 	</filter-mapping> 
 	
-		<!-- 에러페이지 -->
+	<!-- 에러페이지 -->
 	<error-page>
 	  <exception-type>java.lang.Throwable</exception-type>
 	  <location>/common/errorThrowable.do</location>
@@ -254,6 +255,5 @@
 		<servlet-name>noticeBoardServlet</servlet-name>
 		<url-pattern>*.nb</url-pattern>
 	</servlet-mapping>  
-	
 	
 </web-app>

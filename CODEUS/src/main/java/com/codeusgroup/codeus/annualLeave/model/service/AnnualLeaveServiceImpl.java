@@ -1,6 +1,7 @@
 package com.codeusgroup.codeus.annualLeave.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,19 @@ public class AnnualLeaveServiceImpl implements AnnualLeaveService{
 		
 		return alDAO.selectCheckAnnual(sqlSession, id);
 	}
+
+	@Override
+	public AnnualLeave selectAnnual(String id) {
+		
+		return alDAO.selectAnnual(sqlSession, id);
+	}
+
+	@Override
+	public int insertAnnualCount(HashMap<String, String> map) {
+		
+		return alDAO.insertAnnualCount(sqlSession, map);
+	}
+
 
 
 	
