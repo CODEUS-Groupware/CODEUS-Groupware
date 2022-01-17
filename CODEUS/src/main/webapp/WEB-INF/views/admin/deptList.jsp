@@ -75,7 +75,7 @@
 								   <form id="deleteForm" action="${ contextPath }/admin/ddelete.ad" method="post">
 								   		<input id="deleteDeptId" type="hidden" name="deptId">
 								   </form>					              
-		                            <!-- 부서 추가  Modal창 -->
+		                            <!------------ 부서 추가  Modal창 시작 ---------------->
 		                            <div class="modal fade" id="insertDeptModal">
 		                            	<div class="modal-dialog modal-dialog-centered" role="document">
 		                                	<div class="modal-content">
@@ -103,7 +103,10 @@
 		                                        </div>
 		                                    </div>
 		                            	</div>
-		                          </div>
+		                          	</div>
+		                          	<!------------ 부서 추가  Modal창 끝 ---------------->
+		                          	
+		                          <!------------ 부서 추가,삭제 관련 js 시작 ---------------->
 								  <script>
 								  	  // 모달창 여는 버튼 클릭시 모달창 안의 내용 초기화
 								  	  let existenceCheck = false;
@@ -267,8 +270,6 @@
 								  			Swal.fire({
 				                       			title: '정말 삭제하시겠습니까?',
 				                       			showCancelButton: true,
-				                       			confirmButtonColor: '#CD5C5C',
-				                       			cancelButtonColor: 'gray',
 				                       			confirmButtonText: '삭제',
 				                       		 	cancelButtonText: '취소'	
 					        				}).then((result) => {
@@ -290,9 +291,12 @@
 		                				}
 		                			});
 								  </script>
+								  <!------------ 부서 추가,삭제 관련 js 끝 ---------------->
 							   </div>
 							   <br>
 							   <hr>
+							   
+							   <!------------------- 조직도 treeview 영역 시작 -------------------->
 	                           <div id="treeView">
 	                           		<ul id="deptList">
 	                           		<c:if test="${ fn:length(dList) != 0 }">
@@ -403,8 +407,13 @@
                         	</div>
                     	</div>
                    </div> 
+                   <!------------------- 조직도 treeview 영역 끝 -------------------->
+                   
+                   <!------------------- 조직도 treeview 조회 관련 js 시작 -------------------->
 		           <script>
-		           		// 조직도 treeview
+		           	   /**
+		                * treeview를 호출하고, request영역에 저장된 dList를 deptArr이라는 배열에 담아서 활용
+		                */          		
 		           		var deptArr = new Array();
 		            	$(function(){
 		            		$("#deptList").treeview({});
@@ -456,7 +465,7 @@
 	 		            				deptName = deptArr[i].deptName;
 	 		            				deptManager = deptArr[i].deptManager == null ? "" : deptArr[i].deptManager;
 	 		            				deptManagerName = deptArr[i].deptManagerName  == null ? "" :  deptArr[i].deptManagerName;
-	 		            				deptManagerJob = deptArr[i].deptManagerJob  == null ? "" :  deptArr[i].deptManagerJob + " ";
+	 		            				deptManagerJob = deptArr[i].deptManagerJob  == null ? "" :  deptArr[i].deptManagerJob;
 	 		            				upperDept = deptArr[i].upperDept;
 	 		            				createDate = deptArr[i].createDate;
 	 		            			}
@@ -478,15 +487,15 @@
  		            		
  		            	});
 		            	
- 		            	// 트리뷰의 + 버튼 클릭시 하위 부서 및 부서원 목록 조회를 위해 실행되는 함수
+ 		            	// 트리뷰의 +버튼(토클버튼) 클릭시 하위 부서 및 부서원 목록 select하여 보여줌
 		            	$(document).on('click', '.hitarea', function(){
 		            		let $hitarea = $(this);
 		            		let upperDept = $(this).next().val();
 		            		let $rootNode = $(this).parent().find('ul');
 
-		            		// level이 3 이상인 부서는 처음 페이지가 로드될 때 부서 목록에 보이게 하고, 
-		            		// level4부터는 부서이름 옆의 확장 버튼을 클릭했을 때 해당 부서의 하위 부서 목록을 ajax로 불러옴
-		            		// newNode라는 클래스명을 포함하고 있으면 ajax 호출하여 새로 생성된 요소를 의미. 이미 생성된 요소를 중복하여 불러오지 않게 하기 위하여 조건 추가
+		            		// depth level이 3 이상인 부서는 처음 페이지가 로드될 때 부서 목록에 보이게 하고, 
+		            		// depth level4부터는 부서이름 옆의 확장 버튼을 클릭했을 때 해당 부서의 하위 부서 목록을 ajax로 불러옴
+		            		// newNode라는 클래스명을 포함하고 있으면 ajax 호출하여 새로 생성된 요소를 의미. 이미 생성된 요소를 중복하여 불러오지 않게 하기 위하여 조건 추가 
 		            		if (!$(this).next().hasClass('lv') && !$rootNode.hasClass('newNode')) {
 		            			if ($(this).parent().hasClass('expandable') || $rootNode.css('display') == 'none') {
 		            				console.log($(this).parent().hasClass('expandable'));
@@ -524,6 +533,7 @@
 										                    }
 						 	                       		</c:forEach>
 					            						
+						 	                       		// data[i].hasChildren : 0이면 자식노드가 있다는 뜻
 				            							if (data[i].hasChildren == 0 || hasChildren) {
 				            								$li = $('<li class="expandable">');
 				            								$div =  $('<div class="hitarea expandable-hitarea">');
@@ -582,167 +592,85 @@
 		            	});
 		  
 		            </script>
+		            <!------------------- 조직도 treeview 조회 관련 js 시작 -------------------->
+		             
+		            <!------------------- 조직도 내 부서 위치 이동 관련 js 시작 -------------------->
 					<script>
-                 		// drag and drop function
+                 		// 조직도 내 부서 위치 이동(drag and drop function)
                  		$(function(){
-                 			let upperDeptId = "";
-                 			let moveDeptId = "";
-	
-		                    //boolean to revert check
-		                    let isRevert = false;
-	
-		                    //droppable target 
-		                    $contain= $(".dropable");
-	
-		                    //draggable target
-		                    $object = $(".draggable");
-	
-		                	//움직일 객체
-		                    $object.draggable(
-		                        {
-		                            //드래그가 끝난뒤 제자리로 돌아오게 하는 속성값
-		                            revert:function(event,ui){
-		                                //droppable 객체가 아닌곳에 드래그 됫을때
-		                                if(event==false){
-		                                    isRevert=false;
-		                                    return true;
-		                                //droppable 객체에 들어갓을때
-		                                } else{
-		                                    isRevert=true;
-		                                }
-	
-		                            },
-	
-		                            //드래그되는 객체가 본인 자체일지 아니면 그외 다른것일지
-		                            //해당 함수의 return 값이 드래그되어서 움직임
-		                            helper:function(){
-		                                $helper=$(this).clone();
-		                                return $helper; 
-	
-		                            },
-	
-		                            //드래그가 시작됬을때 발생
-		                            start:function(event,ui){
-		                                //최종 더해질 객체
-		                                $final=$(this).clone();
-		                                //잠시 더해져서 에니메이션을 보여줄 객체
-		                                $clone=$(this).clone();
-	
-		                            },
-	
-		                            //드래그가 중지됬을때 발생
-		                            stop:function(event,ui){
-
-		                                moveDeptId = $(this).prev().val();
-		                                
-		                                //제대로 droppable 객체 안에 들어갔을때
-		                                if(isRevert && upperDeptId != "" && moveDeptId != ""){
-
-			                                let upperDeptLevel = 0;
-		                                	let moveDeptLevel = 0;
-		                                	let originUpperDept = 0;
-		                                	for(let i in deptArr) {
-									  		 	if (upperDeptId == deptArr[i].deptId) {
-									  		 		upperDeptLevel = Number(deptArr[i].deptLevel);
-									  		 	}
-									  		 	if (moveDeptId == deptArr[i].deptId) {
-									  		 		moveDeptLevel = Number(deptArr[i].deptLevel);
-									  		 		originUpperDept = Number(deptArr[i].upperDept);
-									  		 	}
-									  		}
-		                                	
-		                                	if (upperDeptLevel <= moveDeptLevel) {
-		                                		if (originUpperDept != upperDeptId) {
-		                                			$.ajax({
-														url: 'dmove.ad',
-								                		data: {moveDeptId:moveDeptId, upperDeptId:upperDeptId, upperDeptLevel:upperDeptLevel},
-								                		type: 'POST',
-								                		success: function(data){
-								                			console.log(data);
-								                			if (data.length > 0) {
-								                				location.reload();
-								                			}
-								                		},
-								                		error: function(data){
-								                			console.log(data);
-								                			alert('알 수 없는 오류가 발생했습니다.', '', 'error');
-								                		}
-													});
-		                                		}
-		                                	} else {
-		                                		alert('하위 부서로 이동할 수 없습니다.');
-		                                	}
-										  	         
-		                                }
-		                            }
-
-	                        	});
-		                    	
-		                    	$contain.droppable({
-			                    	 accept:".draggable",
-								     drop: function( event, ui ) {  // drop function : draggable의 stop function이 종료된 후에 발생
-								    	 upperDeptId = $(this).prev().val();
-							     	}
-								});
+                 			moveDept();
 						});  
                  		
-                 		$(document).on('drag', '.draggable', function(){ // 새롭게 생성된 객체도 적용될 수 있게 $(document).on()사용
+                 	    // 새롭게 생성된 객체도 적용될 수 있게 $(document).on()사용
+                 		$(document).on('drag', '.draggable', moveDept);
+                 		
+                 		function moveDept() {
+                 			// drop된 곳에 위치한 부서의 id;
                  			let upperDeptId = "";
+                 			
+                 		    // 드래그되는 객체인 부서의 id
                  			let moveDeptId = "";
+                 		    
+                 		    // 중복 이벤트 방지를 위한 count
                  			let count = 0;
 	
-		                    //boolean to revert check
+		                    // boolean to revert check
 		                    let isRevert = false;
 	
-		                    //droppable target 
+		                    // droppable target 
 		                    $contain= $(".dropable");
 	
-		                    //draggable target
+		                    // draggable target
 		                    $object = $(".draggable");
 	
-		                	//움직일 객체
+		                	// 움직일 객체
 		                    $object.draggable(
 		                        {
-		                            //드래그가 끝난뒤 제자리로 돌아오게 하는 속성값
+		                            // 드래그가 끝난뒤 제자리로 돌아오게 하는 속성값
 		                            revert:function(event,ui){
-		                                //droppable 객체가 아닌곳에 드래그 됫을때
+		                                // droppable 객체가 아닌곳에 드래그 됫을때
 		                                if(event==false){
 		                                    isRevert=false;
 		                                    return true;
-		                                //droppable 객체에 들어갓을때
+		                                // droppable 객체에 들어갓을때
 		                                } else{
 		                                    isRevert=true;
 		                                }
 	
 		                            },
 	
-		                            //드래그되는 객체가 본인 자체일지 아니면 그외 다른것일지
-		                            //해당 함수의 return 값이 드래그되어서 움직임
+		                            // 드래그되는 객체가 본인 자체일지 아니면 그외 다른것일지
+		                            // 해당 함수의 return 값이 드래그되어서 움직임
 		                            helper:function(){
 		                                $helper=$(this).clone();
 		                                return $helper; 
 	
 		                            },
 	
-		                            //드래그가 시작됬을때 발생
+		                            // 드래그가 시작됬을때 발생
 		                            start:function(event,ui){
-		                                //최종 더해질 객체
+		                                // 최종 더해질 객체
 		                                $final=$(this).clone();
-		                                //잠시 더해져서 에니메이션을 보여줄 객체
+		                                // 잠시 더해져서 에니메이션을 보여줄 객체
 		                                $clone=$(this).clone();
 	
 		                            },
 	
-		                            //드래그가 중지됬을때 발생
+		                            // 드래그가 중지됬을때 발생
 		                            stop:function(event,ui){
 		                                
 		                                moveDeptId = $(this).prev().val();
 		                                
-		                                //제대로 droppable 객체 안에 들어갔을때
+		                                // 제대로 droppable 객체 안에 들어갔을때 
 		                                if(isRevert && upperDeptId != "" && moveDeptId != ""){
-
+											
+		                                	// 상위 부서의 depth level
 			                                let upperDeptLevel = 0;
+		                                	
+			                                // 드래그되는 객체인 부서의 depth level
 		                                	let moveDeptLevel = 0;
+			                                
+		                                	// 드래그되는 객체인 부서의 기존 상위부서의 id
 		                                	let originUpperDept = 0;
 		                                	for(let i in deptArr) {
 									  		 	if (upperDeptId == deptArr[i].deptId) {
@@ -754,6 +682,7 @@
 									  		 	}
 									  		}
 		                                	
+		                                	// 드래그되어 움직이는 부서가 드롭되면 상위 부서를 드롭된 자리에 있는 부서로 update
 		                                	if (upperDeptLevel <= moveDeptLevel) {
 		                                		if (originUpperDept != upperDeptId) {
 		                                			$.ajax({
@@ -773,25 +702,27 @@
 													})
 		                                		}
 		                                	} else {
+		                                		// depth level이 낮은 부서로는 이동 못하게 제한
 		                                		alert('하위 부서로 이동할 수 없습니다.');
 		                                	}
 		                                }
 		                            }
-
 	                        	});			
 		                	
 			                    $contain.droppable({
 	                				 accept:".draggable",
 								     drop: function( event, ui ) {  // drop function : draggable의 stop function이 종료된 후에 발생
 								    	 if (count == 0) {
-								    		 upperDeptId = $(this).prev().val();
+								    		 upperDeptId = $(this).prev().val(); 
 								    	 }
 								    	 count++;
 							     	}
 								});
-                 		});
-                 		
+                 		}
                  	</script>
+                 	<!------------------- 조직도 내 부서 위치 이동 관련 js 끝 -------------------->
+                 	
+                 	<!------------------- 부서 수정 영역 시작 -------------------->
                     <div class="col-lg-8 card2">
                         <div class="card">
                             <div class="card-body">
@@ -802,7 +733,7 @@
                                	<div class="dept-detail">
 				                     <span class="text-danger update" hidden="true">*</span>
 				                     <span class="text-danger beforeUpdate">&nbsp;</span>
-				                     <label class="col-form-label update-form dept-label">부서명</label><span id="deptNameSpan" class="beforeUpdate"> ${ dList[0].deptName }</span>
+				                     <label class="col-form-label update-form dept-label">부서명</label><span id="deptNameSpan" class="beforeUpdate">${ dList[0].deptName }</span>
 				                     <input id="deptNameInput" type="text" class="form-control update" name="deptName" value="${ dList[0].deptName }" hidden="true">
 				                     <br>
 				                     <div class="guide-display"><span id="deptNameGuide" class="guide update-guide text-danger">2~10자리까지 입력해주세요.</span><br></div>
@@ -830,8 +761,9 @@
                         	</div>
                     	</div>
                  	</div>
-                 </div>
-                    <script>
+                 	<!------------------- 부서 수정 영역 끝 -------------------->
+                 <!------------------- 부서 수정 관련 js 시작 -------------------->
+                 <script>
                     	// 수정하기 버튼 클릭시 수정 화면으로 보이게 함
                     	$('#updateFormBtn').on('click', function(){
                     		$('.beforeUpdate').prop('hidden', true);
@@ -910,22 +842,29 @@
 			                		type: 'POST',
 			                		success: function(data){
 			                			console.log(data);
-			                			$('.selectDept').text(deptName); 
-			                			$('#deptNameSpan').text(deptName);
-			                			$('#deptMgrSpan').text(deptManagerName + " " + jobName);
-			                			$('.update').prop('hidden', true);
-			                    		$('.beforeUpdate').prop('hidden', false);
-			                    		
-			                    		for(let i in deptArr) {
-			 		            			if(deptId == deptArr[i].deptId) {
-					            				deptArr[i].deptName = deptName;
-					            				deptArr[i].deptManager = deptManager;
-					            				deptArr[i].deptManagerName = deptManagerName
-					            				deptArr[i].deptManagerJob = jobName;
-					            			}
-			 		            		}
-			                    		
-			                			alert('저장되었습니다.');
+			                			
+			                			// update 성공하면
+			                			if (data == 'success') {
+			                				// 화면에 남아있는 기존 부서 정보를 변경된 정보로 변경
+				                			$('.selectDept').text(deptName); 
+				                			$('#deptNameSpan').text(deptName);
+				                			$('#deptMgrSpan').text(deptManagerName + " " + jobName);
+				                			$('.update').prop('hidden', true);
+				                    		$('.beforeUpdate').prop('hidden', false);
+				                    		
+				                    		for(let i in deptArr) {
+				 		            			if(deptId == deptArr[i].deptId) {
+						            				deptArr[i].deptName = deptName;
+						            				deptArr[i].deptManager = deptManager;
+						            				deptArr[i].deptManagerName = deptManagerName
+						            				deptArr[i].deptManagerJob = jobName;
+						            			}
+				 		            		}
+				                    		
+				                			alert('저장되었습니다.');
+			                			} else {
+			                				alert('알 수 없는 오류가 발생했습니다.', '', 'error');
+			                			}
 			                		},
 			                		error: function(data){
 			                			console.log(data);
@@ -947,14 +886,15 @@
 		        				text : msg,
 		        				icon: icon,
 		        				timer : 1500,
-		        				customClass : 'sweet-size',
 		        				showConfirmButton : false
 		        			});
 		        		}
 		            </script>
-                </div>
-            </div>
-        </div>
+		             <!------------------- 부서 수정 관련 js 끝 -------------------->
+		             
+              </div>
+           </div>
+        </div>   
         <!--**********************************
             Content body end
         ***********************************-->

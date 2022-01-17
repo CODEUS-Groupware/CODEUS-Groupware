@@ -84,7 +84,7 @@
                                 	// 회의실 삭제
                                 	$('#deleteBtn').on('click', function(){
                                 		Swal.fire({
-  	                       				  text: '정말 삭제하시겠습니까?',
+  	                       				  title: '정말 삭제하시겠습니까?',
   	                       				  showCancelButton: true,
   	                       				  confirmButtonText: '삭제',
   	                       				  cancelButtonText: '취소'

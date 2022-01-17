@@ -124,3 +124,4 @@ Servers/
 .classpath
 .settings
 pom.properties
+CODEUS/src/main/webapp/resources/uploadFiles/
