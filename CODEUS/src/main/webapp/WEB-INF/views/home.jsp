@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,6 +12,17 @@
     <link href="${contextPath}/resources/assets/vendor/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/assets/vendor/chartist/css/chartist.min.css" rel="stylesheet">
 </head>
+<style>
+#comTimeBtn, #offTimeBtn, #addAnnualLeave{
+
+ border-radius: 25px;
+ width: 100px;
+ height: 40px;
+ background: none;
+ border: 1px solid #593BDB;
+ color:#593BDB;
+ }
+</style>
 
 <body>
 
@@ -508,7 +520,28 @@
                     <div class="col-lg-4">
                         <div class="card">
                             <div class="card-body">
-                                <div class="year-calendar"></div>
+                                <div id="nowDateArea">
+	                        	<c:set var="date"><fmt:formatDate value="${today}" pattern="yyyy-MM-dd(E) hh:mm:ss" /></c:set>
+									 <c:out value="${date}" />
+									<div id="clock"></div>
+								<c:choose>
+									<c:when test="${! empty empStatus1.getEmpOnTime() && ! empty sessionScope.empStatus1}">
+	                            		<input type="button" id="comTimeBtn" onclick="comTime();" value="출근시간" disabled="disabled" style="border: 1px solid gray; color: gray;">
+	                            	</c:when>	
+	                            	<c:otherwise>
+	                            		<input type="button" id="comTimeBtn" onclick="comTime();" value="출근시간" >
+	                            	</c:otherwise>
+                       			</c:choose>	
+                       			<c:choose>
+									<c:when test="${! empty empStatus1.getEmpOffTime() && ! empty sessionScope.empStatus1}">
+	                            		<input type="button" id="offTimeBtn" onclick="offTime();" value="퇴근시간" disabled="disabled" style="border: 1px solid gray; color: gray;">
+	                            	</c:when>
+	                            	<c:otherwise>
+	                            		<input type="button" id="offTimeBtn" onclick="offTime();" value="퇴근시간" >
+	                            	</c:otherwise>		
+	                            </c:choose>				
+                        </div>
+                        
                             </div>
                         </div>
                         <!-- /# card -->
@@ -674,5 +707,102 @@
     <!-- Circle progress -->
 
 </body>
+ <script>
+    function printTime() {
+    	
+		
+	    var now = new Date();// 현재시간
+	    var nowTime =  now.getHours() + "시" + now.getMinutes() + "분" + now.getSeconds() + "초";
+	
+	    clock.innerHTML = nowTime;// 현재시간을 출력
+	    setTimeout("printTime()",1000); // setTimeout(“실행할함수”,시간) 시간은1초의 경우 1000
+	}
+    
+    
+	  //출근시간 출력
+		function comTime(){
+			
+			var now = new Date();
+			var nowDate =  now.getFullYear() + "/" + (now.getMonth()+1)+"/"+now.getDate();
+			var nowTime = now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds() ;//현재시간
+			var day = new Date();
+			console.log(day);
+			
+			console.log(nowTime);			
+			
+			$.ajax({
+				url:'comTime.em',
+				data:{day:day, nowTime:nowTime},
+				dataType: 'json',
+				success:function(data){
+					
+					var onTime = data.empOntime;
+					var offTime = data.empOffTime;
+					
+					if(onTime != ''){
+						$('#comTimeBtn').attr("disabled","disabled");
+						$('#comTimeBtn').css('color','gray');
+						$('#comTimeBtn').css('border-color','gray');
+					}else if(offTime != ''){
+						$('#offTimeBtn').attr("disabled","disabled");
+						$('#offTimeBtn').css('color','gray');
+						$('#offTimeBtn').css('border-color','gray');
+					}
+					 
+				},
+				error:function(data){
+					console.log(data);
+				}
+			});
+
+		}
+
+	  function offTime(){
+			
+			var now = new Date();
+			var nowDate =  now.getFullYear() + "/" + (now.getMonth()+1)+"/"+now.getDate();
+			var offTime = now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds() ;//현재시간
+			var off = new Date();
+			var status = "업무종료";
+			$.ajax({
+				url:'offTime.em',
+				data:{off:off, 
+					offTime:offTime,
+					status:status
+					},
+				dataType: 'json',
+				success:function(data){
+					console.log(data);
+					
+					if(offTime != ''){
+						$('#offTimeBtn').attr("disabled","disabled");
+						$('#offTimeBtn').css('color','gray');
+						$('#offTimeBtn').css('border-color','gray');
+					}
+					 
+				},
+				error:function(data){
+					console.log(data);
+				}
+			});
+
+		}
+	  
+	  //연차자동생성
+	  function addAnnualLeave(){
+		  $.ajax({
+			  url:'addAnnualLeave.al',
+			  success:function(data){
+					console.log(data);
+					alert(data); 
+				},
+				error:function(data){
+					console.log(data);
+					alert(data); 
+				}
+		  });
+	  }
+    
+    </script>
 
 </html>
