@@ -61,7 +61,7 @@ public class EmpStatusController {
 		model.addAttribute("empWeekTime", empWeekTime);
 		model.addAttribute("empMonthTime", empMonthTime);
 
-		System.out.println("시간빌때"+empWeekTime.getStrGapTime());
+		//System.out.println("시간빌때"+empWeekTime.getStrGapTime());
 		return "empStatusMain";
 	}
 
