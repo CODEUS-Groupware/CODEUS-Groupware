@@ -28,12 +28,22 @@
                 top: 10px;
                 right: 10px;
             }
-    
+    		
+    		P {
+    			color:black;
+    		
+    		}
+    		
 </style>
 </head>
 <body>
-	<c:import url="../member/menubar.jsp"/>
-	
+	 <!--**********************************
+        Main wrapper start
+    ***********************************-->
+    <div id="main-wrapper">	
+
+		<c:import url="../common/menubar.jsp"/>
+		
 	
 	
 	 <!--**********************************
@@ -60,20 +70,13 @@
                <div class="row">
                    <div class="col-12">
                         <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">게시판</h4>
-                           </div>
                             <div class="card-body">
-	 							<button  type="button" 
-                                    id="bookmark" class="btn btn-primary">BOOKMARK</button>	
-                                
-                                    
                                  <c:if test="${ loginUser.mId ne b.bWriter || loginUser.mId eq 'admin' }">   
+								 <p align="right">
 								  <button  type="button"  id="popup_open_btn"
-					                                   class="btn btn-primary" id="report">REPORT</button>	
-					                                   
+					                   class="btn btn-primary" id="report">REPORT</button>	
+					              <p>
 					              </c:if>                     
-					                                   
 						 <!-- 본문 시작 -->
 					<div class="col-lg-12">
                         <div class="card">
@@ -81,36 +84,19 @@
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-hover table-responsive-sm" style="color:black">
-                                        <thead>
-                                            <tr>
+                                  <table class="table table-responsive-sm" style="color:black">
+								<h3 sylte="color: black;">${ b.bTitle }<h3>
 								<tr>
 									<th>번호</th>
 									<td>${ b.bId }</td>
-								</tr>
-								<tr>
-									<th>제목</th>
-									<td>${ b.bTitle }</td>
-								</tr>
-								<tr>
 									<th>작성자</th>
 									<td>${ b.bWriter }</td>
 								</tr>
 								<tr>
 									<th>작성날짜</th>
 									<td>${ b.bCreateDate }</td>
-								</tr>
-								<tr>
-									<th>내용</th>
-									<%-- <td>${ board.bContent }</td> --%>
-									<!-- 
-										이렇게만 두면 엔터가 먹지 않음. 
-										DB에는 엔터가 \r\n으로 들어가서 이를 치환해주는 작업 필요
-									-->
-									
-								<% pageContext.setAttribute("newLineChar", "\r\n"); %> <!-- \r\n 말고 그냥 \n도, \r도 가능하다 -->
-								<td>${ fn:replace(b.bContent, newLineChar, "<br>") }</td>
-								
+									<th>조회수</th>
+									<td>${ b.bViews }</td>
 								</tr>
 								<c:url var="bupView" value="bupView.bo">
 									<c:param name="bId" value="${ b.bId }"/>
@@ -118,20 +104,28 @@
 								</c:url>
 								<c:url var="bDelete" value="commbDelete.bo">
 										<c:param name="bId" value="${b.bId}"></c:param>
-										<c:param name="fileName" value="${b.renameFileName }"></c:param>
 								</c:url>
-								
-								
 								<tr>
-										<p align="right">
-										 <c:if test="${ loginUser.mId eq b.bWriter }">
-													<button type="button" class="btn btn-primary" onclick="location.href='${ bupView }'">수정</button>
-													<button type="button" class="btn btn-primary" onclick="location.href='${ bDelete }'">삭제</button>
-										</c:if>	
-										</p>
+									<p align="right">
+									 <c:if test="${ loginUser.mId eq b.bWriter }">
+										<button type="button" class="btn btn-primary" onclick="location.href='${ bupView }'">수정</button>
+										<button type="button" class="btn btn-primary" onclick="location.href='${ bDelete }'">삭제</button>
+									</c:if>	
+									</p>
 								</tr>
+								<tr>
+								<td colspan="5">
+	                        	 <p style="color:black">${mb.mbContent} </p>
+								</div>
+								<% pageContext.setAttribute("newLineChar", "\r\n"); %>
+								<p>${ fn:replace(b.bContent, newLineChar, "<br>") }</p>	
+								</td>
+								</tr>
+			                
 								
-								
+							</table>
+							
+			                
 								  <script>
 										$(function(){
 											$('#delete').click(function(){
@@ -146,22 +140,33 @@
 											});
 										});
 										</script>
-								
-								
-							</table>
+							
 	
 							<br><br>
 							
 							<!-- 본문 끝-->
 							
 							<!-- 댓글 영역 -->
-							
-							<jsp:include page="Reply.jsp"></jsp:include>
-							
-							<!--댓글영역 끝 -->
 						
-							<br><br>
-	
+		                    <!-- Column starts -->
+		                            <div class="card-body">
+		                                <div id="accordion-two" class="accordion accordion-bordered">
+		                                    <div class="accordion__item">
+		                                        <div class="accordion__header collapsed" data-toggle="collapse" data-target="#bordered_collapseTwo"> <span class="accordion__header--text">댓글</span>
+		                                            <span class="accordion__header--indicator"></span>
+		                                        </div>
+		                                        <div id="bordered_collapseTwo" class="collapse accordion__body" data-parent="#accordion-two">
+		                                            <div class="accordion__body--text">
+		                                              <jsp:include page="Reply.jsp"></jsp:include>
+		                                            </div>
+		                                        </div>
+		                                    </div>
+		                                </div>
+		                            </div>
+		                        </div>
+		                    </div>
+		                    <!-- 댓글 영역 -->
+                   
 							<p align="center">
 								<button  type="button" 
 						            onclick="location.href='home.do'" class="btn btn-primary">홈으로</button>	
@@ -169,10 +174,8 @@
 						            onclick="location.href='Commblist.bo'" class="btn btn-primary">목록</button>
 							</p>
 	
-	
-							<!--신고 모달 창 -->
-							
-					        <div id="my_modal">
+						<!-- 신고 모달 창 -->
+							<div id="my_modal">
 							<form id="postReportForm">
 							<br><br><br>
 								<h3 align="center" style="color: black">게시글 신고</h3>
@@ -187,11 +190,11 @@
 								</div> 
 							
 								<div class="modal_report_div">
-								 <input type="radio" name="userReportType" id="radio-1"
-									 value="A">&nbsp; <label for="radio-1" style="color: black" 
+								 <input type="radio" id="reportChoice1" class="reportChoice"
+								 name="preport" value="A">&nbsp; <label for="radio-1" style="color: black" 
 									class="modal_choise_label">부적절한 내용을 포함</label> <br> 
-								 <input type="radio" name="userReportType" id="radio-2"
-									value="B">&nbsp; <label for="radio-2" style="color: black" align="center"
+								  <input type="radio" id="reportChoice1" class="reportChoice"
+								 name="preport" value="B">&nbsp; <label for="radio-2" style="color: black" align="center"
 									class="modal_choise_label">광고성 내용을 포함</label>
 							</div>
 							<A id="btncancel" class="modal_close_btn">닫기</A>
@@ -207,6 +210,7 @@
 						<br><br>
 						
 					</div>
+					<!-- 신고 모달창 -->
 					        
 				
 					        <script>
@@ -270,17 +274,20 @@
 					        $("#btnreport").on("click", function() {
 					
 					     	 if(!confirm('정말로 신고하시겠습니까?')) return;
-					     
+					     		
+					     	 var bg = null;
+					     	   var modal = null;
+					   
 					         $.ajax({
 					            url : "reportCommPost.bo",
 					            type : "post",
 					            data : $("#postReportForm").serialize(),
 					         	dataType : "json",
 					            success : function(data) {
-					               if(data > 0) {
-					                  alert("신고 접수 되었습니다!");
-					               } else {
-					                  alert("신고 접수 실패! 관리자에게 문의하세요!");                  
+						        	   if(data == 'success'){
+							        	  	 alert("신고되었습니다. 관리자 확인 후 처리 됩니다.");
+							        	   }else if(data == 'fail'){
+							        		   alert('이미 신고된 댓글 입니다.');               
 					               }
 					               bg.remove();
 					               modal.style.display = 'none';
@@ -309,46 +316,47 @@
       	</c:if>
       	
       	
-	
-	     <!--**********************************
+	 <!--**********************************
+            Content body end
+        ***********************************-->
+
+        <!--**********************************
             Footer start
         ***********************************-->
         <div class="footer">
             <div class="copyright">
-                <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">Quixkit</a> 2019</p>
+                <p>Copyright © Designed &amp; Developed by <a href="${contextPath}/home.do" target="_blank">CODEUS</a> 2021</p>
             </div>
         </div>
         <!--**********************************
             Footer end
-        ***********************************-->
-
-        <!--**********************************
-           Support ticket button start
-        ***********************************-->
-
-        <!--**********************************
-           Support ticket button end
-        ***********************************-->
-  
+        ***********************************-->      
+          
+    </div>
+    
     <!--**********************************
         Main wrapper end
     ***********************************-->
-
-   
-<!--**********************************
+    
+   <!--**********************************
         Scripts
     ***********************************-->
-    <!-- Required vendors -->
-    <script src="${contextPath}/resources/assets/vendor/global/global.min.js"></script>
-    <script src="${contextPath}/resources/assets/js/quixnav-init.js"></script>
-    <script src="${contextPath}/resources/assets/js/custom.min.js"></script>
+
     
+   <!-- Tree Viewer JS
+	============================================ -->
+<!-- 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script> -->
 
 
-    <!-- Datatable -->
-    <script src="${contextPath}/resources/assets/vendor/datatables/js/jquery.dataTables.min.js"></script>
-    <script src="${contextPath}/resources/assets/js/plugins-init/datatables.init.js"></script>
+<!-- <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script> -->
 
+	<script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.cookie.js"></script>
+	<script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.treeview.js" type="text/javascript"></script>
+	<script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.treeview.edit.js" type="text/javascript"></script>
+	<script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.treeview.async.js" type="text/javascript"></script>
+	
+	<!-- drag and drop 관련 js -->
+	<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
 </body>
 
 </html>
