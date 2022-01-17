@@ -189,10 +189,16 @@
 #monthWortkTime *{
 	text-align:center;
 }
-#monthWortkTime {
-    width: 100%;
-    margin-bottom: 1rem;
-    color: #BDBDC7;
+#deptTotalTable {
+	width: 620px;
+}
+#deptTotalTable th, td{
+	min-width: 130px!important;
+    max-width: 140px!important;
+    text-align: center;
+}
+#deptTotalTable th{
+	border-bottom: 1px solid gray;
 }
 
 </style>
@@ -299,55 +305,59 @@
 	                        	<span id="empTitle" class="card-title">누적 근태현황</span>	                   					
                             </div>                        		                   
                             
-						<div class="sec_cal">
-							  <div class="cal_nav">
-							    <a href="javascript:;" class="nav-btn go-prev">prev</a>
-							    <div class="year-month"></div>
-							    <a href="javascript:;" class="nav-btn go-next">next</a>
-							  </div>
-						<div style="display:none;">
-							  <div class="cal_wrap">
-							    <div class="days">
-							      <div class="day">MON</div>
-							      <div class="day">TUE</div>
-							      <div class="day">WED</div>
-							      <div class="day">THU</div>
-							      <div class="day">FRI</div>
-							      <div class="day">SAT</div>
-							      <div class="day">SUN</div>
-							    </div>
-							    <div class="dates"></div>
-							  </div>
-						</div>	  	  
-						</div>		
-							<div class="card">
-				                <div class="card-body">
-			                         <table id="monthWortkTime"><!-- 한달 총 근무시간 나타내기 -->
-						  		   		<thead>
-							                <tr>							                  
-							                   <td style="border: 1px solid #eaeaea; height: 45px; font-size:25px;">근무시간</td>
-							                   <td style="border: 1px solid #eaeaea; height: 45px; font-size:25px;">초과시간</td>
-							               </tr>
-							            </thead>
-							            <tbody></tbody>        
-			         				 </table> 
-			                         <div class="card-block accordion-block" id="accodianA">
-						                 <div id="accordion" role="tablist" aria-multiselectable="true">
-								                       
-						                  </div>
-			                         </div>
-			                   </div>
-			             </div>
+				<div class="sec_cal">
+					  <div class="cal_nav">
+					    <a href="javascript:;" class="nav-btn go-prev">prev</a>
+					    <div class="year-month"></div>
+					    <a href="javascript:;" class="nav-btn go-next">next</a>
+					  </div>
+				<div style="display:none;">
+					  <div class="cal_wrap">
+					    <div class="days">
+					      <div class="day">MON</div>
+					      <div class="day">TUE</div>
+					      <div class="day">WED</div>
+					      <div class="day">THU</div>
+					      <div class="day">FRI</div>
+					      <div class="day">SAT</div>
+					      <div class="day">SUN</div>
+					    </div>
+					    <div class="dates"></div>
+					  </div>
+				</div>	  	  
+				</div>		
+		
+                       <div class="card">
+                            
+                            <div class="card-body" id="deptDiv">
+                               <table  id="deptTotalTable">
+                               		<thead>
+	                               		<th>이름</th>
+	                               		<th>한달 근무시간</th>
+	                               		<th>한달 초과근무시간</th>
+	                               		<th id="worktable"></th>
+                               		</thead>
+                               		<tbody>
+                               			
+                               		</tbody>
+                               </table>
+                            </div>
+                        </div>
                     </div>
-           		</div>
-                <div class="col-xl-12 col-xxl-6 col-lg-6 col-md-12">
+                        </div>
+                    </div>
+                    <div class="col-xl-12 col-xxl-6 col-lg-6 col-md-12">
                 	<div class="row">
                     </div>
                 </div>
             </div>
+            
                  <div class="row">
                     <div class="col-lg-3">
                         <div class="card">
+                           
+                               
+                             
                             <div class="card-body">
                                 <!-- Default accordion -->
                                 <div id="accordion-one" class="accordion">
@@ -402,8 +412,10 @@
                            
                         </div>
                         <!-- /# card -->
-                   </div>
-            	</div>
+                    </div>
+                     
+   
+            </div>
             </div>
         </div>
         <!--**********************************
@@ -536,8 +548,9 @@
 					error:function(data){
 						console.log(data);
 					}
-				});					
-			});	
+				});
+					
+		});	
 	    
 	$(document).ready(function() {
 	    calendarInit();
@@ -568,6 +581,7 @@
     var thisMonth = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     // 달력에서 표기하는 날짜 객체
   
+    
     var currentYear = thisMonth.getFullYear(); // 달력에서 표기하는 연
     var currentMonth = thisMonth.getMonth(); // 달력에서 표기하는 월
     var currentDate = thisMonth.getDate(); // 달력에서 표기하는 일
@@ -583,12 +597,15 @@
 	    var thisMonth = new Date(today.getFullYear(), today.getMonth(), today.getDate());
 	    // 달력에서 표기하는 날짜 객체
 	  
+	    
 	    var currentYear = thisMonth.getFullYear(); // 달력에서 표기하는 연
 	    var currentMonth = thisMonth.getMonth(); // 달력에서 표기하는 월
 	    var currentDate = thisMonth.getDate(); // 달력에서 표기하는 일
 		var currentDay = thisMonth.getDay();
 
 	    // kst 기준 현재시간
+	    
+	    // console.log(thisMonth);
 
 	    // 캘린더 렌더링
 	    renderCalender(thisMonth);
@@ -623,169 +640,126 @@
 		 	    var thisWeek = $('#'+todayWeek+'WeekTable').parents('.collapse');
 		 	    thisWeek.addClass('show');
 		 	    thisWeek.prev().find('i').removeClass('icofont-rounded-down').addClass('icofont-rounded-up');
-		 	    
-		 	    
-		 	   //월별 근무내용 가져오기
-		 	   $.ajax({
-		 		   url:'monthEmpStatus.em',
-		 		  dataType: 'json',
-		 		   data:{
-		 			  currentYearMonth:currentYearMonth,
-			    		currentYear:currentYear,
-			    		currentMonth:currentMonth,
-			    		weekSeq:weekSeq,
-		 		   },
-		 		 
-			      success:function(data){
-			    	  console.log("한달성공");
-					    console.log(data);
-					    var monthTable = $('#monthWortkTime tbody');
-					    var monthTime = "<tr>"+						                  
-						                   "<td style='border: 1px solid #eaeaea; height: 45px; font-size:25px;'>"+data.strGapTime+"</td>"+
-						                   "<td style='border: 1px solid #eaeaea; height: 45px; font-size:25px;''>"+data.strOverTime+"</td>"+
-						               	 "</tr>"
-						monthTable.append(monthTime);               	 
-			      },
-			      error:function(data){
-						console.log(data);
-					}
-		 		   
-		 	   });
-		 	    
-		 	    
 		 	   
-	        //주별 근무내용 가져오기
+		 	    currentMonth1 = currentMonth+1;
+		 		currentMonth1 = (currentMonth1 < 10) ? "0" + currentMonth1 : currentMonth1;
+		 		console.log("현재월:"+currentMonth1);
+
+
+		 	  
+	        
 	        $.ajax({
-		    	url:'monthWorkTime.em',
+		    	url:'deptWorkTime.em',
 		    	data:{currentYearMonth:currentYearMonth,
 		    		currentYear:currentYear,
-		    		currentMonth:currentMonth,
+		    		currentMonth1:currentMonth1,
 		    		weekSeq:weekSeq,
 		    	},
 		    	dataType: 'json',
 		    	success:function(data){
+		    		console.log("부서별 성공");
 					console.log(data);	
-				
-					 for(var i = 1; i <= weekSeq; i++){
-						var cl = "<div class='accordion-heading clickWeek' role='tab' id='heading"+i+"'>"+
-                         "<h3 class='card-title accordion-title'>"+
-                            " <a class='accordion-msg' data-toggle='collapse' data-parent='#accordion' href='#collapse"+i+"'+ aria-expanded='true' aria-controls='collapse"+i+"'>"+
-                            " <i class='bi bi-chevron-down'>"+"</i>"+
-                                 "&nbsp;"+i+"주차"+
-                            " </a>"+
-                         "</h3>"+
-                     "</div>"+
-                    "<div id='collapse"+i+"'class='panel-collapse collapse in' role='tabpanel' aria-labelledby='heading"+i+"'>"+
-			             " <div class='accordion-content accordion-desc'>"+
-			                     "<div class='table-border-style'  id='content'>"+
-			                            "<div class='table-responsive'>"+
-			                                  "<table class='table table-hover' id='"+i+"WeekTable' style='overflow: hidden;'>"+
-			                                         " <thead>"+
-			                                               " <tr>"+
-			                                                     "<th>"+"일자"+"</th>"+
-			                                                     "<th>"+"업무시작"+"</th>"+
-			                                                    " <th>"+"업무종료"+"</th>"+
-			                                                     "<th>"+"근무시간"+"</th>"+
-			                                                    " <th>"+"초과시간"+"</th>"+
-			                                                     "<th>"+"</th>"+
-			                                                  "</tr>"+
-			                                           " </thead>"+
-			                                           " <tbody>"+
-			                                            "</tbody>"+
-			                                   " </table>"+
-			                                " </div>"+
-			                              "</div>"+
-			                          " </div>"+
-			                       "</div>" 
-                     $('#accordion').append(cl);
+					for(var i = 1; i <= weekSeq; i++){
+						var cl = "<th>"+i+"주차"+"</th>";
+
+                     $('#worktable').append(cl);
+					}
+					 $tableBody = $('#deptTotalTable tbody');
+					 $tableBody.html('');
+					 
+					 
+					
+						$.ajax({
+							url:'personalWorkTime.em',
+					    	data:{currentYearMonth:currentYearMonth,
+					    		currentYear:currentYear,
+					    		currentMonth1:currentMonth1,
+					    		weekSeq:weekSeq,
+					    	},
+					    	dataType: 'json',
+					    	success:function(result){
+					    		console.log("주별 성공");
+								console.log(result);	
+								for(var i in data){
+									console.log(data[i].weekNum);
+									console.log(typeof data[i].weekNum);
+									console.log(data[i].monthWork);
+								   $tr = $('<tr>');
+									$id = $('<td>').text(data[i].mId);
+									$monthWork = $('<td>').text(data[i].monthWork);
+									$monthOver = $('<td>').text(data[i].monthOver);
+									console.log(data[i].weekNum == 1);
+									$tr.append($id);	
+									$tr.append($monthWork);
+									$tr.append($monthOver);
+									$tableBody.append($tr);
+								 
+														
+									
+									for(var j in result){
+										console.log(j+"j:"+result[j].mId);
+										 if(result[j].mId == data[i].mId){
+											//같은사원의 td로 출력되게 하기..
+											$work = $('<td>').text(result[j].strGapTime);
+											$tr.append($work);
+											$tableBody.append($tr);
+										} 
+									}
+									
+									
+								
+								}
+					    		
+					    	},
+					    	error:function(result){
+								console.log(result);	
+					    	}
+						});
+					
+					 /* for(var i = 1; i <= weekSeq; i++){
+						var cl = "<th>"+i+"주차"+"</th>";
+
+                     $('#worktable').append(cl);
 					} 
-                    
-					 var cnt = 1;
-	 	        		// 주 반복
-	 	     	        for(var i = 1; i < 7; i++){
-	 	     	        	var $weekTable = $('#'+i+'WeekTable').find('tbody');
-	 	     	        	$weekTable.empty();
-	 	     	            // 일 반복
-	 	     	            for(var j = 0; j < 7; j++){
-	 	     	            	var $dailyTr = document.createElement('tr');
-	 			                $dailyTr.setAttribute('class', 'clickDaily');
-	 			                
-	 			                if((i == 1 && j >= nowDate.getDay()) || (i != 1 && cnt <= lastDate)){
-	 			                    // 날짜 + 요일
-	 			                    var $td1 = document.createElement('th');
-	 			                    var $td2 = document.createElement('td');
-	 			                    var $td3 = document.createElement('td');
-	 			                    var $td4 = document.createElement('td');
-	 			                    var $td5 = document.createElement('td');
-	 			                    var $td6 = document.createElement('td');
-	 			
-	 			                    $td1.textContent = (cnt < 10 ? "0" + cnt : cnt) + " " + dayList[j];
-	 			                
-	 			                    $td1.setAttribute('id', cnt + "date");
-	 			                    $td2.setAttribute('id', cnt + "start");
-	 			                    $td3.setAttribute('id', cnt + "end");
-	 			                    $td4.setAttribute('id', cnt + "total");
-	 			                    $td5.setAttribute('id', cnt + "detail");
-	 			                    $td6.setAttribute('id', cnt + "request");
-	 			                    
-	 			                    $dailyTr.append($td1);
-	 			                    $dailyTr.append($td2);
-	 			                    $dailyTr.append($td3);
-	 			                    $dailyTr.append($td4);
-	 			                    $dailyTr.append($td5);
-	 			                    $dailyTr.append($td6);
-	 			                    
-	 			                    // 일일 시간
-	 			                    var $timeTr = $('<tr id="'+cnt+'daily" class="timeTr">').css({'display':'none', 'overflow':'hidden'});
-	 			                    var $timeTh = $('<th class="small font-weight-bold" colspan="6">').css({'background-color':'rgba(222, 199, 254, 0.1)'});
-	 			                    var $timeDiv = $('<div class="row" id="'+cnt+'timeDiv">');
-	 			                    for(var k = 00; k < 24; k++){
-	 			                        var $timeDetaildiv = $('<div class="col d-inline-block" id="'+k+'time">').html(k < 10 ? "0" + k : k);
-	 			                        $timeDiv.append($timeDetaildiv);
-	 			                    }
-	 			                    $timeTh.append($timeDiv);
-	 			                    $timeTr.append($timeTh);
-	 								
-	 			                    $weekTable.append($dailyTr);
-	 			                    $weekTable.append($timeTr);
-	 			
-	 			                    cnt++;
-	 			                }
-	 	     	            }
-	 	     	        }
-	 	        		
-	 	     	  	for(var i = 0; i < data.length ; i++){
- 	        			var day = data[i].empRegiDate.substr(8,3);
- 	        			console.log("데이:"+day);
- 	        			var startTime = data[i].empOnTime.substr(11,8);
- 	        			var endTime = data[i].empOffTime.substr(11,8);
- 	        			var workTime = data[i].strGapTime;
- 	        			var overTime = data[i].strOvertime;
- 	        			//var detailStartTime = data[i].commuteStart.substring(11, 13);
-         				//var detailEndTime = data[i].commuteEnd.substring(11, 13);
- 	        			
- 	        			for(var j = 1; j <= 31; j++){
- 	        				if(day == j){
- 	        					
- 	        					$('#'+j+'start').html(startTime);
- 	        					$('#'+j+'end').html(endTime);
- 	        					$('#'+j+'total').html(workTime);
- 	        					
- 	        					//var workTimeSplit = workTime.toString().split(':');
- 	        					//var overTime = (workTimeSplit.length == 2) ? '기본'+"{0}h{1}m".format(workTimeSplit[0], workTimeSplit[1]) : '기본'+"{0}h".format(workTimeSplit[0]);
- 	        					$('#'+j+'detail').html(overTime);
- 	        				
- 	        				}
- 	        			}
- 					}
- 	        		
-				 	if (!$.trim(data)){//저장된 데이터가 없을때 
-						console.log("데이터가 없습니다.");
-						$tr = $('<tr>');
-						$emptyDate = $('<td colspan="5">').text("데이터가 없습니다.");
-						$tr.append($emptyDate);
-						$tableBody.append($tr);
-					} 
+					 
+					 $tableBody = $('#deptTotalTable tbody');
+					 $tableBody.html('');
+						 for(var i in data){
+							console.log(data[i].weekNum);
+							console.log(typeof data[i].weekNum);
+							console.log(data[i].strGapTime);
+						   $tr = $('<tr>');
+							$id = $('<td>').text(data[i].mId);
+							$monthWork = $('<td>').text(data[i].monthWork);
+							$monthOver = $('<td>').text(data[i].monthOver);
+							console.log(data[i].weekNum == 1);
+								 if(data[i].weekNum == 1){
+								$firstWork = $('<td>').text(data[i].strGapTime);
+							}else if(data[i].weekNum == 2){
+								$secondWork = $('<td>').text(data[i].strGapTime);
+							}else if(data[i].weekNum == 3){
+								$thirdWork = $('<td>').text(data[i].strGapTime);
+							}else if(data[i].weekNum == 4){
+								$forthWork = $('<td>').text(data[i].strGapTime);
+							}else if(data[i].weekNum == 5){
+								$fifthWork = $('<td>').text(data[i].strGapTime);
+							}else if(data[i].weekNum == 6){
+								$sixthWork = $('<td>').text(data[i].strGapTime);
+							}else{
+								$nonWeek =  $('<td>').text(data[i].strGapTime);
+							}
+							$tr.append($id);	
+							$tr.append($monthWork);
+							$tr.append($monthOver);
+							$tr.append($firstWork);
+							$tr.append($secondWork);
+							$tr.append($thirdWork);
+							$tr.append($forthWork);
+							$tr.append($fifthWork);
+							$tr.append($sixthWork);	 
+							$tableBody.append($tr);
+					 }  */
+ 
 		    	},
 		    	error:function(data){
 					console.log(data);
@@ -836,23 +810,28 @@
 	    // 이전달로 이동
 	    $('.go-prev').on('click', function() {
 	        thisMonth = new Date(currentYear, currentMonth - 1, 1);
-	        $('#accodianA').children().empty();
-	        $('#monthWortkTime tbody').children().empty();
+	       
+	        $('#worktable').children().remove();
 	        renderCalender(thisMonth);
-
+	   
+	        
+	     
 	    });
 
 	    // 다음달로 이동
 	    $('.go-next').on('click', function() {
 	        thisMonth = new Date(currentYear, currentMonth + 1, 1);
-	        $('#accodianA').children().empty();
-	        $('#monthWortkTime tbody').children().empty();
+	       
+	        $('#worktable').children().remove();
 	        renderCalender(thisMonth); 
-
+	       
+	     
+	
 	    });
 	} 
-	    
 
+	
+	
 	</script>
 
 

@@ -245,7 +245,7 @@
                                         </div>
                                         <div id="default_collapseThree" class="collapse accordion__body" data-parent="#accordion-one">
                                             <div class="accordion__body--text">
-                                             	<p>누적 근태현황</p>
+                                             	 <a href="deptEmpStatus.em"><p>누적 근태현황</p></a>
                                             </div>
                                         </div>
                                     </div>
@@ -256,7 +256,7 @@
                                         </div>
                                         <div id="default_collapseFour" class="collapse accordion__body" data-parent="#accordion-one">
                                             <div class="accordion__body--text">
-                                             	<p>연차 사용현황</p>
+                                             <a href="deptLeaveStatus.al"><p>연차 사용현황</p></a>
                                             </div>
                                         </div>
                                     </div>
