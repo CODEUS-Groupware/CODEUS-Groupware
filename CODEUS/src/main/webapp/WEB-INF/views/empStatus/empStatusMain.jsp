@@ -2,6 +2,7 @@
     pageEncoding="UTF-8" import="com.codeusgroup.codeus.empStatus.model.vo.EmpStatus"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 
 <!DOCTYPE html>
@@ -57,7 +58,7 @@
 		color: #BDBDC7;
 		float: right;
 	}
-	#workingTime{
+	#workingTime, #workingTime1{
 		font-size:25px;
 	}
 	
@@ -153,7 +154,7 @@
 	                                        	<select id="changeStatus">
 	                                        	<option value="업무상태선택">업무상태선택</option>	                                        
 	                                        	<option value="업무" <c:if test="${empStatus1.getEmpStatus() eq '업무'}">selected</c:if>>업무</option>
-	                                        	<option value="업무종료">업무종료</option>
+	                                        	<option value="업무종료" <c:if test="${empStatus1.getEmpStatus() eq '업무종료'}">selected</c:if>>업무종료</option>
 	                                        	<option value="외근" <c:if test="${empStatus1.getEmpStatus() eq '외근'}">selected</c:if>>외근</option>
 	                                        	<option value="출장" <c:if test="${empStatus1.getEmpStatus() eq '출장'}">selected</c:if>>출장</option>
 	                                        	<option value="반차" <c:if test="${empStatus1.getEmpStatus() eq '반차'}">selected</c:if>>반차</option>
@@ -216,7 +217,7 @@
 		                                            </c:choose>
 	                                            </c:when>
 	                                            <c:otherwise>
-	                                            	<td style="border: 1px solid #eaeaea; height: 90px;" id="workingTime">
+	                                            	<td style="border: 1px solid #eaeaea; height: 90px;" id="workingTime1">
 																
 			                                        </td>
 			                                        <td style="border: 1px solid #eaeaea;" id="overTime">
@@ -276,7 +277,7 @@
                                         </div>
                                         <div id="default_collapseThree" class="collapse accordion__body" data-parent="#accordion-one">
                                             <div class="accordion__body--text">
-                                             	<p>누적 근태현황</p>
+                                             	<a href="deptEmpStatus.em"><p>누적 근태현황</p></a>
                                             </div>
                                         </div>
                                     </div>
@@ -287,7 +288,7 @@
                                         </div>
                                         <div id="default_collapseFour" class="collapse accordion__body" data-parent="#accordion-one">
                                             <div class="accordion__body--text">
-                                             	<p>연차 사용현황</p>
+                                             	<a href="deptLeaveStatus.al"><p>연차 사용현황</p></a>
                                             </div>
                                         </div>
                                     </div>
@@ -324,8 +325,8 @@
                                                 </td>                                                
                                             </tr>
                                             <tr>
-                                            <c:choose>
-                                            	<c:when test="empWeekTime.strGapTime ne ::">
+                                          <c:choose>
+                                            	<c:when test="${empWeekTime.strGapTime ne '::' || empWeekTime.strGapTime ne null}">
 	                                                <td style="height: 90px; font-size:25px;">
 														${empWeekTime.strGapTime }
 	                                                </td>
@@ -337,7 +338,7 @@
 	                                            </c:otherwise>
                                             </c:choose> 
                                             <c:choose>
-                                            	<c:when test="empWeekTime.strOverTime ne ::">
+                                            	<c:when test="${empWeekTime.strOverTime ne '::'|| empWeekTime.strOverTime ne null}">
 	                                                <td style="height: 90px; font-size:25px;">
 														${empWeekTime.strOverTime }
 	                                                </td>
@@ -346,7 +347,13 @@
 	                                            	<td>
 	                                                </td>
 	                                            </c:otherwise>
-                                            </c:choose>    
+                                            </c:choose> 
+                                            <%--  <td style="height: 90px; font-size:25px;">
+													${empWeekTime.strGapTime }
+                                                </td> 
+                                                <td style="height: 90px; font-size:25px;">
+													${empWeekTime.strOverTime }
+                                                </td>   --%>
                                                  <td style="height: 90px; font-size:25px;">
 													${empMonthTime.strGapTime }
                                                 </td> 
@@ -409,7 +416,8 @@
     <script src="${contextPath}/resources/assets/js/dashboard/dashboard-2.js"></script>
     
     <script>
-    var statusValue = $('#changeStatus').val();
+  
+    
 	//현재시간 출력
 	function printTime() {
 
@@ -420,75 +428,32 @@
          setTimeout("printTime()",1000);// setTimeout(“실행할함수”,시간) 시간은1초의 경우 1000
 	}
 
-	window.onload = function() { // 페이지가 로딩되면 실행
+	 window.onload = function() { // 페이지가 로딩되면 실행
     	printTime();
     	workTime();
-    	
-	}
+	} 
 	
 	//업무상태변경 클릭시 해당 상태로 출력
-	$('#selectStatus li').on('click', function(){
+	/* $('#selectStatus li').on('click', function(){
 		var selectedStatus = $(this).text();
 		var a = $('#changeStatus').text(selectedStatus);
 		console.log(selectedStatus);
-	});
-	
-	
-	//일일 누적시간 계산
-	
-	//qr코드 생성 
+	}); */
+
 	
 	//업무시간 계산
-/* 	  function workTime(){
-		var gap = document.getElementById("workingTime");// 출력할 장소 선택
-		var overTimePrint = document.getElementById("overTime");
-		var workingTime =  document.getElementById("workInTime");
-		var wtVal = workingTime.value;		
 
-		var wtDate = new Date(wtVal);
-		console.log(wtDate);
-	
-		var date = new Date();
-		console.log("date:"+date);
-		
-		var timeGap = date.getTime() - wtDate.getTime();
-		console.log("timeGap:"+timeGap);
-		
-		pDay = timeGap / (60*60*24*1000);
-
-        strDay = Math.floor(pDay);
-
-        pHour = (timeGap - (strDay * (60*60*24*1000))) / (60*60*1000);
-
-        strHour = Math.floor(pHour);
-
-        strMinute = Math.floor((timeGap - (strDay * (60*60*24*1000)) - (strHour * (60*60*1000))) / (60*1000));
-        
-        strSec = Math.floor((timeGap - (strDay * (60*60*24*1000)) - (strHour * (60*60*1000)) - (strMinute * (60*1000))) / (1000));
-        console.log(strDay + " 일 " + strHour + " 시간 " + strMinute + " 분" + strSec + " 초");
-        var gapTime = strDay + " 일 " + strHour + " 시간 " + strMinute + " 분" + strSec + " 초";
-        
-        if(wtVal !='' ){
-        	
-        		gap.innerHTML = gapTime;
-        		//업무종료를 누르면 퇴근시간이 찍히게 되고 업무시간 계산도 끝나게 하기
-        		var statusValue = $('#changeStatus').val();	
-        	//근무시간이 9시간을 초과하게되면 overTime에 찍히게 하기
-        	
-        	       	
-        	}
-     	
-        setTimeout("workTime()",1000);       
-	}  */
-	
+	 var gap = document.getElementById("workingTime1");
+	 var statusValue = $('#changeStatus').val();
 	  function workTime(){
-			var gap = document.getElementById("workingTime");// 출력할 장소 선택
+		 
+			var gap = document.getElementById("workingTime1");// 출력할 장소 선택
 			var overTimePrint = document.getElementById("overTime");
 			var workingTime =  document.getElementById("workInTime");
 			var wtVal = workingTime.value;	
 			
 			var date = new Date();
-			//점심시간을 비교하기 위해 현재시간을 변수에 담음
+			
 			var hours = ('0' + date.getHours()).slice(-2); 
 			var minutes = ('0' + date.getMinutes()).slice(-2);
 			var seconds = ('0' + date.getSeconds()).slice(-2); 
@@ -496,14 +461,10 @@
 			var timeString = hours + ':' + minutes  + ':' + seconds;			
 
 			var wtDate = new Date(wtVal);
-			console.log(wtDate);
-		
-			
-			console.log("date:"+date);
-			
+
 			var timeGap = date.getTime() - wtDate.getTime();
 			console.log("timeGap:"+timeGap);
-			
+			//시간을 시,분,초로 계산
 			pDay = timeGap / (60*60*24*1000);
 
 	        strDay = Math.floor(pDay);
@@ -516,31 +477,29 @@
 	        
 	        strSec = Math.floor((timeGap - (strDay * (60*60*24*1000)) - (strHour * (60*60*1000)) - (strMinute * (60*1000))) / (1000));
 	        console.log(strDay + " 일 " + strHour + " 시간 " + strMinute + " 분" + strSec + " 초");
-	        var gapTime = strDay + " 일 " + strHour + " 시간 " + strMinute + " 분" + strSec + " 초";
-	        
+	        var gapTime = strHour + " : " + strMinute + ":" + strSec;
+	        console.log(wtVal);
+	      
 	        if(wtVal !='' ){	        	
-	        	if(statusValue != "업무종료"){
-	        		gap.innerHTML = gapTime;
-	        	}else{
-	        		${ empStatus1.strGapTime }
-	        	}	
-
+	        	
+	        	gap.innerHTML = gapTime;
 	       }
-	        
+	        var statusValue = $('#changeStatus').val();
 
     		if(statusValue!="업무종료"){
 
     			 setTimeout("workTime()",1000);
-    		}else if(statusValue=="업무종료"){
-
-    			clearTimeout("workTime()");
+    		}else if(statusValue=="업무종료"){				
+    			clearTimeout("workTime()");    
+    			
+    			
     		}
-
-		} 
+	  }
 
 	 $('#changeStatus').on('change', function(){
 		var offClock = document.getElementById("workOutTime");
 		var statusValue = $(this).val();
+	
 
 		var now = new Date();
 		var nowDate =  now.getFullYear() + "/" + (now.getMonth()+1)+"/"+now.getDate();
@@ -556,12 +515,13 @@
 					},
 				dataType: 'json',
 				success:function(data){
+					gbl_data = data.strGapTime;
 					console.log(data);	
-
+					
 					 if(statusValue == "업무종료"){
-						$('#changeStatus').attr("disabled","disabled");
+						 $('#changeStatus').attr("disabled","disabled");
 						//input에는 text, innerhtml이 아니라 val를 써서 화면에 출력해야함
-
+						var gap = document.getElementById("workingTime1");// 
 						var date = new Date(data.empOffTime);
 						 var month = date.getMonth() + 1;
 						 var day = date.getDate();
@@ -580,18 +540,36 @@
 				        console.log("툌:"+offDate);
 
 						$('#workOutTime').val(offDate);
+						//gap.innerHTML = data.strGapTime;
+						 
 					} 
 				},
 				error:function(data){
 					console.log(data);
 				}
 			});
+		
 				
-	});	
-	
-	//누적시간 계산
- 
-	
+	});
+	 
+	/*  
+	 $(function(){
+		 
+ 		  workTime();
+ 		console.log("펀션1:"+statusValue);
+ 		  if(statusValue=="업무종료"){
+ 			console.log("펀션2:"+statusValue);
+ 			  clearInterval(workTime());
+ 		  }else{
+ 			  setInterval(function(){
+ 				 console.log("펀션3:"+statusValue);
+ 					workTime();
+ 				}, 1000);
+ 		  }
+ 			
+ 		});
+	 */
+
 
 
 	</script>

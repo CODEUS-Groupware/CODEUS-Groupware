@@ -18,7 +18,11 @@
  		<typeAlias type="com.codeusgroup.codeus.commBoard.model.vo.Report" alias="Report"/>
  		<typeAlias type="com.codeusgroup.codeus.calendar.model.vo.CalArrTemp" alias="CalArrTemp"/>
         <typeAlias type="com.codeusgroup.codeus.meetingResrv.model.vo.MeetingResrv" alias="MeetingResrv"/>
+
+        <typeAlias type="com.codeusgroup.codeus.chetting.model.vo.Chetting" alias="Chetting"/>
+
         <typeAlias type="com.codeusgroup.codeus.meetingResrv.model.vo.MeetingRoom" alias="MeetingRoom"/>
+
  	</typeAliases>
  	
  	<mappers>

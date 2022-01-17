@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.codeusgroup.codeus.address.model.dao.AddressDAO;
+import com.codeusgroup.codeus.address.model.vo.Address;
 import com.codeusgroup.codeus.address.model.vo.PageInfo;
 import com.codeusgroup.codeus.member.model.vo.Member;
 
@@ -32,6 +33,11 @@ public class AddressServiceImpl implements AddressService {
 	@Override
 	public ArrayList<Member> searchMemebrList(PageInfo pi, String input, String field) {
 		return addrDAO.searchMemebrList(sqlSession, pi, input, field);
+	}
+
+	@Override
+	public int addAddress(String userId, String tdName) {
+		return addrDAO.addAddress(sqlSession, userId, tdName);
 	}
 
 }

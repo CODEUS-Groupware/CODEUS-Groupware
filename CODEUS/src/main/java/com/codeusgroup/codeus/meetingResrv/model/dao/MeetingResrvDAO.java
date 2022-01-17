@@ -1,5 +1,6 @@
 package com.codeusgroup.codeus.meetingResrv.model.dao;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -8,6 +9,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.codeusgroup.codeus.meetingResrv.model.vo.MeetingResrv;
+import com.codeusgroup.codeus.meetingResrv.model.vo.MeetingRoom;
 import com.codeusgroup.codeus.meetingResrv.model.vo.PageInfo;
 
 @Repository("mrDAO")
@@ -34,6 +36,18 @@ public class MeetingResrvDAO {
         RowBounds rowBounds = new RowBounds(offset, ((PageInfo) map.get("pi2")).getBoardLimit());
         
         return (ArrayList) sqlSession.selectList("meetResrvMapper.selectMyList", map, rowBounds);
+    }
+    
+    public int insertMeetingResrv(SqlSessionTemplate sqlSession, MeetingResrv mr) {
+        return sqlSession.insert("meetResrvMapper.insertMeetResrv", mr);
+    }
+    
+    public ArrayList<MeetingRoom> selectRoomList(SqlSessionTemplate sqlSession, HashMap map) {
+        return (ArrayList) sqlSession.selectList("meetResrvMapper.selectRoomList", map);
+    }
+    
+    public int autoUpdate(SqlSessionTemplate sqlSession, Timestamp tNow) {
+        return sqlSession.update("meetResrvMapper.autoUpdate", tNow);
     }
     
 }
