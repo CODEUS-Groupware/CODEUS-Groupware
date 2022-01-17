@@ -9,10 +9,10 @@
     
     <select id="selectList" resultMap="meetResrvResultSet">
         select rev_no, rev_date, rev_start_time, rev_end_time, rev_content,
-               rev_status, rev_apply_date, meet_name, m_name
+               rev_status, rev_apply_date, meet_no, m_id, meet_name, m_name
         from meet_reservation
-             join member using(m_id)
-             join meeting_room using(meet_no)
+             left join member using(m_id)
+             left join meeting_room using(meet_no)
         order by rev_date desc, rev_start_time
     </select>
     
@@ -24,6 +24,10 @@
         <result column="REV_CONTENT" property="rev_content"/>
         <result column="REV_STATUS" property="rev_status"/>
         <result column="REV_APPLY_DATE" property="rev_apply_date"/>
+        <result column="REV_APPLY_DATE" property="rev_apply_date"/>
+        <result column="REV_APPLY_DATE" property="rev_apply_date"/>
+        <result column="MEET_NO" property="meet_no"/>
+        <result column="M_ID" property="mId"/>
         <result column="MEET_NAME" property="meet_name"/>
         <result column="M_NAME" property="mName"/>
     </resultMap>
@@ -36,12 +40,70 @@
     
     <select id="selectMyList" resultMap="meetResrvResultSet">
         select rev_no, rev_date, rev_start_time, rev_end_time, rev_content,
-               rev_status, rev_apply_date, meet_name, m_name
+               rev_status, rev_apply_date, meet_no, m_id, meet_name, m_name
         from meet_reservation
-             join member using(m_id)
-             join meeting_room using(meet_no)
+             left join member using(m_id)
+             left join meeting_room using(meet_no)
         where m_id = #{mId}
         order by rev_date desc, rev_start_time
     </select>
+    
+    <insert id="insertMeetResrv">
+        insert into meet_reservation
+        values(seq_rev_no.nextval, #{rev_date}, #{rev_start_time}, #{rev_end_time},
+               #{rev_content}, default, default, #{meet_no}, #{mId})
+    </insert>
+    
+    <!-- 선택 가능한 회의실 조회하기 -->
+    <!-- 입력한 날짜/시간을 조건으로 불가능한 회의실(이미 예약된)은 제외하고 리턴 -->
+    <select id="selectRoomList" resultMap="meetRoomResultSet">
+        <![CDATA[
+        select *
+        from meeting_room
+        where meet_no in (select meet_no
+                          from meeting_room
+                          where meet_status <> '1'
+                                and meet_no not in (select meet_no
+                                                    from meet_reservation
+                                                    where rev_status = '0'
+                                                          and to_char(rev_date, 'YYYY-MM-DD') = to_char(#{inputDate}, 'YYYY-MM-DD')
+                                                          and rev_start_time <= #{inputStartTime}
+                                                          and rev_end_time > #{inputStartTime}
+                                                    union
+                                                    select meet_no
+                                                    from meet_reservation
+                                                    where rev_status = '0'
+                                                          and to_char(rev_date, 'YYYY-MM-DD') = to_char(#{inputDate}, 'YYYY-MM-DD')
+                                                          and rev_start_time < #{inputEndTime}
+                                                          and rev_end_time >= #{inputEndTime}
+                                                    union
+                                                    select meet_no
+                                                    from meet_reservation
+                                                    where rev_status = '0'
+                                                          and to_char(rev_date, 'YYYY-MM-DD') = to_char(#{inputDate}, 'YYYY-MM-DD')
+                                                          and rev_start_time > #{inputStartTime}
+                                                          and rev_end_time < #{inputEndTime}))
+        order by meet_name
+        ]]>
+    </select>
+    
+    <resultMap type="MeetingRoom" id="meetRoomResultSet">
+        <id column="MEET_NO" property="meet_no"/>
+        <result column="MEET_NAME" property="meet_name"/>
+        <result column="MEET_INFO" property="meet_info"/>
+        <result column="MEET_REGI_DATE" property="meet_regi_date"/>
+        <result column="MEET_UPDATE_DATE" property="meet_update_date"/>
+        <result column="MEET_STATUS" property="meet_status"/>
+        <result column="IMG_ORIGIN_NAME" property="img_origin_name"/>
+        <result column="IMG_CHANGE_NAME" property="img_change_name"/>
+    </resultMap>
+    
+    <update id="autoUpdate">
+        <![CDATA[
+        update meet_reservation
+        set rev_status = '1'
+        where rev_end_time <= #{tNow}
+        ]]>
+    </update>
 
 </mapper>
