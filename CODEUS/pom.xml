@@ -234,6 +234,11 @@
 		    <version>${org.springframework-version}</version>
 		</dependency>
 		
+		<dependency>
+          <groupId>xerces</groupId>
+          <artifactId>xercesImpl</artifactId>
+          <version>2.9.1</version>
+      	</dependency>
 		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
 <!-- 		<dependency> -->
 <!-- 		  <groupId>com.fasterxml.jackson.core</groupId> -->
