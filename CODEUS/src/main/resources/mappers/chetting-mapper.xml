@@ -3,10 +3,10 @@
 <mapper namespace="chettingMapper">
 
 	<select id="selectChatroom" resultMap="ChettingResultSet">
-		select *
+		select chat_room.chat_num, msg_content, m_id, msg_time, sander
 		from chat_room
-		join chat_message on(chat_message.chat_num = chat_room.chat_num)
-		where chat_status = '0'
+		    join chat_message on(chat_message.chat_num = chat_room.chat_num)
+		where (chat_message.chat_num, msg_time) in (select chat_num, max(msg_time) from chat_message group by chat_num)
 	</select>
 	
 	<resultMap type="Chetting" id="ChettingResultSet">
@@ -20,5 +20,7 @@
 		<result column="MSG_STATUS" property="msgStatus"/>
 		<result column="CHAT_STATUS" property="roomStatus"/>
 	</resultMap>
+	
+	
 	
 </mapper>

@@ -8,6 +8,9 @@
     <title>Focus - Bootstrap Admin Dashboard </title>
     <!-- Datatable -->
     <link href="${contextPath}/resources/assets/vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet">
+	<style>
+		body{background: #F8F9FE;}
+	</style>
 </head>
 
 <body>
@@ -24,58 +27,48 @@
         ***********************************-->
         
         <c:set var="profile" value='<%=session.getAttribute("loginUser")%>' />
-
-
-
-		 	<div class="col-12 row justify-content-center align-items-center my-5 ">
-				<a href=""><img src="../../../resources/image/logo.png"
-					alt="codeus" width="180px" class="img-fluid" /></a>
+		<div class="header" style="background: white; align-content: center">
+			<div class="header-content">
+				<img src="${contextPath}/resources/assets/images/logo.png" alt="CODEUS" width="50px">
 			</div>
-			<div class="col-12">
-				<div class="col-2" style="float: left">
-					<span> 목록 </span>
+			
+		</div>
+
+		<div class="row">
+			<div class="col-xl-6 col-xxl-12">
+			 	
+				<div class="col-12 row justify-content-center align-items-center my-5 ">
+					방명수
 				</div>
-				<div class="col-8" style="float: left; text-align: center;">
-					방명수 님과 대화</div>
-				<div class="col-2" style="float: right">
-					<span> 닫기 </span>
-				</div>
-		
-		
-		
-			</div>
-			<div class="col-12" style="margin-top: 40px; clear: both;">
-				<div class="col-10"
-					style="margin: 20px auto; text-align: center; color: white; background-color: #593bdb; border: 1px solid #593bdb; padding: 10px 10px; border-radius: 8px;">
+				
+				<!-- 채팅 내용 -->
+				<div class="col-12">
+					<div class="card">
+						<table>
+							<tr>
+								<td style="text-align: left">안녕하세요</td>
+							</tr>
+							<tr>
+								<td style="text-align: right;">안녕하세요</td>
+							</tr>
+						</table>
+					</div>
 					
 				</div>
-		
-			</div>
-			<!-- 채팅 내용 -->
-			<div class="col-12">
-				<div class="col-11"
-					style="margin: 0 auto; border: 1px solid #593bdb; height: 400px; border-radius: 10px; overflow:scroll" id = "chatArea">
-		
-					<div id="chatMessageArea" style = "margin-top : 10px; margin-left:10px;"></div>
-		
-		
-		
-		
+			
+				<!-- 채팅 입력창 -->
+				<div class="col-12" style="margin-top: 20px; margin-bottom: 15px;">
+					<div class="col-12" style="float: left">
+						
+						<span>
+							<textarea class="form-control" rows="4" id="message"></textarea>
+							<button class="btn btn-primary" style="margin-top: 30px; text-align: center; color: white; font-weight: bold;" id = "sendBtn">전송</button>
+						</span>
+					</div>
+			
 				</div>
 			</div>
-		
-			<!-- 채팅 입력창 -->
-			<div class="col-12" style="margin-top: 20px; margin-bottom: 15px;">
-				<div class="col-12" style="float: left">
-					
-					<span>
-						<textarea class="form-control" rows="4" id="message"></textarea>
-						<button style="margin-top: 30px; text-align: center; color: white; font-weight: bold;" id = "sendBtn">전송</button>
-					</span>
-				</div>
-		
-			</div>
-		
+		</div>
 		
 		<img id="profileImg" class="img-fluid"
 							src="/displayFile?fileName=${userImage}&directory=profile" style = "display:none">
