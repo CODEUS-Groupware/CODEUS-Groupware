@@ -57,4 +57,14 @@ public class MeetingResrvServiceImpl implements MeetingResrvService {
         return mrDAO.autoUpdate(sqlSession, tNow);
     }
     
+    @Override
+    public int searchListCount(HashMap map) {
+        return mrDAO.searchListCount(sqlSession, map);
+    }
+    
+    @Override
+    public ArrayList<MeetingResrv> searchList(PageInfo pi, HashMap map) {
+        return mrDAO.searchList(sqlSession, pi, map);
+    }
+    
 }

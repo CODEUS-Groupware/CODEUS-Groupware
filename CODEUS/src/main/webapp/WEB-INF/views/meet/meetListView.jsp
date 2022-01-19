@@ -7,6 +7,18 @@
 <meta charset="UTF-8">
     <title>회의실 예약 - 예약 목록 </title>
     <link href="${contextPath}/resources/assets/css/style.css" rel="stylesheet">
+    <style type="text/css">
+        table {
+            align-content: center;
+            text-align: center;
+        }
+        th, td {
+            color: black;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+    </style>
 </head>
 
 <body>
@@ -58,8 +70,67 @@
                                     <!-- 1st 탭 컨텐츠 시작 -->
                                     <div id="navpills-1" class="tab-pane active">
                                         <div class="table-responsive">
-                                            <table class="table table-responsive-sm" id="tb1" style="align-content: center; text-align: center;">
+                                            <table class="table table-responsive-sm" id="tb1"">
                                                 <thead>
+                                                    <tr>
+                                                        <th colspan="6">
+                                                            <!-- 1st 탭 검색 시작 -->
+                                                            <form action="mrsearch.mr">
+                                                                <div class="row justify-content-end">
+                                                                    <div class="col-px-0">
+                                                                        <select class="form-control form-control-sm" id="searchCondition1" name="searchCondition" required>
+                                                                            <option value="r_no1">예약번호</option>
+                                                                            <option value="r_date1">예약날짜</option>
+                                                                            <option value="r_status1">예약상태</option>
+                                                                            <option value="r_meetName1">회의실 명</option>
+                                                                            <option value="r_mName1">예약자</option>
+                                                                            <option value="r_content1">예약내용</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="col-auto">
+                                                                        <div class="input-group">
+                                                                            <input type="text" class="form-control form-control-sm" id="searchKeyword1" name="searchKeyword">
+                                                                            <div class="input-group-prepend">
+                                                                                <button class="btn btn-secondary btn-xs">검색</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- 검색 창 placeholder 표시 -->
+                                                                    <script>
+                                                                        $('#searchCondition1').on('click change', function() {
+                                                                            if($('#searchCondition1').val() == 'r_no1')
+                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '1'");
+                                                                            else if($('#searchCondition1').val() == 'r_date1')
+                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '2022-01-26'");
+                                                                            else if($('#searchCondition1').val() == 'r_status1')
+                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '예약 완료'");
+                                                                            else if($('#searchCondition1').val() == 'r_meetName1')
+                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '회의실'");
+                                                                            else if($('#searchCondition1').val() == 'r_mName1')
+                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '홍길동'");
+                                                                            else if($('#searchCondition1').val() == 'r_content1')
+                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '회의'");
+                                                                        });
+                                                                        $('#searchKeyword1').on('click change', function() {
+                                                                            if($('#searchCondition1').val() == 'r_no1')
+                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '1'");
+                                                                            else if($('#searchCondition1').val() == 'r_date1')
+                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '2022-01-26'");
+                                                                            else if($('#searchCondition1').val() == 'r_status1')
+                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '예약 완료'");
+                                                                            else if($('#searchCondition1').val() == 'r_meetName1')
+                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '회의실'");
+                                                                            else if($('#searchCondition1').val() == 'r_mName1')
+                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '홍길동'");
+                                                                            else if($('#searchCondition1').val() == 'r_content1')
+                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '회의'");
+                                                                        });
+                                                                    </script>
+                                                                </div>
+                                                            </form>
+                                                            <!-- 1st 탭 검색 끝 -->
+                                                        </th>
+                                                    </tr>
                                                     <tr>
                                                         <th scope="col" width="50px">예약번호</th>
                                                         <th scope="col" width="200px">예약날짜</th>
@@ -71,12 +142,18 @@
                                                 </thead>
                                                 <tbody>
                                                     <c:if test="${ !empty loginUser }">
-                                                        <c:if test="${ pi1.listCount == 0 }">
+                                                        <c:if test="${ pi1.listCount == 0 || searchPi1.listCount == 0 }">
                                                             <tr>
                                                                 <td colspan="6">예약 내역이 존재하지 않습니다.</td>
                                                             </tr>
                                                         </c:if>
+                                                        <!-- 1st 탭 목록 조회 : 검색 X (전체 목록 조회) -->
                                                         <c:if test="${ pi1.listCount > 0 }">
+                                                            <c:url var="mrdetail" value="mrdetail.mr">
+                                                                <c:param name="rNo" value="${ mr1.rev_no }"/>
+                                                                <c:param name="page" value="${ pi1.currentPage }"/>
+                                                            </c:url>
+                                                            <a href="${ mrdetail }">${ mr1.rev_time }</a>
                                                             <c:forEach var="mr1" items="${ list1 }">
                                                                 <tr>
                                                                     <td>${ mr1.rev_no }</td>
@@ -100,6 +177,36 @@
                                                                 </tr>
                                                             </c:forEach>
                                                         </c:if>
+                                                        <!-- 1st 탭 목록 조회 : 검색 O (검색 키워드 기준 목록 조회) -->
+                                                        <c:if test="${ searchPi1.listCount > 0 }">
+                                                            <c:url var="mrdetail" value="mrdetail.mr">
+                                                                <c:param name="rNo" value="${ searchMr1.rev_no }"/>
+                                                                <c:param name="page" value="${ searchPi1.currentPage }"/>
+                                                            </c:url>
+                                                            <a href="${ mrdetail }">${ searchMr1.rev_time }</a>
+                                                            <c:forEach var="searchMr1" items="${ searchList1 }">
+                                                                <tr>
+                                                                    <td>${ searchMr1.rev_no }</td>
+                                                                    <td>${ searchMr1.rev_time }</td>
+                                                                    <td>
+                                                                        <c:choose>
+                                                                            <c:when test="${ searchMr1.rev_status eq 0 }">
+                                                                                <span class="badge badge-pill badge-success">예약 완료</span>
+                                                                            </c:when>
+                                                                            <c:when test="${ searchMr1.rev_status eq 1 }">
+                                                                                <span class="badge badge-pill badge-secondary">사용 완료</span>
+                                                                            </c:when>
+                                                                            <c:when test="${ searchMr1.rev_status eq 2 }">
+                                                                                <span class="badge badge-pill badge-warning">예약 취소</span>
+                                                                            </c:when>
+                                                                        </c:choose>
+                                                                    </td>
+                                                                    <td>${ searchMr1.meet_name }</td>
+                                                                    <td>${ searchMr1.mName }</td>
+                                                                    <td>${ searchMr1.rev_content }</td>
+                                                                </tr>
+                                                            </c:forEach>
+                                                        </c:if>
                                                     </c:if>
                                                 </tbody>
                                                 
@@ -110,6 +217,8 @@
                                                             <div class="d-flex justify-content-center">
                                                                 <nav>
                                                                     <ul class="pagination pagination-sm pagination-gutter">
+                                                                    <!-- 검색 X 시 -->
+                                                                    <c:if test="${ pi1.currentPage > 0 }">
                                                                         <!-- 이전 -->
                                                                         <c:if test="${ pi1.currentPage <= 1 }">
                                                                             <li class="page-item page-indicator disabled">
@@ -160,6 +269,61 @@
                                                                                 </a>
                                                                             </li>
                                                                         </c:if>
+                                                                    </c:if>
+                                                                    
+                                                                    <!-- 검색 O 시 -->
+                                                                    <c:if test="${ searchPi1.currentPage > 0 }">
+                                                                        <!-- 이전 -->
+                                                                        <c:if test="${ searchPi1.currentPage <= 1 }">
+                                                                            <li class="page-item page-indicator disabled">
+                                                                                <a class="page-link"><i class="icon-arrow-left"></i></a>
+                                                                            </li>
+                                                                        </c:if>
+                                                                        <c:if test="${ searchPi1.currentPage > 1 }">
+                                                                            <c:url var="before1" value="mrsearch.mr">
+                                                                                <c:param name="page1" value="${ searchPi1.currentPage - 1 }"/>
+                                                                            </c:url>
+                                                                            <li class="page-item page-indicator">
+                                                                                <a class="page-link" href="${ before1 }">
+                                                                                    <i class="icon-arrow-left"></i>
+                                                                                </a>
+                                                                            </li>
+                                                                        </c:if>
+                                                                        
+                                                                        <!-- 숫자 -->
+                                                                        <c:forEach var="p1" begin="${ searchPi1.startPage }" end="${ searchPi1.endPage }">
+                                                                            <c:if test="${ p1 eq searchPi1.currentPage }">
+                                                                                <li class="page-item active">
+                                                                                    <a class="page-link">${ p1 }</a>
+                                                                                </li>
+                                                                            </c:if>
+                                                                            <c:if test="${ p1 ne searchPi1.currentPage }">
+                                                                                <c:url var="pagination1" value="mrsearch.mr">
+                                                                                    <c:param name="page1" value="${ p1 }"/>
+                                                                                </c:url>
+                                                                                <li class="page-item">
+                                                                                    <a class="page-link" href="${ pagination1 }">${ p1 }</a>
+                                                                                </li>
+                                                                            </c:if>
+                                                                        </c:forEach>
+                                                                        
+                                                                        <!-- 다음 -->
+                                                                        <c:if test="${ searchPi1.currentPage >= searchPi1.maxPage }">
+                                                                            <li class="page-item page-indicator disabled">
+                                                                                <a class="page-link"><i class="icon-arrow-right"></i></a>
+                                                                            </li>
+                                                                        </c:if>
+                                                                        <c:if test="${ searchPi1.currentPage < searchPi1.maxPage }">
+                                                                            <c:url var="after1" value="mrsearch.mr">
+                                                                                <c:param name="page1" value="${ searchPi1.currentPage + 1 }"/>
+                                                                            </c:url>
+                                                                            <li class="page-item page-indicator">
+                                                                                <a class="page-link" href="${ after1 }">
+                                                                                    <i class="icon-arrow-right"></i>
+                                                                                </a>
+                                                                            </li>
+                                                                        </c:if>
+                                                                    </c:if>
                                                                     </ul>
                                                                 </nav>
                                                             </div>
@@ -177,8 +341,62 @@
                                     <!-- 2nd 탭 컨텐츠 시작 -->
                                     <div id="navpills-2" class="tab-pane">
                                         <div class="table-responsive">
-                                            <table class="table table-responsive-sm" id="tb2" style="align-content: center; text-align: center;">
+                                            <table class="table table-responsive-sm" id="tb2">
                                                 <thead>
+                                                    <tr>
+                                                        <th colspan="6">
+                                                            <!-- 2st 탭 검색 시작 -->
+                                                            <form action="mrsearch.mr">
+                                                                <div class="row justify-content-end">
+                                                                    <div class="col-px-0">
+                                                                        <select class="form-control form-control-sm" id="searchCondition2" name="searchCondition" required>
+                                                                            <option value="r_no2">예약번호</option>
+                                                                            <option value="r_date2">예약날짜</option>
+                                                                            <option value="r_status2">예약상태</option>
+                                                                            <option value="r_meetName2">회의실 명</option>
+                                                                            <option value="r_content2">예약내용</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="col-auto">
+                                                                        <div class="input-group">
+                                                                            <input type="text" class="form-control form-control-sm" id="searchKeyword2" name="searchKeyword">
+                                                                            <div class="input-group-prepend">
+                                                                                <button class="btn btn-secondary btn-xs">검색</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- 검색 창 placeholder 표시 -->
+                                                                    <script>
+                                                                        $('#searchCondition2').on('click change', function() {
+                                                                            if($('#searchCondition2').val() == 'r_no2')
+                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '1'");
+                                                                            else if($('#searchCondition2').val() == 'r_date2')
+                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '2022-01-26'");
+                                                                            else if($('#searchCondition2').val() == 'r_status2')
+                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '예약 완료'");
+                                                                            else if($('#searchCondition2').val() == 'r_meetName2')
+                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '회의실'");
+                                                                            else if($('#searchCondition2').val() == 'r_content2')
+                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '회의'");
+                                                                        });
+                                                                        $('#searchKeyword2').on('click change', function() {
+                                                                            if($('#searchCondition2').val() == 'r_no2')
+                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '1'");
+                                                                            else if($('#searchCondition2').val() == 'r_date2')
+                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '2022-01-26'");
+                                                                            else if($('#searchCondition2').val() == 'r_status2')
+                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '예약 완료'");
+                                                                            else if($('#searchCondition2').val() == 'r_meetName2')
+                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '회의실'");
+                                                                            else if($('#searchCondition2').val() == 'r_content2')
+                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '회의'");
+                                                                        });
+                                                                    </script>
+                                                                </div>
+                                                            </form>
+                                                            <!-- 2st 탭 검색 끝 -->
+                                                        </th>
+                                                    </tr>
                                                     <tr>
                                                         <th scope="col" width="50px">예약번호</th>
                                                         <th scope="col" width="200px">예약날짜</th>
@@ -190,12 +408,18 @@
                                                 </thead>
                                                 <tbody>
                                                     <c:if test="${ !empty loginUser }">
-                                                        <c:if test="${ pi2.listCount == 0 }">
+                                                        <c:if test="${ pi2.listCount == 0 || searchPi2.listCount == 0 }">
                                                             <tr>
                                                                 <td colspan="6">예약 내역이 존재하지 않습니다.</td>
                                                             </tr>
                                                         </c:if>
+                                                        <!-- 2nd 탭 목록 조회 : 검색 X (전체 목록 조회) -->
                                                         <c:if test="${ pi2.listCount > 0 }">
+                                                            <c:url var="mrupdate" value="mrupdate.mr">
+                                                                <c:param name="rNo" value="${ mr2.rev_no }"/>
+                                                                <c:param name="page" value="${ pi2.currentPage }"/>
+                                                            </c:url>
+                                                            <a href="${ mrupdate }">${ mr2.rev_time }</a>
                                                             <c:forEach var="mr2" items="${ list2 }">
                                                                 <tr>
                                                                     <td>${ mr2.rev_no }</td>
@@ -219,6 +443,36 @@
                                                                 </tr>
                                                             </c:forEach>
                                                         </c:if>
+                                                        <!-- 2nd 탭 목록 조회 : 검색 O (검색 키워드 기준 목록 조회) -->
+                                                        <c:if test="${ searchPi2.listCount > 0 }">
+                                                            <c:url var="mrdetail" value="mrdetail.mr">
+                                                                <c:param name="rNo" value="${ searchMr2.rev_no }"/>
+                                                                <c:param name="page" value="${ searchPi2.currentPage }"/>
+                                                            </c:url>
+                                                            <a href="${ mrdetail }">${ searchMr2.rev_time }</a>
+                                                            <c:forEach var="searchMr2" items="${ searchList2 }">
+                                                                <tr>
+                                                                    <td>${ searchMr2.rev_no }</td>
+                                                                    <td>${ searchMr2.rev_time }</td>
+                                                                    <td>
+                                                                        <c:choose>
+                                                                            <c:when test="${ searchMr2.rev_status eq 0 }">
+                                                                                <span class="badge badge-pill badge-success">예약 완료</span>
+                                                                            </c:when>
+                                                                            <c:when test="${ searchMr2.rev_status eq 1 }">
+                                                                                <span class="badge badge-pill badge-secondary">사용 완료</span>
+                                                                            </c:when>
+                                                                            <c:when test="${ searchMr2.rev_status eq 2 }">
+                                                                                <span class="badge badge-pill badge-warning">예약 취소</span>
+                                                                            </c:when>
+                                                                        </c:choose>
+                                                                    </td>
+                                                                    <td>${ searchMr2.meet_name }</td>
+                                                                    <td>${ searchMr2.mName }</td>
+                                                                    <td>${ searchMr2.rev_content }</td>
+                                                                </tr>
+                                                            </c:forEach>
+                                                        </c:if>
                                                     </c:if>
                                                 </tbody>
                                                 
@@ -229,6 +483,8 @@
                                                             <div class="d-flex justify-content-center">
                                                                 <nav>
                                                                     <ul class="pagination pagination-sm pagination-gutter">
+                                                                    <!-- 검색 X 시 -->
+                                                                    <c:if test="${ pi1.currentPage > 0 }">
                                                                         <!-- 이전 -->
                                                                         <c:if test="${ pi2.currentPage <= 1 }">
                                                                             <li class="page-item page-indicator disabled">
@@ -279,6 +535,61 @@
                                                                                 </a>
                                                                             </li>
                                                                         </c:if>
+                                                                    </c:if>
+                                                                    
+                                                                    <!-- 검색 O 시 -->
+                                                                    <c:if test="${ searchPi2.currentPage > 0 }">
+                                                                        <!-- 이전 -->
+                                                                        <c:if test="${ searchPi2.currentPage <= 1 }">
+                                                                            <li class="page-item page-indicator disabled">
+                                                                                <a class="page-link"><i class="icon-arrow-left"></i></a>
+                                                                            </li>
+                                                                        </c:if>
+                                                                        <c:if test="${ searchPi2.currentPage > 1 }">
+                                                                            <c:url var="before2" value="mrsearch.mr">
+                                                                                <c:param name="page2" value="${ searchPi2.currentPage - 1 }"/>
+                                                                            </c:url>
+                                                                            <li class="page-item page-indicator">
+                                                                                <a class="page-link" href="${ before2 }">
+                                                                                    <i class="icon-arrow-left"></i>
+                                                                                </a>
+                                                                            </li>
+                                                                        </c:if>
+                                                                        
+                                                                        <!-- 숫자 -->
+                                                                        <c:forEach var="p2" begin="${ searchPi2.startPage }" end="${ searchPi2.endPage }">
+                                                                            <c:if test="${ p2 eq searchPi2.currentPage }">
+                                                                                <li class="page-item active">
+                                                                                    <a class="page-link">${ p2 }</a>
+                                                                                </li>
+                                                                            </c:if>
+                                                                            <c:if test="${ p2 ne searchPi2.currentPage }">
+                                                                                <c:url var="pagination2" value="mrsearch.mr">
+                                                                                    <c:param name="page2" value="${ p2 }"/>
+                                                                                </c:url>
+                                                                                <li class="page-item">
+                                                                                    <a class="page-link" href="${ pagination2 }">${ p2 }</a>
+                                                                                </li>
+                                                                            </c:if>
+                                                                        </c:forEach>
+                                                                        
+                                                                        <!-- 다음 -->
+                                                                        <c:if test="${ searchPi2.currentPage >= searchPi2.maxPage }">
+                                                                            <li class="page-item page-indicator disabled">
+                                                                                <a class="page-link"><i class="icon-arrow-right"></i></a>
+                                                                            </li>
+                                                                        </c:if>
+                                                                        <c:if test="${ searchPi2.currentPage < searchPi2.maxPage }">
+                                                                            <c:url var="after2" value="mrsearch.mr">
+                                                                                <c:param name="page2" value="${ searchPi2.currentPage + 1 }"/>
+                                                                            </c:url>
+                                                                            <li class="page-item page-indicator">
+                                                                                <a class="page-link" href="${ after2 }">
+                                                                                    <i class="icon-arrow-right"></i>
+                                                                                </a>
+                                                                            </li>
+                                                                        </c:if>
+                                                                    </c:if>
                                                                     </ul>
                                                                 </nav>
                                                             </div>
@@ -321,24 +632,22 @@
     <script>
     // 예약정보 세부 조회 연결 기능
     $(function() {
-        $('#tb1 td').mouseenter(function() {
+        $('#tb1 tbody td').mouseenter(function() {
             $(this).parent().css({'font-weight':'bold', 'cursor':'pointer'});
         }).mouseout(function() {
             $(this).parent().css({'font-weight':'normal'});
         }).click(function() {
             var rNo = $(this).parent().children().eq(0).text();
-            location.href="mrdetail.mr?revNo=" + rNo + "&page=" + ${ pi1.currentPage };
+            location.href="mrdetail.mr?rNo=" + rNo + "&page=" + ${ pi1.currentPage };
         });
-    });
-    
-    $(function() {
-        $('#tb2 td').mouseenter(function() {
+        
+        $('#tb2 tbody td:not(:has(input))').mouseenter(function() {
             $(this).parent().css({'font-weight':'bold', 'cursor':'pointer'});
         }).mouseout(function() {
             $(this).parent().css({'font-weight':'normal'});
         }).click(function() {
             var rNo = $(this).parent().children().eq(0).text();
-            loction.href="mrresrvupdate.mr?revNo=" + rNo + "&page=" + ${ pi2.currentPage };
+            location.href="mrupdate.mr?rNo=" + rNo + "&page=" + ${ pi2.currentPage };
         });
     });
     

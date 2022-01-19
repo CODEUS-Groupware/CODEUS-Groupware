@@ -24,4 +24,8 @@ public interface MeetingResrvService {
     
     int autoUpdate(Timestamp tNow);
     
+    int searchListCount(HashMap map);
+    
+    ArrayList<MeetingResrv> searchList(PageInfo pi, HashMap map);
+    
 }

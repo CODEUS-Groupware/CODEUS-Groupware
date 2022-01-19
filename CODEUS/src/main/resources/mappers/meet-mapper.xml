@@ -105,5 +105,119 @@
         where rev_end_time <= #{tNow}
         ]]>
     </update>
+    
+    <select id="searchListCount" resultType="_int">
+        select count(*)
+        from meet_reservation
+        <if test="mId == NULL">
+            <where>
+                <choose>
+                    <when test="searchCondition == 'r_no1'">
+                        and rev_no like '%' || #{searchKeyword} || '%'
+                    </when>
+                    <when test="searchCondition == 'r_date1'">
+                        and rev_date = #{searchKeyword}
+                    </when>
+                    <when test="searchCondition == 'r_status1'">
+                        and rev_status = #{searchKeyword}
+                    </when>
+                    <when test="searchCondition == 'r_meetName1'">
+                        and meet_no in (select meet_no
+                                        from meeting_room
+                                        where meet_name like '%' || #{searchKeyword} || '%')
+                    </when>
+                    <when test="searchCondition == 'r_mName1'">
+                        and m_id in (select m_id
+                                     from member
+                                     where m_name = #{searchKeyword})
+                    </when>
+                    <when test="searchCondition == 'r_content1'">
+                        and rev_content like '%' || #{searchKeyword} || '%'
+                    </when>
+                </choose>
+            </where>
+        </if>
+        <if test="mId != NULL">
+        where m_id = #{mId}
+            <choose>
+                <when test="searchCondition == 'r_no2'">
+                    and rev_no like '%' || #{searchKeyword} || '%'
+                </when>
+                <when test="searchCondition == 'r_date2'">
+                    and rev_date = #{searchKeyword}
+                </when>
+                <when test="searchCondition == 'r_status2'">
+                    and rev_status = #{searchKeyword}
+                </when>
+                <when test="searchCondition == 'r_meetName2'">
+                    and meet_no in (select meet_no
+                                    from meeting_room
+                                    where meet_name like '%' || #{searchKeyword} || '%')
+                </when>
+                <when test="searchCondition == 'r_content2'">
+                    and rev_content like '%' || #{searchKeyword} || '%'
+                </when>
+            </choose>
+        </if>
+    </select>
+    
+    <select id="searchList" resultMap="meetResrvResultSet">
+        select rev_no, rev_date, rev_start_time, rev_end_time, rev_content,
+               rev_status, rev_apply_date, meet_no, m_id, meet_name, m_name
+        from meet_reservation
+             left join member using(m_id)
+             left join meeting_room using(meet_no)
+        <if test="mId == NULL">
+            <where>
+                <choose>
+                    <when test="searchCondition == 'r_no1'">
+                        and rev_no like '%' || #{searchKeyword} || '%'
+                    </when>
+                    <when test="searchCondition == 'r_date1'">
+                        and rev_date = #{searchKeyword}
+                    </when>
+                    <when test="searchCondition == 'r_status1'">
+                        and rev_status = #{searchKeyword}
+                    </when>
+                    <when test="searchCondition == 'r_meetName1'">
+                        and meet_no in (select meet_no
+                                        from meeting_room
+                                        where meet_name like '%' || #{searchKeyword} || '%')
+                    </when>
+                    <when test="searchCondition == 'r_mName1'">
+                        and m_id in (select m_id
+                                     from member
+                                     where m_name = #{searchKeyword})
+                    </when>
+                    <when test="searchCondition == 'r_content1'">
+                        and rev_content like '%' || #{searchKeyword} || '%'
+                    </when>
+                </choose>
+            </where>
+        </if>
+        <if test="mId != NULL">
+        where m_id = #{mId}
+            <choose>
+                <when test="searchCondition == 'r_no2'">
+                    and rev_no like '%' || #{searchKeyword} || '%'
+                </when>
+                <when test="searchCondition == 'r_date2'">
+                    and rev_date = #{searchKeyword}
+                </when>
+                <when test="searchCondition == 'r_status2'">
+                    and rev_status = #{searchKeyword}
+                </when>
+                <when test="searchCondition == 'r_meetName2'">
+                    and meet_no in (select meet_no
+                                    from meeting_room
+                                    where meet_name like '%' || #{searchKeyword} || '%')
+                </when>
+                <when test="searchCondition == 'r_content2'">
+                    and rev_content like '%' || #{searchKeyword} || '%'
+                </when>
+            </choose>
+        </if>
+        order by rev_date desc, rev_start_time
+    </select>
 
 </mapper>

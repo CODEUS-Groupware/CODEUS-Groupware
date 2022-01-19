@@ -31,7 +31,6 @@ public class MeetingResrvDAO {
     }
     
     public ArrayList<MeetingResrv> selectMyList(SqlSessionTemplate sqlSession, HashMap map) {
-        
         int offset = (((PageInfo) map.get("pi2")).getCurrentPage() - 1) * ((PageInfo) map.get("pi2")).getBoardLimit();
         RowBounds rowBounds = new RowBounds(offset, ((PageInfo) map.get("pi2")).getBoardLimit());
         
@@ -48,6 +47,17 @@ public class MeetingResrvDAO {
     
     public int autoUpdate(SqlSessionTemplate sqlSession, Timestamp tNow) {
         return sqlSession.update("meetResrvMapper.autoUpdate", tNow);
+    }
+    
+    public int searchListCount(SqlSessionTemplate sqlSession, HashMap map) {
+        return sqlSession.selectOne("meetResrvMapper.searchListCount", map);
+    }
+    
+    public ArrayList<MeetingResrv> searchList(SqlSessionTemplate sqlSession, PageInfo pi, HashMap map) {
+        int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+        RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+        
+        return (ArrayList) sqlSession.selectList("meetResrvMapper.searchList", map, rowBounds);
     }
     
 }

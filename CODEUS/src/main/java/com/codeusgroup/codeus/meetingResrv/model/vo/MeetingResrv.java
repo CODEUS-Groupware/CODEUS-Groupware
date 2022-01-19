@@ -4,18 +4,20 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 public class MeetingResrv {
-    private int rev_no;
-    private Date rev_date;
-    private Timestamp rev_start_time;
-    private Timestamp rev_end_time;
-    private String rev_content;
-    private int rev_status;
-    private Date rev_apply_date;
-    private int meet_no;
-    private String mId;
-    private String meet_name;
-    private String mName;
-    private String rev_time;
+    private int rev_no;                 // 예약번호
+    private Date rev_date;              // 예약날짜(YYYY-MM-DD)
+    private Timestamp rev_start_time;   // 시작시간(HH:MM)
+    private Timestamp rev_end_time;     // 종료시간(HH:MM)
+    private String rev_content;         // 예약목적(내용)
+    private int rev_status;             // 예약상태(0: 예약 완료, 1: 사용 완료, 2: 예약 취소)
+    private Date rev_apply_date;        // 예약 정보가 등록/수정된 시간
+    private int meet_no;                // 예약한 회의실 등록번호
+    private String mId;                 // 예약자 아이디
+    
+    private String meet_name;           // 예약한 회의실 이름
+    private String mName;               // 예약자 이름
+    
+    private String rev_time;            // 예약날짜 정보(YYYY-MM-DD HH:MM ~ HH:MM)
     
     public MeetingResrv() {
     }
