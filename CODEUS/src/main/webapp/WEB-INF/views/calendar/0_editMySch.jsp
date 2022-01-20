@@ -25,152 +25,7 @@
          background-color: #6F808A; 
          color: white;
    }
-       /* 주소록 CSS 시작 */
-      .content_layout_address {
-         width: 1200px;
-         background-color:#fff;
-   
-   }
-   
-   .nav_layer{
-         width:100%;
-         height: 25px;
-         display: block;
-         float: left;
-   }
-   
-   .tab_nav li {
-       float: left;
-       margin: 0 0 -1px 24px;
-       padding: 0;
-       cursor: pointer;
-       height: 40px;
-       line-height: 40px;
-       font-size: 13px;
-       color: #999;   
-       
-         list-style-type: none;      
-   }
-   
-   .tab_nav li:first-child {
-         margin: 0;
-   }
-   
-   .ul_state_active {
-   
-          border-bottom: 1px solid #000;
-   } 
-   
-   .tab_wrap {
-         width: 550px;
-         display: inline-block;
-   }
-   .tree, .tree ul {
-       margin:0;
-       padding:0;
-       list-style:none
-   }
-   .tree ul {
-       margin-left:1em;
-       position:relative
-   }
-   .tree ul ul {
-       margin-left:.5em
-   }
-   .tree ul:before {
-       content:"";
-       display:block;
-       width:0;
-       position:absolute;
-       top:0;
-       bottom:0;
-       left:0;
-       border-left:1px solid
-   }
-   .tree li {
-       margin:0;
-       padding:0 1em;
-       line-height:2em;
-       color:#369;
-       font-weight:700;
-       position:relative
-   }
-   .tree ul li:before {
-       content:"";
-       display:block;
-       width:10px;
-       height:0;
-       border-top:1px solid;
-       margin-top:-1px;
-       position:absolute;
-       top:1em;
-       left:0
-   }
-   .tree ul li:last-child:before {
-       background:#fff;
-       height:auto;
-       top:1em;
-       bottom:0
-   }
-   .indicator {
-       margin-right:5px;
-   }
-   .tree li a {
-       text-decoration: none;
-       color:#369;
-   }
-   .tree li button, .tree li button:active, .tree li button:focus {
-       text-decoration: none;
-       color:#369;
-       border:none;
-       background:transparent;
-       margin:0px 0px 0px 0px;
-       padding:0px 0px 0px 0px;
-       outline: 0;
-   }   
-   .father {
-         display: flex;
-   }
-   .search {
-         width: 338px;
-         border-radius: 3px;
-         border: 2px solid #adb5bd;
-   }
-   .emp_search {
-         margin-bottom: 0; 
-   }
-   .search, .btnSearch {
-         height: 32px;   
-   } 
-   span.btn_bg {
-       position: relative;
-       cursor: pointer;
-       padding: 4px 4px 6px;
-       background-color: #fff;
-       border: 1px solid #ddd;
-       text-align: left;
-       margin-bottom: 10px;
-   }
-   .addArea {
-         margin-top: 147px;
-   }
-   .addList, li {
-         list-style-type: none;
-   }
-   div.receive_wrap div.receive_list ul {
-       border: 1px solid #666;
-       height: 105px;
-       overflow-x: hidden;
-       background: #f9f9f9;
-       padding: 0 4px;
-   } 
-   div.receive_wrap div.receive_list {
-       display: inline-block;
-       margin: 10px 0 0 0;
-       width: 270px;
-       height: 135px;
-   }
-      /* 주소록 CSS 끝 */
+      
 	
 	.titleBox{
 		background-color: white;
@@ -210,6 +65,10 @@
 	  background-color: #f1f1f1;
 	}
 	
+	.choiceAtd{
+		cursor: pointer;
+	}
+	
 	.blueBtn{
 		border-radius: 4px;
 		background-color: #0F4C81;
@@ -241,22 +100,31 @@
 	$(document).ready(function() {
 
 		addSch();	// 내 캘린더 불러오기
+		//selectAtd();	// 참석자 불러오기
 		
-		// 모달창에서 사용자가 입력했던 정보들을 받아서 넣어줌
-		$("input[name=startday]").val("${startday}");
-		$("input[name=endday]").val("${endday}");
-		
-		// 종일 체크박스
+		// select 값 변경
+		$("input.addSchSelect").val("${cal.scheType}").change();
+
+		// datepicker에 db에서 받아온 시작, 끝 날짜 넣어주기
+		$("input[name=startday]").val("${ cal.scheStartDate }".substring(0, 10));
+		$("input[name=endday]").val("${ cal.scheEndDate }".substring(0, 10));
+		console.log("${ cal.scheStartDate }");
+		// 일정이 종일일 경우
 		if ( ${ bAllday eq 1 }) {
 			$("input[name=allday]").prop("checked", true);
+			$("select.startday_hour").val("${ cal.scheStartString }".substring(11, 16)).change();
+			$("select.endday_hour").val("${ cal.scheEndString }".substring(11, 16)).change();	// 종일이면 23:59까지 끊기기 때문에 startday와 endday는 같게 둠
+		}else{
+			$("input[name=allday]").prop("checked", false);
+			$("select.startday_hour").val("${ cal.scheStartString }".substring(11, 16)).change();
+			$("select.endday_hour").val("${ cal.scheEndString }".substring(11, 16)).change();
+			console.log($("select.endday_hour").val());
 		}
 		
 		// ====== 주소록 모달창 js 시작 ====== // 
 	       
 	       // ====== 주소록 상단 탭 클릭 한 요소 CSS 적용시키기 ====== //
 	      $(".tab_nav li").click(function(event){
-	         
-	         //alert($(this).attr('value'));
 	         
 	         $(this).addClass("ul_state_active");
 	         $(".tab_nav li").not($(this)).removeClass("ul_state_active");
@@ -337,16 +205,15 @@
 	            // 검색어 비우기 
 	             $("input#searchWord").val("");
 	            
-	            var mId = $(this).val();
-	            //alert("클릭한 조직 이름의 value 값은? ==> " + fk_dept_no);
+	            var fk_dept_no = $(this).val();
 	            
 	            // sessionStorage.setItem("fk_dept_no", fk_dept_no);
 	            // var fk_dept_noVal = sessionStorage.getItem("fk_dept_no");
 	            
 	            $.ajax({ 
-	               url:"<%= request.getContextPath() %>/writeAddAddress.ca",
+	               url:"<%= request.getContextPath() %>/canlendar/writeAddAddress.ca",
 	               // data: {"fk_dept_no" : fk_dept_noVal},
-	                data: {"deptId" : deptId},
+	               data: {"deptId" : deptId},
 	               dataType:"json",
 	               success:function(json) {
 	                  
@@ -380,7 +247,7 @@
 	                     }
 	               },
 	                 error: function(request, status, error){
-	                   alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	                   alert("7에러 code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 	                }
 	               
 	            });      
@@ -416,10 +283,10 @@
 	                        html += item.mName;
 	                        html += "</td>";
 	                        html += "<td style='width: 80px; height: 10px; padding-left:2px;' >";
-	                        html += item.jobName;
+	                        html += item.jobId;
 	                        html += "</td>";   
 	                        html += "<td style='width: 80px; height: 10px; padding-left:2px;' >";
-	                        html += item.deptName;
+	                        html += item.deptId;
 	                        html += "</td>";    
 	                        html += "<td style='width: 80px; height: 10px; padding-left:2px;' >";
 	                        html += item.mId;
@@ -443,7 +310,7 @@
 	                  }
 	               },
 	              error: function(request, status, error){
-	                   alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	                   alert("1에러 code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 	            }
 	           });
 
@@ -505,10 +372,10 @@
 	            // 배열 반복문, 사원 리스트 중복 값 체크 및 두번재 요소부터 엔터 값 적용하기
 	            $.each(mList, function(index, item){
 	                 
-	               // console.log("$.each의 empList 결과는무엇?==? " + item.mName);
+	               // console.log("$.each의 empList 결과는무엇?==? " + item.emp_name);
 	               // console.log("$.each의 empList 결과는무엇?==? " + item.position_name);
 	               // console.log("$.each의 empList 결과는무엇?==? " + item.dept_name);
-	               // console.log("$.each의 empList 결과는무엇?==? " + item.mId);
+	               // console.log("$.each의 empList 결과는무엇?==? " + item.emp_no);
 	               
 	               // 사원 리스트 중복 값 체크를 위한 temp 변수(체크한 내용이 다 들어가있는 변수)
 	               resultMListTemp = item.mName + "/" + item.jobId + "/" +item.deptId + "/" +item.mId;
@@ -517,10 +384,10 @@
 	               if(resultMList.indexOf(resultMListTemp) == -1 ) {
 	               
 	                  if(index == 0) { 
-	                     resultMList += item.mName + "/" + item.jobId + "/" +item.deptId + "/" +item.mId;
+	                	  resultMList += item.mName + "/" + item.jobId + "/" +item.deptId + "/" +item.mId;
 	                  }
 	                  else { // 첫번째 요소가 아닐때만 사원명 앞에 엔터값 추가
-	                     resultMList += "\n" + item.mName + "/" + item.jobId + "/" +item.deptId + "/" +item.mId;
+	                	  resultMList += "\n" + item.mName + "/" + item.jobId + "/" +item.deptId + "/" +item.mId;
 	                  }
 	               }
 	                 
@@ -588,7 +455,7 @@
 	     var strEmpName = arrEmpName.join(",");
 	     
 	     // 참석자 칸 초기화
-	     $("td.atandee_td").html('<a data-toggle="modal" data-target="#findEmpListModal" style="cursor: pointer;"><i class="fa fa-plus" style="padding: 0 10px;"> 참석자 선택</i></a>');
+	     $("td.atandee_td").html('<a data-toggle="modal" data-target="#findEmpListModal"><i class="fa fa-plus" style="padding: 0 10px;"> 참석자 선택</i></a>');
 	     
 	     // 선택한 사원이 있을 때만 실행
 	     if (strEmpName != "") {
@@ -601,10 +468,9 @@
 		    	 atdHtml += '</div>';
 		     });
 		     
-		     atdHtml += '<a data-toggle="modal" data-target="#findEmpListModal" style="cursor: pointer;"><i class="fa fa-plus" style="padding: 0 10px;"> 참석자 선택</i></a>';
+		     atdHtml += '<a data-toggle="modal" data-target="#findEmpListModal"><i class="fa fa-plus" style="padding: 0 10px;"> 참석자 선택</i></a>';
 		     
 		     $("td.atandee_td").html(atdHtml);
-	     
 	     }
 	     
 	     $("input.mId").val(strEmpno); // 컨트롤러로 가져갈 사원번호(hidden)
@@ -614,11 +480,10 @@
 	  <%-- 주소록 모달:끝 --%>
 	
 	
-	// 캘린더 불러와서 select에 넣어주는 함수
 	function addSch(){
 
 		$.ajax({
-			url:"<%= request.getContextPath() %>/readAdminCalList.ca",
+			url:"<%= request.getContextPath() %>/readCalList.ca",
 			type:"get",
 			dataType:"JSON",
 			success:function(json){
@@ -632,16 +497,23 @@
 							name = item.name;
 						}
 						
-						html += "<option value='" + item.calendar_no + "'>" + item.name + "</option>";
+						// 해당 일정에 맞는 캘린더를 selected 해줌
+						if("${cal.scheNo}" == item.calendar_no){
+							html += "<option value='" + item.calendar_no + "' selected >" + item.name + "</option>";
+						}else{
+							html += "<option value='" + item.calendar_no + "'>" + item.name + "</option>";
+						}
+						
 					});
 				}else{
-					html += "<option value='-9999'>캘린더를 생성해주세요.</option>";
+					html += "<li style='height: 20px;'> 캘린더를 생성해주세요.";
+					html += "</li>";
 				}
 				
-				$("select.addSchSelect").html(html);
+				$("input.addSchSelect").html(html);
 			},
 			error: function(request, status, error){
-				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				alert("addSch error" +"\n" + "code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 		 	}
 		});
 		
@@ -676,12 +548,175 @@
 			  return false;
 		  }
 
-	//	  var scheType = $("select[name=scheType]").val();
-	//	  if (scheType.trim() == "" || scheType == "-9999") {
+		  var scheType = $("input[name=scheType]").val();
+		 // if (scheType.trim() == "") {
+		//	  alert("캘린더를 선택해주세요.");
+		//	  return false;
+		 // }
+		  
+		  
+		  var content = $("textArea[name=content]").val();
+		  if (content.trim() == "") {
+			  alert("일정내용을 입력해주세요.");
+			  $("textArea[name=content]").focus();
+			  return false;
+		  }
+
+		// 입력받은 값들 유효성 검사: 끝
+		var color = $("select[name=color]").val();
+		
+		// db에 넣기
+		$.ajax({
+			url:"<%= request.getContextPath() %>/addDetailSch.ca",
+			data:{title:title, startday:startday, endday:endday, scheNo:scheNo, color:color, content:content, mId:mId},
+			type:"POST",
+			dataType:"JSON",
+			success:function(json){
+				
+				if (json.result == 1) {
+					location.href = "<%= request.getContextPath() %>/goMyCalendar.ca";
+					
+				}else if(json.result == 0){
+					alert("일정등록에서 등록버튼을 클릭했을시DB 오류");
+				}
+				
+			},
+			error: function(request, status, error){
+				alert("2에러 code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		 	}
+		});
+		  
+	  }
+	
+	// 참가자 불러오는 함수
+	function selectAtd(){
+		
+		$.ajax({
+			url:"<%= request.getContextPath() %>/selectAtd.ca",
+			data:{scheNo:"${cal.scheNo}"},
+			type:"POST",
+			dataType:"JSON",
+			success:function(json){
+
+				if (json.result != 0) {
+					// 참석자 칸 초기화
+				     $("td.atandee_td").html('<a class="choiceAtd" data-toggle="modal" data-target="#findEmpListModal"><i class="fa fa-plus" style="padding: 0 10px;"> 참석자 선택</i></a>');
+
+			    	 var atdHtml = "";
+			    	 var str = "";	// 처음 페이지에 들어왔을 때 참석자input에 넣어줄 회원번호
+				     $.each(json, function(index, item){
+				    	 
+				    	 atdHtml += '<div class="chip" id="mId_name" style="margin-right: 0.5%;">';
+				    	 atdHtml += item.mName
+				    	 atdHtml += '</div>';
+				    	 
+				    	 str += item.fk_emp_no + ",";
+				    	 
+				     });
+				     
+				     str = str.substr(0, str.length -1);    
+				     atdHtml += '<a class="choiceAtd" data-toggle="modal" data-target="#findEmpListModal"><i class="fa fa-plus" style="padding: 0 10px;"> 참석자 선택</i></a>';
+				     
+				     $("td.atandee_td").html(atdHtml);
+				     $("input.mId").val(str);
+
+				}else{
+					alert("참가자 불러오는DB 오류");
+				}
+				
+			},
+			error: function(request, status, error){
+				alert("3에러 code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		 	}
+		});
+		
+	}
+	
+	// 삭제할 일정이 초대받은 일정인지 검사
+	function checkInviteSch(type) {
+		
+		// type 1 삭제, 2 수정
+		$.ajax({
+			url:"<%= request.getContextPath() %>/checkDelInviteMySch.ca",
+			data:{ scheNo: "${ cal.scheNo }", scheType: "${cal.scheType}", title:"${ cal.scheTitle }", startday:"${ cal.scheStartString }", endday:"${ cal.scheEndString }", allday:"${ cal.allDayYn }", mId:"${ cal.mId }", content:"${ cal.scheContent }" },
+			type:"POST",
+			dataType:"JSON",
+			success:function(json){
+
+				if (json.result > 0) {
+					if (type == 1) {
+						delSchBtn();
+					}else{
+						editSchBtn();
+					}
+					location.href = "<%= request.getContextPath() %>/goMyCalendar.ca";
+				}
+				
+			},
+			error: function(request, status, error){
+				console.log(json);
+		 	}
+		});
+		
+	}
+	
+	// 일정 삭제하는 함수(참석자로 묶인 일정들도 전부 함께 삭제)
+	function delSchBtn() {
+		
+		$.ajax({
+			url:"delSch.ca",
+			data: { scheNo: "${ cal.scheNo }", scheType: "${cal.scheType}", title:"${ cal.scheTitle }", startday:"${ cal.scheStartString }", endday:"${ cal.scheEndString }", allday:"${ cal.allDayYn }", mId:"${ cal.mId }", content:"${ cal.scheContent }" }, 
+			type:"POST",
+			dataType:"JSON",
+			success:function(result){
+				if(result == 1){
+					location.href = "<%= request.getContextPath() %>/goMyCalendar.ca";
+				} else{
+					console.log(result)
+				}
+			},
+			error: function(request, status, error){
+				alert("5에러 code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		 	}
+		});
+		
+	}
+	
+	// 일정을 수정하는 함수(참석자로 묶인 일정들도 전부 함께 수정)
+	function editSchBtn() {
+		
+		// 입력받은 값들 유효성 검사: 시작
+
+		  var title = $("input.title").val();
+			console.log(title);
+		  if (title.trim() == "") {
+			  alert("일정명을 입력해주세요.");
+			  $("input.title").focus();
+			  return false;
+		  }
+
+		  var startday = $("input[name=startday]").val() + " " + $("select.startday_hour").val() + ":00";
+		  var endday = "";
+		  
+		  // 종일 체크 시 시작 날짜를 기준으로 변경
+		  if ($("input#allday:checked").val()) {
+			  startday = $("input[name=startday]").val() + " 00:00:00";
+			  endday = $("input[name=startday]").val() + " 21:00:00";
+		  }else{
+			  endday = $("input[name=endday]").val() + " " + $("select.endday_hour").val() + ":00";
+		  }
+		  
+		  // true: 통과   false: 불통
+		  if (!(startday < endday && startday != endday)) {
+			  alert("올바른 일시를 선택해주세요.");
+			  return false;
+		  }
+
+		  var scheType = $("input[name=scheType]").val();
+	//	  if (scheType.trim() == "") {
 	//		  alert("캘린더를 선택해주세요.");
 	//		  return false;
 	//	  }
-		 
 		  
 		  var content = $("textArea[name=content]").val();
 		  if (content.trim() == "") {
@@ -692,46 +727,45 @@
 		  var color = $("select[name=color]").val();
 
 		// 입력받은 값들 유효성 검사: 끝
-		
-		
+		var scheNo = ${ cal.scheNo };
+			console.log(scheNo);
 		// db에 넣기
 		$.ajax({
-			url:"<%= request.getContextPath() %>/addDetailSch.ca",
-			data:{title:title, startday:startday, endday:endday, content:content, color:color, mId:"${sessionScope.loginUser.mId}"},
+			url:"doEditMySch.ca",
+			data:{scheNo:scheNo, color:color, title:title, startday:startday, endday:endday, scheType:scheType, content:content, mId:"${ cal.mId }"},
 			type:"POST",
 			dataType:"JSON",
 			success:function(json){
-				
-				if (json.result == 1) {
-					location.href = "<%= request.getContextPath() %>/goCalendar.ca";
-				}else{
-					console.log("addDetailSch success DB 오류 : " + JSON.stringify(json));
+				if(json.result == 1 ){
+					location.href = "<%= request.getContextPath() %>/goMyCalendar.ca";
+				}else if(json.result == 0){
+					alert("DB오류");
 				}
 				
 			},
 			error: function(request, status, error){
-					console.log("addDetailSch DB 오류 : " + JSON.stringify(json));
-				alert("addDetailSch DB 오류 : " + JSON.stringify(json));
+				alert("6에러 code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 		 	}
 		});
-		  
-	  }
-	
-	// 취소 버튼 클릭 시 캘린더로 돌아가는 함수
-	function cancelBtn() {
-		location.href = "<%= request.getContextPath() %>/goCalendar.ca";
+		
 	}
+	
+	
+
+	
+	
+
 </script>
 
 </head>
-<body class='stop-dragging'>
+<body>
 	<c:import url="../common/menubar.jsp"/>
 	<!--**********************************
 	            Content body start
 	***********************************-->
 	<div class="content-body" >
 	<div class="titleBox">
-		<h2><i class="fa fa-calendar fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;일정등록</h2>
+		<h2><i class="fa fa-calendar fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;일정상세</h2>
 	</div>
 	<hr style="margin: 0; color: #9d9d9d;">
 
@@ -742,7 +776,7 @@
 	      <tbody>
 	        <tr>
 	          <th>일정명</th>
-	          <td><input class="form-control title modal_input" maxlength="13" name="title" type="text" value="${ title }" /></td>
+	          <td><input class="form-control title modal_input" maxlength="13" name="title" type="text" value="${ cal.scheTitle }" /></td>
 	        </tr>
 	        <tr>
 	          <th>일시</th>
@@ -783,39 +817,37 @@
 	          </td>
 	        </tr>
 	        
+<!-- 	        <tr> -->
+<!-- 	          <th>내 캘린더</th> -->
+<!-- 	        </tr> -->
 	        <tr>
 	          <th>색상</th>
 	          <td>
 	          		<select class="colorSelect form-control" name="color" style="width: 15%; height: 35px;">
-	          			<option value="blue">파란색</option>
-	          			<option value="green">초록색</option>
-	          			<option value="red">빨간색</option>
-	          			<option value="black">검정색</option>
+	          			<option value="blue" <c:if test ="${cal.color eq 'blue'}">selected="selected"</c:if>>파란색</option>
+	          			<option value="green" <c:if test ="${cal.color eq 'green'}">selected="selected"</c:if>>초록색</option>
+	          			<option value="violet" <c:if test ="${cal.color eq 'violet'}">selected="selected"</c:if>>보라색</option>
+	          			<option value="black" <c:if test ="${cal.color eq 'black'}">selected="selected"</c:if>>검정색</option>
 	          		</select>
 	          </td>
 	        </tr>
-
-<!-- 	        <tr> -->
-<!-- 	          <th>내 캘린더</th> -->
-<!-- 	          <td><select class="addSchSelect form-control" name="scheType" style="width: 30%; height: 35px;"></select></td> -->
-<!-- 	        </tr> -->
-	        
 	        <tr>
 <!-- 	          <th>일정등록자</th> -->
-	          <td><input class="form-control title modal_input" maxlength="13" name="mId" type="hidden" value="${sessionScope.loginUser.mId}" readonly/></td>
+	          <td><input class="form-control title modal_input" maxlength="13" name="mId" type="hidden" value="${ cal.mId }" readonly/></td>
 	        </tr>
 	        
 	        <tr>
 	          <th>일정내용</th>
-	          <td><textarea class="form-control modal_input" cols="30" rows="8" name="content" style="resize: none;">${ content }</textarea></td>
+	          <td><textarea class="form-control modal_input" cols="30" rows="8" name="content" style="resize: none;" >${ cal.scheContent }</textarea></td>
+	          <td><input type="hidden" class="addSchSelect form-control" name="scheType" style="width: 30%; height: 35px;" ><!--  value="${cal.scheType}"--></td>
 	        </tr>
 	        
 	      </tbody>
 	    </table>
 		
 		<div style="float: right;">
-			<button class="btn blueBtn" type="button" onclick="addSchBtn()">등록</button>
-			<button class="btn grayBtn" type="button" onclick="cancelBtn()">취소</button>
+			<button class="btn redBtn" type="button" onclick="checkInviteSch(1)">일정 삭제</button>
+			<button class="btn blueBtn" type="button" onclick="checkInviteSch(2)">수정</button>
 		</div>
 		<br style="clear: both;">
 	   </form>
@@ -828,9 +860,8 @@
 	<%-- 주소록 모달 --%>
 <!-- Modal -->
 <div id="findEmpListModal" class="modal fade" role="dialog" data-keyboard="false" data-backdrop="static">
- <div class="modal-dialog" style="width: 1500px;">
+ <div class="modal-dialog" style="width: 800px;">
  
-   <!-- Modal content-->
    <div class="modal-content" style="width: 1150px;">
      <div class="modal-header" style="height: 60px;">
        <button type="button" class="close" data-dismiss="modal" onclick="window.closeModal()"><span style="font-size: 26pt;">&times;</span></button>
@@ -846,6 +877,7 @@
                <div class="content_layout_address" style="margin-left : 60px;">
                   <div id="tabArea" style="margin-left : -40px;">
                      <ul class="tab_nav nav_layer" style="margin-bottom: 22px;">
+                        
                      </ul>
                   </div>
                   
@@ -908,16 +940,16 @@
                                               <input type="checkbox" name="chkbox" class="check${status.index}">
                                            </td>
                                            <td style="width: 80px; height: 10px; padding-left:2px;" id="mName">
-                                               ${mem.mName}
+                                              ${mem.mName}
                                            </td>
                                            <td style="width: 50px; height: 10px; padding-left:2px;" id="jobId">
-                                               ${mem.jobId}
+                                              ${mem.jobId}
                                            </td>
                                            <td style="width: 80px; height: 10px; padding-left:2px;" id="deptId">
-                                               ${mem.deptId}
+                                              ${mem.deptId}
                                            </td>
                                            <td style="width: 120px; height: 10px; padding-left:2px;" id="mId">
-                                                ${mem.mId}
+                                              ${mem.mId}
                                            </td>
                                        </tr>                          
                                    </c:forEach>                                    
@@ -938,7 +970,7 @@
                               
                               <li class="addList">
                                  <span class="btn_bg addUser" style="display: inline-block; width: 50px; font-size: 10pt; ">
-                            			        사용자
+                                    사용자
                                  </span>            
                               </li>                     
                            </ul>
@@ -975,7 +1007,7 @@
         <button type="button" class="btn btn-primary" 
                 style="background-color: #00a1b9; border-color: #00a1b9;" onclick="findEmpOk()">확인</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="
-            window.closeModal()">취소</button>
+        	window.closeModal()">취소</button>
       </div>
    </div>
 
@@ -999,5 +1031,5 @@
         ***********************************-->
 
 
-</html>
 </body>
+</html>
