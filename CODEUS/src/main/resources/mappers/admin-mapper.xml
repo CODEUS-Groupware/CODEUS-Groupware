@@ -259,7 +259,7 @@
 	
 	<select id="selectBoardReportList" resultMap="reportResultSet">
 		select REPORT_NO, REPORT_TYPE, REPORT_CATEGORY, REPORT_DATE, 
-        REPORT_STATUS, B.B_NUM, B_TYPE, B_TITLE, B.M_ID, M_NAME, JOB_NAME
+        REPORT_STATUS, B.B_NUM, B_TYPE, B_TITLE, B_STATUS, B.M_ID, M_NAME, JOB_NAME
 		from report r
 		     join board b on(b.b_num = r.b_num)
 		     left join MEMBER M ON(M.M_ID = B.M_ID)
@@ -270,12 +270,12 @@
 	
 	<select id="selectReplyReportList" resultMap="reportResultSet">
 		select REPORT_NO, REPORT_TYPE, REPORT_CATEGORY, REPORT_DATE, REPORT_STATUS, 
-        REPLY_NO, REPLY_CONTENT, B.B_NUM, B_TYPE, B_TITLE, r2.M_ID, M_NAME, JOB_NAME
+        REPLY_NO, REPLY_CONTENT, REPLY_STATUS, B.B_NUM, B_TYPE, B_STATUS, B_TITLE, r2.M_ID, M_NAME, JOB_NAME
 		from report r1
 		    left join reply r2 using(reply_no)
 		    join board b on(b.b_num = r2.b_num)
 		    left join MEMBER M ON(M.M_ID = r2.M_ID)
-		     left join JOB USING(JOB_ID)
+		    left join JOB USING(JOB_ID)
 		where report_category = '댓글'
 		order by report_status, report_date desc
 	</select>	
@@ -311,8 +311,10 @@
 		<result column="REPORT_STATUS" property="reportStatus"/>
 		<result column="REPLY_NO" property="replyNo"/>
 		<result column="REPLY_CONTENT" property="replyContent"/>
+		<result column="REPLY_STATUS" property="rStatus"/>
 		<result column="B_NUM" property="bNum"/>
 		<result column="B_TITLE" property="bTitle"/>
+		<result column="B_STATUS" property="bStatus"/>
 		<result column="B_TYPE" property="bType"/>
 		<result column="M_NAME" property="writerName"/>
 		<result column="JOB_NAME" property="writerJobName"/>

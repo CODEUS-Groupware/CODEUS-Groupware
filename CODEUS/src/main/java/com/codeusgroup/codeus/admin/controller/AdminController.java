@@ -586,7 +586,7 @@ public class AdminController {
 			throw new AdminException("신고글 처리에 실패하였습니다.");
 		}
 			
-		return "redirect:reportList";
+		return "redirect:reportList.ad";
 	}
 	
     /**
@@ -612,7 +612,7 @@ public class AdminController {
 			throw new AdminException("신고글 처리에 실패하였습니다.");
 		}
 			
-		return "redirect:reportList";
+		return "redirect:reportList.ad";
 	}
 	
 }
