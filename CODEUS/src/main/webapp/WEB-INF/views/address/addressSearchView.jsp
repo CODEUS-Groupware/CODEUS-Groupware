@@ -136,7 +136,7 @@
                                         		<td style="text-align:center" colspan="7">
                                         			<div style="display:inline-block;">
 					                                    <nav>
-						                                    <ul class="pagination pagination-xs">
+						                                    <ul class="pagination pagination-xs pagination-circle">
 						                                    	
 						                                    	<!-- 이전 -->
 						                                        <li class="page-item page-indicator">
@@ -261,7 +261,6 @@
 		$('.addrPlus').click(function() {
 			var thisRow = $(this).closest('tr');
 			var mId = thisRow.find('td:eq(1)').find('input').val();
-			console.log(mId);
 			
 			$.ajax({
 				url: "add.addr",

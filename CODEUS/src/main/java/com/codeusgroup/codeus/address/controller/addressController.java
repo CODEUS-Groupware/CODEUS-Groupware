@@ -27,6 +27,8 @@ public class addressController {
 	
 	@RequestMapping("list.addr")
 	public String addressListView() {
+		
+		
 		return "addressListView";
 	}
 	
@@ -93,13 +95,15 @@ public class addressController {
 		
 		String userId = ((Member)request.getSession().getAttribute("loginUser")).getmId();
 		addr.setMyMId(userId);
-		addr.setmId(mId);
+		
+		System.out.println(userId);
+		System.out.println(mId);
 		
 		int result = addrService.addAddress(userId, mId);
 		
 		if(result > 0) {
 			System.out.println("주소록 추가");
-			return "addressList";
+			return "redirect:list.addr";
 		} else {
 			throw new AddressException("주소록 추가에 실패했습니다.");
 		}

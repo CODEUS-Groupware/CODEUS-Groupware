@@ -39,7 +39,7 @@ public class AddressDAO {
 		
 		HashMap<String, String> map = new HashMap<>();
 		map.put("userId", userId);
-		map.put("tdName", mId);
+		map.put("mId", mId);
 		
 		return sqlSession.insert("addressMapper.addAddress", map);
 	}
