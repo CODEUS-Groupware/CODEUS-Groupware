@@ -82,4 +82,9 @@ public class MeetingResrvServiceImpl implements MeetingResrvService {
         return mrDAO.selectMeetingResrv(sqlSession, rNo);
     }
     
+    @Override
+    public int updateMeetingResrv(MeetingResrv mr) {
+        return mrDAO.updateMeetingResrv(sqlSession, mr);
+    }
+    
 }

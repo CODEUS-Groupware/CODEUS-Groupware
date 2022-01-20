@@ -75,4 +75,8 @@ public class MeetingResrvDAO {
         return sqlSession.selectOne("meetResrvMapper.selectMeetingResrv", rNo);
     }
     
+    public int updateMeetingResrv(SqlSessionTemplate sqlSession, MeetingResrv mr) {
+        return sqlSession.update("meetResrvMapper.updateMeetingResrv", mr);
+    }
+    
 }

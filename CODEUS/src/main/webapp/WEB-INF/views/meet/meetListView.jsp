@@ -78,7 +78,7 @@
                                                             <form action="mrsearch.mr">
                                                                 <div class="row justify-content-end">
                                                                     <div class="col-px-0">
-                                                                        <select class="form-control form-control-sm" id="searchCondition" name="searchCondition" required>
+                                                                        <select class="form-control form-control-sm" id="searchCondition1" name="searchCondition" required>
                                                                             <option value="r_no" <c:if test="${searchCondition == 'r_no'}">selected</c:if>>예약번호</option>
                                                                             <option value="r_date" <c:if test="${searchCondition == 'r_date'}">selected</c:if>>예약날짜</option>
                                                                             <option value="r_status" <c:if test="${searchCondition == 'r_status'}">selected</c:if>>예약상태</option>
@@ -89,7 +89,7 @@
                                                                     </div>
                                                                     <div class="col-auto">
                                                                         <div class="input-group">
-                                                                            <input type="text" class="form-control form-control-sm" id="searchKeyword" name="searchKeyword" value="<c:if test="${searchKeyword != ''}">${searchKeyword}</c:if>">
+                                                                            <input type="text" class="form-control form-control-sm" id="searchKeyword1" name="searchKeyword" value="<c:if test="${searchKeyword != ''}">${searchKeyword}</c:if>">
                                                                             <div class="input-group-prepend">
                                                                                 <button class="btn btn-secondary btn-xs">검색</button>
                                                                             </div>
@@ -97,33 +97,33 @@
                                                                     </div>
                                                                     <!-- 검색 창 placeholder 표시 -->
                                                                     <script>
-                                                                        $('#searchCondition').on('click change', function() {
-                                                                            if($('#searchCondition').val() == 'r_no')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '1'");
-                                                                            else if($('#searchCondition').val() == 'r_date')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '2022-01-26'");
-                                                                            else if($('#searchCondition').val() == 'r_status')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '예약 완료'");
-                                                                            else if($('#searchCondition').val() == 'r_meetName')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '회의실'");
-                                                                            else if($('#searchCondition').val() == 'r_mName')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '홍길동'");
-                                                                            else if($('#searchCondition').val() == 'r_content')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '회의'");
+                                                                        $('#searchCondition1').on('click change', function() {
+                                                                            if($('#searchCondition1').val() == 'r_no')
+                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '1'");
+                                                                            else if($('#searchCondition1').val() == 'r_date')
+                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '2022-01-26'");
+                                                                            else if($('#searchCondition1').val() == 'r_status')
+                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '예약 완료'");
+                                                                            else if($('#searchCondition1').val() == 'r_meetName')
+                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '회의실'");
+                                                                            else if($('#searchCondition1').val() == 'r_mName')
+                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '홍길동'");
+                                                                            else if($('#searchCondition1').val() == 'r_content')
+                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '회의'");
                                                                         });
-                                                                        $('#searchKeyword').on('click change', function() {
-                                                                            if($('#searchCondition').val() == 'r_no')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '1'");
-                                                                            else if($('#searchCondition').val() == 'r_date')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '2022-01-26'");
-                                                                            else if($('#searchCondition').val() == 'r_status')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '예약 완료'");
-                                                                            else if($('#searchCondition').val() == 'r_meetName')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '회의실'");
-                                                                            else if($('#searchCondition').val() == 'r_mName')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '홍길동'");
-                                                                            else if($('#searchCondition').val() == 'r_content')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '회의'");
+                                                                        $('#searchKeyword1').on('click change', function() {
+                                                                            if($('#searchCondition1').val() == 'r_no')
+                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '1'");
+                                                                            else if($('#searchCondition1').val() == 'r_date')
+                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '2022-01-26'");
+                                                                            else if($('#searchCondition1').val() == 'r_status')
+                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '예약 완료'");
+                                                                            else if($('#searchCondition1').val() == 'r_meetName')
+                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '회의실'");
+                                                                            else if($('#searchCondition1').val() == 'r_mName')
+                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '홍길동'");
+                                                                            else if($('#searchCondition1').val() == 'r_content')
+                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '회의'");
                                                                         });
                                                                     </script>
                                                                 </div>
@@ -364,7 +364,7 @@
                                                             <form action="mrsearch.mr">
                                                                 <div class="row justify-content-end">
                                                                     <div class="col-px-0">
-                                                                        <select class="form-control form-control-sm" id="searchCondition" name="searchCondition" required>
+                                                                        <select class="form-control form-control-sm" id="searchCondition2" name="searchCondition" required>
                                                                             <option value="r_no" <c:if test="${searchCondition == 'r_no'}">selected</c:if>>예약번호</option>
                                                                             <option value="r_date" <c:if test="${searchCondition == 'r_date'}">selected</c:if>>예약날짜</option>
                                                                             <option value="r_status" <c:if test="${searchCondition == 'r_status'}">selected</c:if>>예약상태</option>
@@ -375,7 +375,7 @@
                                                                     </div>
                                                                     <div class="col-auto">
                                                                         <div class="input-group">
-                                                                            <input type="text" class="form-control form-control-sm" id="searchKeyword" name="searchKeyword" value="<c:if test="${searchKeyword != ''}">${searchKeyword}</c:if>">
+                                                                            <input type="text" class="form-control form-control-sm" id="searchKeyword2" name="searchKeyword" value="<c:if test="${searchKeyword != ''}">${searchKeyword}</c:if>">
                                                                             <div class="input-group-prepend">
                                                                                 <button class="btn btn-secondary btn-xs">검색</button>
                                                                             </div>
@@ -383,33 +383,33 @@
                                                                     </div>
                                                                     <!-- 검색 창 placeholder 표시 -->
                                                                     <script>
-                                                                        $('#searchCondition').on('click change', function() {
-                                                                            if($('#searchCondition').val() == 'r_no')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '1'");
-                                                                            else if($('#searchCondition').val() == 'r_date')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '2022-01-26'");
-                                                                            else if($('#searchCondition').val() == 'r_status')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '예약 완료'");
-                                                                            else if($('#searchCondition').val() == 'r_meetName')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '회의실'");
-                                                                            else if($('#searchCondition').val() == 'r_mName')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '홍길동'");
-                                                                            else if($('#searchCondition').val() == 'r_content')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '회의'");
+                                                                        $('#searchCondition2').on('click change', function() {
+                                                                            if($('#searchCondition2').val() == 'r_no')
+                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '1'");
+                                                                            else if($('#searchCondition2').val() == 'r_date')
+                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '2022-01-26'");
+                                                                            else if($('#searchCondition2').val() == 'r_status')
+                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '예약 완료'");
+                                                                            else if($('#searchCondition2').val() == 'r_meetName')
+                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '회의실'");
+                                                                            else if($('#searchCondition2').val() == 'r_mName')
+                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '홍길동'");
+                                                                            else if($('#searchCondition2').val() == 'r_content')
+                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '회의'");
                                                                         });
-                                                                        $('#searchKeyword').on('click change', function() {
-                                                                            if($('#searchCondition').val() == 'r_no')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '1'");
-                                                                            else if($('#searchCondition').val() == 'r_date')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '2022-01-26'");
-                                                                            else if($('#searchCondition').val() == 'r_status')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '예약 완료'");
-                                                                            else if($('#searchCondition').val() == 'r_meetName')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '회의실'");
-                                                                            else if($('#searchCondition').val() == 'r_mName')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '홍길동'");
-                                                                            else if($('#searchCondition').val() == 'r_content')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '회의'");
+                                                                        $('#searchKeyword2').on('click change', function() {
+                                                                            if($('#searchCondition2').val() == 'r_no')
+                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '1'");
+                                                                            else if($('#searchCondition2').val() == 'r_date')
+                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '2022-01-26'");
+                                                                            else if($('#searchCondition2').val() == 'r_status')
+                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '예약 완료'");
+                                                                            else if($('#searchCondition2').val() == 'r_meetName')
+                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '회의실'");
+                                                                            else if($('#searchCondition2').val() == 'r_mName')
+                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '홍길동'");
+                                                                            else if($('#searchCondition2').val() == 'r_content')
+                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '회의'");
                                                                         });
                                                                     </script>
                                                                 </div>

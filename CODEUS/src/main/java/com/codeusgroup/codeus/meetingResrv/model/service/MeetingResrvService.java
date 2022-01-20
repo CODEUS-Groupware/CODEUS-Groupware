@@ -34,4 +34,6 @@ public interface MeetingResrvService {
     
     MeetingResrv selectMeetingResrv(int rNo);
     
+    int updateMeetingResrv(MeetingResrv mr);
+    
 }

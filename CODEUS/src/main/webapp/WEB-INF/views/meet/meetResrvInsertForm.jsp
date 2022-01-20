@@ -340,7 +340,7 @@
             });
         });
         
-        $('#r_room').on('change paste input', function() {
+        $('#r_room').on('click change paste input', function() {
             inputRoom = $('#r_room').val();
             inputRoomName = $('#r_room option:selected').text();
             

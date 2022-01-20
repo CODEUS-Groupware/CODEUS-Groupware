@@ -224,8 +224,37 @@ public class MeetingResrvController {
     }
     
     @RequestMapping("mrupdate.mr")
-    public String meetingResrvUpdate() {
-        return null;
+    public String meetingResrvUpdate(@RequestParam("r_no") int r_no, @RequestParam("page2") int page2,
+            @RequestParam("datepicker") Date r_date, @RequestParam("r_start_time") String r_start_time,
+            @RequestParam("r_end_time") String r_end_time, @RequestParam("r_room") int r_room,
+            @RequestParam("r_content") String r_content, HttpSession session, Model model) {
+        // 예약 정보 입력
+        MeetingResrv mr = new MeetingResrv();
+        
+        mr.setRev_no(r_no);  // 예약 번호 입력
+        mr.setRev_date(r_date);   // 예약 날짜 입력
+        
+        // Timestamp 양식으로 변하기 위한 조건(예시 : String timeStr = "2022-01-01 12:30:00.0";)으로 변경
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String start_time = sdf.format(r_date) + " " + r_start_time + ":00";
+        String end_time = sdf.format(r_date) + " " + r_end_time + ":00";
+        
+        mr.setRev_start_time(Timestamp.valueOf(start_time));    // 예약 시작시간 입력
+        mr.setRev_end_time(Timestamp.valueOf(end_time));    // 예약 종료 시간 입력
+        mr.setRev_content(r_content);   // 예약목적 내용 입력
+        mr.setMeet_no(r_room);  // 예약 회의실 번호 입력
+        mr.setmId(((Member) session.getAttribute("loginUser")).getmId());   // 예약자 아이디 입력
+        
+        int result = mrService.updateMeetingResrv(mr);
+        
+        if (result > 0) {
+            int page1 = 1;
+            model.addAttribute("page1", page1);
+            model.addAttribute("page2", page2);
+        } else
+            throw new MeetingResrvException("회의실 예약 수정에 실패하였습니다.");
+        
+        return "redirect:mrdetail.mr?rNo=" + mr.getRev_no();
     }
     
     @RequestMapping("mrcomplete.mr")

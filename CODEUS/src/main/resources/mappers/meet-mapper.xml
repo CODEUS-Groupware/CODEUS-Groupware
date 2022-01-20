@@ -292,5 +292,12 @@
              left join department using(dept_id)
         where rev_no = #{rNo}
     </select>
+    
+    <update id="updateMeetingResrv">
+        update meet_reservation
+        set rev_date = #{rev_date}, rev_start_time = #{rev_start_time}, rev_end_time = #{rev_end_time},
+            rev_content = #{rev_content}, rev_apply_date = sysdate, meet_no = #{meet_no}, m_id = #{mId}
+        where rev_no = #{rev_no}
+    </update>
 
 </mapper>

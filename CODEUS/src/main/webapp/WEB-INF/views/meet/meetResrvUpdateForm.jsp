@@ -101,6 +101,10 @@
                                                         <div class="col-lg-6 input-group datepicker">
                                                                 <input name="datepicker" class="datepicker-default form-control" id="r_date" required> <span class="input-group-append"><span class="input-group-text"><i
                                                                         class="fa fa-calendar-o"></i></span></span>
+                                                                <!-- 수정을 위한 예약 번호 값 할당 -->
+                                                                <input type="text" name="r_no" value="${ mr.rev_no }" hidden>
+                                                                <!-- 수정 완료 후 페이지 이동을 위한 값 할당 -->
+                                                                <input type="text" name="page2" value="${ page2 }" hidden>
                                                         </div>
                                                     </c:if>
                                                     <c:if test="${ mr.rev_status != 0 }">
@@ -463,7 +467,7 @@
             });
         });
         
-        $('#r_room').on('change paste input', function() {
+        $('#r_room').on('click change paste input', function() {
             inputRoom = $('#r_room').val();
             inputRoomName = $('#r_room option:selected').text();
             
