@@ -67,4 +67,19 @@ public class MeetingResrvServiceImpl implements MeetingResrvService {
         return mrDAO.searchList(sqlSession, pi, map);
     }
     
+    @Override
+    public int searchMyListCount(HashMap map) {
+        return mrDAO.searchMyListCount(sqlSession, map);
+    }
+    
+    @Override
+    public ArrayList<MeetingResrv> searchMyList(PageInfo pi, HashMap map) {
+        return mrDAO.searchMyList(sqlSession, pi, map);
+    }
+    
+    @Override
+    public MeetingResrv selectMeetingResrv(int rNo) {
+        return mrDAO.selectMeetingResrv(sqlSession, rNo);
+    }
+    
 }

@@ -60,4 +60,19 @@ public class MeetingResrvDAO {
         return (ArrayList) sqlSession.selectList("meetResrvMapper.searchList", map, rowBounds);
     }
     
+    public int searchMyListCount(SqlSessionTemplate sqlSession, HashMap map) {
+        return sqlSession.selectOne("meetResrvMapper.searchMyListCount", map);
+    }
+    
+    public ArrayList<MeetingResrv> searchMyList(SqlSessionTemplate sqlSession, PageInfo pi, HashMap map) {
+        int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+        RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+        
+        return (ArrayList) sqlSession.selectList("meetResrvMapper.searchMyList", map, rowBounds);
+    }
+    
+    public MeetingResrv selectMeetingResrv(SqlSessionTemplate sqlSession, int rNo) {
+        return sqlSession.selectOne("meetResrvMapper.selectMeetingResrv", rNo);
+    }
+    
 }

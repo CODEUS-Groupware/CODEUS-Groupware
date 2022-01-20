@@ -28,4 +28,10 @@ public interface MeetingResrvService {
     
     ArrayList<MeetingResrv> searchList(PageInfo pi, HashMap map);
     
+    int searchMyListCount(HashMap map);
+    
+    ArrayList<MeetingResrv> searchMyList(PageInfo pi, HashMap map);
+    
+    MeetingResrv selectMeetingResrv(int rNo);
+    
 }

@@ -16,6 +16,9 @@ public class MeetingResrv {
     
     private String meet_name;           // 예약한 회의실 이름
     private String mName;               // 예약자 이름
+    private String email;               // 예약자 이메일
+    private String jobName;             // 예약자 직위
+    private String deptName;            // 예약자 부서
     
     private String rev_time;            // 예약날짜 정보(YYYY-MM-DD HH:MM ~ HH:MM)
     
@@ -23,8 +26,8 @@ public class MeetingResrv {
     }
     
     public MeetingResrv(int rev_no, Date rev_date, Timestamp rev_start_time, Timestamp rev_end_time, String rev_content,
-            int rev_status, Date rev_apply_date, int meet_no, String mId, String meet_name, String mName,
-            String rev_time) {
+            int rev_status, Date rev_apply_date, int meet_no, String mId, String meet_name, String mName, String email,
+            String jobName, String deptName, String rev_time) {
         this.rev_no = rev_no;
         this.rev_date = rev_date;
         this.rev_start_time = rev_start_time;
@@ -36,6 +39,9 @@ public class MeetingResrv {
         this.mId = mId;
         this.meet_name = meet_name;
         this.mName = mName;
+        this.email = email;
+        this.jobName = jobName;
+        this.deptName = deptName;
         this.rev_time = rev_time;
     }
     
@@ -127,6 +133,30 @@ public class MeetingResrv {
         this.mName = mName;
     }
     
+    public String getEmail() {
+        return email;
+    }
+    
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
+    public String getJobName() {
+        return jobName;
+    }
+    
+    public void setJobName(String jobName) {
+        this.jobName = jobName;
+    }
+    
+    public String getDeptName() {
+        return deptName;
+    }
+    
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
+    
     public String getRev_time() {
         return rev_time;
     }
@@ -140,6 +170,7 @@ public class MeetingResrv {
         return "MeetingResrv [rev_no=" + rev_no + ", rev_date=" + rev_date + ", rev_start_time=" + rev_start_time
                 + ", rev_end_time=" + rev_end_time + ", rev_content=" + rev_content + ", rev_status=" + rev_status
                 + ", rev_apply_date=" + rev_apply_date + ", meet_no=" + meet_no + ", mId=" + mId + ", meet_name="
-                + meet_name + ", mName=" + mName + ", rev_time=" + rev_time + "]";
+                + meet_name + ", mName=" + mName + ", email=" + email + ", jobName=" + jobName + ", deptName="
+                + deptName + ", rev_time=" + rev_time + "]";
     }
 }

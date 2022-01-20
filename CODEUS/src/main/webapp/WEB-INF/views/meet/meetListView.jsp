@@ -78,18 +78,18 @@
                                                             <form action="mrsearch.mr">
                                                                 <div class="row justify-content-end">
                                                                     <div class="col-px-0">
-                                                                        <select class="form-control form-control-sm" id="searchCondition1" name="searchCondition" required>
-                                                                            <option value="r_no1">예약번호</option>
-                                                                            <option value="r_date1">예약날짜</option>
-                                                                            <option value="r_status1">예약상태</option>
-                                                                            <option value="r_meetName1">회의실 명</option>
-                                                                            <option value="r_mName1">예약자</option>
-                                                                            <option value="r_content1">예약내용</option>
+                                                                        <select class="form-control form-control-sm" id="searchCondition" name="searchCondition" required>
+                                                                            <option value="r_no" <c:if test="${searchCondition == 'r_no'}">selected</c:if>>예약번호</option>
+                                                                            <option value="r_date" <c:if test="${searchCondition == 'r_date'}">selected</c:if>>예약날짜</option>
+                                                                            <option value="r_status" <c:if test="${searchCondition == 'r_status'}">selected</c:if>>예약상태</option>
+                                                                            <option value="r_meetName" <c:if test="${searchCondition == 'r_meetName'}">selected</c:if>>회의실 명</option>
+                                                                            <option value="r_mName" <c:if test="${searchCondition == 'r_mName'}">selected</c:if>>예약자</option>
+                                                                            <option value="r_content" <c:if test="${searchCondition == 'r_content'}">selected</c:if>>예약내용</option>
                                                                         </select>
                                                                     </div>
                                                                     <div class="col-auto">
                                                                         <div class="input-group">
-                                                                            <input type="text" class="form-control form-control-sm" id="searchKeyword1" name="searchKeyword">
+                                                                            <input type="text" class="form-control form-control-sm" id="searchKeyword" name="searchKeyword" value="<c:if test="${searchKeyword != ''}">${searchKeyword}</c:if>">
                                                                             <div class="input-group-prepend">
                                                                                 <button class="btn btn-secondary btn-xs">검색</button>
                                                                             </div>
@@ -97,33 +97,33 @@
                                                                     </div>
                                                                     <!-- 검색 창 placeholder 표시 -->
                                                                     <script>
-                                                                        $('#searchCondition1').on('click change', function() {
-                                                                            if($('#searchCondition1').val() == 'r_no1')
-                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '1'");
-                                                                            else if($('#searchCondition1').val() == 'r_date1')
-                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '2022-01-26'");
-                                                                            else if($('#searchCondition1').val() == 'r_status1')
-                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '예약 완료'");
-                                                                            else if($('#searchCondition1').val() == 'r_meetName1')
-                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '회의실'");
-                                                                            else if($('#searchCondition1').val() == 'r_mName1')
-                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '홍길동'");
-                                                                            else if($('#searchCondition1').val() == 'r_content1')
-                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '회의'");
+                                                                        $('#searchCondition').on('click change', function() {
+                                                                            if($('#searchCondition').val() == 'r_no')
+                                                                                $('#searchKeyword').prop('placeholder', "예시:  '1'");
+                                                                            else if($('#searchCondition').val() == 'r_date')
+                                                                                $('#searchKeyword').prop('placeholder', "예시:  '2022-01-26'");
+                                                                            else if($('#searchCondition').val() == 'r_status')
+                                                                                $('#searchKeyword').prop('placeholder', "예시:  '예약 완료'");
+                                                                            else if($('#searchCondition').val() == 'r_meetName')
+                                                                                $('#searchKeyword').prop('placeholder', "예시:  '회의실'");
+                                                                            else if($('#searchCondition').val() == 'r_mName')
+                                                                                $('#searchKeyword').prop('placeholder', "예시:  '홍길동'");
+                                                                            else if($('#searchCondition').val() == 'r_content')
+                                                                                $('#searchKeyword').prop('placeholder', "예시:  '회의'");
                                                                         });
-                                                                        $('#searchKeyword1').on('click change', function() {
-                                                                            if($('#searchCondition1').val() == 'r_no1')
-                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '1'");
-                                                                            else if($('#searchCondition1').val() == 'r_date1')
-                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '2022-01-26'");
-                                                                            else if($('#searchCondition1').val() == 'r_status1')
-                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '예약 완료'");
-                                                                            else if($('#searchCondition1').val() == 'r_meetName1')
-                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '회의실'");
-                                                                            else if($('#searchCondition1').val() == 'r_mName1')
-                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '홍길동'");
-                                                                            else if($('#searchCondition1').val() == 'r_content1')
-                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '회의'");
+                                                                        $('#searchKeyword').on('click change', function() {
+                                                                            if($('#searchCondition').val() == 'r_no')
+                                                                                $('#searchKeyword').prop('placeholder', "예시:  '1'");
+                                                                            else if($('#searchCondition').val() == 'r_date')
+                                                                                $('#searchKeyword').prop('placeholder', "예시:  '2022-01-26'");
+                                                                            else if($('#searchCondition').val() == 'r_status')
+                                                                                $('#searchKeyword').prop('placeholder', "예시:  '예약 완료'");
+                                                                            else if($('#searchCondition').val() == 'r_meetName')
+                                                                                $('#searchKeyword').prop('placeholder', "예시:  '회의실'");
+                                                                            else if($('#searchCondition').val() == 'r_mName')
+                                                                                $('#searchKeyword').prop('placeholder', "예시:  '홍길동'");
+                                                                            else if($('#searchCondition').val() == 'r_content')
+                                                                                $('#searchKeyword').prop('placeholder', "예시:  '회의'");
                                                                         });
                                                                     </script>
                                                                 </div>
@@ -217,7 +217,7 @@
                                                             <div class="d-flex justify-content-center">
                                                                 <nav>
                                                                     <ul class="pagination pagination-sm pagination-gutter">
-                                                                    <!-- 검색 X 시 -->
+                                                                    <!-- 검색하지 않았을 때 -->
                                                                     <c:if test="${ pi1.currentPage > 0 }">
                                                                         <!-- 이전 -->
                                                                         <c:if test="${ pi1.currentPage <= 1 }">
@@ -271,7 +271,7 @@
                                                                         </c:if>
                                                                     </c:if>
                                                                     
-                                                                    <!-- 검색 O 시 -->
+                                                                    <!-- 검색 했을 때 -->
                                                                     <c:if test="${ searchPi1.currentPage > 0 }">
                                                                         <!-- 이전 -->
                                                                         <c:if test="${ searchPi1.currentPage <= 1 }">
@@ -281,6 +281,11 @@
                                                                         </c:if>
                                                                         <c:if test="${ searchPi1.currentPage > 1 }">
                                                                             <c:url var="before1" value="mrsearch.mr">
+                                                                                <!-- 페이지 이동 시 검색 조건/키워드 넘겨주기 -->
+                                                                                <c:if test="${ searchCondition ne null and searchKeyword ne null }">
+                                                                                    <c:param name="searchCondition" value="${ searchCondition }"/>
+                                                                                    <c:param name="searchKeyword" value="${ searchKeyword }"/>
+                                                                                </c:if>
                                                                                 <c:param name="page1" value="${ searchPi1.currentPage - 1 }"/>
                                                                             </c:url>
                                                                             <li class="page-item page-indicator">
@@ -299,6 +304,11 @@
                                                                             </c:if>
                                                                             <c:if test="${ p1 ne searchPi1.currentPage }">
                                                                                 <c:url var="pagination1" value="mrsearch.mr">
+                                                                                    <!-- 페이지 이동 시 검색 조건/키워드 넘겨주기 -->
+                                                                                    <c:if test="${ searchCondition ne null and searchKeyword ne null }">
+                                                                                        <c:param name="searchCondition" value="${ searchCondition }"/>
+                                                                                        <c:param name="searchKeyword" value="${ searchKeyword }"/>
+                                                                                    </c:if>
                                                                                     <c:param name="page1" value="${ p1 }"/>
                                                                                 </c:url>
                                                                                 <li class="page-item">
@@ -315,6 +325,11 @@
                                                                         </c:if>
                                                                         <c:if test="${ searchPi1.currentPage < searchPi1.maxPage }">
                                                                             <c:url var="after1" value="mrsearch.mr">
+                                                                                <!-- 페이지 이동 시 검색 조건/키워드 넘겨주기 -->
+                                                                                <c:if test="${ searchCondition ne null and searchKeyword ne null }">
+                                                                                    <c:param name="searchCondition" value="${ searchCondition }"/>
+                                                                                    <c:param name="searchKeyword" value="${ searchKeyword }"/>
+                                                                                </c:if>
                                                                                 <c:param name="page1" value="${ searchPi1.currentPage + 1 }"/>
                                                                             </c:url>
                                                                             <li class="page-item page-indicator">
@@ -349,17 +364,18 @@
                                                             <form action="mrsearch.mr">
                                                                 <div class="row justify-content-end">
                                                                     <div class="col-px-0">
-                                                                        <select class="form-control form-control-sm" id="searchCondition2" name="searchCondition" required>
-                                                                            <option value="r_no2">예약번호</option>
-                                                                            <option value="r_date2">예약날짜</option>
-                                                                            <option value="r_status2">예약상태</option>
-                                                                            <option value="r_meetName2">회의실 명</option>
-                                                                            <option value="r_content2">예약내용</option>
+                                                                        <select class="form-control form-control-sm" id="searchCondition" name="searchCondition" required>
+                                                                            <option value="r_no" <c:if test="${searchCondition == 'r_no'}">selected</c:if>>예약번호</option>
+                                                                            <option value="r_date" <c:if test="${searchCondition == 'r_date'}">selected</c:if>>예약날짜</option>
+                                                                            <option value="r_status" <c:if test="${searchCondition == 'r_status'}">selected</c:if>>예약상태</option>
+                                                                            <option value="r_meetName" <c:if test="${searchCondition == 'r_meetName'}">selected</c:if>>회의실 명</option>
+                                                                            <option value="r_mName" <c:if test="${searchCondition == 'r_mName'}">selected</c:if>>예약자</option>
+                                                                            <option value="r_content" <c:if test="${searchCondition == 'r_content'}">selected</c:if>>예약내용</option>
                                                                         </select>
                                                                     </div>
                                                                     <div class="col-auto">
                                                                         <div class="input-group">
-                                                                            <input type="text" class="form-control form-control-sm" id="searchKeyword2" name="searchKeyword">
+                                                                            <input type="text" class="form-control form-control-sm" id="searchKeyword" name="searchKeyword" value="<c:if test="${searchKeyword != ''}">${searchKeyword}</c:if>">
                                                                             <div class="input-group-prepend">
                                                                                 <button class="btn btn-secondary btn-xs">검색</button>
                                                                             </div>
@@ -367,29 +383,33 @@
                                                                     </div>
                                                                     <!-- 검색 창 placeholder 표시 -->
                                                                     <script>
-                                                                        $('#searchCondition2').on('click change', function() {
-                                                                            if($('#searchCondition2').val() == 'r_no2')
-                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '1'");
-                                                                            else if($('#searchCondition2').val() == 'r_date2')
-                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '2022-01-26'");
-                                                                            else if($('#searchCondition2').val() == 'r_status2')
-                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '예약 완료'");
-                                                                            else if($('#searchCondition2').val() == 'r_meetName2')
-                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '회의실'");
-                                                                            else if($('#searchCondition2').val() == 'r_content2')
-                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '회의'");
+                                                                        $('#searchCondition').on('click change', function() {
+                                                                            if($('#searchCondition').val() == 'r_no')
+                                                                                $('#searchKeyword').prop('placeholder', "예시:  '1'");
+                                                                            else if($('#searchCondition').val() == 'r_date')
+                                                                                $('#searchKeyword').prop('placeholder', "예시:  '2022-01-26'");
+                                                                            else if($('#searchCondition').val() == 'r_status')
+                                                                                $('#searchKeyword').prop('placeholder', "예시:  '예약 완료'");
+                                                                            else if($('#searchCondition').val() == 'r_meetName')
+                                                                                $('#searchKeyword').prop('placeholder', "예시:  '회의실'");
+                                                                            else if($('#searchCondition').val() == 'r_mName')
+                                                                                $('#searchKeyword').prop('placeholder', "예시:  '홍길동'");
+                                                                            else if($('#searchCondition').val() == 'r_content')
+                                                                                $('#searchKeyword').prop('placeholder', "예시:  '회의'");
                                                                         });
-                                                                        $('#searchKeyword2').on('click change', function() {
-                                                                            if($('#searchCondition2').val() == 'r_no2')
-                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '1'");
-                                                                            else if($('#searchCondition2').val() == 'r_date2')
-                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '2022-01-26'");
-                                                                            else if($('#searchCondition2').val() == 'r_status2')
-                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '예약 완료'");
-                                                                            else if($('#searchCondition2').val() == 'r_meetName2')
-                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '회의실'");
-                                                                            else if($('#searchCondition2').val() == 'r_content2')
-                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '회의'");
+                                                                        $('#searchKeyword').on('click change', function() {
+                                                                            if($('#searchCondition').val() == 'r_no')
+                                                                                $('#searchKeyword').prop('placeholder', "예시:  '1'");
+                                                                            else if($('#searchCondition').val() == 'r_date')
+                                                                                $('#searchKeyword').prop('placeholder', "예시:  '2022-01-26'");
+                                                                            else if($('#searchCondition').val() == 'r_status')
+                                                                                $('#searchKeyword').prop('placeholder', "예시:  '예약 완료'");
+                                                                            else if($('#searchCondition').val() == 'r_meetName')
+                                                                                $('#searchKeyword').prop('placeholder', "예시:  '회의실'");
+                                                                            else if($('#searchCondition').val() == 'r_mName')
+                                                                                $('#searchKeyword').prop('placeholder', "예시:  '홍길동'");
+                                                                            else if($('#searchCondition').val() == 'r_content')
+                                                                                $('#searchKeyword').prop('placeholder', "예시:  '회의'");
                                                                         });
                                                                     </script>
                                                                 </div>
@@ -415,7 +435,7 @@
                                                         </c:if>
                                                         <!-- 2nd 탭 목록 조회 : 검색 X (전체 목록 조회) -->
                                                         <c:if test="${ pi2.listCount > 0 }">
-                                                            <c:url var="mrupdate" value="mrupdate.mr">
+                                                            <c:url var="mrupdate" value="mrupdateview.mr">
                                                                 <c:param name="rNo" value="${ mr2.rev_no }"/>
                                                                 <c:param name="page" value="${ pi2.currentPage }"/>
                                                             </c:url>
@@ -468,8 +488,8 @@
                                                                         </c:choose>
                                                                     </td>
                                                                     <td>${ searchMr2.meet_name }</td>
-                                                                    <td>${ searchMr2.mName }</td>
                                                                     <td>${ searchMr2.rev_content }</td>
+                                                                    <td><input type="checkbox" class="chk" name="rev_no" value="${ mr2.rev_no }"></td>
                                                                 </tr>
                                                             </c:forEach>
                                                         </c:if>
@@ -483,7 +503,7 @@
                                                             <div class="d-flex justify-content-center">
                                                                 <nav>
                                                                     <ul class="pagination pagination-sm pagination-gutter">
-                                                                    <!-- 검색 X 시 -->
+                                                                    <!-- 검색하지 않았을 때 -->
                                                                     <c:if test="${ pi1.currentPage > 0 }">
                                                                         <!-- 이전 -->
                                                                         <c:if test="${ pi2.currentPage <= 1 }">
@@ -537,7 +557,7 @@
                                                                         </c:if>
                                                                     </c:if>
                                                                     
-                                                                    <!-- 검색 O 시 -->
+                                                                    <!-- 검색 했을 때 -->
                                                                     <c:if test="${ searchPi2.currentPage > 0 }">
                                                                         <!-- 이전 -->
                                                                         <c:if test="${ searchPi2.currentPage <= 1 }">
@@ -547,6 +567,11 @@
                                                                         </c:if>
                                                                         <c:if test="${ searchPi2.currentPage > 1 }">
                                                                             <c:url var="before2" value="mrsearch.mr">
+                                                                                <!-- 페이지 이동 시 검색 조건/키워드 넘겨주기 -->
+                                                                                <c:if test="${ searchCondition ne null and searchKeyword ne null }">
+                                                                                    <c:param name="searchCondition" value="${ searchCondition }"/>
+                                                                                    <c:param name="searchKeyword" value="${ searchKeyword }"/>
+                                                                                </c:if>
                                                                                 <c:param name="page2" value="${ searchPi2.currentPage - 1 }"/>
                                                                             </c:url>
                                                                             <li class="page-item page-indicator">
@@ -565,6 +590,11 @@
                                                                             </c:if>
                                                                             <c:if test="${ p2 ne searchPi2.currentPage }">
                                                                                 <c:url var="pagination2" value="mrsearch.mr">
+                                                                                    <!-- 페이지 이동 시 검색 조건/키워드 넘겨주기 -->
+                                                                                    <c:if test="${ searchCondition ne null and searchKeyword ne null }">
+                                                                                        <c:param name="searchCondition" value="${ searchCondition }"/>
+                                                                                        <c:param name="searchKeyword" value="${ searchKeyword }"/>
+                                                                                    </c:if>
                                                                                     <c:param name="page2" value="${ p2 }"/>
                                                                                 </c:url>
                                                                                 <li class="page-item">
@@ -581,6 +611,11 @@
                                                                         </c:if>
                                                                         <c:if test="${ searchPi2.currentPage < searchPi2.maxPage }">
                                                                             <c:url var="after2" value="mrsearch.mr">
+                                                                                <!-- 페이지 이동 시 검색 조건/키워드 넘겨주기 -->
+                                                                                <c:if test="${ searchCondition ne null and searchKeyword ne null }">
+                                                                                    <c:param name="searchCondition" value="${ searchCondition }"/>
+                                                                                    <c:param name="searchKeyword" value="${ searchKeyword }"/>
+                                                                                </c:if>
                                                                                 <c:param name="page2" value="${ searchPi2.currentPage + 1 }"/>
                                                                             </c:url>
                                                                             <li class="page-item page-indicator">
@@ -601,10 +636,10 @@
                                                         <td colspan="6">
                                                             <c:if test="${ !empty loginUser }">
                                                             <div class="d-flex justify-content-end">
-                                                                <button type="button" class="btn btn-outline-secondary mr-2" onclick="location.href='mrinsertview.mr'">예약 신청</button>
-                                                                <c:if test="${ !list2.isEmpty() }">
-                                                                    <button type="button" class="btn btn-outline-secondary mr-2" onclick="location.href='mrupdateview.mr'">예약 수정</button>
-                                                                    <button type="button" class="btn btn-outline-secondary" onclick="location.href='mrdelete.mr'">예약 취소</button>
+                                                                <button type="button" class="btn btn-primary btn-sm mr-2" onclick="location.href='mrinsertview.mr'">예약 신청</button>
+                                                                <c:if test="${ !list2.isEmpty() and !searchList2.isEmpty() }">
+                                                                    <button type="button" class="btn btn-primary btn-sm mr-2" onclick="location.href='mrupdateview.mr'">예약 수정</button>
+                                                                    <button type="button" class="btn btn-primary btn-sm" onclick="location.href='mrdelete.mr'">예약 취소</button>
                                                                 </c:if>
                                                             </div>
                                                             </c:if>
@@ -638,7 +673,7 @@
             $(this).parent().css({'font-weight':'normal'});
         }).click(function() {
             var rNo = $(this).parent().children().eq(0).text();
-            location.href="mrdetail.mr?rNo=" + rNo + "&page=" + ${ pi1.currentPage };
+            location.href="mrdetail.mr?rNo=" + rNo + "&page1=" + ${ pi1.currentPage };
         });
         
         $('#tb2 tbody td:not(:has(input))').mouseenter(function() {
@@ -647,7 +682,7 @@
             $(this).parent().css({'font-weight':'normal'});
         }).click(function() {
             var rNo = $(this).parent().children().eq(0).text();
-            location.href="mrupdate.mr?rNo=" + rNo + "&page=" + ${ pi2.currentPage };
+            location.href="mrupdateview.mr?rNo=" + rNo + "&page2=" + ${ pi2.currentPage };
         });
     });
     

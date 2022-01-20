@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -91,6 +92,15 @@ public class MeetingResrvController {
         
         // view로 데이터 전달
         if (list1 != null && list2 != null) {
+            mv.addObject("searchCondition", null);
+            mv.addObject("searchKeyword", null);
+            
+            mv.addObject("searchPi1", null);
+            mv.addObject("searchList1", null);
+            
+            mv.addObject("searchPi2", null);
+            mv.addObject("searchList2", null);
+            
             mv.addObject("pi1", pi1);
             mv.addObject("list1", list1);
             
@@ -166,14 +176,66 @@ public class MeetingResrvController {
         return gson.toJson(list);
     }
     
+    @RequestMapping(value = "mrcheckroomsupdate.mr", produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public String checkRoomsUpdate(@RequestParam("inputDate") Date inputDate,
+            @RequestParam("inputStartTime") String inputStartTime, @RequestParam("inputEndTime") String inputEndTime,
+            @RequestParam("rNo") int rNo) {
+        // 입력된 날짜, 시간 정보 담기
+        HashMap map = new HashMap();
+        
+        // Timestamp 양식으로 변하기 위한 조건(예시 : String timeStr = "2022-01-01 12:30:00.0";)으로 변경
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String start_time = sdf.format(inputDate) + " " + inputStartTime + ":00";
+        String end_time = sdf.format(inputDate) + " " + inputEndTime + ":00";
+        
+        map.put("inputDate", inputDate);
+        map.put("inputStartTime", Timestamp.valueOf(start_time));
+        map.put("inputEndTime", Timestamp.valueOf(end_time));
+        map.put("rNo", rNo);
+        
+        ArrayList<MeetingRoom> list = mrService.selectRoomList(map);
+        
+        Gson gson = new Gson();
+        
+        return gson.toJson(list);
+    }
+    
     @RequestMapping("mrdetail.mr")
-    public String meetingDetail(@RequestParam("rNo") int rNo, @RequestParam("page") int page) {
+    public String meetingDetail(@RequestParam("rNo") int rNo, @RequestParam("page1") int page1, Model model) {
+        MeetingResrv mr = mrService.selectMeetingResrv(rNo);
+        
+        if (mr != null) {
+            model.addAttribute("mr", mr);
+            model.addAttribute("page1", page1);
+        } else
+            throw new MeetingResrvException("예약 정보 상세 조회에 실패하였습니다.");
+        
         return "meetDetailView";
     }
     
-    @RequestMapping("mrupdate.mr")
-    public String meetingResrvUpdate(@RequestParam("rNo") int rNo, @RequestParam("page") int page) {
+    @RequestMapping("mrupdateview.mr")
+    public String meetingResrvUpdateView(@RequestParam("rNo") int rNo, @RequestParam("page2") int page2, Model model) {
+        MeetingResrv mr = mrService.selectMeetingResrv(rNo);
+        
+        model.addAttribute("mr", mr).addAttribute("rNo", rNo).addAttribute("page2", page2);
+        
         return "meetResrvUpdateForm";
+    }
+    
+    @RequestMapping("mrupdate.mr")
+    public String meetingResrvUpdate() {
+        return null;
+    }
+    
+    @RequestMapping("mrcomplete.mr")
+    public String meetingResrvComplete() {
+        return null;
+    }
+    
+    @RequestMapping("mrcancel.mr")
+    public String meetingResrvCancel() {
+        return null;
     }
     
     @RequestMapping("mrsearch.mr")
@@ -185,18 +247,32 @@ public class MeetingResrvController {
         
         mrService.autoUpdate(tNow);
         
+        // 검색어 미입력 시 전체 조회로 연결
+        if (search.getSearchKeyword().trim().equals("") || search.getSearchKeyword() == null) {
+            mv.setViewName("redirect:mrlist.mr");
+            return mv;
+        }
+        
         String condition = search.getSearchCondition();
         String keyword = search.getSearchKeyword();
         
         HashMap map = new HashMap();
         map.clear();
         
-        // 1: 전체 예약 목록 페이지에서 검색
+        // 1: 전체 예약 목록 페이지에서 검색, 2: 내 예약 목록 페이지에서 검색
         int currentPage1 = 1;
         if (page1 != null)
             currentPage1 = page1;
         
-        if (condition.equals("r_no1")) {    // 예약번호로 검색 시
+        int currentPage2 = 1;
+        if (page2 != null)
+            currentPage2 = page2;
+        
+        String loginUserId = ((Member) session.getAttribute("loginUser")).getmId();
+        
+        map.put("mId", loginUserId);
+        
+        if (condition.equals("r_no")) {    // 예약번호로 검색 시
             int r_no = -1;  // 상태를 확인할 수 없는 값 초기 값 할당
             
             try {
@@ -207,7 +283,7 @@ public class MeetingResrvController {
             
             map.put("searchCondition", condition);
             map.put("searchKeyword", r_no);
-        } else if (condition.equals("r_date1")) {   // 예약날짜로 검색 시
+        } else if (condition.equals("r_date")) {   // 예약날짜로 검색 시
             Date r_date = null;  // 상태를 확인할 수 없는 값 초기 값 할당
             
             try {
@@ -218,7 +294,7 @@ public class MeetingResrvController {
             
             map.put("searchCondition", condition);
             map.put("searchKeyword", r_date);
-        } else if (condition.equals("r_status1")) {  // 예약상태로 검색 시
+        } else if (condition.equals("r_status")) {  // 예약상태로 검색 시
             int r_status = -1;  // 상태를 확인할 수 없는 값 초기 값 할당
             
             if (keyword.equals("예약 완료"))
@@ -230,7 +306,7 @@ public class MeetingResrvController {
             
             map.put("searchCondition", condition);
             map.put("searchKeyword", r_status);
-        } else if (condition.equals("r_meetName1") || condition.equals("r_mName1") || condition.equals("r_content1")) {    // 회의실 명 또는 예약내용으로 검색 시
+        } else if (condition.equals("r_meetName") || condition.equals("r_mName") || condition.equals("r_content")) {    // 회의실 명 또는 예약내용으로 검색 시
             map.put("searchCondition", condition);
             map.put("searchKeyword", keyword);
         }
@@ -241,59 +317,11 @@ public class MeetingResrvController {
         
         ArrayList<MeetingResrv> searchList1 = mrService.searchList(searchPi1, map);
         
-        // 2: 내 예약 목록 페이지에서 검색
-        int currentPage2 = 1;
-        if (page2 != null)
-            currentPage2 = page2;
-        
-        String loginUserId = ((Member) session.getAttribute("loginUser")).getmId();
-        
-        map.put("mId", loginUserId);
-        
-        if (condition.equals("r_no2")) {    // 예약번호로 검색 시
-            int r_no = -1;  // 상태를 확인할 수 없는 값 초기 값 할당
-            
-            try {
-                r_no = Integer.parseInt(keyword);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            
-            map.put("searchCondition", condition);
-            map.put("searchKeyword", r_no);
-        } else if (condition.equals("r_date2")) {   // 예약날짜로 검색 시
-            Date r_date = null;  // 상태를 확인할 수 없는 값 초기 값 할당
-            
-            try {
-                r_date = Date.valueOf(keyword);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            
-            map.put("searchCondition", condition);
-            map.put("searchKeyword", r_date);
-        } else if (condition.equals("r_status2")) {  // 예약상태로 검색 시
-            int r_status = -1;  // 상태를 확인할 수 없는 값 초기 값 할당
-            
-            if (keyword.equals("예약 완료"))
-                r_status = 0;
-            else if (keyword.equals("사용 완료"))
-                r_status = 1;
-            else if (keyword.equals("예약 취소"))
-                r_status = 2;
-            
-            map.put("searchCondition", condition);
-            map.put("searchKeyword", r_status);
-        } else if (condition.equals("r_meetName2") || condition.equals("r_content2")) {    // 회의실 명 또는 예약내용으로 검색 시
-            map.put("searchCondition", condition);
-            map.put("searchKeyword", keyword);
-        }
-        
-        int searchListCount2 = mrService.searchListCount(map);
+        int searchListCount2 = mrService.searchMyListCount(map);
         
         PageInfo searchPi2 = Pagination.getPageInfo(currentPage2, searchListCount2);
         
-        ArrayList<MeetingResrv> searchList2 = mrService.searchList(searchPi2, map);
+        ArrayList<MeetingResrv> searchList2 = mrService.searchMyList(searchPi2, map);
         
         // view에 출력할 예약날짜 형태 설정(Rev_time)
         SimpleDateFormat sdf_date = new SimpleDateFormat("yyyy-MM-dd");
@@ -318,24 +346,21 @@ public class MeetingResrvController {
         }
         
         // view로 데이터 전달
-        if (searchList1 != null || searchList2 != null) {
-            if (searchList1 != null) {
-                meetingRoomResrvList(page1, page2, mv, session);
-                
-                mv.addObject("pi1", null);
-                mv.addObject("list1", null);
-                
-                mv.addObject("searchPi1", searchPi1);
-                mv.addObject("searchList1", searchList1);
-            } else if (searchList2 != null) {
-                meetingRoomResrvList(page1, page2, mv, session);
-                
-                mv.addObject("pi2", null);
-                mv.addObject("list2", null);
-                
-                mv.addObject("searchPi2", searchPi2);
-                mv.addObject("searchList2", searchList2);
-            }
+        if (searchList1 != null && searchList2 != null) {
+            mv.addObject("pi1", null);
+            mv.addObject("list1", null);
+            
+            mv.addObject("pi2", null);
+            mv.addObject("list2", null);
+            
+            mv.addObject("searchCondition", condition);
+            mv.addObject("searchKeyword", keyword);
+            
+            mv.addObject("searchPi1", searchPi1);
+            mv.addObject("searchList1", searchList1);
+            
+            mv.addObject("searchPi2", searchPi2);
+            mv.addObject("searchList2", searchList2);
             
             mv.setViewName("meetListView");
         } else
