@@ -1,4 +1,4 @@
-package com.codeusgroup.codeus.chetting.controller;
+package com.codeusgroup.codeus.chatting.controller;
 
 import java.util.ArrayList;
 
@@ -13,24 +13,25 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.codeusgroup.codeus.address.model.exception.AddressException;
 import com.codeusgroup.codeus.address.model.vo.Address;
-import com.codeusgroup.codeus.chetting.exception.ChettingException;
-import com.codeusgroup.codeus.chetting.model.service.ChetService;
-import com.codeusgroup.codeus.chetting.model.vo.Chetting;
+import com.codeusgroup.codeus.chatting.exception.ChettingException;
+import com.codeusgroup.codeus.chatting.model.service.ChatService;
+import com.codeusgroup.codeus.chatting.model.vo.Chatroom;
+import com.codeusgroup.codeus.chatting.model.vo.Message;
 import com.codeusgroup.codeus.member.model.vo.Member;
 
 @Controller
 public class ChettingController {
 	
 	@Autowired
-	private ChetService chService;
+	private ChatService chService;
 	
 	@RequestMapping("chetList.ch")
-	public ModelAndView chetListView(@ModelAttribute Chetting ch, HttpServletRequest request, ModelAndView mv) {
+	public ModelAndView chetListView(@ModelAttribute Chatroom ch, HttpServletRequest request, ModelAndView mv) {
 		
 		String userId = ((Member)request.getSession().getAttribute("loginUser")).getmId();
 		ch.setMyMid(userId);
 		
-		ArrayList<Chetting> list = chService.selectChatroom(userId);
+		ArrayList<Message> list = chService.selectChatroom(userId);
 		
 		if(list != null) {
 			mv.addObject("list", list);
