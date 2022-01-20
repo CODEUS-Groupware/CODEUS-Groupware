@@ -54,7 +54,7 @@
 	
 	<insert id="addAddress">
 		insert into address
-		values(addr_seq.nextval, ${userId}, ${tdName})
+		values(addr_seq.nextval, ${userId}, '#{mId}')
 	</insert>
 	
 </mapper>

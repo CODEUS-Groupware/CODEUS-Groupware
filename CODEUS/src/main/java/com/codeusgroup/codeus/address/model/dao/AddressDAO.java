@@ -35,12 +35,12 @@ public class AddressDAO {
 		return (ArrayList)sqlSession.selectList("addressMapper.searchMemebrList", map, rowBounds);
 	}
 
-	public int addAddress(SqlSessionTemplate sqlSession, String userId, String tdName) {
+	public int addAddress(SqlSessionTemplate sqlSession, String userId, String mId) {
 		
 		HashMap<String, String> map = new HashMap<>();
 		map.put("userId", userId);
-		map.put("tdName", tdName);
+		map.put("tdName", mId);
 		
-		return sqlSession.insert("addressMapper.searchMemebrList", map);
+		return sqlSession.insert("addressMapper.addAddress", map);
 	}
 }

@@ -88,17 +88,18 @@ public class addressController {
 	
 	@RequestMapping(value="add.addr", method = RequestMethod.POST)
 	public String addAddress(@ModelAttribute Address addr,
-							 @RequestParam(value="tdName", required = false) String tdName,
+							 @RequestParam(value="mId", required = false) String mId,
 							 HttpServletRequest request) {
 		
 		String userId = ((Member)request.getSession().getAttribute("loginUser")).getmId();
 		addr.setMyMId(userId);
+		addr.setmId(mId);
 		
-		int result = addrService.addAddress(userId, tdName);
+		int result = addrService.addAddress(userId, mId);
 		
 		if(result > 0) {
 			System.out.println("주소록 추가");
-			return "redirect:search.addr";
+			return "addressList";
 		} else {
 			throw new AddressException("주소록 추가에 실패했습니다.");
 		}
