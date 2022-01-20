@@ -26,8 +26,28 @@ public class addressController {
 	private AddressService addrService;
 	
 	@RequestMapping("list.addr")
-	public String addressListView() {
-		return "addressListView";
+	public ModelAndView addressListView(@RequestParam(value="page", required = false) Integer page, ModelAndView mv) {
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		int listCount = addrService.getListCount();
+		
+		PageInfo pi =  Pagination.getPageInfo(currentPage, listCount);
+
+		ArrayList<Member> list = addrService.selectMyList(pi);
+		
+		if(list != null) {
+			mv.addObject("pi", pi);
+			mv.addObject("list", list);
+			mv.setViewName("addressListView");
+			
+		} else {
+			throw new AddressException("주소록 조회에 실패했습니다.");
+		}
+		
+		return mv;
 	}
 	
 	@RequestMapping("search.addr")
@@ -88,17 +108,20 @@ public class addressController {
 	
 	@RequestMapping(value="add.addr", method = RequestMethod.POST)
 	public String addAddress(@ModelAttribute Address addr,
-							 @RequestParam(value="tdName", required = false) String tdName,
+							 @RequestParam(value="mId", required = false) String mId,
 							 HttpServletRequest request) {
 		
 		String userId = ((Member)request.getSession().getAttribute("loginUser")).getmId();
 		addr.setMyMId(userId);
 		
-		int result = addrService.addAddress(userId, tdName);
+		System.out.println(userId);
+		System.out.println(mId);
+		
+		int result = addrService.addAddress(userId, mId);
 		
 		if(result > 0) {
 			System.out.println("주소록 추가");
-			return "redirect:search.addr";
+			return "redirect:list.addr";
 		} else {
 			throw new AddressException("주소록 추가에 실패했습니다.");
 		}

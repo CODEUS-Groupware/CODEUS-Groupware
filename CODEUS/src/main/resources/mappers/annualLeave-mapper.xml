@@ -32,6 +32,9 @@
 	 	<result column="M_ID" property="mId"/>
 	 	<result column="hureDate" property="hireDate"/>
 	 	<result column="comYear" property="comYear"/>
+	 	<result column="comMonth" property="comMonth"/>
+		<result column="regiMonth" property="regiMonth"/>
+		<result column="regiYear" property="regiYear"/>
 	</resultMap>
 	<resultMap type="Member" id="memberResultSet">
 		<id column="M_ID" property="mId" />
@@ -54,37 +57,126 @@
 		<result column="DEPT_ID" property="deptId"/>
 		<result column="DEPT_NAME" property="deptName"/>
 		<result column="COM_YEAR" property="comYear"/>
-		<result column="comMonth" property="comMonth"/>
-		<result column="regiMonth" property="regiMonth"/>
+		
 
 		<!-- <collection property="alList" resultMap="annualResultSet" /> -->
 	</resultMap>
 	
+	<resultMap type="LeaveRecode" id="LeaveRecodeResultSet">
+		<id column="LEAVE_USE_DATE" property="leaveUseDate" />
+		<id column="M_ID" property="mId"/>
+		<result column="LEAVE_REASON" property="leaveReason"/>
+		<result column="LEAVE_TYPE" property="leaveType"/>
+		<result column="LEAVE_STATUS" property="leaveStatus"/>
+		<result column="ENROLL_DATE" property="enrollDate"/>
+		<result column="form_name" property="formName"/>
+		<result column="leave_name" property="leaveName"/>
+		<result column="leaveNum" property="leaveNum"/>
+	
+	</resultMap>
+
 	<select id="selectAddAnnual" resultType="_int">
 		select count(*)
 		from annual_leave
 		where TO_CHAR(SYSDATE, 'yyyy') = TO_CHAR(annual_regi_date, 'yyyy')
 	</select>
-	<select id="selectCheckAnnual" resultMap="memberResultSet">
+	<!-- <select id="selectCheckAnnual" resultMap="memberResultSet">
 		select m_id, m_name, m_hire_date, job_id, dept_id, annual_type, annual_count,trunc(months_between(sysdate, m_hire_date) /12) com_year
 		from (select m.m_id, m_name, m_hire_date, job_id, dept_id, annual_type, annual_regi_date, annual_count
 		        from member m
 		            left join annual_leave a on (m.m_id = a.m_id)
 		        where m.m_id = 'admin')
 		where TO_CHAR(SYSDATE, 'yyyy') = TO_CHAR(annual_regi_date, 'yyyy')
-	</select>
+	</select> -->
 	<select id="selectAnnual" resultMap="annualResultSet">
 		select m.m_id, m_name, m_hire_date, annual_count, annual_regi_date,trunc(months_between(sysdate, m_hire_date) /12) comYear,annual_type,
-				trunc(months_between(sysdate, m_hire_date))as comMonth, substr(annual_regi_date,4,2) regiMonth
+				trunc(months_between(sysdate, m_hire_date))as comMonth, substr(annual_regi_date,4,2) regiMonth, TO_CHAR(annual_regi_date, 'yyyy') regiYear
 		from member m
 		    left join annual_leave a on (m.m_id = a.m_id)
 		where a.m_id = #{id}
-			and TO_CHAR(SYSDATE, 'yyyy') = TO_CHAR(annual_regi_date, 'yyyy')
+			
 				
 	</select> 
 	<insert id="insertAnnual">
 		insert into annual_leave
-		values(seq_annual_no.nextval, #{annualCount}, 'a', sysdate, #{id})
+		values(seq_annual_no.nextval, #{annualCountStr}, 'a', sysdate, #{id})
 	</insert>
+	<update id="updateAnnual">
+		update annual_leave
+		set annual_count = #{annualCountStr}, annual_regi_date = sysdate
+		where m_id = #{id}
+	</update>
+	<!-- annualLeaveMain에 최신 3개글만 조회되게 하기 -->
+	<!-- <select id="selectAnnualList" resultMap="LeaveRecodeResultSet"> 
+	<![CDATA[
+		select rownum,doc_num leaveNum, DOC_NAME leave_name, DOC_CONTENT LEAVE_REASON, DOC_CREATE_DATE ENROLL_DATE,DOC_APPROVAL_STATUS LEAVE_STATUS,  
+       form_name
+		from       
+		(select doc_num,DOC_NAME, DOC_CONTENT, DOC_CREATE_DATE,DOC_APPROVAL_STATUS,  DOC_START_DATE,DOC_END_DATE,df.form_name,
+		        (DOC_END_DATE-DOC_START_DATE+1) annual
+		 from document d
+		    left join document_form df on (d.form_num = df.form_num)
+		 where DRAFTER_M_ID = #{id}
+		        and df.form_num = 1
+		 order by DOC_NUM desc)
+		where rownum <= 3
+	]]>	
+	</select> -->
+	<!-- 연차 신청 게시글 총 수 -->
+	<!-- <select id="getAnnualListCount" resultType="_int">
+		select count(*)
+			from document
+			where DRAFTER_M_ID = #{id}
+			    and form_num = 1
+	
+	</select> -->
+	<!-- 페이징처리하여 게시글 불러오기 -->
+	<!-- <select id="getSelectAnnualList" resultMap="LeaveRecodeResultSet">
+		select doc_num leaveNum, doc_content leave_reason, DOC_APPROVAL_STATUS LEAVE_STATUS,DOC_CREATE_DATE ENROLL_DATE, df.form_name form_name,d.doc_name leave_name
+		from document d
+            left join document_form df on (d.form_num = df.form_num)
+            left join member m on (d.DRAFTER_M_ID = m.m_id)
+		where d.form_num=1
+            and DRAFTER_M_ID = #{id}
+		order by doc_num desc	
+	</select> -->
+	<!-- <select id="getAnnualSearchResultListCount" resultType="_int">
+		select count(*)
+		from document d
+            left join document_form df on (d.form_num = df.form_num)
+            left join member m on (d.DRAFTER_M_ID = m.m_id)
+		where d.form_num=1
+            and DRAFTER_M_ID = #{id}
+		<if test="condition == 'status'">
+			and DOC_APPROVAL_STATUS=to_number(#{value})
+		</if>
+		<if test="condition == 'title'">
+			and DOC_NAME like '%' || #{value} || '%'
+		</if>
+		<if test="condition == 'content'">
+			 and DOC_CONTENT like '%' ||#{value} || '%'
+		</if>	  
+	</select> -->
+	<!-- <select id="selectSearchAnnualResultList" resultMap="LeaveRecodeResultSet">
+		select doc_num leaveNum, doc_content leave_reason, DOC_APPROVAL_STATUS LEAVE_STATUS,DOC_CREATE_DATE ENROLL_DATE, df.form_name form_name,d.doc_name leave_name
+		from document d
+            left join document_form df on (d.form_num = df.form_num)
+            left join member m on (d.DRAFTER_M_ID = m.m_id)
+		where d.form_num=1
+            and DRAFTER_M_ID = #{id}			
+		<choose>
+			<when test="condition == 'status'">
+				and DOC_APPROVAL_STATUS=to_number(#{value})
+			</when>
+			<when test="condition == 'title'">
+				and DOC_NAME like '%' || #{value} || '%'
+			</when>
+			<otherwise>
+				 and DOC_CONTENT like '%' ||#{value} || '%'
+			</otherwise>
+		</choose>
+		order by doc_num desc
+	</select> -->
+	
 	
 </mapper>

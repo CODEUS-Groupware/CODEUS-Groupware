@@ -54,7 +54,13 @@
 	
 	<insert id="addAddress">
 		insert into address
-		values(addr_seq.nextval, ${userId}, ${tdName})
+		values(addr_seq.nextval, #{mId}, #{userId})
 	</insert>
 	
+	<select id="selectMyList" resultMap="memberResultSet">
+		select *
+		from member
+		join address using(m_id)
+		where address.m_id = addr_m_id;
+	</select>
 </mapper>

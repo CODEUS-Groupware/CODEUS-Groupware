@@ -17,8 +17,8 @@
 	<select id="CommBoardSelectList" resultMap="boardResultSet">
 		SELECT *
 		FROM board
-		WHERE B_TYPE = '자유'
-		ORDER BY B_NUM DESC
+		WHERE B_TYPE = '자유' AND B_STATUS = '0'
+		ORDER BY B_NUM DESC 
 	</select>
 	
 	<select id="commsearchListCount" resultType="_int" parameterType="Search">
@@ -83,6 +83,8 @@
 		<result property="reply_count" column="B_ETC"/>
 	</resultMap>
 	
+	
+	<!-- 자유게시글 등록 -->
 	<insert id="insertcommBoard" parameterType="Board">
 
 	INSERT INTO BOARD 
@@ -95,10 +97,12 @@
 		WHERE B_NUM = #{bId}
 	</update>
 	
-	<delete id="CommBoardDelete">
-		DELETE FROM BOARD 
+	
+	<!-- 자유게시글 삭제 -->
+	<update id="CommBoardDelete">
+		UPDATE BOARD SET B_STATUS = '1'
 		WHERE B_NUM = #{bId}
-	</delete>
+	</update>
 	
 	<update id="commUpdateBoard">
 		UPDATE BOARD 
@@ -106,26 +110,24 @@
 		WHERE B_NUM = #{bId}
 	</update>
 	
-	<!-- 게시글 신고 -->
 	
-		<select id="selectPostReport" resultMap="ReportResultMap">
-  		SELECT * FROM REPORT WHERE B_NUM = #{bId} and report_category = '게시글'
-  		</select>
+	
+	<!-- 게시글-->
+	
+	<select id="selectPostReport" resultMap="ReportResultMap">
+ 		SELECT * FROM REPORT WHERE B_NUM = #{bId} AND REPORT_CATEGORY = '게시글' 
+ 	</select>
   	
   	<select id="selectPostReportCount" resultType="_int">
-  		SELECT COUNT(*)
-  		FROM BOARD 
-  		JOIN REPORT using (B_NUM) 
-  		WHERE REPORT_CATEGORY = '게시글' and B_NUM = #{bId}
+  		SELECT COUNT(*)FROM BOARD B JOIN REPORT BR ON B.B_NUM = BR.B_NUM WHERE REPORT_CATEGORY = '게시글' 
+  		
   	</select>
- 
- 	
   	
   	<insert id="insertPostReport">
   		INSERT INTO REPORT 
   		VALUES(SEQ_REPORT_NO.NEXTVAL,#{reportType},'게시글',SYSDATE,DEFAULT,#{mId},#{bId},null)
   	</insert>
-	
+
 	
 	<!-- 댓글  -->
 	

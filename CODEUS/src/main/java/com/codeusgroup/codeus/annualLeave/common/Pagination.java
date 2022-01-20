@@ -1,6 +1,6 @@
 package com.codeusgroup.codeus.annualLeave.common;
 
-import com.codeusgroup.codeus.leaveRecode.model.vo.PageInfo;
+import com.codeusgroup.codeus.annualLeave.model.vo.PageInfo;
 
 public class Pagination {
 	

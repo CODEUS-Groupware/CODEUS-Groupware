@@ -263,7 +263,7 @@
 													</p>
 													<!-- 대댓글 작성 -->
 													<div class="nestedReplyWrite">
-														<textarea class="form-control" rows="1"></textarea>
+														<textarea class="form-control" rows="1" maxlength="160"></textarea>
 														<button type="button" class="nestedReplyInsertBtn btn btn-sm btn-outline-dark">등록</button>
 														<input type="hidden" name="rNo" value="${ r.replyNo }">
 													</div>
@@ -302,7 +302,7 @@
                         		<br>
                         		<!-- 댓글 작성 -->
 								<div class="replyWriteArea">
-									<textarea class="form-control" rows="1"></textarea>
+									<textarea class="form-control" rows="1" maxlength="160"></textarea>
 									<button type="button" class="replyInsertBtn btn btn-sm btn-outline-dark">등록</button>
 								</div>
                             </div>
@@ -425,7 +425,7 @@
 		                       					
 		                       					// 대댓글 작성 영역
 												html += '<div class="nestedReplyWrite">'
-													    + '<textarea class="form-control" rows="1"></textarea>'
+													    + '<textarea class="form-control" rows="1" maxlength="160"></textarea>'
 													    + '<button type="button" class="nestedReplyInsertBtn btn btn-sm btn-outline-dark">등록</button>'
 														+ '<input type="hidden" name="rNo" value="' +  data[i].replyNo + '"></div></div>';
 		                       					
@@ -489,10 +489,10 @@
 		                       		// 수정 버튼 클릭시 댓글 수정 화면으로 보이게 함
 		                       		let html = "";
 		                       		html += '<div class="replyEditArea">'
-		                       				  +	'<textarea class="form-control" rows="1">' + replyContent  + '</textarea>'
+		                       				  +	'<textarea class="form-control" rows="1" maxlength="160">' + replyContent  + '</textarea>'
 		                       				  + '<button type="button" class="replyEditCancelBtn btn btn-sm btn-outline-dark">취소</button>'
 		                       				  + '<button type="button" class="replyEditBtn btn btn-sm btn-outline-dark">저장</button>'
-		      								  + '<input type="hidden" name="rNo" value="' + replyNo  +  '">';
+		      								  + '<input type="hidden" name="rNo" value="' + replyNo  +  '"></div>';
 		                       		
 		      						$('.replyEditArea').remove();
 		                       		$('p[id=replyNo' +  replyNo + ']').parent().append(html)

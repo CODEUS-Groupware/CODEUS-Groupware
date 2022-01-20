@@ -247,7 +247,7 @@
 		$("input[name=endday]").val("${endday}");
 		
 		// 종일 체크박스
-		if ("${bAllday eq 1 }") {
+		if ( ${ bAllday eq 1 }) {
 			$("input[name=allday]").prop("checked", true);
 		}
 		
@@ -618,7 +618,7 @@
 	function addSch(){
 
 		$.ajax({
-			url:"<%= request.getContextPath() %>/readCalList.ca",
+			url:"<%= request.getContextPath() %>/readAdminCalList.ca",
 			type:"get",
 			dataType:"JSON",
 			success:function(json){
@@ -665,7 +665,7 @@
 		  // 종일 체크 시 시작 날짜를 기준으로 변경
 		  if ($("input#allday:checked").val()) {
 			  startday = $("input[name=startday]").val() + " 00:00:00";
-			  endday = $("input[name=startday]").val() + " 23:59:59";
+			  endday = $("input[name=startday]").val() + " 21:00:00";
 		  }else{
 			  endday = $("input[name=endday]").val() + " " + $("select.endday_hour").val() + ":00";
 		  }
@@ -689,6 +689,7 @@
 			  $("textArea[name=content]").focus();
 			  return false;
 		  }
+		  var color = $("select[name=color]").val();
 
 		// 입력받은 값들 유효성 검사: 끝
 		
@@ -696,7 +697,7 @@
 		// db에 넣기
 		$.ajax({
 			url:"<%= request.getContextPath() %>/addDetailSch.ca",
-			data:{title:title, startday:startday, endday:endday, content:content, mId:"${sessionScope.loginUser.mId}"},
+			data:{title:title, startday:startday, endday:endday, content:content, color:color, mId:"${sessionScope.loginUser.mId}"},
 			type:"POST",
 			dataType:"JSON",
 			success:function(json){
@@ -704,7 +705,7 @@
 				if (json.result == 1) {
 					location.href = "<%= request.getContextPath() %>/goCalendar.ca";
 				}else{
-					alert("addDetailSch success DB 오류 : " + JSON.stringify(json));
+					console.log("addDetailSch success DB 오류 : " + JSON.stringify(json));
 				}
 				
 			},
@@ -749,9 +750,9 @@
 		          <input type="date" class="datepicker" name="startday">
 		          <select class="startday_hour" style="width: 70px;">
 					<c:set var="breakPoint" value="0" />
-					<c:forEach var="i" begin="0" end="23">
+					<c:forEach var="i" begin="0" end="20">
 					    <c:forEach var="j" begin="0" end="1">
-					        <c:if test="${(i == 24) && (j == 1)}">    
+					        <c:if test="${(i == 21) && (j == 1)}">    
 					            <c:set var="breakPoint" value="1" />                                    
 					        </c:if>
 					        <c:if test="${breakPoint == 0}">                           
@@ -765,9 +766,9 @@
 				<input type="date" class="datepicker" name="endday">
 		          <select class="endday_hour" style="width: 70px;">
 					<c:set var="breakPoint" value="0" />
-					<c:forEach var="i" begin="0" end="23">
-					    <c:forEach var="j" begin="0" end="1">
-					        <c:if test="${(i == 24) && (j == 1)}">    
+					<c:forEach var="i" begin="0" end="21">
+					    <c:forEach var="j" begin="0" end="0">
+					        <c:if test="${(i == 22) && (j == 1)}">    
 					            <c:set var="breakPoint" value="1" />                                    
 					        </c:if>
 					        <c:if test="${breakPoint == 0}">                           
@@ -783,13 +784,25 @@
 	        </tr>
 	        
 	        <tr>
-	          <th>내 캘린더</th>
-	          <td><select class="addSchSelect form-control" name="scheType" style="width: 30%; height: 35px;"></select></td>
+	          <th>색상</th>
+	          <td>
+	          		<select class="colorSelect form-control" name="color" style="width: 15%; height: 35px;">
+	          			<option value="blue">파란색</option>
+	          			<option value="green">초록색</option>
+	          			<option value="red">빨간색</option>
+	          			<option value="black">검정색</option>
+	          		</select>
+	          </td>
 	        </tr>
+
+<!-- 	        <tr> -->
+<!-- 	          <th>내 캘린더</th> -->
+<!-- 	          <td><select class="addSchSelect form-control" name="scheType" style="width: 30%; height: 35px;"></select></td> -->
+<!-- 	        </tr> -->
 	        
 	        <tr>
-	          <th>일정등록자</th>
-	          <td><input class="form-control title modal_input" maxlength="13" name="mId" type="text" value="${sessionScope.loginUser.mId}" readonly/></td>
+<!-- 	          <th>일정등록자</th> -->
+	          <td><input class="form-control title modal_input" maxlength="13" name="mId" type="hidden" value="${sessionScope.loginUser.mId}" readonly/></td>
 	        </tr>
 	        
 	        <tr>
@@ -969,5 +982,22 @@
  </div>
 </div>
 </div>
-</body>
+<!--**********************************
+	            Content body end
+	***********************************-->
+
+   <!--**********************************
+            Footer start
+        ***********************************-->
+        <div class="footer">
+            <div class="copyright">
+                <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">CODEUS</a> 2021</p>
+            </div>
+        </div>
+        <!--**********************************
+            Footer end
+        ***********************************-->
+
+
 </html>
+</body>

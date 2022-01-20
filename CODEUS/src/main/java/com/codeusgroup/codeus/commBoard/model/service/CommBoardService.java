@@ -16,10 +16,11 @@ public interface CommBoardService {
 
 	ArrayList<CommBoard> CommBoardselectList(PageInfo pi);
 	
-	
 	int commsearchListCount(Search search);
 
 	ArrayList<CommBoard> commSearchList(Search search, PageInfo pi);
+	
+	
 	
 	CommBoard selectCommBoard(int bId);
 	
@@ -28,6 +29,8 @@ public interface CommBoardService {
 	int commUpdateBoard(CommBoard b);
 	
 	int CommBoardDelete(int bId);
+	
+	//신고
 	
 	int reportPost(Report rep);
 	

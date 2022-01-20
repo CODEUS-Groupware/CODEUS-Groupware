@@ -248,14 +248,14 @@
 		//selectAtd();	// 참석자 불러오기
 		
 		// select 값 변경
-		$("select.addSchSelect").val("${cal.scheType}").change();
+		$("input.addSchSelect").val("${cal.scheType}").change();
 
 		// datepicker에 db에서 받아온 시작, 끝 날짜 넣어주기
 		$("input[name=startday]").val("${ cal.scheStartDate }".substring(0, 10));
 		$("input[name=endday]").val("${ cal.scheEndDate }".substring(0, 10));
 		console.log("${ cal.scheStartDate }");
 		// 일정이 종일일 경우
-		if ("${bAllday eq 1}") {
+		if ( ${ bAllday eq 1 } ) {
 			$("input[name=allday]").prop("checked", true);
 			$("select.startday_hour").val("${ cal.scheStartString }".substring(11, 16)).change();
 			$("select.endday_hour").val("${ cal.scheEndString }".substring(11, 16)).change();	// 종일이면 23:59까지 끊기기 때문에 startday와 endday는 같게 둠
@@ -628,7 +628,7 @@
 	function addSch(){
 
 		$.ajax({
-			url:"<%= request.getContextPath() %>/readCalList.ca",
+			url:"<%= request.getContextPath() %>/readAdminCalList.ca",
 			type:"get",
 			dataType:"JSON",
 			success:function(json){
@@ -655,7 +655,7 @@
 					html += "</li>";
 				}
 				
-				$("select.addSchSelect").html(html);
+				$("input.addSchSelect").html(html);
 			},
 			error: function(request, status, error){
 				alert("addSch error" +"\n" + "code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
@@ -682,7 +682,7 @@
 		  // 종일 체크 시 시작 날짜를 기준으로 변경
 		  if ($("input#allday:checked").val()) {
 			  startday = $("input[name=startday]").val() + " 00:00:00";
-			  endday = $("input[name=startday]").val() + " 23:59:59";
+			  endday = $("input[name=startday]").val() + " 21:00:00";
 		  }else{
 			  endday = $("input[name=endday]").val() + " " + $("select.endday_hour").val() + ":00";
 		  }
@@ -693,11 +693,11 @@
 			  return false;
 		  }
 
-		  var scheType = $("select[name=scheType]").val();
-		  if (scheType.trim() == "") {
-			  alert("캘린더를 선택해주세요.");
-			  return false;
-		  }
+		  var scheType = $("input[name=scheType]").val();
+// 		  if (scheType.trim() == "") {
+// 			  alert("캘린더를 선택해주세요.");
+// 			  return false;
+// 		  }
 		  
 		  
 		  var content = $("textArea[name=content]").val();
@@ -706,6 +706,7 @@
 			  $("textArea[name=content]").focus();
 			  return false;
 		  }
+		  var color = $("select[name=color]").val();
 
 		// 입력받은 값들 유효성 검사: 끝
 		
@@ -713,7 +714,7 @@
 		// db에 넣기
 		$.ajax({
 			url:"<%= request.getContextPath() %>/addDetailSch.ca",
-			data:{title:title, startday:startday, endday:endday, scheNo:scheNo, content:content, mId:mId},
+			data:{title:title, startday:startday, endday:endday, scheNo:scheNo, color:color, content:content, mId:mId},
 			type:"POST",
 			dataType:"JSON",
 			success:function(json){
@@ -789,6 +790,7 @@
 			success:function(json){
 
 				if (json.result > 0) {
+					console.log(json.result);
 					if (type == 1) {
 						delSchBtn();
 					}else{
@@ -807,20 +809,18 @@
 	
 	// 일정 삭제하는 함수(참석자로 묶인 일정들도 전부 함께 삭제)
 	function delSchBtn() {
-		
+		console.log("진입");
 		$.ajax({
-			url:"/delSch.ca",
-			data: { scheNo: "${cal.scheNo}" },
+			url:"delSch.ca",
+			data: { scheNo: "${ cal.scheNo }", scheType: "${cal.scheType}", title:"${ cal.scheTitle }", startday:"${ cal.scheStartString }", endday:"${ cal.scheEndString }", allday:"${ cal.allDayYn }", mId:"${ cal.mId }", content:"${ cal.scheContent }" }, 
 			type:"POST",
 			dataType:"JSON",
-			success:function(json){
-
-				if (json.result != 1) {
-					alert("삭제DB오류");
+			success:function(result){
+				if(result == 1){
+					location.href = "<%= request.getContextPath() %>/goCalendar.ca";
+				} else{
+					console.log(result)
 				}
-				
-				location.href = "<%= request.getContextPath() %>/goCalendar.ca";
-				
 			},
 			error: function(request, status, error){
 				alert("5에러 code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
@@ -848,7 +848,7 @@
 		  // 종일 체크 시 시작 날짜를 기준으로 변경
 		  if ($("input#allday:checked").val()) {
 			  startday = $("input[name=startday]").val() + " 00:00:00";
-			  endday = $("input[name=startday]").val() + " 23:59:59";
+			  endday = $("input[name=startday]").val() + " 21:00:00";
 		  }else{
 			  endday = $("input[name=endday]").val() + " " + $("select.endday_hour").val() + ":00";
 		  }
@@ -859,11 +859,11 @@
 			  return false;
 		  }
 
-		  var scheType = $("select[name=scheType]").val();
-		  if (scheType.trim() == "") {
-			  alert("캘린더를 선택해주세요.");
-			  return false;
-		  }
+		  var scheType = $("input[name=scheType]").val();
+// 		  if (scheType.trim() == "") {
+// 			  alert("캘린더를 선택해주세요.");
+// 			  return false;
+// 		  }
 		  
 		  var content = $("textArea[name=content]").val();
 		  if (content.trim() == "") {
@@ -871,14 +871,14 @@
 			  $("textArea[name=content]").focus();
 			  return false;
 		  }
-
+		  var color = $("select[name=color]").val();
 		// 입력받은 값들 유효성 검사: 끝
 		var scheNo = ${ cal.scheNo };
 			console.log(scheNo);
 		// db에 넣기
 		$.ajax({
 			url:"doEditSch.ca",
-			data:{scheNo:scheNo, title:title, startday:startday, endday:endday, scheType:scheType, content:content, mId:"${ cal.mId }"},
+			data:{scheNo:scheNo, title:title, color:color, startday:startday, endday:endday, scheType:scheType, content:content, mId:"${ cal.mId }"},
 			type:"POST",
 			dataType:"JSON",
 			success:function(json){
@@ -896,7 +896,7 @@
 		
 	}
 	
-	
+
 
 	
 	
@@ -930,9 +930,9 @@
 		          <input type="date" class="datepicker" name="startday">
 		          <select class="startday_hour" style="width: 70px;">
 					<c:set var="breakPoint" value="0" />
-					<c:forEach var="i" begin="0" end="23">
+					<c:forEach var="i" begin="0" end="20">
 					    <c:forEach var="j" begin="0" end="1">
-					        <c:if test="${(i == 24) && (j == 1)}">    
+					        <c:if test="${(i == 21) && (j == 1)}">    
 					            <c:set var="breakPoint" value="1" />                                    
 					        </c:if>
 					        <c:if test="${breakPoint == 0}">                           
@@ -946,9 +946,9 @@
 				<input type="date" class="datepicker" name="endday">
 		          <select class="endday_hour" style="width: 70px;">
 					<c:set var="breakPoint" value="0" />
-					<c:forEach var="i" begin="0" end="23">
-					    <c:forEach var="j" begin="0" end="1">
-					        <c:if test="${(i == 24) && (j == 1)}">    
+					<c:forEach var="i" begin="0" end="21">
+					    <c:forEach var="j" begin="0" end="0">
+					        <c:if test="${(i == 22) && (j == 1)}">    
 					            <c:set var="breakPoint" value="1" />                                    
 					        </c:if>
 					        <c:if test="${breakPoint == 0}">                           
@@ -963,19 +963,33 @@
 	          </td>
 	        </tr>
 	        
-	        <tr>
-	          <th>내 캘린더</th>
-	          <td><select class="addSchSelect form-control" name="scheType" style="width: 30%; height: 35px;" ><!--  value="${cal.scheType}"--></select></td>
+<!-- 	        <tr> -->
+<!-- 	          <th>내 캘린더</th> -->
+<!-- 	        </tr> -->
+	        
+	        <!-- selected -->
+	        
+	         <tr>
+		          <th>색상</th>
+		          <td>
+		          		<select class="colorSelect form-control" name="color" style="width: 15%; height: 35px;">
+		          			<option value="blue" <c:if test ="${cal.color eq 'blue'}">selected="selected"</c:if>>파란색</option>
+		          			<option value="green" <c:if test ="${cal.color eq 'green'}">selected="selected"</c:if>>초록색</option>
+		          			<option value="red" <c:if test ="${cal.color eq 'red'}">selected="selected"</c:if>>빨간색</option>
+		          			<option value="black" <c:if test ="${cal.color eq 'black'}">selected="selected"</c:if>>검정색</option>
+		          		</select>
+		          </td>
 	        </tr>
 	        
 	        <tr>
-	          <th>일정등록자</th>
-	          <td><input class="form-control title modal_input" maxlength="13" name="mId" type="text" value="${ cal.mId }" readonly/></td>
+<!-- 	          <th>일정등록자</th> -->
+	          <td><input class="form-control title modal_input" maxlength="13" name="mId" type="hidden" value="${ cal.mId }" readonly/></td>
 	        </tr>
 	        
 	        <tr>
 	          <th>일정내용</th>
 	          <td><textarea class="form-control modal_input" cols="30" rows="8" name="content" style="resize: none;" >${ cal.scheContent }</textarea></td>
+	          <td><input type ="hidden" class="addSchSelect form-control" name="scheType" style="width: 30%; height: 35px;" value="${cal.scheType}"/></td>
 	        </tr>
 	        
 	      </tbody>
@@ -1150,5 +1164,21 @@
  </div>
 </div>
 </div>
+<!--**********************************
+	            Content body end
+	***********************************-->
+
+   <!--**********************************
+            Footer start
+        ***********************************-->
+        <div class="footer">
+            <div class="copyright">
+                <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">CODEUS</a> 2021</p>
+            </div>
+        </div>
+        <!--**********************************
+            Footer end
+        ***********************************-->
+
 </body>
 </html>

@@ -75,7 +75,7 @@
 	.editImg{
 		margin-left: 1%;
 		color: gray;
-		cursor: pointer;
+		cursor: hand;
 	}
 	
 	.dot {
@@ -94,6 +94,7 @@
 	.table-borderless > thead > tr > td,
 	.table-borderless > thead > tr > th {
 	    border: none;
+	    cursor: pointer;
 	}
 	
 	.blueBtn{
@@ -121,12 +122,11 @@
 		height: 30px;
 	}
 	
-	
 </style>
 
 <script>
 /*
- 	================ 캘린더 함수 정리 ================
+       	================ 캘린더 함수 정리 ================
  	
 	info.dateStr
 	info.event.title
@@ -150,7 +150,7 @@
 	    $('.modal').modal('hide');
 	};
 	$(document).ready(function() {
-		readCalList();
+		readAdminCalList();
 		
 		// 내 캘린더의 체크박스를 조작했을 때 를 실행
 		$(document).on('input.calCheckbox', function() {
@@ -201,7 +201,7 @@
 	      defaultDate: localStorage.getItem("checkDate"),	// 달력 날짜 수동 고정(아예 defaultDate를 삭제하면 현재 달 보여줌) 
 	      navLinks: false, 				// 달력의 날짜 텍스트를 선택할 수 있는지 유무
 	      editable: false,
-	      eventLimit: false,				// 셀에 너무 많은 일정이 들어갔을 시 more로 처리 true에서 false로 수정
+	      eventLimit: true,				// 셀에 너무 많은 일정이 들어갔을 시 more로 처리 true에서 false로 수정
 	      customButtons: { //주말 숨기기 & 보이기 버튼
 	    	  today : {
 	            text  : '오늘',
@@ -252,7 +252,7 @@
 						 successCallback(events);  
 	     			},
 	     			error: function(request, status, error){
-	     				console.log(json)
+	     				console.log(json);
 
 	     		 	}
 	     		});
@@ -301,7 +301,7 @@
 					success:function(json){
 						var html = "";
 						if (json.result == 1) {
-							readCalList();
+							readAdminCalList();
 						}else{
 							alert("DB오류");
 						}
@@ -315,7 +315,7 @@
 		}
 	
 		// 캘린더(내일정)를 읽어오는 함수
-		function readCalList(){
+		function readAdminCalList(){
 			  $.ajax({
 					url:"<%= request.getContextPath() %>/readAdminCalList.ca",
 					type:"get",
@@ -338,10 +338,11 @@
 								html += "<input type='hidden' value='" + item.scheNo + "' />";
 								html += "<label for='calendar_id_" + index + "' class='smallText'>&nbsp;" + name + "</label>";
 								html += "<span class='btn_wrap'>";
-								html += "<span class='dot' style='background-color: " + item.color + "'></span>";
+								html += " <span class='dot' style='background-color: " + item.color + "'></span>";
 								html += "</span>";
 								html += "</p>";
 								html += "</li>";
+								console.log(item.color);
 							});
 						}//else{
 						//	html += "<li style='height: 20px;'> 캘린더를 생성해주세요.";
@@ -425,7 +426,7 @@
 		  $('.modal').modal('show');
 		  
 		  $.ajax({
-			url:"<%= request.getContextPath() %>/readCalList.ca",
+			url:"<%= request.getContextPath() %>/readAdminCalList.ca",
 			type:"get",
 			dataType:"JSON",
 			success:function(json){
@@ -453,7 +454,7 @@
 		});
 		
 	}
-	
+
 	// (modal) 일정등록에서 등록버튼을 클릭했을시 실행하는 함수
 	function addSchModalBtn(){
 		  
@@ -470,7 +471,7 @@
 		  // 종일 체크 시 시작 날짜를 기준으로 변경
 		  if ($("input#allday:checked").val()) {
 			  startday = $("input[name=startday]").val() + " 00:00:00";
-			  endday = $("input[name=startday]").val() + " 23:59:59";
+			  endday = $("input[name=startday]").val() + " 21:00:00";
 		  }else{
 			  endday = $("input[name=endday]").val() + " " + $("select.endday_hour").val() + ":00";
 		  }
@@ -481,12 +482,7 @@
 			  return false;
 		  }
 		  
-		  
-		  var scheNo = $("input[name=scheNo]").val();
-		//  if (scheNo.trim() == "" || scheNo == "-9999") {
-			 // alert("캘린더를 선택해주세요.");
-		//	  return false;
-		//  }
+		   var scheNo = $("input[name=scheNo]").val();
 		  
 		  var content = $("input[name=content]").val();
 		  if (content.trim() == "") {
@@ -505,11 +501,12 @@
 		// db에 넣기
 		$.ajax({
 			url:"<%= request.getContextPath() %>/addModalSch.ca",
-			data:{title:title, startday:startday, endday:endday, scheNo:scheNo, content:content, writer:writer},
+			data:{title:title, startday:startday, endday:endday, content:content, writer:writer},
 			type:"POST",
 			success:function(json){
 				if (json.result == 1) {
 					window.closeModal();
+					location.href = "<%= request.getContextPath() %>/goCalendar.ca";
 					calendar.refetchEvents();
 					
 				}else{
@@ -534,7 +531,7 @@
 		  // 종일 체크 시 시작 날짜를 기준으로 변경
 		  if ($("input#allday:checked").val()) {
 			  startday = $("input[name=startday]").val() + " 00:00:00";
-			  endday = $("input[name=startday]").val() + " 23:59:59";
+			  endday = $("input[name=startday]").val() + " 21:00:00";
 		  }else{
 			  endday = $("input[name=endday]").val() + " " + $("select.endday_hour").val() + ":00";
 		  }
@@ -561,7 +558,7 @@
 	***********************************-->
 	 
 	<!-- Left navbar-header -->
-	<div class="content-body" >
+	<div class="content-body">
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-lg-3">
@@ -570,19 +567,19 @@
 							<div class="navbar-default sidebar cal_sidebar" role="navigation">
 								<div class="sidebar-nav navbar-collapse slimscrollsidebar">
 									<h2 class="pageTitleText">
-										<i class="fa fa-calendar fa-fw" aria-hidden="true"></i>캘린더
+										<i class="fa fa-calendar fa-fw" aria-hidden="true"></i>사내 캘린더
 									</h2>
 									<c:if test="${sessionScope.loginUser.mId eq 'admin'}">
 										<div class="center p-20" style="padding-top: 0px !important;">
 											<span class="hide-menu addSchedule">
 												<a class="btn btn-danger btn-block btn-rounded waves-effect waves-light" 
-												   href="<%= request.getContextPath() %>/goAddDetailSch.ca">일정등록</a>
+												   href="<%= request.getContextPath() %>/goAddCal.ca">일정등록</a>
 											</span>
 										</div>
 									</c:if>
 									<ul class="nav" id="side-menu" style="padding-left: 9%;">
 										<li style="padding: 10px 0 0;">
-											<span class="largeText">내 캘린더</span>
+<!-- 											<span class="largeText">내 캘린더</span> -->
 											<ul class="nav_ul"></ul>
 										
 											<!--  <span class="largeText">공유 캘린더</span> -->
@@ -599,54 +596,24 @@
 													</p>
 												</li>
 											</ul>
-											<div class="add_calendar_box dropdown">
-												<a class="add_calendar dropdown-toggle" role="button" id="dropdownMenuLink" 
-												   data-toggle="dropdown" style="color: black;">
-													<i class="fa fa-plus" style="padding-right: 10px;"></i>내 캘린더 추가
-												</a>
-												<div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="padding: 5px 0; padding-left: 20xp; padding-right: 20xp;">
-													<h5 style="font-weight: bold;">&nbsp;내 캘린더 추가</h5>
-													<div>
-														<input type="text" maxlength="16" name="cal_name" style="margin-bottom: 10px;" />
-														<br>
-														<button type="button" class="btn blueBtn" onclick="addCal()">확인</button>
-														<button type="button" class="btn grayBtn">취소</button>
-													</div>
-												</div>
-											</div>
-										
-											<div class="add_calendar_box">
-												<a class="add_calendar" href="<%= request.getContextPath() %>/editCal.ca" style="color: black;">
-													<i class="fa fa-cog" style="padding-right: 10px;"></i>내 캘린더 관리
-												</a>
-											</div>
+<!-- 											<div class="add_calendar_box"> -->
+<%-- 												<a class="add_calendar" href="<%= request.getContextPath() %>/editCal.ca" style="color: black;"> --%>
+<!-- 													<i class="fa fa-cog" style="padding-right: 10px;"></i>내 캘린더 관리 -->
+<!-- 												</a> -->
+<!-- 											</div> -->
 										</li>
 									</ul>
 								</div>
 							</div>
 							<div id="external-events" class="my-3">
-								<!--  
-								<p>
-									<strong>Draggable Events</strong>
-								</p>
-								<div class="fc-event">My Event 1</div>
-								<div class="fc-event">My Event 2</div>
-								<div class="fc-event">My Event 3</div>
-								<div class="fc-event">My Event 4</div>
-								<div class="fc-event">My Event 5</div>
-								<p>
-									<input type="checkbox" id="drop-remove">
-									<label for="drop-remove">remove after drop</label>
-								</p>
-								-->
 							</div>
 						</div>
 					</div>
 				</div>
 			
-				<div class="col-lg-9">
+				<div class="col-lg-9" >
 					<div class="card">
-						<div class="card-body">
+						<div class="card-body" >
 							<div id='calendar'></div>
 						</div>
 					</div>
@@ -675,9 +642,9 @@
 															<input type="date" class="datepicker" name="startday">
 															<select class="startday_hour" style="width: 70px;">
 																<c:set var="breakPoint" value="0" />
-																	<c:forEach var="i" begin="0" end="23">
+																	<c:forEach var="i" begin="0" end="20">
 																		<c:forEach var="j" begin="0" end="1">
-																			<c:if test="${(i == 24) && (j == 1)}">    
+																			<c:if test="${(i == 21) && (j == 1)}">    
 																				<c:set var="breakPoint" value="1" />                                    
 																			</c:if>
 																			<c:if test="${breakPoint == 0}">                           
@@ -691,9 +658,9 @@
 															<input type="date" class="datepicker" name="endday">
 																<select class="endday_hour" style="width: 70px;">
 																<c:set var="breakPoint" value="0" />
-																	<c:forEach var="i" begin="0" end="23">
-																		<c:forEach var="j" begin="0" end="1">
-																			<c:if test="${(i == 24) && (j == 1)}">    
+																	<c:forEach var="i" begin="0" end="21">
+																		<c:forEach var="j" begin="0" end="0">
+																			<c:if test="${(i == 22) && (j == 1)}">    
 																				<c:set var="breakPoint" value="1" />                                    
 																			</c:if>
 																			<c:if test="${breakPoint == 0}">                           
@@ -703,7 +670,7 @@
 																		</c:forEach>
 																	</c:forEach>
 																</select>
-															<input type="checkbox" id="allday" name="allday" /><label for="allday">종일</label>
+															<input type="checkbox" id="allday" name="allday"/><label for="allday">종일</label>
 														</td>
 													</tr>
 													<tr>
@@ -711,9 +678,9 @@
 														<td><input class="form-control modal_input" name="content" type="text" style="height: 30px;" /></td>
 													</tr>
 													<tr>
-														<th>등록자</th>
-														<td><input class="form-control writer modal_input" maxlength="13" name="writer" type="text" readonly value="${sessionScope.loginUser.mId}" />  </td>
-														<td><select class="addSchSelect" name="scheNo" type="hidden"></select></td>
+<!-- 														<th>등록자</th> -->
+														<td><input class="form-control writer modal_input" maxlength="13" name="writer" type="hidden" readonly value="${sessionScope.loginUser.mId}" />  </td>
+<!-- 														<td><select class="addSchSelect" name="scheNo" type="hidden"></select></td> -->
 													</tr>
 												</tbody>
 											</table>
@@ -735,7 +702,17 @@
 	   <!--**********************************
 	            Content body end
 	        ***********************************-->
- 
+ <!--**********************************
+            Footer start
+        ***********************************-->
+        <div class="footer">
+            <div class="copyright">
+                <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">CODEUS</a> 2021</p>
+            </div>
+        </div>
+        <!--**********************************
+            Footer end
+        ***********************************-->
 	
 	    <!--**********************************
 	        Scripts

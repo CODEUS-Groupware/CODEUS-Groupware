@@ -27,8 +27,8 @@ public class CalendarServiceImpl implements CalendarService{
 	}
 
 	@Override
-	public ArrayList<Calendar> readAdminCalList() {
-		return cDAO.readAdminCalList(sqlSession);
+	public ArrayList<Calendar> readAdminCalList(String mId) {
+		return cDAO.readAdminCalList(sqlSession, mId);
 	}
 
 	@Override
@@ -37,17 +37,24 @@ public class CalendarServiceImpl implements CalendarService{
 	}
 
 	@Override
-	public int addModalSch(Calendar cal) {
-//		String seq = cDAO.scheNo(sqlSession);
-//		map.put("seq", seq);
-		int result2 = cDAO.addModalSch(sqlSession, cal);
-		
+	public int addMyCal(Calendar cal) {
+		return cDAO.addMyCal(sqlSession, cal);
+	}
+
+	@Override
+	public int addModalSch(HashMap<String, Object> map) {
+		int result2 = cDAO.addModalSch(sqlSession, map);
+		return result2;
+	}
+
+	@Override
+	public int addModalMySch(HashMap<String, Object> map) {
+		int result2 = cDAO.addModalMySch(sqlSession, map);
 		return result2;
 	}
 
 	@Override
 	public ArrayList<Calendar> selectSchList(CalArrTemp cat) {
-//		System.out.println("serviceCat1 : " + cat);
 		return cDAO.selectSchList(sqlSession, cat);
 	}
 	public ArrayList<Calendar> selectadminSchList(CalArrTemp cat) {
@@ -56,7 +63,6 @@ public class CalendarServiceImpl implements CalendarService{
 
 	@Override
 	public ArrayList<Calendar> selectNoCalSchList(CalArrTemp cat) {
-//		System.out.println("serviceCat2 : " + cat);
 		return cDAO.selectNoCalSchList(sqlSession, cat);
 	}
 
@@ -96,20 +102,47 @@ public class CalendarServiceImpl implements CalendarService{
 				if ("del".equals(map.get("checkDel"))) {
 					cDAO.delSch(sqlSession, map);
 				}
-				
-				// 참석자 fk_emp_no를 담은 배열
-				// 모든 참석자의 [일정]과 [참석자] 테이블에 insert
 					cDAO.addDetailSch(sqlSession, map);
 					System.out.println("addDetailSch.ca service : " + map);
 					// 일정 참석자 추가(다수)
-				
 				return 1;
+	}
+
+	public int addDetailMySch(HashMap<String, Object> map) throws Throwable {
+		// doEditSch() 메서드에서 호출했을 시 수정을 위한 삭제도 함께 하기 위해 체크
+		if ("del".equals(map.get("checkDel"))) {
+			cDAO.delSch(sqlSession, map);
+		}
+		cDAO.addDetailMySch(sqlSession, map);
+		System.out.println("addDetailMySch.ca service : " + map);
+		// 일정 참석자 추가(다수)
+		return 1;
 	}
 
 	@Override
 	public int doEditSch(HashMap<String, Object> map) {
 		return cDAO.doEditSch(sqlSession, map);
 	}
+
+	@Override
+	public int doEditMySch(HashMap<String, Object> map) {
+		return cDAO.doEditMySch(sqlSession, map);
+	}
+
+	@Override
+	public int deleteSche(HashMap<String, Object> map) {
+		cDAO.deleteSche(sqlSession, map);
+		System.out.println(map);
+		return 1;
+		
+	}
+
+	@Override
+	public int editCalColor(HashMap<String, String> map) {
+		return cDAO.editCalColor(sqlSession, map);
+	}
+
+
 
 
 }

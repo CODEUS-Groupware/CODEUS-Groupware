@@ -91,78 +91,26 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        	<tr>
-                                        		<td></td>
-	                                            <td id="name">강건강</td>
-	                                            <td id="job">대리</td>
-	                                            <td id="dept">영업1팀</td>
-	                                            <td id="phone">010-1111-2222</td>
-	                                            <td id="email">gang@com.kh</td>
-	                                            <td><button id="addrMinus" class="form-control input-default" style="background: #593bdb; color: white;">&nbsp-&nbsp</button></td>
-                                        	</tr>
-                                            <tr>
-                                            	<td></td>
-                                                <td>강건강</td>
-                                                <td>대리</td>
-                                                <td>영업1팀</td>
-                                                <td>010-1111-2222</td>
-                                                <td>gang@com.kh</td>
-                                                <td><button class="form-control input-default" style="background: #593bdb; color: white;">&nbsp-&nbsp</button></td>
-                                            </tr>
-                                            <tr>
-                                            	<td></td>
-                                                <td>강건강</td>
-                                                <td>대리</td>
-                                                <td>영업1팀</td>
-                                                <td>010-1111-2222</td>
-                                                <td>근무중</td>
-                                                <td><button class="form-control input-default" style="background: #593bdb; color: white;">&nbsp-&nbsp</button></td>
-                                            </tr>
-                                            <tr>
-                                            	<td></td>
-                                                <td>강건강</td>
-                                                <td>대리</td>
-                                                <td>영업1팀</td>
-                                                <td>010-1111-2222</td>
-                                                <td>근무중</td>
-                                                <td><button class="form-control input-default" style="background: #593bdb; color: white;">&nbsp-&nbsp</button></td>
-                                            </tr>
-                                            <tr>
-                                            	<td></td>
-                                                <td>강건강</td>
-                                                <td>대리</td>
-                                                <td>영업1팀</td>
-                                                <td>010-1111-2222</td>
-                                                <td>근무중</td>
-                                                <td><button class="form-control input-default" style="background: #593bdb; color: white;">&nbsp-&nbsp</button></td>
-                                            </tr>
-                                            <tr>
-                                            	<td></td>
-                                                <td>강건강</td>
-                                                <td>대리</td>
-                                                <td>영업1팀</td>
-                                                <td>010-1111-2222</td>
-                                                <td>근무중</td>
-                                                <td><button class="form-control input-default" style="background: #593bdb; color: white;">&nbsp-&nbsp</button></td>
-                                            </tr>
-                                            <tr>
-                                            	<td></td>
-                                                <td>강건강</td>
-                                                <td>대리</td>
-                                                <td>영업1팀</td>
-                                                <td>010-1111-2222</td>
-                                                <td>근무중</td>
-                                                <td><button class="form-control input-default" style="background: #593bdb; color: white;">&nbsp-&nbsp</button></td>
-                                            </tr>
-                                            <tr>
-                                            	<td></td>
-                                                <td>강건강</td>
-                                                <td>대리</td>
-                                                <td>영업1팀</td>
-                                                <td>010-1111-2222</td>
-                                                <td>근무중</td>
-                                                <td><button class="form-control input-default" style="background: #593bdb; color: white;">&nbsp-&nbsp</button></td>
-                                            </tr>
+                                        	<c:forEach var="addr" items="${ list }">
+	                                        	<c:if test="${ empty list }">
+	                                        		<tr>
+	                                        			<td colspan="7">조회된 사원이 없습니다.</td>
+	                                        		</tr>
+	                                        	</c:if>
+	                                        	<c:if test="${ !empty list && loginUser != addr.mId }">
+		                                            <tr id="info">
+		                                            	<td></td>
+		                                                <td id="name">${ addr.mName }
+		                                                <input type="hidden" class="mId" value="${ addr.mId }">
+		                                                </td>
+		                                                <td id="job">${ addr.jobName }</td>
+		                                                <td id="dept">${ addr.deptName }</td>
+		                                                <td id="phone">${ addr.phone }</td>
+		                                                <td id="email">${ addr.email }</td>
+		                                                <td><button class="form-control input-default addrPlus" style="background: #593bdb; color: white;">&nbsp+&nbsp</button></td>
+		                                            </tr>
+	                                            </c:if>
+	                                        </c:forEach>
                                             <tr>
                                         		<td style="text-align:center" colspan="7">
                                         			<div style="display:inline-block;">
@@ -225,6 +173,7 @@
                             </div>
                         </div>
                     </div>
+                </div>
             </div>
         </div>
         
