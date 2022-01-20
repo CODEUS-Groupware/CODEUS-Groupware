@@ -43,7 +43,7 @@
 		<result column="ENROLL_DATE" property="enrollDate"/>
 		<result column="form_name" property="formName"/>
 		<result column="leave_name" property="leaveName"/>
-		<result column="leaveNum" property="leaveNum"/>
+		<result column="leave_num" property="leaveNum"/>
 		<result column="usedLeave" property="usedLeave"/>
 		
 	
@@ -52,29 +52,7 @@
 	
 	
   	<select id="selectLrCount" parameterType="string" resultType="_int">
-  		<!-- <![CDATA[
-  		select DISTINCT(SELECT SUM(annual_count) 
-                  FROM annual_leave a
-                  where a.m_id = #{id}
-                  group by a.m_id) totalLeave,
-       (select count(*)
-                  from leave_recode l
-                  where l.m_id = #{id}
-                        and leave_status = '승인'
-                        and leave_use_date <= sysdate) usedLeave, 
-       (SELECT SUM(annual_count) 
-                 FROM annual_leave a
-                 where a.m_id = #{id}
-                 group by a.m_id) - (select count(*)
-                                    from leave_recode l
-                                    where l.m_id = #{id}
-                                          and leave_status = '승인'
-                                          and leave_use_date <= sysdate) restLeveCount                 
-		from leave_recode l
-		 where l.m_id = #{id}
-		 ]]> 
- -->
- 
+  
 	<![CDATA[
 		select count(*) usedLeave
         from leave_recode 
@@ -84,18 +62,8 @@
 	]]> 
   	</select>
   	<select id="selectUsedCount" parameterType="string" resultMap="lrResultSet">
-  		<!-- select sum(annual) usedLeave
-		from         
-		(select al.m_id,annual_count, form_name, d.doc_num,d.DOC_START_DATE, d.DOC_END_DATE, m.m_name, (DOC_END_DATE-DOC_START_DATE+1) annual
-		from annual_leave al
-		    left join member m on (m.m_id = al.m_id)
-		    left join document d on (m.m_id = d.DRAFTER_M_ID)
-		    left join document_form df on (d.form_num = df.form_num)
-		where al.m_id = #{id}
-		     and df.form_num = 4
-		     and d.DOC_APPROVAL_STATUS = 2)
-		group by m_id   -->
-		select sum((LEAVE_END_DATE-LEAVE_START_DATE)) usedLeave
+ 
+		select sum((LEAVE_END_DATE-LEAVE_START_DATE+1)) usedLeave
 		from leave_recode    
 		where m_id = #{id}
 		    and LEAVE_STATUS = 2
@@ -104,72 +72,69 @@
   	<!-- annualLeaveMain에 최신 3개글만 조회되게 하기 -->
 	<select id="selectAnnualList" resultMap="LeaveRecodeResultSet"> 
 	<![CDATA[
-		select rownum,doc_num leaveNum, DOC_NAME leave_name, DOC_CONTENT LEAVE_REASON, DOC_CREATE_DATE ENROLL_DATE,DOC_APPROVAL_STATUS LEAVE_STATUS,  
-       form_name
-		from       
-		(select doc_num,DOC_NAME, DOC_CONTENT, DOC_CREATE_DATE,DOC_APPROVAL_STATUS,  DOC_START_DATE,DOC_END_DATE,df.form_name,
-		        (DOC_END_DATE-DOC_START_DATE+1) annual
-		 from document d
-		    left join document_form df on (d.form_num = df.form_num)
-		 where DRAFTER_M_ID = #{id}
-		        and df.form_num = 4
-		 order by DOC_NUM desc)
+		select LEAVE_NUM,DOC_NAME leave_name, LEAVE_STATUS, ENROLL_DATE,LEAVE_REASON, LEAVE_TYPE, form_name        
+		 from       
+			 (select LEAVE_NUM,DOC_NAME, LEAVE_START_DATE, LEAVE_END_DATE, LEAVE_STATUS, ENROLL_DATE,LEAVE_REASON, LEAVE_TYPE, form_name
+			 from leave_recode
+			    left join document d on (LEAVE_NUM=DOC_NUM)
+			    left join document_form df on (d.form_num = df.form_num)
+			where m_id = #{id}
+			order by leave_num desc)
 		where rownum <= 3
 	]]>	
 	</select>
 	<select id="getAnnualListCount" resultType="_int">
 		select count(*)
-			from document
-			where DRAFTER_M_ID = #{id}
-			    and form_num = 4
+		from leave_recode
+		where M_ID = #{id}
 	
 	</select>
 	<!-- 페이징처리하여 게시글 불러오기 -->
 	<select id="getSelectAnnualList" resultMap="LeaveRecodeResultSet">
-		select doc_num leaveNum, doc_content leave_reason, DOC_APPROVAL_STATUS LEAVE_STATUS,DOC_CREATE_DATE ENROLL_DATE, df.form_name form_name,d.doc_name leave_name
-		from document d
-            left join document_form df on (d.form_num = df.form_num)
-            left join member m on (d.DRAFTER_M_ID = m.m_id)
-		where d.form_num=4
-            and DRAFTER_M_ID = #{id}
-		order by doc_num desc	
+		select LEAVE_NUM,DOC_NAME leave_name, LEAVE_STATUS, ENROLL_DATE,LEAVE_REASON, LEAVE_TYPE, form_name        
+		 from       
+			 (select LEAVE_NUM,DOC_NAME, LEAVE_START_DATE, LEAVE_END_DATE, LEAVE_STATUS, ENROLL_DATE,LEAVE_REASON, LEAVE_TYPE, form_name
+			 from leave_recode
+			    left join document d on (LEAVE_NUM=DOC_NUM)
+			    left join document_form df on (d.form_num = df.form_num)
+			where m_id = #{id}
+			order by leave_num desc)	
 	</select>
 	<select id="getAnnualSearchResultListCount" resultType="_int">
 		select count(*)
-		from document d
-            left join document_form df on (d.form_num = df.form_num)
-            left join member m on (d.DRAFTER_M_ID = m.m_id)
-		where d.form_num=1
-            and DRAFTER_M_ID = #{id}
+		from leave_recode
+			left join document on (LEAVE_NUM=DOC_NUM)
+		where M_ID = #{id}
 		<if test="condition == 'status'">
-			and DOC_APPROVAL_STATUS=to_number(#{value})
+			and LEAVE_STATUS=to_number(#{value})
 		</if>
 		<if test="condition == 'title'">
 			and DOC_NAME like '%' || #{value} || '%'
 		</if>
 		<if test="condition == 'content'">
-			 and DOC_CONTENT like '%' ||#{value} || '%'
+			 and LEAVE_REASON like '%' ||#{value} || '%'
 		</if>	  
 	</select>
 	<select id="selectSearchAnnualResultList" resultMap="LeaveRecodeResultSet">
-		select doc_num leaveNum, doc_content leave_reason, DOC_APPROVAL_STATUS LEAVE_STATUS,DOC_CREATE_DATE ENROLL_DATE, df.form_name form_name,d.doc_name leave_name
-		from document d
-            left join document_form df on (d.form_num = df.form_num)
-            left join member m on (d.DRAFTER_M_ID = m.m_id)
-		where d.form_num=4
-            and DRAFTER_M_ID = #{id}			
+		select LEAVE_NUM,DOC_NAME leave_name, LEAVE_STATUS, ENROLL_DATE,LEAVE_REASON, LEAVE_TYPE, form_name        
+		 from       
+			 (select LEAVE_NUM,DOC_NAME, LEAVE_START_DATE, LEAVE_END_DATE, LEAVE_STATUS, ENROLL_DATE,LEAVE_REASON, LEAVE_TYPE, form_name
+			 from leave_recode
+			    left join document d on (LEAVE_NUM=DOC_NUM)
+			    left join document_form df on (d.form_num = df.form_num)
+			where m_id = #{id}			
 		<choose>
 			<when test="condition == 'status'">
-				and DOC_APPROVAL_STATUS=to_number(#{value})
+				and LEAVE_STATUS=to_number(#{value})
 			</when>
 			<when test="condition == 'title'">
 				and DOC_NAME like '%' || #{value} || '%'
 			</when>
 			<otherwise>
-				 and DOC_CONTENT like '%' ||#{value} || '%'
+				 and LEAVE_REASON like '%' ||#{value} || '%'
 			</otherwise>
 		</choose>
-		order by doc_num desc
+		order by leave_num desc
 	</select>
   
   
