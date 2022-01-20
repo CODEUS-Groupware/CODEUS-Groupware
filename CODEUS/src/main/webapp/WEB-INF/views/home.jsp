@@ -66,6 +66,9 @@
                             	<br><br>
                                 <div id="nowDateArea"  align="center">
                                 	<!-- 현재 시간 -->
+                                	 <c:set var="today" value="<%=new java.util.Date()%>" />
+                                	 <c:set var="date"><fmt:formatDate value="${today}" pattern="yyyy-MM-dd(E)" /></c:set>
+									 <c:out value="${date}" />
 									<div id="clock" align="center"></div>
 									<br>
 									<!-- 출퇴근 버튼 -->

@@ -21,11 +21,14 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
 <style>
+.container-fluid{
+	
+	}
 #nowDateArea{
 		color:black;
 	}
 	#clock{
-		font-size:42px;
+		font-size:35px;
 		margin-bottom: 15px;
 		color:black;
 	}
@@ -364,7 +367,7 @@
                 	<div class="row">
                     </div>
                 </div>
-            </div>
+           
             
                  <div class="row">
                     <div class="col-lg-3">
@@ -410,17 +413,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="accordion__item">
-                                        <div class="accordion__header collapsed" data-toggle="collapse" data-target="#default_collapseFour">
-                                            <span class="accordion__header--text">내 부서 연차현황</span>
-                                            <span class="accordion__header--indicator"></span>
-                                        </div>
-                                        <div id="default_collapseFour" class="collapse accordion__body" data-parent="#accordion-one">
-                                            <div class="accordion__body--text">
-                                             	<a href="deptLeaveStatus.al" style="color:black;"><p>연차 사용현황</p></a>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                            
@@ -429,8 +421,9 @@
                     </div>
                      
    
-            </div>
-            </div>
+            		</div>
+            	</div>
+             </div>
         </div>
         <!--**********************************
             Content body end
