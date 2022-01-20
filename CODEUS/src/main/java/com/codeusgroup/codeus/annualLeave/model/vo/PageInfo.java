@@ -1,4 +1,4 @@
-package com.codeusgroup.codeus.leaveRecode.model.vo;
+package com.codeusgroup.codeus.annualLeave.model.vo;
 
 public class PageInfo {
 	

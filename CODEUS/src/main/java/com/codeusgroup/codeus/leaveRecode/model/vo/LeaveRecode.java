@@ -12,6 +12,10 @@ public class LeaveRecode {
 	private int totalLeave;
 	private int usedLeave;
 	private int restLeveCount;
+	private String leaveName;
+	private String formName;
+	private int leaveNum;
+	
 	
 	public LeaveRecode() {}
 
@@ -27,6 +31,61 @@ public class LeaveRecode {
 		this.totalLeave = totalLeave;
 		this.usedLeave = usedLeave;
 		this.restLeveCount = restLeveCount;
+	}
+	
+
+	
+	
+	
+
+	
+	
+	
+
+	public LeaveRecode(Date leaveUseDate, String mId, String leaveReason, String leaveType, String leaveStatus,
+			Date enrollDate, int totalLeave, int usedLeave, int restLeveCount, String leaveName, String formName,
+			int leaveNum) {
+		super();
+		this.leaveUseDate = leaveUseDate;
+		this.mId = mId;
+		this.leaveReason = leaveReason;
+		this.leaveType = leaveType;
+		this.leaveStatus = leaveStatus;
+		this.enrollDate = enrollDate;
+		this.totalLeave = totalLeave;
+		this.usedLeave = usedLeave;
+		this.restLeveCount = restLeveCount;
+		this.leaveName = leaveName;
+		this.formName = formName;
+		this.leaveNum = leaveNum;
+		
+	}
+
+	
+	
+
+	public int getLeaveNum() {
+		return leaveNum;
+	}
+
+	public void setLeaveNum(int leaveNum) {
+		this.leaveNum = leaveNum;
+	}
+
+	public String getLeaveName() {
+		return leaveName;
+	}
+
+	public void setLeaveName(String leaveName) {
+		this.leaveName = leaveName;
+	}
+
+	public String getFormName() {
+		return formName;
+	}
+
+	public void setFormName(String formName) {
+		this.formName = formName;
 	}
 
 	public int getTotalLeave() {
@@ -107,27 +166,13 @@ public class LeaveRecode {
 		this.leaveType = leaveType;
 	}
 
-
-
-
-
-
-
-
-
 	@Override
 	public String toString() {
 		return "LeaveRecode [leaveUseDate=" + leaveUseDate + ", mId=" + mId + ", leaveReason=" + leaveReason
 				+ ", leaveType=" + leaveType + ", leaveStatus=" + leaveStatus + ", enrollDate=" + enrollDate
 				+ ", totalLeave=" + totalLeave + ", usedLeave=" + usedLeave + ", restLeveCount=" + restLeveCount
-				+ "]";
+				+ ", leaveName=" + leaveName + ", formName=" + formName + ", leaveNum=" + leaveNum    + "]";
 	}
-
-	
-
-
-
-
 
 	
 

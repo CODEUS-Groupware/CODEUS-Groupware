@@ -21,10 +21,14 @@
 	.container-fluid{
 	
 	}
+	#nowDateArea{
+		color:black;
+	}
 	
 	#clock{
 		font-size:42px;
 		margin-bottom: 15px;
+		color:black;
 	}
 
 	.dropdown{
@@ -56,11 +60,19 @@
 	}
 	#workInTime, #workOutTime{
 		border:none;
-		color: #BDBDC7;
+		color: black;
 		float: right;
 	}
 	#workingTime{
 		font-size:25px;
+	}
+	#leaveCount th, #leaveCount td{
+		width:350px;
+		font-family: 'Roboto', sans-serif;
+		font-size: 12px;
+	}
+	#leaveCount th{
+		border-bottom: 1px solid #EEEEEE;
 	}
 
 
@@ -100,7 +112,7 @@
 									 <c:out value="${date}" />
 									 <div id="clock"></div>
 								</div>
-								<ul>
+								<ul  style="color:black;" >
 									<li>
 										출근시간
 										<c:choose>
@@ -113,8 +125,7 @@
 										</c:choose>											
 									</li>
 									<li>
-										<dl>
-											<dt>퇴근시간
+										퇴근시간
 											<c:choose>
 												<c:when test="${empStatus1 != null }">
 													<input id="workOutTime" name="workOutTime" value="${empStatus1.getEmpOffTime()}">
@@ -123,8 +134,7 @@
 													<input id="workOutTime" name="workOutTime">
 												</c:otherwise>
 											</c:choose>	
-											</dt>
-										</dl>
+											
 									</li>
 								</ul>
 								<div class="basic-dropdown">
@@ -168,37 +178,71 @@
                             </div>                        		                   
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table student-data-table m-t-20">
-                                        
-                                      
+                                    <table id="leaveList" class="table table-hover table-responsive-sm" style="color: black; text-align: center;">
+                                   		<thead>	
                                             <tr>
-                                                <td>
+                                            	<th style="width: 100px;">
+													결재번호
+                                                </th> 
+                                                <th style="width: 100px;">
 													상태
-                                                </td> 
-                                                <td>
+                                                </th> 
+                                                <th style="width: 150px;">
 													신청날짜
-                                                </td> 
-                                                <td>
-													내용
-                                                </td>                                               
+                                                </th>
+                                                <th style="width: 150px;">
+													결재양식
+                                                </th> 
+                                                <th>
+													제목
+                                                </th>                                               
                                             </tr>
-                                            <c:forEach var="lr" items="${ list }">
-                                            <tr>
-                                                <td style="border: 1px solid #eaeaea;">
-													${lr.leaveStatus }
-                                                </td> 
-                                                <td style="border: 1px solid #eaeaea;">
-													 ${lr.enrollDate}
-                                                </td> 
-                                                <td style="border: 1px solid #eaeaea;">
-													 ${lr.leaveReason }
-                                                </td>                                               
-                                            </tr>
-                                            </c:forEach> 
-                                      
+                                        </thead>
+                                        <tbody>
+                                        	<c:if test="${lrList ne null }">
+	                                            <c:forEach var="lr" items="${ lrList }">
+	                                            <tr>                                            
+	                                            	<td>
+														${lr.leaveNum }
+	                                                </td> 
+	                                                <td>
+														${lr.leaveStatus }
+	                                                </td> 
+	                                                <td>
+														 ${lr.enrollDate}
+	                                                </td> 
+	                                                <td>
+														 ${lr.formName }
+	                                                </td>
+	                                                <td>
+														 ${lr.leaveName }
+	                                                </td>                                               
+	                                            </tr>
+	                                            </c:forEach> 
+	                                       </c:if>
+	                                       <c:if test="${empty lrList}">
+	                                       	<tr>
+	                                       		<td colspan="5">등록된 결재가 없습니다.</td>
+	                                       	</tr>
+	                                       </c:if>     
+                                      	</tbody>
                                     </table>
                                 </div>
                             </div>
+                             <script>
+								$(function(){
+									$('#leaveList td').mouseenter(function(){
+										$(this).parent().css({'color':'yellowgreen', 'font-weight':'bold', 'cursor':'pointer'});
+									}).mouseout(function(){
+										$(this).parent().css({'color':'black','font-weight':'normal'});
+									}).click(function(){
+										var bId = $(this).parent().children().eq(0).text();
+										location.href="bdetail.bo?bId=" + bId;
+									});
+								});
+							
+						
+						</script> 
                         </div>
                     </div>
                     <div class="col-xl-12 col-xxl-6 col-lg-6 col-md-12">
@@ -216,12 +260,12 @@
                                 <div id="accordion-one" class="accordion">
                                     <div class="accordion__item">
                                         <div class="accordion__header collapsed" data-toggle="collapse" data-target="#default_collapseOne">
-                                            <span class="accordion__header--text">내 근태현황</span>
+                                            <span class="accordion__header--text" >내 근태현황</span>
                                             <span class="accordion__header--indicator"></span>
                                         </div>
                                         <div id="default_collapseOne" class="collapse accordion__body" data-parent="#accordion-one">
                                             <div class="accordion__body--text">
-                                                <a href="empStatusTotal.em"><p>누적 근태현황</p></a>
+                                                <a href="empStatusTotal.em"  style="color:black;"><p>누적 근태현황</p></a>
                                             </div>
                                         </div>
                                     </div>
@@ -232,8 +276,8 @@
                                         </div>
                                         <div id="default_collapseTwo" class="collapse accordion__body" data-parent="#accordion-one">
                                             <div class="accordion__body--text">
-                                                  <a href="annualLeaveMain.al"><p>연차 사용현황</p></a>
-                                                  <a href="annualLeaveTotal.al"> <p>연차 신청현황</p></a>
+                                                  <a href="annualLeaveMain.al"  style="color:black;"><p>연차 사용현황</p></a>
+                                                  <a href="annualLeaveTotal.al"  style="color:black;"> <p>연차 신청현황</p></a>
                                             </div>
                                         </div>
                                     </div>
@@ -245,7 +289,7 @@
                                         </div>
                                         <div id="default_collapseThree" class="collapse accordion__body" data-parent="#accordion-one">
                                             <div class="accordion__body--text">
-                                             	 <a href="deptEmpStatus.em"><p>누적 근태현황</p></a>
+                                             	 <a href="deptEmpStatus.em"  style="color:black;"><p>누적 근태현황</p></a>
                                             </div>
                                         </div>
                                     </div>
@@ -256,7 +300,7 @@
                                         </div>
                                         <div id="default_collapseFour" class="collapse accordion__body" data-parent="#accordion-one">
                                             <div class="accordion__body--text">
-                                             <a href="deptLeaveStatus.al"><p>연차 사용현황</p></a>
+                                             <a href="deptLeaveStatus.al"  style="color:black;"><p>연차 사용현황</p></a>
                                             </div>
                                         </div>
                                     </div>
@@ -268,35 +312,51 @@
                     </div>
                      <div class="col-lg-9">
                         <div class="card">
-                            <div class="card-header">
-                                <span id="totalTitle" class="card-title">내 연차 현황</span>
+                            <div class="card-header" >
+                                <span id="totalTitle" class="card-title" >내 연차 현황</span>
                    					
                             </div>
                             <div class="card-body">
-                                <table class="table student-data-table m-t-20">
-
-                                	 <tr>
-                                     	<td>
-											총연차
-                                        </td> 
-                                        <td>
-											사용연차
-                                        </td> 
-                                        <td>
-											잔여연차
-                                        </td>                                               
-                                     </tr>
-                                     <tr>
-                                        <td style="border: 1px solid #eaeaea; height: 90px;" id="annualLeaveTotal">
-											${ alCount }
-                                        </td> 
-                                        <td style="border: 1px solid #eaeaea;" id="usedAnnualLeave">
-											
-                                        </td> 
-                                           <td style="border: 1px solid #eaeaea;" id="restAnnualLeave">
-											
-                                        </td> 
-                                   </tr>   
+                                <table id="leaveCount" style="color: black; text-align: center;">
+                                   	<thead>	
+	                                	 <tr>
+	                                     	<th>
+												총연차
+	                                        </th> 
+	                                        <th>
+												사용연차
+	                                        </th> 
+	                                        <th>
+												잔여연차
+	                                        </th>                                               
+	                                     </tr>
+	                                 </thead>
+	                                 <tbody>
+	                                     <tr>
+	                                        <td style="height: 90px;" id="annualLeaveTotal">
+												${ alCount }
+	                                        </td>
+	                                        <c:if test="${lr ne null }">
+	                                        <td id="usedAnnualLeave">
+												${lr.usedLeave}
+	                                        </td>
+	                                        <td id="restAnnualLeave">
+												${ alCount - lr.usedLeave }
+	                                        </td>  
+	                                        </c:if>
+	                                        <c:if test="${lr eq null }">
+	                                        	 <td id="usedAnnualLeave">
+												0
+	                                        </td>
+	                                        <td id="restAnnualLeave">
+												${ alCount - 0 }
+	                                        </td> 
+	                                        </c:if> 
+	                                           <%-- <td id="restAnnualLeave">
+												${ alCount - lr.usedCount }
+	                                        </td>  --%>
+	                                   </tr> 
+	                               </tbody>    
                                 </table>
                                 </div>
                             </div>

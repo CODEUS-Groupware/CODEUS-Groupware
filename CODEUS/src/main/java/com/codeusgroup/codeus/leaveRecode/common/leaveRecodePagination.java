@@ -1,6 +1,6 @@
 package com.codeusgroup.codeus.leaveRecode.common;
 
-import com.codeusgroup.codeus.leaveRecode.model.vo.PageInfo;
+import com.codeusgroup.codeus.annualLeave.model.vo.PageInfo;
 
 public class leaveRecodePagination {
 	public static PageInfo getPageInfo(int currentPage, int listCount) {

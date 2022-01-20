@@ -20,10 +20,14 @@
 	.container-fluid{
 	
 	}
+	#nowDateArea{
+		color:black;		
+	}
 	
 	#clock{
 		font-size:42px;
 		margin-bottom: 15px;
+		color:black;
 	}
 
 	.dropdown{
@@ -57,10 +61,23 @@
 		border:none;
 		color: #BDBDC7;
 		float: right;
+		color:black;
 	}
 	#workingTime, #workingTime1{
 		font-size:25px;
 	}
+	#WorkTable th, td{
+		color:black;
+	
+	}
+	#workTable td{
+			border-top:1px solid black;
+	}
+	#dailyDateArea{
+		float:left;
+	}
+	
+
 	
 
 </style>
@@ -100,7 +117,7 @@
 									 <c:out value="${date}" />
 									 <div id="clock"></div>
 								</div>
-								<ul>
+								<ul style="color:black;">
 									<li>
 										출근시간
 										<c:choose>
@@ -113,8 +130,7 @@
 										</c:choose>											
 									</li>
 									<li>
-										<dl>
-											<dt>퇴근시간
+										퇴근시간
 											<c:choose>
 												<c:when test="${empStatus1 != null }">
 													<input id="workOutTime" name="workOutTime" value="${empStatus1.getEmpOffTime()}">
@@ -123,8 +139,7 @@
 													<input id="workOutTime" name="workOutTime">
 												</c:otherwise>
 											</c:choose>	
-											</dt>
-										</dl>
+											
 									</li>
 								</ul>
 								<div class="basic-dropdown">
@@ -176,11 +191,11 @@
                             </div>                        		                   
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table student-data-table m-t-20">
+                                	<table id="WorkTable" class="table table-hover table-responsive-sm" style="color: black; text-align: center;">                              
                                         <thead>
                                             <tr>
                                                 <th>
-                                                	<div id="nowDateArea">
+                                                	<div id="dailyDateArea">
 					                                	<c:set var="date"><fmt:formatDate value="${today}" pattern="yyyy-MM-dd(E)" /></c:set>
 														 <c:out value="${date}" />
 														 <div id="clock"></div>
@@ -188,7 +203,7 @@
 												</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody style="color:black;">
                                             <tr>
                                                 <td>
 													업무시간
@@ -200,27 +215,27 @@
                                             <tr>
                                             <c:choose>
                                             	<c:when test="${empStatus1.getEmpStatus() eq '업무종료' && empStatus1.getEmpOffTime() ne null}">                                           		                                            			
-			                                           <td style="border: 1px solid #eaeaea; height: 90px;" id="workingTime">
+			                                           <td style="height: 90px;" id="workingTime">
 			                                                	${ empStatus1.strGapTime }
 			                                           </td>
 			                                       <c:choose>
 			                                            <c:when test="${empStatus1.getOverTime() ne null}">
-			                                                <td style="border: 1px solid #eaeaea;" id="overTime">
+			                                                <td id="overTime">
 																 ${ empStatus1.strOverTime }
 			                                                </td>
 			                                            </c:when>
 			                                            <c:otherwise>
-			                                            	<td style="border: 1px solid #eaeaea;" id="overTime">
+			                                            	<td id="overTime">
 																 
 			                                                </td>
 			                                            </c:otherwise> 
 		                                            </c:choose>
 	                                            </c:when>
 	                                            <c:otherwise>
-	                                            	<td style="border: 1px solid #eaeaea; height: 90px;" id="workingTime1">
+	                                            	<td style="height: 90px;" id="workingTime1">
 																
 			                                        </td>
-			                                        <td style="border: 1px solid #eaeaea;" id="overTime">
+			                                        <td id="overTime">
 																 
 			                                        </td>
 	                                            </c:otherwise>
@@ -253,7 +268,7 @@
                                         
                                         <div id="default_collapseOne" class="collapse accordion__body" data-parent="#accordion-one">
                                             <div class="accordion__body--text">
-                                                <a href="empStatusTotal.em"><p>누적 근태현황</p></a>
+                                                <a href="empStatusTotal.em" style="color:black;"><p>누적 근태현황</p></a>
                                             </div>
                                         </div>
                                     </div>
@@ -264,8 +279,8 @@
                                         </div>
                                         <div id="default_collapseTwo" class="collapse accordion__body" data-parent="#accordion-one">
                                             <div class="accordion__body--text">
-                                                  <a href="annualLeaveMain.al"><p>연차 사용현황</p></a>
-                                                  <a href="annualLeaveTotal.al"> <p>연차 신청현황</p></a>
+                                                  <a href="annualLeaveMain.al" style="color:black;"><p>연차 사용현황</p></a>
+                                                  <a href="annualLeaveTotal.al" style="color:black;"> <p>연차 신청현황</p></a>
                                             </div>
                                         </div>
                                     </div>
@@ -277,7 +292,7 @@
                                         </div>
                                         <div id="default_collapseThree" class="collapse accordion__body" data-parent="#accordion-one">
                                             <div class="accordion__body--text">
-                                             	<a href="deptEmpStatus.em"><p>누적 근태현황</p></a>
+                                             	<a href="deptEmpStatus.em" style="color:black;"><p>누적 근태현황</p></a>
                                             </div>
                                         </div>
                                     </div>
@@ -288,7 +303,7 @@
                                         </div>
                                         <div id="default_collapseFour" class="collapse accordion__body" data-parent="#accordion-one">
                                             <div class="accordion__body--text">
-                                             	<a href="deptLeaveStatus.al"><p>연차 사용현황</p></a>
+                                             	<a href="deptLeaveStatus.al" style="color:black;"><p>연차 사용현황</p></a>
                                             </div>
                                         </div>
                                     </div>
@@ -307,24 +322,25 @@
                             
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table student-data-table m-t-20" id="totalWorkTime">
-                                        
-                                        <tbody>
+                                <table id="totalWorkTime" class="table table-hover table-responsive-sm" style="color: black; text-align: center;">                              
+                                        <thead>                                        
                                             <tr>
-                                                <td>
+                                                <th>
 													이번 주 업무시간
-                                                </td> 
-                                                <td>
+                                                </th> 
+                                                <th> 
 													이번 주 초과근무시간
-                                                </td>  
-                                                <td>
+                                                </th>  
+                                                <th>
 													이번 달 업무시간
-                                                </td> 
-                                                <td>
+                                                </th> 
+                                                <th>
 													이번 달 초과근무시간
-                                                </td>                                                
+                                                </th>                                                
                                             </tr>
                                             <tr>
+                                       </thead>
+                                       <tbody>
                                           <c:choose>
                                             	<c:when test="${empWeekTime.strGapTime ne '::' || empWeekTime.strGapTime ne null}">
 	                                                <td style="height: 90px; font-size:25px;">
@@ -354,15 +370,13 @@
                                                 <td style="height: 90px; font-size:25px;">
 													${empWeekTime.strOverTime }
                                                 </td>   --%>
-                                                 <td style="height: 90px; font-size:25px;">
+                                                 <td style="height: 90px; font-size:25px;" >
 													${empMonthTime.strGapTime }
                                                 </td> 
                                                 <td style="height: 90px; font-size:25px;">
 													${empMonthTime.strOverTime }
-                                                </td>
-                                                                                               
+                                                </td>                                                                                               
                                             </tr>
-                                            
                                         </tbody>
                                     </table>
                                 </div>

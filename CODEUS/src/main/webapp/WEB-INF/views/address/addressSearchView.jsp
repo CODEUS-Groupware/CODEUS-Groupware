@@ -121,12 +121,14 @@
                                         	<c:if test="${ !empty list && loginUser != addr.mId }">
 	                                            <tr id="info">
 	                                            	<td></td>
-	                                                <td id="name">${ addr.mName }</td>
+	                                                <td id="name">${ addr.mName }
+	                                                <input type="hidden" class="mId" value="${ addr.mId }">
+	                                                </td>
 	                                                <td id="job">${ addr.jobName }</td>
 	                                                <td id="dept">${ addr.deptName }</td>
 	                                                <td id="phone">${ addr.phone }</td>
 	                                                <td id="email">${ addr.email }</td>
-	                                                <td><button id="addrPlus" class="form-control input-default" style="background: #593bdb; color: white;">&nbsp+&nbsp</button></td>
+	                                                <td><button class="form-control input-default addrPlus" style="background: #593bdb; color: white;">&nbsp+&nbsp</button></td>
 	                                            </tr>
                                             </c:if>
                                         </c:forEach>
@@ -134,7 +136,7 @@
                                         		<td style="text-align:center" colspan="7">
                                         			<div style="display:inline-block;">
 					                                    <nav>
-						                                    <ul class="pagination pagination-xs">
+						                                    <ul class="pagination pagination-xs pagination-circle">
 						                                    	
 						                                    	<!-- 이전 -->
 						                                        <li class="page-item page-indicator">
@@ -256,15 +258,17 @@
 		});
 		
 		// 주소록 추가 버튼
-		$('#addrPlus').click(function() {
-			var tdName = $('#mSearchList td').parent().children().eq(1).text();
+		$('.addrPlus').click(function() {
+			var thisRow = $(this).closest('tr');
+			var mId = thisRow.find('td:eq(1)').find('input').val();
 			
 			$.ajax({
 				url: "add.addr",
-				data: {tdName:tdName},
+				data: {mId:mId},
 				type: "POST",
 				successs: function(data) {
 					console.log(data);
+					alert("추가되었습니다.");
 				},
 				error: function() {
 					console.log(data);

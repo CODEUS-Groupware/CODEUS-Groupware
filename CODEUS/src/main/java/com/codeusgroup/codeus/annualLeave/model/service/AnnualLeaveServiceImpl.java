@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.codeusgroup.codeus.annualLeave.model.dao.AnnualLeaveDAO;
 import com.codeusgroup.codeus.annualLeave.model.vo.AnnualLeave;
+import com.codeusgroup.codeus.annualLeave.model.vo.PageInfo;
+import com.codeusgroup.codeus.document.model.vo.Document;
 import com.codeusgroup.codeus.leaveRecode.model.vo.LeaveRecode;
 import com.codeusgroup.codeus.member.model.vo.Member;
 
@@ -76,6 +78,23 @@ public class AnnualLeaveServiceImpl implements AnnualLeaveService{
 		return alDAO.insertAnnualCount(sqlSession, map);
 	}
 
+	@Override
+	public int updateAnnualCount(HashMap<String, String> map) {
+		
+		return alDAO.updateAnnualCount(sqlSession, map);
+	}
+
+	
+
+	
+
+	
+
+
+	
+
+	
+	
 
 
 	

@@ -5,7 +5,7 @@
  		<setting name="jdbcTypeForNull" value="NULL"/> 
  	</settings>
  	
- 	<typeAliases>
+	<typeAliases>
  		<typeAlias type="com.codeusgroup.codeus.member.model.vo.Member" alias="Member"/>
  		<typeAlias type="com.codeusgroup.codeus.admin.model.vo.Department" alias="Department"/>
  		<typeAlias type="com.codeusgroup.codeus.admin.model.vo.Job" alias="Job"/>

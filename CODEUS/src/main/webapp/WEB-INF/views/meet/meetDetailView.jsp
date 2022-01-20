@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-    <title>회의실 예약 - 예약 조회 </title>
+    <title>회의실 예약 - 조회 하기 </title>
     <!-- Custom Stylesheet -->
     <link href="${contextPath}/resources/assets/css/style.css" rel="stylesheet">
 
@@ -28,14 +28,17 @@
                 <div class="row page-titles mx-0">
                     <div class="col-sm-6 p-md-0">
                         <div class="welcome-text">
-                            <h4>예약 조회</h4>
+                            <h4>예약 정보</h4>
                         </div>
                     </div>
+                    <c:url var="mrlist" value="mrlist.mr">
+                        <c:param name="page1" value="${ page1 }"/>
+                    </c:url>
                     <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">회의실 예약</li>
-                            <li class="breadcrumb-item active"><a href="mrlist.mr">예약 목록</a></li>
-                            <li class="breadcrumb-item active"><a href="javascript:void(0)">예약 조회</a></li>
+                            <li class="breadcrumb-item active"><a href="${ mrlist }">예약 목록</a></li>
+                            <li class="breadcrumb-item active"><a href="javascript:void()">예약 정보</a></li>
                         </ol>
                     </div>
                 </div>
@@ -44,93 +47,80 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">예약 정보 입력</h4>
+                                <h4 class="card-title">예약 정보 조회</h4>
                             </div>
                             <div class="card-body">
                                 <div class="form-validation">
-                                    <form class="form-valide" action="#" method="post">
-                                        <div class="row">
-                                            <div class="col-xl-6">
-                                                <div class="form-group row">
-                                                    <label class="col-lg-4 col-form-label" for="username">사원명</label>
-                                                    <div class="col-lg-6">
-                                                        <input type="text" class="form-control" id="username" name="username" value="${ loginUser.mName != NULL ? loginUser.mName : '-' }" readonly>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label class="col-lg-4 col-form-label" for="email">이메일</label>
-                                                    <div class="col-lg-6">
-                                                        <input type="text" class="form-control" id="email" name="email" value="${ loginUser.email != NULL ? loginUser.email : '-' }" readonly>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label class="col-lg-4 col-form-label" for="jobName">직위</label>
-                                                    <div class="col-lg-6">
-                                                        <input type="text" class="form-control" id="jobName" name="jobName" value="${ loginUser.jobName != NULL ? loginUser.jobName : '-' }" readonly>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label class="col-lg-4 col-form-label" for="deptName">부서</label>
-                                                    <div class="col-lg-6">
-                                                        <input type="text" class="form-control" id="deptName" name="deptName" value="${ loginUser.deptName != NULL ? loginUser.deptName : '-' }" readonly>
-                                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-6">
+                                            <div class="form-group row">
+                                                <label class="col-lg-4 col-form-label" for="mName">사원명</label>
+                                                <div class="col-lg-6">
+                                                    <input type="text" class="form-control" id="mName" name="mName" value="${ mr.mName != NULL ? mr.mName : '-' }" readonly>
                                                 </div>
                                             </div>
-                                            <div class="col-xl-6">
-                                                <div class="form-group row">
-                                                    <label class="col-lg-4 col-form-label" for="room">예약할 회의실
-                                                        <span class="text-danger">*</span>
-                                                    </label>
-                                                    <div class="col-lg-6">
-                                                        <select class="form-control" id="rooml" name="room">
-                                                            <option value="">회의실을 선택해주세요.</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label class="col-lg-4 col-form-label" for="date">예약날짜
-                                                        <span class="text-danger">*</span>
-                                                    </label>
-                                                    <div class="col-lg-6">
-                                                        <input name="datepicker" class="datepicker-default form-control" id="date">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label class="col-lg-4 col-form-label" for="start">시작시간
-                                                        <span class="text-danger">*</span>
-                                                    </label>
-                                                    <div class="col-lg-6 input-group clockpicker">
-                                                        <input type="text" class="form-control" value="09:00" id="start"> <span class="input-group-append"><span class="input-group-text"><i
-                                                                    class="fa fa-clock-o"></i></span></span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label class="col-lg-4 col-form-label" for="end">종료시간
-                                                        <span class="text-danger">*</span>
-                                                    </label>
-                                                    <div class="col-lg-6 input-group clockpicker">
-                                                        <input type="text" class="form-control" value="10:00" id="end"> <span class="input-group-append"><span class="input-group-text"><i
-                                                                    class="fa fa-clock-o"></i></span></span>
-                                                    </div>
+                                            <div class="form-group row">
+                                                <label class="col-lg-4 col-form-label" for="email">이메일</label>
+                                                <div class="col-lg-6">
+                                                    <input type="text" class="form-control" id="email" name="email" value="${ mr.email != NULL ? mr.email : '-' }" readonly>
                                                 </div>
                                             </div>
-                                            <div class="col-xl-12">
-                                                <div class="form-group row">
-                                                    <label class="col-lg-2 col-form-label" for="content">예약목적
-                                                        <span class="text-danger">*</span>
-                                                    </label>
-                                                    <div class="col-lg-10 form-group">
-                                                        <textarea class="form-control" rows="6" id="content" placeholder="예약목적을 작성해주세요.."></textarea>
-                                                    </div>
+                                            <div class="form-group row">
+                                                <label class="col-lg-4 col-form-label" for="jobName">직위</label>
+                                                <div class="col-lg-6">
+                                                    <input type="text" class="form-control" id="jobName" name="jobName" value="${ mr.jobName != NULL ? mr.jobName : '-' }" readonly>
                                                 </div>
-                                                <div class="form-group row">
-                                                    <div class="col-lg-1 ml-auto">
-                                                        <button type="submit" class="btn btn-primary">신청하기</button>
-                                                    </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-lg-4 col-form-label" for="deptName">부서</label>
+                                                <div class="col-lg-6">
+                                                    <input type="text" class="form-control" id="deptName" name="deptName" value="${ mr.deptName != NULL ? mr.deptName : '-' }" readonly>
                                                 </div>
                                             </div>
                                         </div>
-                                    </form>
+                                        <div class="col-xl-6">
+                                            <div class="form-group row">
+                                                <label class="col-lg-4 col-form-label" for="r_date">예약날짜
+                                                </label>
+                                                <div class="col-lg-6">
+                                                    <input type="text" class="form-control" id="r_date" name="r_date" value="${ mr.rev_date }" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-lg-4 col-form-label" for="r_start_time">시작시간
+                                                </label>
+                                                <div class="col-lg-6">
+                                                    <input type="text" class="form-control" id="r_start_time" name="r_start_time" value="${ mr.rev_start_time.getHours() == 9 ? '09' : mr.rev_start_time.getHours() }:${ mr.rev_start_time.getMinutes() == 0 ? '00' : '30' }" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-lg-4 col-form-label" for="r_end_time">종료시간
+                                                </label>
+                                                <div class="col-lg-6">
+                                                    <input type="text" class="form-control" id="r_end_time" name="r_end_time" value="${ mr.rev_end_time.getHours() == 9 ? '09' : mr.rev_end_time.getHours() }:${ mr.rev_end_time.getMinutes() == 0 ? '00' : '30' }" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-lg-4 col-form-label" for="r_room">예약한 회의실
+                                                </label>
+                                                <div class="col-lg-6">
+                                                    <input type="text" class="form-control" id="r_room" name="r_room" value="${ mr.meet_name }" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-12">
+                                            <div class="form-group row">
+                                                <label class="col-lg-2 col-form-label" for="r_content">예약목적
+                                                </label>
+                                                <div class="col-lg-10 form-group">
+                                                    <textarea class="form-control" rows="6" id="r_content" name="r_content" readonly>${ mr.rev_content }</textarea>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex justify-content-end">
+                                               <button type="button" class="btn btn-primary btn-sm" onclick="location.href='${ mrlist }'">돌아가기</button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -168,6 +158,8 @@
     <script src="${contextPath}/resources/assets/vendor/global/global.min.js"></script>
     <script src="${contextPath}/resources/assets/js/quixnav-init.js"></script>
     <script src="${contextPath}/resources/assets/js/custom.min.js"></script>
+
+
 
 </body>
 

@@ -116,6 +116,13 @@ public class EmpStatusServiceImpl implements EmpStatusService{
 		return esDAO.selectDeptWeekList(sqlSession, map);
 	}
 
+	@Override
+	public EmpStatus selectEmp(String id) {
+		
+		return esDAO.selectEmp(sqlSession, id);
+	}
+
+
 	
 	
 	

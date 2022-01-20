@@ -173,7 +173,7 @@
 								       (to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),13,2)) )),3600)/60),'fm00')||':'||
 		       to_char(mod(sum(((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
 						        ((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),11,2))*60) )+
-						       (to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),13,2)) )),60),'fm00')as monthOver, e.m_id
+						       (to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),13,2)) )),60),'fm00')as monthOver, e.m_id, m_name
 		       
 		from emp_status e
 		    left join member m on (m.m_id = e.m_id)
@@ -186,7 +186,7 @@
 		                from department d
 		                    join member m on(d.dept_id = m.dept_id)
 		                where m.m_id = #{id})     
-		group by e.m_id 
+		group by e.m_id,  m.m_name 
 	</select>
 	<select id="monthTotalTime" parameterType="hashmap" resultMap="empResultSet">
 		select to_char(trunc(sum(((to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
@@ -235,7 +235,7 @@
 		       to_char(mod(sum(((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
 						        ((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),11,2))*60) )+
 						       (to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),13,2)) )),60),'fm00')as over_time1,
-		                e.m_id
+		                e.m_id,m.m_name
 		 from emp_status e
 				    left join member m on (m.m_id = e.m_id)
 				    left join department d on (m.dept_id = d.dept_id)
@@ -244,12 +244,18 @@
 				                from department d
 				                    join member m on(d.dept_id = m.dept_id)
 				                where m_id = #{id})  
-		 group by to_char(emp_regi_date,'YY'),to_char(emp_regi_date,'mm'),to_char(emp_regi_date, 'W'), e.m_id
+		 group by to_char(emp_regi_date,'YY'),to_char(emp_regi_date,'mm'),to_char(emp_regi_date, 'W'), e.m_id,m.m_name
 		 order by "year","month","week")
          
-	select "year", "month", "week", work_time1, over_time1, m_id
+	select "year", "month", "week", work_time1, over_time1, m_id, m_name
 	from weekWork
 	where "year" = substr(#{currentYear},3) and "month" = #{currentMonth1}   
+	</select>
+	<select id="selectEmp" resultMap="empResultSet">
+		select *
+		from emp_status
+		where m_id = #{id}
+		    and to_date(emp_regi_date,'YY/MM/DD') = TO_CHAR(sysdate, 'YYYY/MM/DD')
 	</select>
 
 

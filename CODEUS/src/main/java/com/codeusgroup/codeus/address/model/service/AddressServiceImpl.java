@@ -36,8 +36,8 @@ public class AddressServiceImpl implements AddressService {
 	}
 
 	@Override
-	public int addAddress(String userId, String tdName) {
-		return addrDAO.addAddress(sqlSession, userId, tdName);
+	public int addAddress(String userId, String mId) {
+		return addrDAO.addAddress(sqlSession, userId, mId);
 	}
 
 }

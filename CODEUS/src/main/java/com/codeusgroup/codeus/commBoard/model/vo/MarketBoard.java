@@ -1,18 +1,19 @@
 package com.codeusgroup.codeus.commBoard.model.vo;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MarketBoard {
 
 	
-	private int bId; //보드 번호
-	private String mbType;  //'중고'
-	private String mbCategory;  //'중고'
-	private String mbTitle;  //상품명 
-	private String marketPrice ; // 필요*
-	private String mbContent;  //상품 내용
-	private int mbViews; //조회수
+	private int bId; 
+	private String mbType;  
+	private String mbCategory; 
+	private String mbTitle;  
+	private String marketPrice; 
+	private String mbContent;  
+	private int mbViews; 
 	private String originalFileName;
 	private String renameFileName;
 	private Date mbCreateDate;
@@ -184,7 +185,8 @@ public class MarketBoard {
 	public void setMbWriter(String mbWriter) {
 		this.mbWriter = mbWriter;
 	}
-
+	
+	
 
 	@Override
 	public String toString() {
