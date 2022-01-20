@@ -110,6 +110,10 @@ public class NoticeBoardDAO {
 		return sqlSession.update("noticeBoardMapper.updateNoticeBoard", noticeBoard);
 	}
 
+	public List<NoticeBoard> selectNoticeBoardListMain(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectList("noticeBoardMapper.selectNoticeBoardListMain");
+	}
+
 
 
 

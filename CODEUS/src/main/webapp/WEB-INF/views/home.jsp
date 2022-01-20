@@ -39,9 +39,30 @@
  		font-size: x-large;
  		color: black;
  	}
+ 	
+ 	#today{
+ 		color: darkgray;
+ 	}
+ 	
+ 	.profile-photo img{
+ 		width: 170px; 
+ 		height: 170px;
+ 		border-radius: 100%;
+ 	}
+ 	
+ 	#myName{
+ 		color: black;
+ 		font-size: large;
+ 		font-weight: bold;
+ 	}
+ 	
  
  	/* 공지사항 관련 css */
- 	
+ 	.table tbody{font-size: 14px;}
+	.table a{color: black;}
+ 	#noticeBoardArea{color: black;}
+ 	.pin {font-size: large; color: orange;}
+ 
  	
  	/* 캘린더 관련 css */
  	body.stop-dragging
@@ -53,6 +74,7 @@
 	  user-select: none;
 	  height:10px;
 	}
+
 	
 	.container{
 		background-color: white;
@@ -60,7 +82,6 @@
 		margin-top: 2%;
 /* 		width: 50px; */
 	}
- 
 </style>
 
 <body class='stop-dragging'>
@@ -78,23 +99,32 @@
         <div class="content-body">
             <div class="container-fluid">
             
-				<!------------- 프로필 및 출퇴근 시작  ------------->
+				<!------------- 프로필, 출퇴근, 결재상태 시작  ------------->
                 <div class="row">
                     <div class="col-lg-4">
                         <div class="card">
                             <div class="card-body">
+                            	<!-- 프로필 -->
                             	<div id="memberProfile">
-										
-
-
-                            	
+                            		<br>
+									<div class="profile-photo" align="center">
+		                                <c:if test="${ loginUser.imgChangeName eq null }">
+				                        	<img src="${contextPath}/resources/assets/images/empty-profile.png" alt="profile-image">
+				                        </c:if>
+				                        <c:if test="${ loginUser.imgChangeName ne null }">
+				                            <img src="${contextPath}/resources/uploadFiles/${ loginUser.imgChangeName }" alt="profile-image">
+				                        </c:if>
+				                    </div>
+				                    <br>
+				                    <div id="myName" align="center">${ loginUser.mName } ${ loginUser.jobName }</div>
+				                    <div id="myDept" align="center">${ loginUser.deptName }</div>
                             	</div>
-                            	<br><br>
+                            	<br>
                                 <div id="nowDateArea"  align="center">
                                 	<!-- 현재 시간 -->
                                 	 <c:set var="today" value="<%=new java.util.Date()%>" />
                                 	 <c:set var="date"><fmt:formatDate value="${today}" pattern="yyyy-MM-dd(E)" /></c:set>
-									 <c:out value="${date}" />
+									<div id="today" align="center"><c:out value="${date}" /></div>
 									<div id="clock" align="center"></div>
 									<br>
 									<!-- 출퇴근 버튼 -->
@@ -116,11 +146,36 @@
 		                            	<c:otherwise>
 		                            		<input type="button" id="offTimeBtn" class="beforePush" onclick="offTime();" value="퇴근">
 		                            	</c:otherwise>		
-		                            </c:choose>				
+		                            </c:choose>		
+		                            <br><br>		
                         		</div>
                             </div>
+                            
+                            <!---- 결재상태 ----->
+                            <div class="card-body" id="approvalStatus">
+								<div class="table-responsive">
+                                    <table class="table student-data-table m-t-20">
+                                        <thead>
+                                            <tr>
+                                                <th>Expense Type</th>
+                                                <th>Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+
+                                                <td>
+                                                    $2000
+                                                </td>
+                                                <td>
+                                                    <span class="badge badge-primary">Paid</span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+							</div>
                         </div>
-                        <!-- /# card -->
                     </div>
                     <script>
 	                    	$(function(){
@@ -224,100 +279,44 @@
 							}
 					    
 					</script>
-					<!------------- 프로필 및 출퇴근 끝  ------------->
+					<!------------- 프로필, 출퇴근, 결재상태 끝  ------------->
 					
-                    <!------------- 결재문서함  시작 ------------->
+                    <!------------- 캘린더 시작  ------------->
                     <div class="col-lg-8">
                         <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">All Expense</h4>
-                            </div>
                             <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table student-data-table m-t-20">
-                                        <thead>
-                                            <tr>
-                                                <th>Expense Type</th>
-                                                <th>Amount</th>
-                                                <th>Status</th>
-                                                <th>Email</th>
-                                                <th>Date</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-
-                                                <td>
-                                                    Salary
-                                                </td>
-                                                <td>
-                                                    $2000
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-primary">Paid</span>
-                                                </td>
-                                                <td>
-                                                    edumin@gmail.com
-                                                </td>
-                                                <td>
-                                                    10/05/2017
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                <div class="card">
+									<div class="card-body" >
+										<div id="external-events" height="1px"class="my-3"> <!-- 없으면 캘린더 출력안됌 --> </div>
+										<div id='calendar' height="10px;"></div>
+									</div>
+								</div>
                             </div>
                         </div>
                     </div>
-                    <!------------- 결재문서함  끝 ------------->
+                    <!------------- 캘린더 끝  ------------->
                     
-                    <!------------- 캘린더 시작  ------------->
-                    <div class="col-lg-4">
-                    	<div class="card">
-							<div class="card-body">
-								<div id="external-events" height="1px"class="my-3"> <!-- 없으면 캘린더 출력안됌 --> </div>
-								<div id='calendar' height="10px;"></div>
-							</div>
-						</div>
+                    <div class="col-lg-4">>
                     </div>
-                    
-                    <!------------- 캘린더시작  ------------->
+                   	<!------------- 공지사항 시작  ------------->
                     <div class="col-lg-8">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">All Expense</h4>
+                                <h4 class="card-title">공지사항</h4>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table student-data-table m-t-20">
+                                    <table id="noticeBoardArea" class="table student-data-table m-t-20">
                                         <thead>
-                                            <tr>
-                                                <th>Expense Type</th>
-                                                <th>Amount</th>
-                                                <th>Status</th>
-                                                <th>Email</th>
-                                                <th>Date</th>
-                                            </tr>
+                                        	<tr style="font-size: large;">
+	                                           <th scope="col" width="70px">번호</th>
+	                                           <th scope="col" width="300px">제목</th>
+	                                           <th scope="col" width="200px">작성자</th>
+	                                           <th scope="col" width="120px">작성일</th>
+	                                           <th scope="col" width="100px">조회수</th>
+	                                        </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-
-                                                <td>
-                                                    Salary
-                                                </td>
-                                                <td>
-                                                    $2000
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-primary">Paid</span>
-                                                </td>
-                                                <td>
-                                                    edumin@gmail.com
-                                                </td>
-                                                <td>
-                                                    10/05/2017
-                                                </td>
-                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -325,56 +324,69 @@
                         </div>
                     </div>
                     <!------------- 공지사항 끝  ------------->
-                    
-                    <!------------- 캘린더 시작  ------------->
-                    <div class="col-lg-4">
-                    </div>
-                    <div class="col-lg-8">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">All Expense</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table student-data-table m-t-20">
-                                        <thead>
-                                            <tr>
-                                                <th>Expense Type</th>
-                                                <th>Amount</th>
-                                                <th>Status</th>
-                                                <th>Email</th>
-                                                <th>Date</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-
-                                                <td>
-                                                    Salary
-                                                </td>
-                                                <td>
-                                                    $2000
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-primary">Paid</span>
-                                                </td>
-                                                <td>
-                                                    edumin@gmail.com
-                                                </td>
-                                                <td>
-                                                    10/05/2017
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    
-                    
-                    <!------------- 캘린더 끝  ------------->
+                    <script>
+	             		$(function(){
+	             			noticeBoardList();
+	             			
+	             			setInterval(function(){
+	             				noticeBoardList();
+	             			}, 10000);
+	             		});
+	             		
+	             		function noticeBoardList() {
+	             			
+	             			let $tableBody = $('#noticeBoardArea tbody');
+	             			$tableBody.html('');
+	             			
+ 	             			$.ajax({
+ 	             				url: 'noticeBoardListMain.nb',
+ 	             				dataType: 'json',
+ 	            				success: function(data){
+ 	            					console.log(data);
+ 	            					
+ 	            					if (data.length > 0) {
+ 	            						
+ 	            						let $tr;
+ 	            						let bTitle;
+ 	            						let a;
+ 	            						for (let i in data) {
+ 	            							
+ 	            							$tr = $('<tr>');
+ 	            							
+ 	            							if (data[i].pin == 'Y') {
+ 	            								$tr.css('background', '#F8F8FF');
+ 	            								$tr.append($('<td>').append('<i class="bi bi-megaphone-fill pin">'));
+ 	            							} else {          										$tr.append($('<td>').text(data[i].bNum));
+ 	            							}
+ 	            							
+ 	            							bTitle = data[i].bTitle.length > 10 ? data[i].bTitle.substring(0, data[i].bTitle.length) + "..." : data[i].bTitle
+ 	            							a = '<a href="noticeBoardDetail.nb?bNum=' + data[i].bNum + '&page=1">' + bTitle +'</a>';
+ 	            							$tr.append($('<td>').html(a));
+ 	            							$tr.append($('<td>').text(data[i].mName  + " " + (data[i].jobName == null ? "" : data[i].jobName)));
+ 	            							$tr.append($('<td>').text(data[i].createDate ));
+ 	            							$tr.append($('<td>').text(data[i].views));
+ 	            							
+ 	            							$tableBody.append($tr);
+ 	            						} 
+ 	            						
+ 	            					} else {
+	            						$tr = $('<tr>');
+	            						$tr.append($('<td colspan="5">').text("등록된 게시글이 없습니다."));
+	            							
+	            						$tableBody.append($tr);
+	            					}
+ 	            					
+ 	            					
+ 	            				},
+ 	            				error: function(data) {
+ 	            					console.log(data);
+ 	            				}
+ 	             			})
+	             			
+	             		}
+	             		
+	             		
+                    </script>
                 </div>
             </div>
         </div>
@@ -408,19 +420,22 @@
         Calendar Scripts
     ***********************************-->
     <script>
-	var calendar;
-	window.closeModal = function(){
-	    $('.modal').modal('hide');
-	};
-	$(document).ready(function() {
-		readCalList();
+    	
+		var calendar;
+		window.closeModal = function(){
+		    $('.modal').modal('hide');
+		};
 		
-		$(document).on('input.calCheckbox', function() {
-			checkCal();					// checkCal() 함수(체크된 체크박스 검사)
-			calendar.refetchEvents();	// 캘린더 리로드(일정 다시 불러오기)
+		$(document).ready(function() {
+			readCalList();
+			
+			$(document).on('input.calCheckbox', function() {
+				checkCal();					// checkCal() 함수(체크된 체크박스 검사)
+				calendar.refetchEvents();	// 캘린더 리로드(일정 다시 불러오기)
+			});
 		});
-	});
-	document.addEventListener('DOMContentLoaded', function() {
+		
+		document.addEventListener('DOMContentLoaded', function() {
 	    var Calendar = FullCalendar.Calendar;
 	    var Draggable = FullCalendarInteraction.Draggable;
 	 
@@ -517,6 +532,7 @@
 	    checkDate();
 	    calendar.render();
 	});
+		
 	// 로컬스토리지에 사용자가 현재 위치한 캘린더의 날짜값을 저장하는 함수
 	function checkDate(){
 		  
@@ -534,7 +550,7 @@
 		  }
 	}
 	
-		// 캘린더(내일정)를 읽어오는 함수
+	// 캘린더(내일정)를 읽어오는 함수
 	function readCalList(){
 		  $.ajax({
 				url:"<%= request.getContextPath() %>/readCalList.ca",
@@ -571,6 +587,7 @@
 			 	}
 			});
 		}
+	
 	// 로컬스토리지에 저장된 캘린더 체크박스 체크유무를 가지고 체크박스에 적용시켜주는 함수
 	function setCheckbox(){
 		  
@@ -594,13 +611,7 @@
 			}
 		}
 	</script>
-	<!--**********************************
-	        Calendar Scripts
-	    ***********************************-->
-	<%--     <script src="${contextPath}/resources/assets/js/dashboard/dashboard-2.js"></script> --%>
 
-
-    <!-- Circle progress -->
 
 </body>
 </html>

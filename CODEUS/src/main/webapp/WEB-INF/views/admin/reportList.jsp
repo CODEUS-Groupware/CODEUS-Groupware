@@ -83,7 +83,7 @@
 					                                        	</c:if>
 					                                         	<c:forEach var="br" items="${ boardReportList }">
 					                                         		<tr>
-					                                         			<td>${ br.bTitle }
+					                                         			<td>
 					                                         				<c:if test="${ fn:length(br.bTitle) <= 10 }">
 												                                  ${ br.bTitle }
 												                            </c:if>
@@ -104,11 +104,11 @@
 						                                                </td>
 						                                                <td>
 						                                                	<c:set var="url" value="${ br.bType == '자유' ? 'CommBoardDetail.bo' : 'marketDetail.bo' }"/>
-					                                         				<c:url var="BoardReportDetail" value="${ contextPath }/${ url }">
-								                                                <c:param name="bNum" value="${ br.bNum }"/>
+					                                         				<c:url var="BoardReportDetail" value="${ url }">
+								                                                <c:param name="bId" value="${ br.bNum }"/>
 								                                                <c:param name="page" value="${ pi.currentPage }"/>
 							                                                </c:url>
-					                                         				<a href="${ BoardReportDetail }" class="mr-4" data-toggle="tooltip"
+					                                         				<a href="${ contextPath }/${ BoardReportDetail }" class="mr-4" data-toggle="tooltip"
 			                                                            		data-placement="top" title="Edit" style="padding-left: 30%;"><i
 			                                                                	class="fa fa-search color-muted"></i>
 					                                         				</a>
@@ -251,11 +251,11 @@
 						                                                </td>
 						                                                <td>
 						                                                	<c:set var="url" value="${ br.bType == '자유' ? 'CommBoardDetail.bo' : 'marketDetail.bo' }"/>
-					                                         				<c:url var="ReplyBoardDetail" value="${ contextPath }/${ url }">
-								                                                <c:param name="bNum" value="${ r.bNum }"/>
+					                                         				<c:url var="ReplyBoardDetail" value="${ url }">
+								                                                <c:param name="bId" value="${ r.bNum }"/>
 								                                                <c:param name="page" value="${ pi.currentPage }"/>
 							                                                </c:url>
-					                                         				<a href="${ ReplyBoardDetail }" class="mr-4" data-toggle="tooltip"
+					                                         				<a href="${ contextPath }/${ ReplyBoardDetail }" class="mr-4" data-toggle="tooltip"
 			                                                            		data-placement="top" title="Edit" style="padding-left: 30%;"><i
 			                                                                	class="fa fa-search color-muted"></i>
 					                                         				</a>

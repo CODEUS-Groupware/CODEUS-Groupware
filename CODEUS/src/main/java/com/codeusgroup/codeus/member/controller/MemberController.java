@@ -7,8 +7,6 @@ import java.util.GregorianCalendar;
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -17,7 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -201,7 +198,11 @@ public class MemberController {
 					   @RequestParam(value="address1", required=false) String address1, 
 					   @RequestParam(value="address2", required=false) String address2, Model model) {
 		
-		m.setAddress(post + "/" + address1 + "/" + address2);
+		if (post == "" && address1 == "" && address2 == "") {
+			m.setAddress(null);
+		} else {
+			m.setAddress(post + "/" + address1 + "/" + address2);
+		}
 		
 		if(!inputBirthDate.equals("")) {
 			String[] eSplit = inputBirthDate.split("-");

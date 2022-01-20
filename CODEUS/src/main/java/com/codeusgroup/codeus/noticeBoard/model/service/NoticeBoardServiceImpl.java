@@ -139,6 +139,11 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
 		
 	}
 
+	@Override
+	public List<NoticeBoard> selectNoticeBoardListMain() {
+		return nbDAO.selectNoticeBoardListMain(sqlSession);
+	}
+
 
 
 	
