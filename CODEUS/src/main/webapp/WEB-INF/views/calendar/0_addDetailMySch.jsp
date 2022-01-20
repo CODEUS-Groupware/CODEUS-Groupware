@@ -249,7 +249,7 @@
 		// 종일 체크박스
 		if ( ${ bAllday eq 1 }) {
 			$("input[name=allday]").prop("checked", true);
-		}
+		} 
 		
 		// ====== 주소록 모달창 js 시작 ====== // 
 	       
@@ -618,7 +618,7 @@
 	function addSch(){
 
 		$.ajax({
-			url:"<%= request.getContextPath() %>/readAdminCalList.ca",
+			url:"<%= request.getContextPath() %>/readCalList.ca",
 			type:"get",
 			dataType:"JSON",
 			success:function(json){
@@ -675,13 +675,6 @@
 			  alert("올바른 일시를 선택해주세요.");
 			  return false;
 		  }
-
-	//	  var scheType = $("select[name=scheType]").val();
-	//	  if (scheType.trim() == "" || scheType == "-9999") {
-	//		  alert("캘린더를 선택해주세요.");
-	//		  return false;
-	//	  }
-		 
 		  
 		  var content = $("textArea[name=content]").val();
 		  if (content.trim() == "") {
@@ -689,21 +682,20 @@
 			  $("textArea[name=content]").focus();
 			  return false;
 		  }
-		  var color = $("select[name=color]").val();
-
+		 var color = $("select[name=color]").val();
 		// 입력받은 값들 유효성 검사: 끝
 		
 		
 		// db에 넣기
 		$.ajax({
-			url:"<%= request.getContextPath() %>/addDetailSch.ca",
-			data:{title:title, startday:startday, endday:endday, content:content, color:color, mId:"${sessionScope.loginUser.mId}"},
+			url:"<%= request.getContextPath() %>/addDetailMySch.ca",
+			data:{title:title, color:color, startday:startday, endday:endday, content:content, mId:"${sessionScope.loginUser.mId}"},
 			type:"POST",
 			dataType:"JSON",
 			success:function(json){
 				
 				if (json.result == 1) {
-					location.href = "<%= request.getContextPath() %>/goCalendar.ca";
+					location.href = "<%= request.getContextPath() %>/goMyCalendar.ca";
 				}else{
 					console.log("addDetailSch success DB 오류 : " + JSON.stringify(json));
 				}
@@ -719,7 +711,7 @@
 	
 	// 취소 버튼 클릭 시 캘린더로 돌아가는 함수
 	function cancelBtn() {
-		location.href = "<%= request.getContextPath() %>/goCalendar.ca";
+		location.href = "<%= request.getContextPath() %>/goMyCalendar.ca";
 	}
 </script>
 
@@ -783,23 +775,21 @@
 	          </td>
 	        </tr>
 	        
+<!-- 	        <tr> -->
+<!-- 	          <th>내 캘린더</th> -->
+<!-- 	          <td><select class="addSchSelect form-control" name="scheType" style="width: 30%; height: 35px;"></select></td> -->
+<!-- 	        </tr> -->
 	        <tr>
 	          <th>색상</th>
 	          <td>
 	          		<select class="colorSelect form-control" name="color" style="width: 15%; height: 35px;">
 	          			<option value="blue">파란색</option>
 	          			<option value="green">초록색</option>
-	          			<option value="red">빨간색</option>
+	          			<option value="red">보라색</option>
 	          			<option value="black">검정색</option>
 	          		</select>
 	          </td>
 	        </tr>
-
-<!-- 	        <tr> -->
-<!-- 	          <th>내 캘린더</th> -->
-<!-- 	          <td><select class="addSchSelect form-control" name="scheType" style="width: 30%; height: 35px;"></select></td> -->
-<!-- 	        </tr> -->
-	        
 	        <tr>
 <!-- 	          <th>일정등록자</th> -->
 	          <td><input class="form-control title modal_input" maxlength="13" name="mId" type="hidden" value="${sessionScope.loginUser.mId}" readonly/></td>
@@ -982,7 +972,7 @@
  </div>
 </div>
 </div>
-<!--**********************************
+	<!--**********************************
 	            Content body end
 	***********************************-->
 
@@ -997,7 +987,5 @@
         <!--**********************************
             Footer end
         ***********************************-->
-
-
-</html>
 </body>
+</html>

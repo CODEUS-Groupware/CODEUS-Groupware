@@ -201,7 +201,7 @@
 	      defaultDate: localStorage.getItem("checkDate"),	// 달력 날짜 수동 고정(아예 defaultDate를 삭제하면 현재 달 보여줌) 
 	      navLinks: false, 				// 달력의 날짜 텍스트를 선택할 수 있는지 유무
 	      editable: false,
-	      eventLimit: false,				// 셀에 너무 많은 일정이 들어갔을 시 more로 처리 true에서 false로 수정
+	      eventLimit: true,				// 셀에 너무 많은 일정이 들어갔을 시 more로 처리 true에서 false로 수정
 	      customButtons: { //주말 숨기기 & 보이기 버튼
 	    	  today : {
 	            text  : '오늘',
@@ -262,9 +262,6 @@
 	    checkDate();
 	    calendar.render();
 	});
-  
-  
-
 
 	// 로컬스토리지에 사용자가 현재 위치한 캘린더의 날짜값을 저장하는 함수
 	function checkDate(){
@@ -282,11 +279,10 @@
 			  localStorage.setItem("checkDate", date);
 		  }
 		  
-		  
 	}
 	
 	// 새 캘린더 추가 함수
-	function addCal() {
+	function addMyCal() {
 			  var name = $("input[name=cal_name]").val();
 			  
 			  if (name.trim() == "") {
@@ -295,7 +291,7 @@
 			  }
 			  
 			  $.ajax({
-					url:"addCal.ca",
+					url:"addMyCal.ca",
 					data: {name: name},
 					dataType:"JSON",
 					success:function(json){
@@ -470,7 +466,7 @@
 		  // 종일 체크 시 시작 날짜를 기준으로 변경
 		  if ($("input#allday:checked").val()) {
 			  startday = $("input[name=startday]").val() + " 00:00:00";
-			  endday = $("input[name=startday]").val() + " 23:59:59";
+			  endday = $("input[name=startday]").val() + " 21:00:00";
 		  }else{
 			  endday = $("input[name=endday]").val() + " " + $("select.endday_hour").val() + ":00";
 		  }
@@ -504,12 +500,13 @@
 		
 		// db에 넣기
 		$.ajax({
-			url:"<%= request.getContextPath() %>/addModalSch.ca",
-			data:{title:title, startday:startday, endday:endday, scheNo:scheNo, content:content, writer:writer},
+			url:"<%= request.getContextPath() %>/addModalMySch.ca",
+			data:{title:title, startday:startday, endday:endday, content:content, writer:writer},
 			type:"POST",
 			success:function(json){
 				if (json.result == 1) {
 					window.closeModal();
+					location.href = "<%= request.getContextPath() %>/goMyCalendar.ca";
 					calendar.refetchEvents();
 					
 				}else{
@@ -541,14 +538,14 @@
 		  $("input[name=bAllday]").val($("input[name=allday]:checked").length);
 		  var frm = document.addSchFrm;
 		  frm.method = "GET";
-		  frm.action = "<%= request.getContextPath() %>/goAddDetailSch.ca";
+		  frm.action = "<%= request.getContextPath() %>/goAddDetailMySch.ca";
 		  frm.submit();
 		  
 	}
 	
 	// 이벤트를 클릭시 상세보기로 이동하는 버튼
 	function viewSch(scheNo){
-		  location.href = "<%= request.getContextPath() %>/editSch.ca?scheNo=" + scheNo;
+		  location.href = "<%= request.getContextPath() %>/editMySch.ca?scheNo=" + scheNo;
 	}
   
 </script>
@@ -570,12 +567,12 @@
 							<div class="navbar-default sidebar cal_sidebar" role="navigation">
 								<div class="sidebar-nav navbar-collapse slimscrollsidebar">
 									<h2 class="pageTitleText">
-										<i class="fa fa-calendar fa-fw" aria-hidden="true"></i>캘린더
+										<i class="fa fa-calendar fa-fw" aria-hidden="true"></i>내 캘린더
 									</h2>
 										<div class="center p-20" style="padding-top: 0px !important;">
 											<span class="hide-menu addSchedule">
 												<a class="btn btn-danger btn-block btn-rounded waves-effect waves-light" 
-												   href="<%= request.getContextPath() %>/goAddDetailSch.ca">일정등록</a>
+												   href="<%= request.getContextPath() %>/goAddMyCal.ca">일정등록</a>
 											</span>
 										</div>
 									<ul class="nav" id="side-menu" style="padding-left: 9%;">
@@ -590,53 +587,20 @@
 													<p class='nav_ul_p'>
 													<input id='calendar_id_-9999' class='calCheckbox' type="hidden" /><!-- value ="${calendar.scheNo}" -->
 													<input type='hidden' value='-9999' />
-													<!--<label for='calendar_id_-9999' class='smallText'>&nbsp;초대받은 일정</label>
-														<span class='btn_wrap'>
-																<span class='dot' style='background-color: violet'></span>
-														</span> -->
 													</p>
 												</li>
 											</ul>
-											<div class="add_calendar_box dropdown">
-												<a class="add_calendar dropdown-toggle" role="button" id="dropdownMenuLink" 
-												   data-toggle="dropdown" style="color: black;">
-													<i class="fa fa-plus" style="padding-right: 10px;"></i>내 캘린더 추가
-												</a>
-												<div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="padding: 5px 0; padding-left: 20xp; padding-right: 20xp;">
-													<h5 style="font-weight: bold;">&nbsp;내 캘린더 추가</h5>
-													<div>
-														<input type="text" maxlength="16" name="cal_name" style="margin-bottom: 10px;" />
-														<br>
-														<button type="button" class="btn blueBtn" onclick="addCal()">확인</button>
-														<button type="button" class="btn grayBtn">취소</button>
-													</div>
-												</div>
-											</div>
 										
-											<div class="add_calendar_box">
-												<a class="add_calendar" href="<%= request.getContextPath() %>/editCal.ca" style="color: black;">
-													<i class="fa fa-cog" style="padding-right: 10px;"></i>내 캘린더 관리
-												</a>
-											</div>
+<!-- 											<div class="add_calendar_box"> -->
+<%-- 												<a class="add_calendar" href="<%= request.getContextPath() %>/editCal.ca" style="color: black;"> --%>
+<!-- 													<i class="fa fa-cog" style="padding-right: 10px;"></i>내 캘린더 관리 -->
+<!-- 												</a> -->
+<!-- 											</div> -->
 										</li>
 									</ul>
 								</div>
 							</div>
 							<div id="external-events" class="my-3">
-								<!--  
-								<p>
-									<strong>Draggable Events</strong>
-								</p>
-								<div class="fc-event">My Event 1</div>
-								<div class="fc-event">My Event 2</div>
-								<div class="fc-event">My Event 3</div>
-								<div class="fc-event">My Event 4</div>
-								<div class="fc-event">My Event 5</div>
-								<p>
-									<input type="checkbox" id="drop-remove">
-									<label for="drop-remove">remove after drop</label>
-								</p>
-								-->
 							</div>
 						</div>
 					</div>
@@ -671,34 +635,34 @@
 														<th>일시</th>
 														<td>
 															<input type="date" class="datepicker" name="startday">
-															<select class="startday_hour" style="width: 70px;">
-																<c:set var="breakPoint" value="0" />
-																	<c:forEach var="i" begin="0" end="23">
-																		<c:forEach var="j" begin="0" end="1">
-																			<c:if test="${(i == 24) && (j == 1)}">    
-																				<c:set var="breakPoint" value="1" />                                    
-																			</c:if>
-																			<c:if test="${breakPoint == 0}">                           
-																				<option value="<fmt:formatNumber pattern="00" value="${i}" />:<fmt:formatNumber pattern="00" value="${j*30}" />">
-																				<fmt:formatNumber pattern="00" value="${i}" />:<fmt:formatNumber pattern="00" value="${j*30}" /></option>                                                                            
-																			</c:if>
-																		</c:forEach>
+														          <select class="startday_hour" style="width: 70px;">
+																	<c:set var="breakPoint" value="0" />
+																	<c:forEach var="i" begin="0" end="20">
+																	    <c:forEach var="j" begin="0" end="1">
+																	        <c:if test="${(i == 21) && (j == 1)}">    
+																	            <c:set var="breakPoint" value="1" />                                    
+																	        </c:if>
+																	        <c:if test="${breakPoint == 0}">                           
+																	            <option value="<fmt:formatNumber pattern="00" value="${i}" />:<fmt:formatNumber pattern="00" value="${j*30}" />">
+																	            <fmt:formatNumber pattern="00" value="${i}" />:<fmt:formatNumber pattern="00" value="${j*30}" /></option>                                                                            
+																	        </c:if>
+																	    </c:forEach>
 																	</c:forEach>
-															</select>
+																</select>
 																~
-															<input type="date" class="datepicker" name="endday">
-																<select class="endday_hour" style="width: 70px;">
-																<c:set var="breakPoint" value="0" />
-																	<c:forEach var="i" begin="0" end="23">
-																		<c:forEach var="j" begin="0" end="1">
-																			<c:if test="${(i == 24) && (j == 1)}">    
-																				<c:set var="breakPoint" value="1" />                                    
-																			</c:if>
-																			<c:if test="${breakPoint == 0}">                           
-																				<option value="<fmt:formatNumber pattern="00" value="${i}" />:<fmt:formatNumber pattern="00" value="${j*30}" />">
-																				<fmt:formatNumber pattern="00" value="${i}" />:<fmt:formatNumber pattern="00" value="${j*30}" /></option>                                                                            
-																			</c:if>
-																		</c:forEach>
+																<input type="date" class="datepicker" name="endday">
+														          <select class="endday_hour" style="width: 70px;">
+																	<c:set var="breakPoint" value="0" />
+																	<c:forEach var="i" begin="0" end="21">
+																	    <c:forEach var="j" begin="0" end="0">
+																	        <c:if test="${(i == 22) && (j == 1)}">    
+																	            <c:set var="breakPoint" value="1" />                                    
+																	        </c:if>
+																	        <c:if test="${breakPoint == 0}">                           
+																	            <option value="<fmt:formatNumber pattern="00" value="${i}" />:<fmt:formatNumber pattern="00" value="${j*30}" />">
+																	            <fmt:formatNumber pattern="00" value="${i}" />:<fmt:formatNumber pattern="00" value="${j*30}" /></option>                                                                            
+																	        </c:if>
+																	    </c:forEach>
 																	</c:forEach>
 																</select>
 															<input type="checkbox" id="allday" name="allday" /><label for="allday">종일</label>
@@ -709,9 +673,9 @@
 														<td><input class="form-control modal_input" name="content" type="text" style="height: 30px;" /></td>
 													</tr>
 													<tr>
-														<th>등록자</th>
-														<td><input class="form-control writer modal_input" maxlength="13" name="writer" type="text" readonly value="${sessionScope.loginUser.mId}" />  </td>
-														<td><select class="addSchSelect" name="scheNo" type="hidden"></select></td>
+<!-- 														<th>등록자</th> -->
+														<td><input class="form-control writer modal_input" maxlength="13" name="writer" type="hidden" readonly value="${sessionScope.loginUser.mId}" />  </td>
+														<!-- <td><select class="addSchSelect" name="scheNo" type="hidden"></select></td> -->
 													</tr>
 												</tbody>
 											</table>
@@ -732,7 +696,18 @@
 	</div>
 	   <!--**********************************
 	            Content body end
-	        ***********************************-->
+        ***********************************-->
+	  <!--**********************************
+            Footer start
+        ***********************************-->
+        <div class="footer">
+            <div class="copyright">
+                <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">CODEUS</a> 2021</p>
+            </div>
+        </div>
+        <!--**********************************
+            Footer end
+        ***********************************-->      
  
 	
 	    <!--**********************************

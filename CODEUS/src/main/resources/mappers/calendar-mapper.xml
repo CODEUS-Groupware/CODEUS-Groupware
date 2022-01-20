@@ -2,43 +2,38 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="calendarMapper">
 	<select id="selectCalList" parameterType="String" resultMap="calendarResultSet">
-		select SCHE_NO, M_ID, SCHE_TITLE
+		select SCHE_NO, M_ID, SCHE_TITLE, sche_color
 		from calendar
-		where M_ID = #{mId} and sche_status = 0 and sche_type = 'A'
+		where M_ID = #{mId} and SCHE_STATUS = 0 and sche_type = 'A'
 		order by SCHE_NO       
 	</select>
 
 	<select id="readAdminCalList" parameterType="String" resultMap="calendarResultSet">
-		select SCHE_NO, M_ID, SCHE_TITLE
+		select SCHE_NO, M_ID, SCHE_TITLE, sche_color
 		from calendar
-		where sche_status = 0 and sche_type = 'B'
+		where SCHE_STATUS = 0 and sche_type = 'B' and m_id = 'admin'
 		order by SCHE_NO       
 	</select>
 
 	<select id="selectSchList" parameterType="CalArrTemp" resultMap="calendarResultSet">
 		SELECT *
 		from CALENDAR 
-		where sche_status = 0 and sche_type = 'A'
-			<if test="calNoArr != null">
-				AND SCHE_NO in
-				<foreach collection="calNoArr" index="i" open="(" separator="," close=")">
-					${calNoArr[i]}
-				</foreach>
-	    	</if>
+		where SCHE_STATUS = 0 and sche_type = 'A' and m_id = #{mId}
+			AND SCHE_NO in
+			<foreach collection="calNoArr" index="i" open="(" separator="," close=")">
+				${calNoArr[i]}
+			</foreach>
 	</select>
 	
 	<select id="selectadminSchList" parameterType="CalArrTemp" resultMap="calendarResultSet">
 		SELECT *
 		from CALENDAR 
-		where sche_status = 0 and sche_type = 'B'
-			<if test="calNoArr != null">
-				AND SCHE_NO IN
-				<foreach collection="calNoArr" index="i" open="(" separator="," close=")">
-					${calNoArr[i]}
-				</foreach>
-	    	</if>
+		where SCHE_STATUS = 0 and sche_type = 'B' and m_id = 'admin' 
+			AND SCHE_NO IN
+			<foreach collection="calNoArr" index="i" open="(" separator="," close=")">
+				${calNoArr[i]}
+			</foreach>
 	</select>
-	
 	<resultMap type="Calendar" id="calendarResultSet">
 		<id column="SCHE_NO" property="scheNo"/>
 		<result column="SCHE_TYPE" property="scheType"/>
@@ -53,31 +48,30 @@
 		<result column="SCHE_COLOR" property="color"/>
 		
 	</resultMap>
-	<!-- 내 일정 일정 등록 버튼으로 내 일정 추가 수정필요...............-->
+	<!--관리자가 사내 일정 일정 등록 버튼으로 내 일정-->
 	<insert id="insertCal">
-			
 			insert into calendar values
-			(seq_sche_no.nextval, 'B', #{scheTitle}, #{scheContent}, sysdate,  
-									to_timestamp(#{startday}, 'YYYY-MM-DD HH24:MI:SS'),  to_timestamp(#{endday}, 'YYYY-MM-DD HH24:MI:SS'), 
-									default, default, #{mId}, 'blue')
-			
+			(seq_sche_no.nextval, 'B', #{scheTitle}, default, default,  
+									default, default, 
+									default, default, #{mId}, 'skyblue')
 	</insert>
-	<select id="scheNo" resultMap="calendarResultSet">
-		select SEQ_SCHE_NO.nextval as seq
-		from dual
-	</select>
 	<!-- 캘린더 클릭으로 일정 추가 -->
-	<insert id="addModalSch">
-		
+	<insert id="addModalSch" parameterType="HashMap">
 		INSERT INTO CALENDAR VALUES(seq_sche_no.nextval, 'B', #{title}, #{content}, default, 
                             to_timestamp(#{startday}, 'YYYY-MM-DD HH24:MI:SS'), to_timestamp(#{endday}, 'YYYY-MM-DD HH24:MI:SS'), 
-                            DEFAULT, DEFAULT, #{cWriter}, #{color})
+                            #{allday}, DEFAULT, #{cWriter}, 'red')
+	</insert>
+
+	<insert id="addModalMySch" parameterType="HashMap">
+		INSERT INTO CALENDAR VALUES(seq_sche_no.nextval, 'A', #{title}, #{content}, default, 
+                            to_timestamp(#{startday}, 'YYYY-MM-DD HH24:MI:SS'), to_timestamp(#{endday}, 'YYYY-MM-DD HH24:MI:SS'), 
+                            DEFAULT, DEFAULT, #{cWriter}, 'skyblue')
 	</insert>
 	<!-- 일정번호로 일정 하나 불러오기 -->
-	<select id="selectOneSch" parameterType="HashMap" resultMap="calendarResultSet">
+	<select id="selectOneSch" resultMap="calendarResultSet">
 		select SCHE_NO, M_ID, 
 				SCHE_START_DATE, SCHE_END_DATE,  
-		    	SCHE_TITLE, SCHE_CONTENT
+		    	SCHE_TITLE, SCHE_CONTENT, sche_color
 		from calendar
 		where sche_no = #{SCHE_NO}
 	</select>
@@ -91,9 +85,35 @@
                             to_timestamp(#{startday}, 'YYYY-MM-DD HH24:MI:SS'), to_timestamp(#{endday}, 'YYYY-MM-DD HH24:MI:SS'), 
                             DEFAULT, DEFAULT, #{mId}, #{color})		
 	</insert>
+
+	<insert id="addDetailMySch" parameterType="HashMap">
+		<selectKey keyProperty="seq_sche_no.nextval" resultType="int" order="BEFORE">
+	    	select seq_sche_no.nextval from dual
+	    </selectKey>
+		insert into calendar values(#{seq_sche_no.nextval}, 'A', #{title}, #{content}, default, 
+                            to_timestamp(#{startday}, 'YYYY-MM-DD HH24:MI:SS'), to_timestamp(#{endday}, 'YYYY-MM-DD HH24:MI:SS'), 
+                            DEFAULT, DEFAULT, #{mId}, #{color})		
+	</insert>
 	<update id="doEditSch">
 		update calendar
-		set sche_title = #{scheTitle}, sche_content = #{scheContent}, sche_start_date = #{scheStartDate}, sche_end_date = #{scheEndDate}
+		set sche_title = #{scheTitle}, sche_content = #{scheContent}, sche_start_date = #{scheStartDate}, sche_end_date = #{scheEndDate}, sche_color = #{color}
 		where sche_no = #{scheNo} and m_id = #{mId}
+	</update>
+
+	<update id="doEditMySch">
+		update calendar
+		set sche_title = #{scheTitle}, sche_content = #{scheContent}, sche_start_date = #{scheStartDate}, sche_end_date = #{scheEndDate} ,sche_color = #{color}
+		where sche_no = #{scheNo} and m_id = #{mId}
+	</update>
+	
+	<update id="deleteSche">
+		update calendar
+			set SCHE_STATUS = 2
+		where m_id = #{mId} and sche_no = #{scheNo}
+	</update>
+	<update id="editCalColor">
+		update calendar
+			set sche_color = #{color}
+		where m_id = #{mId} and sche_no = #{scheNo}
 	</update>
 </mapper>
