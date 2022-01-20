@@ -530,6 +530,10 @@ public class AdminController {
 		}
 	}
 	
+	
+    /**
+     * 신고글 목록 조회
+     */	
 	@RequestMapping("admin/reportList.ad")
 	public ModelAndView reportList(@RequestParam(value="page", required=false) Integer page, 
 								   @RequestParam(value="message", required=false) String message, ModelAndView mv) {
@@ -559,6 +563,9 @@ public class AdminController {
 		return mv;
 	}
 	
+    /**
+     * 신고된 게시글 관리
+     */	
 	@RequestMapping("admin/handingBoardReport.ad")
 	public String handingBoardReport(@ModelAttribute Report report, 
 						@RequestParam(value="page", required=false) Integer page, Model model) {
@@ -582,6 +589,9 @@ public class AdminController {
 		return "redirect:reportList";
 	}
 	
+    /**
+     * 신고된 댓글 관리
+     */	
 	@RequestMapping("admin/handingReplyReport.ad")
 	public String handingReplyReport(@ModelAttribute Report report, 
 						@RequestParam(value="page", required=false) Integer page, Model model) {
