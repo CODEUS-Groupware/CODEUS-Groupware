@@ -30,7 +30,14 @@
     <websocket:handlers>
         <websocket:mapping path="/websocket/echo.do" handler="myHandler"/>
     </websocket:handlers>
- 
+
     <beans:bean id="myHandler" class="com.codeusgroup.codeus.chatting.handler.WebSocketHandler"/>
+	
+	<interceptors>
+		<interceptor>
+			<mapping path="/**"/>
+			<beans:bean id="Interceptor" class="com.codeusgroup.codeus.common.interceptor.MemberEnterInterceptor"/>
+		</interceptor>
+	</interceptors>
 	
 </beans:beans>
