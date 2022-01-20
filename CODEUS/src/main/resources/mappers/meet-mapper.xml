@@ -8,11 +8,13 @@
     </select>
     
     <select id="selectList" resultMap="meetResrvResultSet">
-        select rev_no, rev_date, rev_start_time, rev_end_time, rev_content,
-               rev_status, rev_apply_date, meet_no, m_id, meet_name, m_name
+        select rev_no, rev_date, rev_start_time, rev_end_time, rev_content, rev_status,
+               rev_apply_date, meet_no, m_id, meet_name, m_name, m_email, job_name, dept_name
         from meet_reservation
              left join member using(m_id)
              left join meeting_room using(meet_no)
+             left join job using(job_id)
+             left join department using(dept_id)
         order by rev_date desc, rev_start_time
     </select>
     
@@ -24,12 +26,13 @@
         <result column="REV_CONTENT" property="rev_content"/>
         <result column="REV_STATUS" property="rev_status"/>
         <result column="REV_APPLY_DATE" property="rev_apply_date"/>
-        <result column="REV_APPLY_DATE" property="rev_apply_date"/>
-        <result column="REV_APPLY_DATE" property="rev_apply_date"/>
         <result column="MEET_NO" property="meet_no"/>
         <result column="M_ID" property="mId"/>
         <result column="MEET_NAME" property="meet_name"/>
         <result column="M_NAME" property="mName"/>
+        <result column="M_EMAIL" property="email"/>
+        <result column="JOB_NAME" property="jobName"/>
+        <result column="DEPT_NAME" property="deptName"/>
     </resultMap>
     
     <select id="getMyListCount" resultType="_int">
@@ -39,11 +42,13 @@
     </select>
     
     <select id="selectMyList" resultMap="meetResrvResultSet">
-        select rev_no, rev_date, rev_start_time, rev_end_time, rev_content,
-               rev_status, rev_apply_date, meet_no, m_id, meet_name, m_name
+        select rev_no, rev_date, rev_start_time, rev_end_time, rev_content, rev_status,
+               rev_apply_date, meet_no, m_id, meet_name, m_name, m_email, job_name, dept_name
         from meet_reservation
              left join member using(m_id)
              left join meeting_room using(meet_no)
+             left join job using(job_id)
+             left join department using(dept_id)
         where m_id = #{mId}
         order by rev_date desc, rev_start_time
     </select>
@@ -57,34 +62,71 @@
     <!-- 선택 가능한 회의실 조회하기 -->
     <!-- 입력한 날짜/시간을 조건으로 불가능한 회의실(이미 예약된)은 제외하고 리턴 -->
     <select id="selectRoomList" resultMap="meetRoomResultSet">
-        <![CDATA[
         select *
-        from meeting_room
-        where meet_no in (select meet_no
-                          from meeting_room
-                          where meet_status <> '1'
-                                and meet_no not in (select meet_no
+        from (
+            <![CDATA[
+            select *
+            from meeting_room
+            where meet_no in (select meet_no
+                              from meeting_room
+                              where meet_status <> '1'
+                                    and meet_no not in (select meet_no
+                                                        from meet_reservation
+                                                        where rev_status = '0'
+                                                              and to_char(rev_date, 'YYYY-MM-DD') = to_char(#{inputDate}, 'YYYY-MM-DD')
+                                                              and rev_start_time <= #{inputStartTime}
+                                                              and rev_end_time > #{inputStartTime}
+                                                        union
+                                                        select meet_no
+                                                        from meet_reservation
+                                                        where rev_status = '0'
+                                                              and to_char(rev_date, 'YYYY-MM-DD') = to_char(#{inputDate}, 'YYYY-MM-DD')
+                                                              and rev_start_time < #{inputEndTime}
+                                                              and rev_end_time >= #{inputEndTime}
+                                                        union
+                                                        select meet_no
+                                                        from meet_reservation
+                                                        where rev_status = '0'
+                                                              and to_char(rev_date, 'YYYY-MM-DD') = to_char(#{inputDate}, 'YYYY-MM-DD')
+                                                              and rev_start_time > #{inputStartTime}
+                                                              and rev_end_time < #{inputEndTime}))
+            ]]>
+            <if test="rNo != null">
+            union
+            <!-- 예약 수정의 경우 예약된 회의실까지 포함 -->
+            <![CDATA[
+            select *
+            from meeting_room
+            where meet_no in (select meet_no
+                              from meeting_room
+                              where meet_status <> '1'
+                                    and meet_no in (select meet_no
                                                     from meet_reservation
-                                                    where rev_status = '0'
-                                                          and to_char(rev_date, 'YYYY-MM-DD') = to_char(#{inputDate}, 'YYYY-MM-DD')
-                                                          and rev_start_time <= #{inputStartTime}
-                                                          and rev_end_time > #{inputStartTime}
-                                                    union
-                                                    select meet_no
-                                                    from meet_reservation
-                                                    where rev_status = '0'
-                                                          and to_char(rev_date, 'YYYY-MM-DD') = to_char(#{inputDate}, 'YYYY-MM-DD')
-                                                          and rev_start_time < #{inputEndTime}
-                                                          and rev_end_time >= #{inputEndTime}
-                                                    union
-                                                    select meet_no
-                                                    from meet_reservation
-                                                    where rev_status = '0'
-                                                          and to_char(rev_date, 'YYYY-MM-DD') = to_char(#{inputDate}, 'YYYY-MM-DD')
-                                                          and rev_start_time > #{inputStartTime}
-                                                          and rev_end_time < #{inputEndTime}))
+                                                    where rev_no = #{rNo}
+                                                    intersect
+                                                    (select meet_no
+                                                        from meet_reservation
+                                                        where rev_status = '0'
+                                                              and to_char(rev_date, 'YYYY-MM-DD') = to_char(#{inputDate}, 'YYYY-MM-DD')
+                                                              and rev_start_time <= #{inputStartTime}
+                                                              and rev_end_time > #{inputStartTime}
+                                                        union
+                                                        select meet_no
+                                                        from meet_reservation
+                                                        where rev_status = '0'
+                                                              and to_char(rev_date, 'YYYY-MM-DD') = to_char(#{inputDate}, 'YYYY-MM-DD')
+                                                              and rev_start_time < #{inputEndTime}
+                                                              and rev_end_time >= #{inputEndTime}
+                                                        union
+                                                        select meet_no
+                                                        from meet_reservation
+                                                        where rev_status = '0'
+                                                              and to_char(rev_date, 'YYYY-MM-DD') = to_char(#{inputDate}, 'YYYY-MM-DD')
+                                                              and rev_start_time > #{inputStartTime}
+                                                              and rev_end_time < #{inputEndTime})))
+            ]]>
+            </if>)
         order by meet_name
-        ]]>
     </select>
     
     <resultMap type="MeetingRoom" id="meetRoomResultSet">
@@ -105,5 +147,150 @@
         where rev_end_time <= #{tNow}
         ]]>
     </update>
+    
+    <select id="searchListCount" resultType="_int">
+        select count(*)
+        from meet_reservation
+        <where>
+            <choose>
+                <when test="searchCondition == 'r_no'">
+                    and rev_no like '%' || #{searchKeyword} || '%'
+                </when>
+                <when test="searchCondition == 'r_date'">
+                    and rev_date = #{searchKeyword}
+                </when>
+                <when test="searchCondition == 'r_status'">
+                    and rev_status = #{searchKeyword}
+                </when>
+                <when test="searchCondition == 'r_meetName'">
+                    and meet_no in (select meet_no
+                                    from meeting_room
+                                    where meet_name like '%' || #{searchKeyword} || '%')
+                </when>
+                <when test="searchCondition == 'r_mName'">
+                    and m_id in (select m_id
+                                 from member
+                                 where m_name = #{searchKeyword})
+                </when>
+                <when test="searchCondition == 'r_content'">
+                    and rev_content like '%' || #{searchKeyword} || '%'
+                </when>
+            </choose>
+        </where>
+    </select>
+    
+    <select id="searchList" resultMap="meetResrvResultSet">
+        select rev_no, rev_date, rev_start_time, rev_end_time, rev_content, rev_status,
+               rev_apply_date, meet_no, m_id, meet_name, m_name, m_email, job_name, dept_name
+        from meet_reservation
+             left join member using(m_id)
+             left join meeting_room using(meet_no)
+             left join job using(job_id)
+             left join department using(dept_id)
+        <where>
+            <choose>
+                <when test="searchCondition == 'r_no'">
+                    and rev_no like '%' || #{searchKeyword} || '%'
+                </when>
+                <when test="searchCondition == 'r_date'">
+                    and rev_date = #{searchKeyword}
+                </when>
+                <when test="searchCondition == 'r_status'">
+                    and rev_status = #{searchKeyword}
+                </when>
+                <when test="searchCondition == 'r_meetName'">
+                    and meet_no in (select meet_no
+                                    from meeting_room
+                                    where meet_name like '%' || #{searchKeyword} || '%')
+                </when>
+                <when test="searchCondition == 'r_mName'">
+                    and m_id in (select m_id
+                                 from member
+                                 where m_name = #{searchKeyword})
+                </when>
+                <when test="searchCondition == 'r_content'">
+                    and rev_content like '%' || #{searchKeyword} || '%'
+                </when>
+            </choose>
+        </where>
+        order by rev_date desc, rev_start_time
+    </select>
+    
+    <select id="searchMyListCount" resultType="_int">
+        select count(*)
+        from meet_reservation
+        where m_id = #{mId}
+        <choose>
+            <when test="searchCondition == 'r_no'">
+                and rev_no like '%' || #{searchKeyword} || '%'
+            </when>
+            <when test="searchCondition == 'r_date'">
+                and rev_date = #{searchKeyword}
+            </when>
+            <when test="searchCondition == 'r_status'">
+                and rev_status = #{searchKeyword}
+            </when>
+            <when test="searchCondition == 'r_meetName'">
+                and meet_no in (select meet_no
+                                from meeting_room
+                                where meet_name like '%' || #{searchKeyword} || '%')
+            </when>
+            <when test="searchCondition == 'r_mName'">
+                and m_id in (select m_id
+                             from member
+                             where m_name = #{searchKeyword})
+            </when>
+            <when test="searchCondition == 'r_content'">
+                and rev_content like '%' || #{searchKeyword} || '%'
+            </when>
+        </choose>
+    </select>
+    
+    <select id="searchMyList" resultMap="meetResrvResultSet">
+        select rev_no, rev_date, rev_start_time, rev_end_time, rev_content, rev_status,
+               rev_apply_date, meet_no, m_id, meet_name, m_name, m_email, job_name, dept_name
+        from meet_reservation
+             left join member using(m_id)
+             left join meeting_room using(meet_no)
+             left join job using(job_id)
+             left join department using(dept_id)
+        where m_id = #{mId}
+        <choose>
+            <when test="searchCondition == 'r_no'">
+                and rev_no like '%' || #{searchKeyword} || '%'
+            </when>
+            <when test="searchCondition == 'r_date'">
+                and rev_date = #{searchKeyword}
+            </when>
+            <when test="searchCondition == 'r_status'">
+                and rev_status = #{searchKeyword}
+            </when>
+            <when test="searchCondition == 'r_meetName'">
+                and meet_no in (select meet_no
+                                from meeting_room
+                                where meet_name like '%' || #{searchKeyword} || '%')
+            </when>
+            <when test="searchCondition == 'r_mName'">
+                and m_id in (select m_id
+                             from member
+                             where m_name = #{searchKeyword})
+            </when>
+            <when test="searchCondition == 'r_content'">
+                and rev_content like '%' || #{searchKeyword} || '%'
+            </when>
+        </choose>
+        order by rev_date desc, rev_start_time
+    </select>
+    
+    <select id="selectMeetingResrv" resultMap="meetResrvResultSet">
+        select rev_no, rev_date, rev_start_time, rev_end_time, rev_content, rev_status,
+               rev_apply_date, meet_no, m_id, meet_name, m_name, m_email, job_name, dept_name
+        from meet_reservation
+             left join member using(m_id)
+             left join meeting_room using(meet_no)
+             left join job using(job_id)
+             left join department using(dept_id)
+        where rev_no = #{rNo}
+    </select>
 
 </mapper>

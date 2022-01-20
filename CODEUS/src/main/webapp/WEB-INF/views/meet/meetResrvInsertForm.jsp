@@ -11,7 +11,11 @@
     <link rel="stylesheet" href="${contextPath}/resources/assets/vendor/pickadate/themes/default.date.css">
     <!-- Custom Stylesheet -->
     <link href="${contextPath}/resources/assets/css/style.css" rel="stylesheet">
-
+    <style type="text/css">
+        #chkMsg {
+            color: black;
+        }
+    </style>
 </head>
 
 <body>
@@ -37,6 +41,7 @@
                     <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">회의실 예약</li>
+                            <li class="breadcrumb-item active"><a href="mrlist.mr">예약 목록</a></li>
                             <li class="breadcrumb-item active"><a href="mrinsertview.mr">예약 신청</a></li>
                         </ol>
                     </div>
@@ -124,7 +129,7 @@
                                                 </div>
                                                 <div class="d-flex justify-content-end">
                                                     <!-- 신청하기 버튼(modal) -->
-                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#basicModal" onclick="lastCheck();">신청하기</button>
+                                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#basicModal" onclick="lastCheck();">신청하기</button>
                                                     <!-- Modal -->
                                                     <div class="modal fade" id="basicModal">
                                                         <div class="modal-dialog" role="document">
@@ -270,7 +275,7 @@
             }
             
             inputStartTime = $('#r_start_time').val();
-        }).change(function() {
+        }).on('change paste input', function() {
             if(!isEmpty($('#r_start_time').val())) {
                 $('#r_end_time').empty();
                 
@@ -292,7 +297,7 @@
             $('#r_room').empty();
             inputRoom = null;
             inputRoomName = null;
-        }).change(function() {
+        }).on('change paste input', function() {
             inputEndTime = $('#r_end_time').val();
             
             $('#r_room').empty();
@@ -300,7 +305,7 @@
             inputRoomName = null;
         });
         
-        $('#r_end_time').change(function() {
+        $('#r_end_time').on('change paste input', function() {
             if(!isEmpty(inputStartTime) && !isEmpty(inputEndTime))
                 isTimeUsable = true;
         });
@@ -310,7 +315,7 @@
         
         
         /********** 3. 예약할 회의실 **********/
-        $('#r_end_time').change(function() {
+        $('#r_end_time').on('click change paste input', function() {
             $.ajax({
                 url: "mrcheckrooms.mr",
                 dataType: 'json',
@@ -335,7 +340,7 @@
             });
         });
         
-        $('#r_room').on('change input', function() {
+        $('#r_room').on('change paste input', function() {
             inputRoom = $('#r_room').val();
             inputRoomName = $('#r_room option:selected').text();
             

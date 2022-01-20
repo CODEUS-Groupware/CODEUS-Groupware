@@ -5,13 +5,17 @@
 <html>
 <head>
 <meta charset="UTF-8">
-    <title>회의실 예약 - 예약 수정 </title>
+    <title>회의실 예약 - 수정 하기 </title>
     <!-- Pick date -->
     <link rel="stylesheet" href="${contextPath}/resources/assets/vendor/pickadate/themes/default.css">
     <link rel="stylesheet" href="${contextPath}/resources/assets/vendor/pickadate/themes/default.date.css">
     <!-- Custom Stylesheet -->
     <link href="${contextPath}/resources/assets/css/style.css" rel="stylesheet">
-
+    <style type="text/css">
+        #chkMsg {
+            color: black;
+        }
+    </style>
 </head>
 
 <body>
@@ -31,13 +35,21 @@
                 <div class="row page-titles mx-0">
                     <div class="col-sm-6 p-md-0">
                         <div class="welcome-text">
-                            <h4>예약 신청</h4>
+                            <h4>예약 수정</h4>
                         </div>
                     </div>
+                    <c:url var="mrlist" value="mrlist.mr">
+                        <c:param name="page2" value="${ page2 }"/>
+                    </c:url>
+                    <c:url var="mrupdateview" value="mrupdateview.mr">
+                        <c:param name="rNo" value="${ rNo }"/>
+                        <c:param name="page2" value="${ page2 }"/>
+                    </c:url>
                     <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">회의실 예약</li>
-                            <li class="breadcrumb-item active"><a href="javascript:void()">예약 수정</a></li>
+                            <li class="breadcrumb-item active"><a href="${ mrlist }">예약 목록</a></li>
+                            <li class="breadcrumb-item active"><a href="${ mrupdateview }">예약 수정</a></li>
                         </ol>
                     </div>
                 </div>
@@ -50,7 +62,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="form-validation">
-                                    <form class="form-valide" action="mrinsert.mr" method="post" onsubmit="return insertValidate();">
+                                    <form class="form-valide" action="mrupdate.mr" method="post" onsubmit="return insertValidate();">
                                         <div class="row">
                                             <div class="col-xl-6">
                                                 <div class="form-group row">
@@ -81,50 +93,94 @@
                                             <div class="col-xl-6">
                                                 <div class="form-group row">
                                                     <label class="col-lg-4 col-form-label" for="r_date">예약날짜
-                                                        <span class="text-danger">*</span>
+                                                        <c:if test="${ mr.rev_status == 0 }">
+                                                            <span class="text-danger">*</span>
+                                                        </c:if>
                                                     </label>
-                                                    <div class="col-lg-6 input-group datepicker">
-                                                        <input name="datepicker" class="datepicker-default form-control" id="r_date" required> <span class="input-group-append"><span class="input-group-text"><i
-                                                                    class="fa fa-calendar-o"></i></span></span>
-                                                    </div>
+                                                    <c:if test="${ mr.rev_status == 0 }">
+                                                        <div class="col-lg-6 input-group datepicker">
+                                                                <input name="datepicker" class="datepicker-default form-control" id="r_date" required> <span class="input-group-append"><span class="input-group-text"><i
+                                                                        class="fa fa-calendar-o"></i></span></span>
+                                                        </div>
+                                                    </c:if>
+                                                    <c:if test="${ mr.rev_status != 0 }">
+                                                        <div class="col-lg-6">
+                                                            <input type="text" class="form-control" name="r_date" value="${ mr.rev_date }" readonly>
+                                                        </div>
+                                                    </c:if>
                                                 </div>
                                                 <div class="form-group row">
                                                     <label class="col-lg-4 col-form-label" for="r_start_time">시작시간
-                                                        <span class="text-danger">*</span>
+                                                        <c:if test="${ mr.rev_status == 0 }">
+                                                            <span class="text-danger">*</span>
+                                                        </c:if>
                                                     </label>
                                                     <div class="col-lg-6">
-                                                        <select class="form-control" id="r_start_time" name="r_start_time" required></select>
+                                                        <c:if test="${ mr.rev_status == 0 }">
+                                                            <select class="form-control" id="r_start_time" name="r_start_time" required></select>
+                                                        </c:if>
+                                                        <c:if test="${ mr.rev_status != 0 }">
+                                                            <input type="text" class="form-control" id="r_start_time" name="r_start_time" value="${ mr.rev_start_time.getHours() == 9 ? '09' : mr.rev_start_time.getHours() }:${ mr.rev_start_time.getMinutes() == 0 ? '00' : '30' }" readonly>
+                                                        </c:if>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <label class="col-lg-4 col-form-label" for="r_end_time">종료시간
-                                                        <span class="text-danger">*</span>
+                                                        <c:if test="${ mr.rev_status == 0 }">
+                                                            <span class="text-danger">*</span>
+                                                        </c:if>
                                                     </label>
                                                     <div class="col-lg-6">
-                                                        <select class="form-control" id="r_end_time" name="r_end_time" required></select>
+                                                        <c:if test="${ mr.rev_status == 0 }">
+                                                            <select class="form-control" id="r_end_time" name="r_end_time" required></select>
+                                                        </c:if>
+                                                        <c:if test="${ mr.rev_status != 0 }">
+                                                            <input type="text" class="form-control" id="r_end_time" name="r_end_time" value="${ mr.rev_end_time.getHours() == 9 ? '09' : mr.rev_end_time.getHours() }:${ mr.rev_end_time.getMinutes() == 0 ? '00' : '30' }" readonly>
+                                                        </c:if>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label class="col-lg-4 col-form-label" for="r_room">예약할 회의실
-                                                        <span class="text-danger">*</span>
+                                                    <label class="col-lg-4 col-form-label" for="r_room">예약한 회의실
+                                                        <c:if test="${ mr.rev_status == 0 }">
+                                                            <span class="text-danger">*</span>
+                                                        </c:if>
                                                     </label>
                                                     <div class="col-lg-6">
-                                                        <select class="form-control" id="r_room" name="r_room" required></select>
+                                                        <c:if test="${ mr.rev_status == 0 }">
+                                                            <select class="form-control" id="r_room" name="r_room" required></select>
+                                                        </c:if>
+                                                        <c:if test="${ mr.rev_status != 0 }">
+                                                            <input type="text" class="form-control" id="r_room" name="r_room" value="${ mr.meet_name }" readonly>
+                                                        </c:if>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-xl-12">
                                                 <div class="form-group row">
                                                     <label class="col-lg-2 col-form-label" for="r_content">예약목적
-                                                        <span class="text-danger">*</span>
+                                                        <c:if test="${ mr.rev_status == 0 }">
+                                                            <span class="text-danger">*</span>
+                                                        </c:if>
                                                     </label>
                                                     <div class="col-lg-10 form-group">
-                                                        <textarea class="form-control" rows="6" id="r_content" name="r_content" placeholder="- 사용 목적 : &#13;&#10;&#13;&#10;- 사용 인원 : " required></textarea>
+                                                        <c:if test="${ mr.rev_status == 0 }">
+                                                            <textarea class="form-control" rows="6" id="r_content" name="r_content" placeholder="- 사용 목적 : &#13;&#10;&#13;&#10;- 사용 인원 : " required></textarea>
+                                                        </c:if>
+                                                        <c:if test="${ mr.rev_status != 0 }">
+                                                            <textarea class="form-control" rows="6" id="r_content" name="r_content" readonly>${ mr.rev_content }</textarea>
+                                                        </c:if>
                                                     </div>
                                                 </div>
                                                 <div class="d-flex justify-content-end">
-                                                    <!-- 신청하기 버튼(modal) -->
-                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#basicModal" onclick="lastCheck();">수정하기</button>
+                                                    <!-- 버튼 -->
+                                                    <c:if test="${ mr.rev_status == 0 }">
+                                                        <button type="button" class="btn btn-primary btn-sm mr-2" data-toggle="modal" data-target="#basicModal" onclick="lastCheck();">수정하기</button>
+                                                    </c:if>
+                                                    <button type="button" class="btn btn-primary btn-sm mr-2" onclick="location.href='${ mrlist }'">돌아가기</button>
+                                                    <c:if test="${ mr.rev_status == 0 }">
+                                                        <button type="button" class="btn btn-warning btn-sm mr-2" onclick="mrcancel.mr">예약취소</button>
+                                                        <button type="button" class="btn btn-success btn-sm" onclick="location.href='mrcomplete.mr'">사용완료</button>
+                                                    </c:if>
                                                     <!-- Modal -->
                                                     <div class="modal fade" id="basicModal">
                                                         <div class="modal-dialog" role="document">
@@ -207,8 +263,20 @@
     <script src="${contextPath}/resources/assets/vendor/jquery-validation/jquery.validate.min.js"></script>
     <!-- Form validate init -->
     <script src="${contextPath}/resources/assets/js/plugins-init/jquery.validate-init.js"></script>
-
+    
     <script>
+        /********** 기존 입력 값 호출 **********/
+        var mr_no = '<c:out value="${ mr.rev_no }"/>';
+        var mr_date = '<c:out value="${ mr.rev_date }"/>';
+        var mr_startTime = '<c:out value="${ mr.rev_start_time }"/>'.substr(11, 5);
+        var mr_endTime = '<c:out value="${ mr.rev_end_time }"/>'.substr(11, 5);
+        var mr_room = '<c:out value="${ mr.meet_name }"/>';
+        var mr_content = '<c:out value="${ mr.rev_content }"/>';
+        
+        
+        
+        
+        
         /********** 사용할 변수 정의 **********/
         var isDateUsable = false;       // 예약날짜 입력값 사용 가능 여부
         var inputDate = null;           // 예약날짜 입력값
@@ -234,10 +302,13 @@
         
         
         
-        
         /********** 1. 예약날짜 선택 **********/
         var $input = $('#r_date').pickadate();
         var picker = $input.pickadate('picker');
+        
+        $(function() {
+            picker.set('select', mr_date, { format: 'yyyy-mm-dd' });
+        });
         
         $('#r_date').on('propertychange change keyup paste input', function() {
             inputDate = picker.get('select', 'yyyy-mm-dd');
@@ -256,7 +327,7 @@
         var r_startTime = ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30'];
         var r_endTime = ['09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00'];
         
-        $('#r_start_time').one('click', function() {
+        $(function() {
             for(var i = 0; i < r_startTime.length; i++) {
                 $('#r_start_time').append('<option value="' + r_startTime[i] + '">' + r_startTime[i] + '</option>');
             }
@@ -269,8 +340,16 @@
                 }
             }
             
+            for(var i = 0; i < r_startTime.length; i++) {
+                if(mr_startTime == r_startTime[i]) {
+                    $('#r_start_time option[value="' + mr_startTime + '"]').prop('selected', true);
+                }
+            }
+            
             inputStartTime = $('#r_start_time').val();
-        }).change(function() {
+        });
+        
+        $('#r_start_time').on('change paste input', function() {
             if(!isEmpty($('#r_start_time').val())) {
                 $('#r_end_time').empty();
                 
@@ -286,13 +365,62 @@
             inputStartTime = $('#r_start_time').val();
         });
         
+        // 시작, 종료시간 및 회의실 로딩
+        $(function() {
+            if(!isEmpty($('#r_start_time').val())) {
+                $('#r_end_time').empty();
+                
+                for(var i = 0; i < r_startTime.length; i++) {
+                    if($('#r_start_time').val() == r_startTime[i]) {
+                        for(; i < r_endTime.length; i++) {
+                            $('#r_end_time').append('<option value="' + r_endTime[i] + '">' + r_endTime[i] + '</option>');
+                        }
+                    }
+                }
+            }
+            
+            for(var i = 0; i < r_endTime.length; i++) {
+                if(mr_endTime == r_endTime[i]) {
+                    $('#r_end_time option[value="' + mr_endTime + '"]').prop('selected', true);
+                }
+            }
+            
+            inputEndTime = $('#r_end_time').val();
+            
+            $.ajax({
+                url: "mrcheckroomsupdate.mr",
+                dataType: 'json',
+                data: {inputDate:inputDate, inputStartTime:inputStartTime, inputEndTime:inputEndTime, rNo:mr_no},
+                success: function(data) {
+                    console.log(data);
+                    
+                    $select = $('#r_room');
+                    $select.find('option').remove();
+                    
+                    for(var i in data) {
+                        var $option = $('<option>');
+                        $option.val(data[i].meet_no);
+                        $option.text(data[i].meet_name);
+                        
+                        $select.append($option);
+                    }
+                },
+                error: function(data) {
+                    console.log(data);
+                }
+            });
+            
+            if(!isEmpty(inputStartTime) && !isEmpty(inputEndTime))
+                isTimeUsable = true;
+        });
+        
         $('#r_end_time').one('click', function() {
             inputEndTime = $('#r_end_time').val();
             
             $('#r_room').empty();
             inputRoom = null;
             inputRoomName = null;
-        }).change(function() {
+        }).on('change paste input', function() {
             inputEndTime = $('#r_end_time').val();
             
             $('#r_room').empty();
@@ -300,7 +428,7 @@
             inputRoomName = null;
         });
         
-        $('#r_end_time').change(function() {
+        $('#r_end_time').on('change paste input', function() {
             if(!isEmpty(inputStartTime) && !isEmpty(inputEndTime))
                 isTimeUsable = true;
         });
@@ -310,11 +438,11 @@
         
         
         /********** 3. 예약할 회의실 **********/
-        $('#r_end_time').change(function() {
+        $('#r_end_time').on('click change paste input', function() {
             $.ajax({
-                url: "mrcheckrooms.mr",
+                url: "mrcheckroomsupdate.mr",
                 dataType: 'json',
-                data: {inputDate:inputDate, inputStartTime:inputStartTime, inputEndTime:inputEndTime},
+                data: {inputDate:inputDate, inputStartTime:inputStartTime, inputEndTime:inputEndTime, rNo:mr_no},
                 success: function(data) {
                     console.log(data);
                     
@@ -335,7 +463,7 @@
             });
         });
         
-        $('#r_room').on('change input', function() {
+        $('#r_room').on('change paste input', function() {
             inputRoom = $('#r_room').val();
             inputRoomName = $('#r_room option:selected').text();
             
@@ -353,6 +481,16 @@
         });
         
         $('#r_content').change(function() {
+            if(!isEmpty(inputContent) && inputContent.trim() != "")
+                isContentUsable = true;
+            else
+                isContentUsable = false;
+        });
+        
+        $(function() {
+            $('#r_content').val(mr_content);
+            inputContent = $('#r_content').val();
+            
             if(!isEmpty(inputContent) && inputContent.trim() != "")
                 isContentUsable = true;
             else
@@ -380,7 +518,7 @@
             console.log(isContentUsable);
             
             $('#chkMsg').next().find('button').remove();
-            var submitBtn = '<button type="submit" class="btn btn-primary">신청</button>';
+            var submitBtn = '<button type="submit" class="btn btn-primary">수정</button>';
             var dismissBtn1 = '<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>';
             var dismissBtn2 = '<button type="button" class="btn btn-secondary" data-dismiss="modal">확인</button>';
             
