@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="myPageMapper">
+
+	<update id="updateMember">
+		update member
+		set m_email = #{email}, m_birth_date = #{birthDate}, 
+			m_phone = #{phone}, m_profile = #{profile}, m_address = #{address},
+			m_img_origin_name = #{imgOriginName}, m_img_change_name = #{imgChangeName},
+			m_update_date = sysdate
+		where m_id = #{mId}
+	</update>
+	
+	<update id="updatePwd">
+		update member
+		set m_pwd = #{mPwd}, m_update_date = sysdate
+		where m_id = #{mId}
+	</update>
+
+	<select id="selectScrapList" resultMap="scrapResultSet">
+		select b_num, scrap_date, b_type, b_title, b_creare_date, b_status, 
+			   m_name board_writer_name, job_name board_writer_job
+		from scrap s
+			 left join board b using(b_num)
+             left join member m on(b.m_id = m.m_id)
+			 left join job using(job_id)
+			 left join department using(dept_id)
+		where s.m_id = #{ mId }
+		order by scrap_date desc
+	</select>
+	
+	<delete id="deleteScrap">
+		delete from scrap
+		where m_id = #{mId} and b_num = #{bNum}
+	</delete>
+	
+	<resultMap type="Scrap" id="scrapResultSet">
+		<id column="B_NUM" property="bNum"/>
+		<result column="B_TYPE" property="bType"/>
+		<result column="B_TITLE" property="bTitle"/>
+		<result column="B_CREARE_DATE" property="createDate"/>
+		<result column="B_STATUS" property="boardStatus"/>
+		<result column="BOARD_WRITER_NAME" property="boardWriterName"/>
+		<result column="BOARD_WRITER_JOB" property="boardWriterJob"/>
+	</resultMap>
+</mapper>
