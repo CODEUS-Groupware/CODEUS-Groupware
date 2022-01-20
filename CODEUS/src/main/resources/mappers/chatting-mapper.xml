@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="chattingMapper">
+
+	<select id="selectChatroom" resultMap="ChattingResultSet">
+		select chat_room.chat_num, msg_content, m_id, msg_time, sander
+		from chat_room
+		    join chat_message on(chat_message.chat_num = chat_room.chat_num)
+		where (chat_message.chat_num, msg_time) in (select chat_num, max(msg_time) from chat_message group by chat_num)
+	</select>
+	
+	<resultMap type="Chatroom" id="ChattingResultSet">
+		<id column="CHAT_NUM" property="roomNum"/>
+		<result column="GROUP_NUM" property="groupNum"/>
+		<result column="M_ID" property="myMid"/>
+		<result column="M_NAME" property="myMname"/>
+		<result column="SANDER" property="sander"/>
+		<result column="M_NAME" property="sanderName"/>
+		<result column="CHAT_STATUS" property="roomStatus"/>
+		<result column="" property="unReadCount"/>
+	</resultMap>
+	
+	<resultMap type="Message" id="MessageResultSet">
+		<id column="CHAT_NUM" property="roomNum"/>
+		<result column="groupNum" property="msgNum"/>
+		<result column="MSG_CONTENT" property="msgContent"/>
+		<result column="MSG_TIME" property="msgTime"/>
+		<result column="MSG_STATUS" property="msgStatus"/>
+		<result column="SANDER" property="sander"/>
+		<result column="M_NAME" property="sanderName"/>
+		<result column="GROUP_NUM" property="groupNum"/>
+	</resultMap>
+	
+	
+	
+</mapper>
