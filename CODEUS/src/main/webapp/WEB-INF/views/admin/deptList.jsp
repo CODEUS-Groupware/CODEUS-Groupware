@@ -90,7 +90,7 @@
 		                                            <span id="insertDeptNameGuide" class="guide text-danger"></span><br>
 		                                            &nbsp;<label class="col-form-label">부서책임자</label>
 		                                            <input id="insertDeptMgr" type="search" class="form-control insertInput" name="deptManager" list="memberList" placeholder="사원 아이디" autocomplete="off">
-							                        <datalist id="memberList">
+							                        <datalist id="memberList"> <!-- 자동완성 기능 제공 -->
 							                        	<c:forEach var="m" items="${ mList }">
 							                        		<option value="${ m.mId }">${ m.mName } ${ m.jobName }</option> 
 					 	                                 </c:forEach>
@@ -376,27 +376,25 @@
 				                                            	</c:if>
 		                                            		</li>
 		                                            	</c:if>
-								 	                    <c:if test="${ vs.last }">
-								 	                    	<c:forEach var="m" items="${ mList }">
-													        	<c:if test="${ m.deptId == null }">
-													            	<c:set var="hasChildren" value="true"/> 
-													            </c:if>
-								 	                   		</c:forEach>
-									 	                    <li><input class="lv lv2" type="hidden" name="deptId" value="${ null }">
-									 	                   		<i class="bi bi-folder-fill" style="color: gray"></i><a class="noDept"> 부서 미지정</a>
-				                                            	<c:if test="${ hasChildren }">
-				                                            	<c:set var="hasChildren" value="false"/> 
-						                                        	<ul class="hasChildren">
-								                                    	<c:forEach var="m" items="${ mList }">
-															            <c:if test="${ m.deptId == null }">
-															            	<li><span><i class="bi bi-person-fill"></i>${ m.mName } ${ m.jobName }</span></li>
-															            </c:if>
-													 	                </c:forEach>
-												 	             	</ul>
-				                                            	</c:if>
-			                                            	 </li>
-		                                            	 </c:if>
 		                                            </c:forEach>
+		                                            <c:forEach var="m" items="${ mList }">
+													    <c:if test="${ m.deptId == null }">
+													       <c:set var="hasChildren" value="true"/> 
+													    </c:if>
+								 	                </c:forEach>
+									 	            <li><input class="lv lv2" type="hidden" name="deptId" value="${ null }"> <!-- 부서 미지정 사원 표시 -->
+									 	               <i class="bi bi-folder-fill" style="color: gray"></i><a class="noDept"> 부서 미지정</a>    		
+				                                       <c:if test="${ hasChildren }">     	
+				                                       	  <c:set var="hasChildren" value="false"/>      	
+						                                  <ul class="hasChildren">      	
+								                           	<c:forEach var="m" items="${ mList }">         	
+															    <c:if test="${ m.deptId == null }">       
+															    	<li><span><i class="bi bi-person-fill"></i>${ m.mName } ${ m.jobName }</span></li>  	
+															    </c:if>
+													 	    </c:forEach>
+												 	      </ul>
+				                                    	</c:if>
+			                                        </li>
 		                                    	</ul>
 	                                    	</c:if>
 	                                	</li>
@@ -592,7 +590,7 @@
 		            	});
 		  
 		            </script>
-		            <!------------------- 조직도 treeview 조회 관련 js 시작 -------------------->
+		            <!------------------- 조직도 treeview 조회 관련 js 끝 -------------------->
 		             
 		            <!------------------- 조직도 내 부서 위치 이동 관련 js 시작 -------------------->
 					<script>

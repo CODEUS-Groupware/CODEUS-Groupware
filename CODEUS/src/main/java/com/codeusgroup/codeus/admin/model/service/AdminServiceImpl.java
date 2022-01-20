@@ -12,6 +12,7 @@ import com.codeusgroup.codeus.admin.model.dao.AdminDAO;
 import com.codeusgroup.codeus.admin.model.vo.Department;
 import com.codeusgroup.codeus.admin.model.vo.Job;
 import com.codeusgroup.codeus.admin.model.vo.PageInfo;
+import com.codeusgroup.codeus.admin.model.vo.Report;
 import com.codeusgroup.codeus.member.model.vo.Member;
 
 @Service("aService")
@@ -124,7 +125,6 @@ public class AdminServiceImpl implements AdminService {
 		}
 		
 		return d;
-				
 	}
 
 	@Override
@@ -141,5 +141,48 @@ public class AdminServiceImpl implements AdminService {
 	public int moveDept(HashMap<String, Integer> map) {
 		return aDAO.moveDept(sqlSession, map);
 	}
+
+	@Override
+	public int getReportListCount() {
+		return aDAO.getReportListCount(sqlSession); 
+	}
+	
+	@Override
+	public ArrayList<Report> selectBoardReportList(PageInfo pi) {
+		return aDAO.selectBoardReportList(sqlSession, pi); 
+	}
+
+	@Override
+	public ArrayList<Report> selectReplyReportList(PageInfo pi) {
+		return aDAO.selectReplyReportList(sqlSession, pi); 
+	}
+
+	@Override
+	@Transactional
+	public int handingBoardReport(Report report) {
+		System.out.println(report);
+		int result = aDAO.handingBoardReport(sqlSession, report);
+		
+		if (result > 0 && report.getReportStatus() == 1) {
+			result = aDAO.deleteBoard(sqlSession, report.getbNum());
+		}
+		
+		return result;
+	}
+
+	@Override
+	@Transactional
+	public int handingReplyReport(Report report) {
+		System.out.println(report);
+		int result = aDAO.handingReplyReport(sqlSession, report);
+		
+		if (result > 0 && report.getReportStatus() == 1) {
+			result = aDAO.deleteReply(sqlSession, report.getReplyNo());
+		}
+		
+		return result;
+	}
+
+
 
 }

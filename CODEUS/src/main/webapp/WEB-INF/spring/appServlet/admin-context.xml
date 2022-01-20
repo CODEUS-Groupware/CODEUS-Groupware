@@ -24,5 +24,9 @@
 			<mvc:mapping path="/**"/> <!-- "/**" : 모든 요청(url)에 다 적용 --> 
 			<bean id="Interceptor" class="com.codeusgroup.codeus.common.interceptor.AdminEnterInterceptor"/> <!-- 실행되는 객체 지정 -->
 		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/> 
+			<bean id="memberInterceptor" class="com.codeusgroup.codeus.common.interceptor.MemberEnterInterceptor"/>
+		</mvc:interceptor>
 	</mvc:interceptors>
 </beans>
