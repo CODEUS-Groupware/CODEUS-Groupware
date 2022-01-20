@@ -241,14 +241,14 @@
                                 class="fa fa-calendar"></i><span class="nav-text">캘린더</span></a>
                         <ul aria-expanded="false">
                             <li><a href="calendar.ca">사내 일정 캘린더</a></li>
-                            <li><a href="calendar2.ca">내 일정 캘린더</a></li>
+                            <li><a href="myCalendar.ca">내 일정 캘린더</a></li>
                         </ul>
                     </li>                    
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
                                 class="icon icon-single-04"></i><span class="nav-text">마이페이지</span></a>
                         <ul aria-expanded="false">
-                            <li><a href="javascript:void()">내 정보</a></li>
-                            <li><a href="javascript:void()">스크랩 관리</a></li>
+                            <li><a href="myInfo.mp">내 정보</a></li>
+                            <li><a href="scrapList.mp">스크랩 관리</a></li>
                         </ul>
                     </li>
                 </ul>
