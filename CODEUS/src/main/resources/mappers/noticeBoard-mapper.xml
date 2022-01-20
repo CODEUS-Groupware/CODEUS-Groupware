@@ -168,6 +168,20 @@
 		where  b_num = #{bNum}
 	</update>
 	
+	<select id="selectNoticeBoardListMain" resultMap="noticeBoardResultSet">
+		<![CDATA[
+			SELECT *
+			FROM (SELECT B_NUM, B_TYPE, B_TITLE, B_VIEWS, B_CREARE_DATE, B_STATUS, 
+						   B_PIN, B.M_ID M_ID, M_NAME, JOB_NAME
+				  FROM BOARD B
+					   LEFT JOIN MEMBER M ON(B.M_ID = M.M_ID)
+					   LEFT JOIN JOB USING(JOB_ID)
+				  WHERE B_TYPE = '공지' AND B_STATUS = 0
+				  ORDER BY B_PIN DESC, B_NUM DESC)
+			WHERE ROWNUM <= 5
+		]]>
+	</select>
+	
 	
 	<resultMap type="NoticeBoard" id="noticeBoardResultSet">
 		<id column="B_NUM" property="bNum"/>
