@@ -26,7 +26,10 @@ public class addressController {
 	private AddressService addrService;
 	
 	@RequestMapping("list.addr")
-	public ModelAndView addressListView(@RequestParam(value="page", required = false) Integer page, ModelAndView mv) {
+	public ModelAndView addressListView(@RequestParam(value="page", required = false) Integer page,
+										HttpServletRequest request,
+										ModelAndView mv) {
+		
 		int currentPage = 1;
 		if(page != null) {
 			currentPage = page;
@@ -35,8 +38,10 @@ public class addressController {
 		int listCount = addrService.getListCount();
 		
 		PageInfo pi =  Pagination.getPageInfo(currentPage, listCount);
-
-		ArrayList<Member> list = addrService.selectMyList(pi);
+		
+		String userId = ((Member)request.getSession().getAttribute("loginUser")).getmId();
+		
+		ArrayList<Member> list = addrService.selectMyList(pi, userId);
 		
 		if(list != null) {
 			mv.addObject("pi", pi);
@@ -44,7 +49,7 @@ public class addressController {
 			mv.setViewName("addressListView");
 			
 		} else {
-			throw new AddressException("주소록 조회에 실패했습니다.");
+			throw new AddressException("내 주소록 조회에 실패했습니다.");
 		}
 		
 		return mv;

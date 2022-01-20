@@ -44,10 +44,10 @@ public class AddressDAO {
 		return sqlSession.insert("addressMapper.addAddress", map);
 	}
 
-	public ArrayList<Member> selectMyList(SqlSessionTemplate sqlSession, PageInfo pi) {
+	public ArrayList<Member> selectMyList(SqlSessionTemplate sqlSession, PageInfo pi, String userId) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getAddressLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getAddressLimit());
 		
-		return (ArrayList)sqlSession.selectList("addressMapper.selectMyList", null, rowBounds);
+		return (ArrayList)sqlSession.selectList("addressMapper.selectMyList", userId, rowBounds);
 	}
 }

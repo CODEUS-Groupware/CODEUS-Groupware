@@ -60,7 +60,14 @@
 	<select id="selectMyList" resultMap="memberResultSet">
 		select *
 		from member
-		join address using(m_id)
-		where address.m_id = addr_m_id;
+		where m_id in (
+			select addr_m_id
+			from address
+			where m_id = #{userId}
+			)
 	</select>
+	
+	
+	
+	
 </mapper>

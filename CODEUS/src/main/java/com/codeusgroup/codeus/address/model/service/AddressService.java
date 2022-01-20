@@ -15,6 +15,6 @@ public interface AddressService {
 
 	int addAddress(String userId, String mId);
 
-	ArrayList<Member> selectMyList(PageInfo pi);
+	ArrayList<Member> selectMyList(PageInfo pi, String userId);
 
 }
