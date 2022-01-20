@@ -188,7 +188,6 @@
 		                					url: 'sendMail.mp',
 		                					data: {email:email},
 		                					success: function(data){
-		                						console.log(data);
 		                						if (data.length > 0 && data != "fail") {
 		                							authCode = data.trim();
 		                							$('#emailCheck').show();
