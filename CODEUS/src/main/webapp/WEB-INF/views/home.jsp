@@ -595,10 +595,6 @@
 	        Calendar Scripts
 	    ***********************************-->
 	<%--     <script src="${contextPath}/resources/assets/js/dashboard/dashboard-2.js"></script> --%>
-<!-- 캘린더 script -->
-<%-- 	    <script src="${contextPath}/resources/assets/vendor/global/global.min.js"></script> --%>
-<%-- 	    <script src="${contextPath}/resources/assets/js/quixnav-init.js"></script> --%>
-<%-- 	    <script src="${contextPath}/resources/assets/js/custom.min.js"></script>      --%>
 
 
     <!-- Circle progress -->
