@@ -201,8 +201,8 @@
 	width: 620px;
 }
 #deptTotalTable th, td{
-	 min-width: 120px!important;
-    max-width: 120px!important; 
+	 min-width: 110px!important;
+    max-width: 110px!important; 
     text-align: center;
 }
 /* #deptTotalTable th{
