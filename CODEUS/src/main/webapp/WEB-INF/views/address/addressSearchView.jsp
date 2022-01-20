@@ -65,9 +65,6 @@
                                             <tr>
                                                 <td id="mEmail">이메일</td>
                                             </tr>
-                                            <tr>
-                                                <td><button class="form-control input-default" style="background: #593bdb; color: white;">+</button></td>
-                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
