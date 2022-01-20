@@ -7,9 +7,14 @@
 <meta charset="UTF-8">
 <title>자유게시판</title>
 <style type="text/css">
-	#tb{margin: auto; width: 700px; border-collapse: collapse;}
-	#tb tr td{padding: 5px;}
+	
+	th, td {
+	 		 text-align: center;
+	 		 font-size : 15px;
+	 		 color: black;
+	}
 	#buttonTab{border-left: hidden; border-right: hidden;}
+	
 </style>
 	<!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon.png">
@@ -20,169 +25,192 @@
 
 </head>
 <body>
-	<c:import url="../member/menubar.jsp"/>
-	
-	     <!--**********************************
-            Content body start
-        ***********************************-->
-         <div class="content-body">
-            <div class="container-fluid">
-                <div class="row page-titles mx-0">
-                    <div class="col-sm-6 p-md-0">
-                        <div class="welcome-text">
-                            <h4>Hi, welcome back!</h4>
-                            <span class="ml-1">Datatable</span>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">Table</a></li>
-                            <li class="breadcrumb-item active"><a href="javascript:void(0)">Datatable</a></li>
-                        </ol>
-                    </div>
-                </div>
-	             <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">자유게시판</h4>
-                           </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                	<div id ="searchBox" class="col-sm-11 col-md-11 text-right">
-	
-						<!-- 검색 -->
+<!--**********************************
+       Main wrapper start
+   ***********************************-->
+ <div id="main-wrapper">	
 
-							<div class="form-group row justify-content-center">
-								<div class="w100" style="padding-right:10px">
-								<form id="rightTop" class="form-inline" onsubmit="return false;">
-									<select class="form-control form-control-sm" 
-									name="searchType" id="searchType" onchange="location.href = this.value;">
-									
-										<option value="name"
-								<c:if test="${searchType eq 'name'}">selected</c:if>>아이디</option>
-							<option value="subject"
-								<c:if test="${searchType eq 'subject'}">selected</c:if>>제목</option>
-							<option value="content"
-								<c:if test="${searchType eq 'content'}">selected</c:if>>내용</option>	
-									</select>
-								</form>	
-								</div>
-								<div class="w300" style="padding-right:10px">
-									<input type="text" class="form-control form-control-sm" name="keyword" id="keyword">
-								</div>
-								<div>
-									<button class="btn btn-sm btn-primary" name="btnSearch" id="btnSearch">검색</button>
-								</div>
-							</div>
-						<c:url var="getBoardListURL" value="/commboard/commBoardList"></c:url>
-
-		
-					<script>
-						$(document).on('click', '#btnSearch', function(e){
-							e.preventDefault();
-							var url = "${commBoardList}";   
-							url = url + "?searchType=" + $('#searchType').val();
-							url = url + "&keyword=" + $('#keyword').val();
-							location.href = url;
-							console.log(url);
-					
-						});	
-					
-					</script>
-	
-						<!-- 검색  -->
-
-						<!-- 본문 테이블 영역   시작-->
-	
-					<div class="col-lg-12">
-                        <div class="card">
-                            	<div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-hover table-responsive-sm" style="color : black;">
-                                        <thead>
-                                        <tr>
-							              <th>No</th>
-							              <th width="300">제목</th>
-							              <th>작성자</th>
-							              <th>작성일</th>
-							              <th>조회수</th>
-							          </tr>
-							       </thead>
-							        <tbody>
-									<c:forEach var="b" items="${ list }">
-									<tr class="contentTR">
-										<th align="center">${ b.bId }</th>
-										<th align="left">${ b.bTitle }</th>	
-										<th align="center">${ b.bWriter }</th>
-										<th align="center">${ b.bCreateDate }</th>
-										<th align="center">${ b.bViews }</th>
-									</tr>
-									</c:forEach>
-							     </tbody>
-									
-									<tr  height="80">
-									
-										<td colspan="6" align="right" id="buttonTab">
-												<button  type="button" 
-							                                    onclick="location.href='CommboardinsertView.bo';" class="btn btn-primary">글쓰기</button>		
-										</td>
-									</tr>
-							<!-- 본문 테이블 영역  끝-->
-		
-									
-									
-									
-									<!-- 페이징 처리 -->
-									<tr  align="center" height="20" id="buttonTab">
-										<td colspan="6">
-										
-											<!-- [이전] -->
-											<c:if test="${ pi.currentPage <= 1 }">
-												[이전] &nbsp;
-											</c:if>
-											<c:if test="${ pi.currentPage > 1 }">
-												<c:url var="before" value="Commblist.bo">
-													<c:param name="page" value="${ pi.currentPage - 1 }"/>
-												</c:url>
-												<a href="${ before }">[이전]</a> &nbsp;
-											</c:if>
+<c:import url="../common/menubar.jsp"/>
+	 
+<!--**********************************
+          Content body start
+    ***********************************-->
+		<div class="content-body">
+		   <div class="container-fluid">
+		       <div class="row page-titles mx-0">
+		           <div class="col-sm-6 p-md-0">
+		               <div class="welcome-text">
+		                   <h4>Hi, welcome back!</h4>
+		                   <span class="ml-1">Datatable</span>
+		               </div>
+		           </div>
+		           <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+		               <ol class="breadcrumb">
+		                   <li class="breadcrumb-item"><a href="javascript:void(0)">Table</a></li>
+		                   <li class="breadcrumb-item active"><a href="javascript:void(0)">Datatable</a></li>
+		               </ol>
+		           </div>
+		       </div>
+		     <div class="row">
+		           <div class="col-12">
+		               <div class="card">
+		                   <div class="card-header">
+		                       <h4 class="card-title">자유게시판</h4>
+		                  </div>
+		                   <div class="card-body">
+		                       <div class="table-responsive">
+		                       	<div id ="searchBox" class="col-sm-12">
+								<!--  검색 영역 -->
+								<div id="searchArea" align="center" class="form-group row justify-content-center">
+									<div class="w100" style="padding-right:10px">
+									<form action="commBoardSearch.bo" method="get" class="form-inline">
+										<select id="searchCondition" name="searchCondition" class="form-control form-control-sm">
+											<option value="all"
+												<c:if test="${search.searchCondition == 'all'}">selected</c:if>>전체</option>
+											<option value="bTitle"
+												<c:if test="${search.searchCondition == 'bTitle'}">selected</c:if>>제목</option>
+											<option value="bContent"
+												<c:if test="${search.searchCondition == 'bContent'}">selected</c:if>>내용</option>
+										</select> 
+										<input type="text" name="searchValue" class="form-control form-control-sm" value="${search.searchValue }"> 
+											<input type="submit" value="검색" class="btn btn-sm btn-primary">
+										</form>					
+									</div>
+								</div>	
+							<!-- 검색 영역  -->
+							<!-- 본문 테이블 영역  -->
+		              <div class="table-responsive">
+		              	<div class="col-lg-12">
+		                    <div class="card">
+		                 		 <table class="table table-hover table-responsive-sm" style="color : black; text-align: center;"  >
+		                        		<thead>
+		                              		<tr>
+								              <th width="10%">No</th>
+								              <th width="50%">제목</th>
+								              <th>작성자</th>
+								              <th>작성일</th>
+								              <th>조회수</th>
+									         </tr>
+										</thead>
+											<tbody>
+		                                    	<c:if test="${ empty list }">
+		                                       		<tr>
+				                                		<td colspan="4">등록된 게시물이 없습니다.</td>
+			                                   		</tr>
+		                                        </c:if>
+											<c:forEach var="b" items="${ list }">
+											<c:url var="commdetail" value="CommBoardDetail.bo">
+											<c:param name="nId" value="${ n.nId }"/>
+													<c:param name="page" value="${ pi.currentPage }"/>
+													<c:param name="searchCondition" value="${ search.searchCondition }"/>
+													<c:param name="searchValue" value="${ search.searchValue }"/>
+											</c:url>
 											
-											<!-- 페이지 -->
-											<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
-												<c:if test="${ p eq pi.currentPage }">
-													<font color="red" size="4"><b>[${ p }]</b></font>
-												</c:if>
-												
-												<c:if test="${ p ne pi.currentPage }">
-													<c:url var="pagination" value="Commblist.bo">
-														<c:param name="page" value="${ p }"/>
-													</c:url>
-													<a href="${ pagination }">${ p }</a> &nbsp;
-												</c:if>
+											<tr class="contentTR">
+												<th align="center">${ b.bId }</th>
+												<th align="left">${ b.bTitle }</th>	
+												<th align="center">${ b.bWriter }</th>
+												<th align="center">${ b.bCreateDate }</th>
+												<th align="center">${ b.bViews }</th>
+											</tr>
 											</c:forEach>
-											
-											<!-- [다음] -->
-											<c:if test="${ pi.currentPage >= pi.maxPage }">
-												[다음]
-											</c:if>
-											<c:if test="${ pi.currentPage < pi.maxPage }">
-												<c:url var="after" value="Commblist.bo">
-													<c:param name="page" value="${ pi.currentPage + 1 }"/>
-												</c:url> 
-												<a href="${ after }">[다음]</a>
-											</c:if>
-										</td>
-									</tr>
-								</table>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<script>
+									     </tbody>
+									   </table>
+									<!-- 본문 테이블 영역  끝-->
+										<!-- 페이징 처리 -->
+												<div style="margin-left: auto; margin-right: auto;">
+		                            				<nav>
+		                                				<ul class="pagination pagination-xs pagination-circle">
+														
+															<!-- searchValue가 있으면 검색 Servlet으로, 있으면 게시판 조회 servlet으로 넘김 -->
+												         	<c:if test="${ searchValue eq null }">
+												         		<c:set var="loc" value="/Commblist.bo" scope="page"/>
+												         	</c:if>
+												         	<c:if test="${ searchValue ne null }">
+												         		<c:set var="loc" value="/commBoardSearch.bo" scope="page"/>
+												         	</c:if>
+															<!-- [이전] -->
+															<c:if test="${ pi.currentPage <= 1 }">
+															<li class="page-item page-indicator disabled">
+					                                        	<a class="page-link">
+					                                            	<i class="icon-arrow-left"></i></a>                                     
+					                                  				</li>
+															</c:if>
+															<c:if test="${ pi.currentPage > 1 }">
+																<c:url var="before" value="${ loc }">
+																<c:if test="${ search.searchValue ne null }">
+																	<c:param name="searchCondition" value="${ search.searchCondition }"/>
+																	<c:param name="searchValue" value="${ search.searchValue }"/>
+																</c:if>
+																	<c:param name="page" value="${ pi.currentPage - 1 }"/>
+																</c:url>
+																<li class="page-item page-indicator">
+			                                        				<a class="page-link" href="${ before }">
+			                                            		<i class="icon-arrow-left"></i></a>
+			                                       				 </li> 	
+															</c:if>
+															<!-- 페이지 숫자 -->
+															<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+																<c:if test="${ p eq pi.currentPage }">
+																	<li class="page-item active"><a class="page-link">${ p }</a></li>
+																</c:if>
+																
+																<c:if test="${ p ne pi.currentPage }">
+																	<c:url var="pagination" value="${ loc }">
+																		<c:if test="${ searchValue ne null }">
+													         				<!--  이전, 다음, 번호 등 페이지를 눌렀을 때 검색 조건을 유지시키기 위해 검색 옵션과 검색어를 가져옴 -->
+													         				<c:param name="searchCondition" value="${ searchCondition }"/>
+													         				<c:param name="searchValue" value="${ searchValue }"/>
+													         			</c:if>
+																		<c:param name="page" value="${ p }"/>
+																	</c:url>
+																	<li class="page-item"><a class="page-link" href="${ pagination }">${ p }</a></li>
+																</c:if>
+															</c:forEach>
+															<!-- [다음] -->
+															<c:if test="${ pi.currentPage >= pi.maxPage }">
+																<li class="page-item page-indicator disabled">
+		                                            			<a class="page-link">
+		                                                			<i class="icon-arrow-right"></i></a>
+                                       					 		</li>
+															</c:if>
+															<c:if test="${ pi.currentPage < pi.maxPage }">
+																<c:url var="after" value="${ loc }">
+																		<c:if test="${searchValue ne null }">
+													         				<!--  이전, 다음, 번호 등 페이지를 눌렀을 때 검색 조건을 유지시키기 위해 검색 옵션과 검색어를 가져옴 -->
+													         				<c:param name="searchCondition" value="${ searchCondition }"/>
+													         				<c:param name="searchValue" value="${ searchValue }"/>
+														         		</c:if>
+																	<c:param name="page" value="${ pi.currentPage + 1 }"/>
+																</c:url> 
+																<li class="page-item page-indicator">
+			                                            			<a class="page-link" href="${ after }">
+			                                                			<i class="icon-arrow-right"></i></a>
+				                                        				</li>
+																	</c:if>
+																</ul>
+			                                				</nav>
+			                           				 	</div>
+			                           					<!-- 페이징 영역 끝 -->
+			                           				<div>
+			                        			</div>
+											</div>
+			               				</div>
+				                	</div>
+				               	<p align="right">
+									<button  type="button" 
+				                  	onclick="location.href='CommboardinsertView.bo';" class="btn btn-primary">글쓰기</button>		
+								</p>
+				        	</div>
+				   		 </div>
+					  </div>
+		 		</div>
+		 	</div>
+	 	</div>
+ 	</div>
+ </div>
+ <script>
+
 		$(function() {
 			$('.contentTR').click(function() {
 				var bId = $(this).children("th").eq(0).text();
@@ -191,47 +219,49 @@
 			});
 		});
 	</script>
-     <!--**********************************
-            Footer start
-        ***********************************-->
-        <div class="footer">
-            <div class="copyright">
-                <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">Quixkit</a> 2019</p>
-            </div>
-        </div>
-        <!--**********************************
-            Footer end
-        ***********************************-->
-
-        <!--**********************************
-           Support ticket button start
-        ***********************************-->
-
-        <!--**********************************
-           Support ticket button end
-        ***********************************-->
-
-        
-    </div>
-    <!--**********************************
-        Main wrapper end
-    ***********************************-->
-
-   
-<!--**********************************
-        Scripts
-    ***********************************-->
-    <!-- Required vendors -->
-    <script src="${contextPath}/resources/assets/vendor/global/global.min.js"></script>
-    <script src="${contextPath}/resources/assets/js/quixnav-init.js"></script>
-    <script src="${contextPath}/resources/assets/js/custom.min.js"></script>
+ 
     
+<!--**********************************
+          Content body end
+***************************************-->
+
+<!--**********************************
+    Footer start
+***********************************-->
+<div class="footer">
+    <div class="copyright">
+        <p>Copyright © Designed &amp; Developed by <a href="${contextPath}/home.do" target="_blank">CODEUS</a> 2021</p>
+    </div>
+</div>
+<!--**********************************
+    Footer end
+***********************************-->      
+      
+</div>
+
+<!--**********************************
+    Main wrapper end
+***********************************-->
+
+<!--**********************************
+     Scripts
+ ***********************************-->
+
+    
+   <!-- Tree Viewer JS
+	============================================ -->
+<!-- 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script> -->
 
 
-    <!-- Datatable -->
-    <script src="${contextPath}/resources/assets/vendor/datatables/js/jquery.dataTables.min.js"></script>
-    <script src="${contextPath}/resources/assets/js/plugins-init/datatables.init.js"></script>
+<!-- <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script> -->
 
+	<script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.cookie.js"></script>
+	<script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.treeview.js" type="text/javascript"></script>
+	<script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.treeview.edit.js" type="text/javascript"></script>
+	<script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.treeview.async.js" type="text/javascript"></script>
+	
+	<!-- drag and drop 관련 js -->
+	<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
 </body>
 
 </html>

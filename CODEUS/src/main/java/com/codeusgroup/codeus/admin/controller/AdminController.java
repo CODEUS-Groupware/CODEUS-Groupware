@@ -15,6 +15,7 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,6 +40,9 @@ public class AdminController {
 	@Autowired
 	private AdminService aService;
 	
+    /**
+     * 사원 목록 조회
+     */
 	@RequestMapping("admin/mlist.ad")
 	public ModelAndView selectMemberList(@RequestParam(value="page", required=false) Integer page, 
 										@RequestParam(value="message", required=false) String message, ModelAndView mv) {
@@ -54,7 +58,7 @@ public class AdminController {
 		
 		ArrayList<Integer> memberCount = aService.getMemberCount();
 		ArrayList<Member> mList = aService.selectMemberList(pi);
-		ArrayList<Member> mList2 = aService.selectMemberList(null);
+		ArrayList<Member> mList2 = aService.selectMemberList(null); // 사원 이름 검색시 자동완성 기능 제공하기 위한 memberList
 		ArrayList<Department> dList = aService.selectDepartmentList();
 		ArrayList<Job> jList = aService.selectJobList();
 		
@@ -74,6 +78,9 @@ public class AdminController {
 		return mv;
 	}
 	
+    /**
+     * 사원 검색
+     */	
 	@RequestMapping("admin/msearch.ad")
 	public ModelAndView selectSearchMemberList(@RequestParam(value="page", required=false) Integer page, 
 										 @RequestParam(value="selectDept", required=false) String selectDept,
@@ -117,6 +124,9 @@ public class AdminController {
 		return mv;
 	}
 	
+    /**
+     * 사원 정보 수정(여러 명)
+     */
 	@RequestMapping("admin/mupdatemulti.ad")
 	public String updateMultiMember(@RequestParam("mId") String[] mIdArr, @RequestParam("mStatus") int mStatus) {
 		
@@ -128,7 +138,10 @@ public class AdminController {
 		
 		return "redirect:mlist.ad?message=u";
 	}
-
+	
+	/**
+     * 사원 삭제
+     */
 	@RequestMapping("admin/mdelete.ad")
 	public String deleteMember(@RequestParam("mId") String[] mIdArr) {
 		
@@ -141,6 +154,9 @@ public class AdminController {
 		return "redirect:mlist.ad?message=d";
 	}	
 	
+    /**
+     * 사원 상새
+     */
 	@RequestMapping("admin/mdetail.ad")
 	public ModelAndView memberDetail(@RequestParam("mId") String mId, @RequestParam("page") int page, 
 									 @RequestParam(value="selectDept", required=false) String selectDept,
@@ -150,11 +166,11 @@ public class AdminController {
 		Member member = aService.selectMember(mId);
 		ArrayList<Department> dList = aService.selectDepartmentList();
 		ArrayList<Job> jList = aService.selectJobList();
-		mv.addObject("dList", dList);
-		mv.addObject("jList", jList);
 		
 		if (member != null && dList != null && jList != null) {
 			mv.addObject("member", member);
+			mv.addObject("dList", dList);
+			mv.addObject("jList", jList);
 			mv.addObject("page", page);
 			mv.addObject("selectDept", selectDept);
 			mv.addObject("selectJob", selectJob);
@@ -168,6 +184,9 @@ public class AdminController {
 		return mv;
 	}
 	
+    /**
+     * 사원 정보 수정(1명)
+     */
 	@RequestMapping("admin/mupdate.ad")
 	public String updateMember(@ModelAttribute Member m, @RequestParam("inputHireDate") String inputHireDate, 
 							   @RequestParam("inputEndDate") String inputEndDate, @RequestParam("page") int page,
@@ -208,6 +227,9 @@ public class AdminController {
 		return "redirect:mdetail.ad";
 	}
 	
+    /**
+     * 직위 목록
+     */
 	@RequestMapping("admin/joblist.ad")
 	public String selectJobList(Model model) {
 		
@@ -222,6 +244,9 @@ public class AdminController {
 		return "jobList";
 	}
 	
+    /**
+     * 직위 삭제
+     */
 	@RequestMapping("admin/jdelete.ad")
 	public void deleteJob(@RequestParam("jobIdArr") String[] jobIdArr, HttpServletResponse response) {
 		
@@ -247,12 +272,15 @@ public class AdminController {
 		
 	}	
 	
+    /**
+     * 직위 등록
+     */
 	@RequestMapping("admin/jinsert.ad")
 	public void insertJob(@ModelAttribute Job job, HttpServletResponse response) {
 		
 		int result = aService.insertJob(job);
 		
-		if (result < 0) {
+		if (result <= 0) {
 			throw new AdminException("직위 등록에 실패하였습니다.");
 		}
 		
@@ -271,12 +299,15 @@ public class AdminController {
 		}
 	}
 	
+    /**
+     * 직위 수정
+     */
 	@RequestMapping("admin/jupdate.ad")
 	public void updateJob(@ModelAttribute Job job, HttpServletResponse response) {
 		
 		int result = aService.updateJob(job);
 		
-		if (result < 0) {
+		if (result <= 0) {
 			throw new AdminException("직위 수정에 실패하였습니다.");
 		}
 		
@@ -295,8 +326,11 @@ public class AdminController {
 		}		
 	}
 	
+    /**
+     * 부서 목록 조회
+     */
 	@RequestMapping("admin/deptlist.ad")
-	public String selectDepartmentList(Model model) {
+	public String selectDepartmentList(Model model, @RequestParam(value="message", required=false) String message) {
 		
 		ArrayList<Department> dList = aService.selectDepartmentList();
 		ArrayList<Member> mList = aService.selectDeptMemberList(null);
@@ -304,6 +338,7 @@ public class AdminController {
 		if(dList != null && mList != null) {
 			model.addAttribute("dList", dList);
 			model.addAttribute("mList", mList);
+			model.addAttribute("message", message);
 		} else {
 			throw new AdminException("직위 목록 조회에 실패하엿습니다.");
 		}
@@ -311,9 +346,12 @@ public class AdminController {
 		return "deptList";		
 	}	
 	
+    /**
+     * 하위 부서 목록 조회
+     */
 	@RequestMapping("admin/subDeptList.ad")
 	@ResponseBody
-	public String getSubDeptList(@RequestParam("upperDept") Integer upperDept, HttpServletResponse response) {
+	public String getSubDeptList(@RequestParam("upperDept") Integer upperDept) {
 		
 		ArrayList<Department> subDeptList = aService.getSubDeptList(upperDept);
 		ArrayList<Member> deptMemberList = aService.selectDeptMemberList(upperDept);
@@ -322,6 +360,7 @@ public class AdminController {
 			throw new AdminException("하위 부서 목록 불러오기에 실패하였습니다.");
 		}
 		
+		// 해당 부서의 하위 부서 목록과 해당 부서의 부서원 목록을 한 JSONArry객체에 담아서 view로 전송
 		JSONArray jArr = new JSONArray();
 		JSONObject jObj = null;
 		for (Member m : deptMemberList) {
@@ -349,11 +388,33 @@ public class AdminController {
 		return jArr.toJSONString();
 	}
 	
+    /**
+     * 부서 등록
+     */
 	@RequestMapping("admin/dinsert.ad")
 	public void insertDept(@ModelAttribute Department dept, HttpServletResponse response) {
 		
-		ArrayList<Department> subDeptList = aService.getSubDeptList(dept.getUpperDept());
-		dept.setDeptOrder(subDeptList.size() + 1);
+		if (dept.getUpperDept() != null) {
+			ArrayList<Department> subDeptList = aService.getSubDeptList(dept.getUpperDept());
+			// dept.setDeptOrder(subDeptList.size() + 1); // 정렬순서 마지막이 되도록 설정
+			
+			// 같은 상위부서를 가지고 있는 하위부서들의 정렬순서 중 가장 큰 것으로 저장되게 함
+			int deptOrder = 0;
+			if (subDeptList.size() > 0) {
+				for (Department d : subDeptList) {
+					if (deptOrder < d.getDeptOrder()) { 
+						deptOrder = d.getDeptOrder(); 
+					}
+				}
+				dept.setDeptOrder(deptOrder + 1);
+			} else {
+				dept.setDeptOrder(1);
+			}
+			
+		} else {
+			dept.setDeptOrder(1);
+		}
+		
 		Department d = aService.insertDept(dept);
 		if (d == null) {
 			throw new AdminException("부서 등록에 실패하였습니다.");
@@ -368,6 +429,76 @@ public class AdminController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}	
+	}
+	
+    /**
+     * 부서 삭제
+     */
+	@RequestMapping("admin/ddelete.ad")
+	public String deleteDept(@RequestParam("deptId") int deptId) {
+		System.out.println(deptId);
+		int result = aService.deleteDept(deptId);
+		
+		if (result <= 0) {
+			throw new AdminException("부서 삭제에 실패하였습니다.");
+		} else {
+			return "redirect:deptlist.ad?message=d";
+		}
+	}
+	
+    /**
+     * 부서 수정
+     */
+	@RequestMapping("admin/dupdate.ad")
+	@ResponseBody
+	public String updateDept(@ModelAttribute Department dept) {
+		
+		int result = aService.updateDept(dept);
+		
+		if (result <= 0) {
+			throw new AdminException("부서 수정에 실패하였습니다.");
+		} else {
+			return "success";
+		}
+	}	
+	
+    /**
+     * 조직도 내 부서 위치 이동
+     */
+	@RequestMapping("admin/dmove.ad")
+	@ResponseBody
+	public String moveDept(@RequestParam("moveDeptId") int moveDeptId, @RequestParam("upperDeptId") int upperDeptId, 
+						  @RequestParam("upperDeptLevel") int upperDeptLevel, HttpServletResponse response) {
+		
+		int deptLevel = upperDeptLevel + 1; // 이동하려는 상위부서의 부서level + 1
+		
+		ArrayList<Department> subDeptList = aService.getSubDeptList(upperDeptId);
+		int deptOrder = 0;
+		
+		// 같은 상위부서를 가지고 있는 하위부서들의 정렬순서 중 가장 큰 것으로 저장되게 함
+		if (subDeptList.size() > 0) {
+			for (Department d : subDeptList) {
+				if (deptOrder < d.getDeptOrder()) { 
+					deptOrder = d.getDeptOrder(); 
+				}
+			}
+			deptOrder += 1;
+		} else {
+			deptOrder = 1;
+		}
+		
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("moveDeptId", moveDeptId);
+		map.put("upperDeptId", upperDeptId);
+		map.put("deptLevel", deptLevel);
+		map.put("deptOrder", deptOrder);
+		int result = aService.moveDept(map);
+		
+		if (result <= 0) {
+			throw new AdminException("부서 위치 이동에 실패하였습니다.");
+		} else {
+			return "success";
+		}
 	}
 	
 }

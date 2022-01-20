@@ -13,6 +13,15 @@
 <!-- Custom Stylesheet -->
 <link href="${contextPath}/resources/assets/css/style.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+<!-- Google fonts - Noto Sans Korean -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Noto+Sans+KR:wght@300;400&family=Open+Sans&display=swap" rel="stylesheet">
+<style>
+	 body, h1, h2, h3, h4, h5, h6, p, span {
+   	 	font-family: 'Noto Sans KR', sans-serif;
+  	 }
+</style>
 </head>
 <body>
 
@@ -101,24 +110,11 @@
                             <li><a href="joblist.ad">직위 관리</a></li>
                         </ul>                   	
                     </li>
-                    
-                   <!--  <li class="nav-label">Apps</li> -->
-                   <!-- 공지사항, 자료실은 멤버 페이지에서 관리자 여부로 작성/수정할 수 있게 하기 -->
-<!--                     <li><a href="javascript:void()" aria-expanded="false"> -->
-<!--                     		<i class="fa fa-bullhorn"></i><span class="nav-text">공지사항 관리</span></a> -->
-<!--                     </li> -->
-<!--                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"> -->
-<!--                     		<i class="fa fa-folder-open-o"></i><span class="nav-text">자료실 관리</span></a> -->
-<!--                         <ul aria-expanded="false"> -->
-<!--                             <li><a href="javascript:void()">자료 등록</a></li> -->
-<!--                             <li><a href="javascript:void()">자료실 용량</a></li> -->
-<!--                         </ul> -->
-<!--                     </li> -->
-                    <li><a href="javascript:void()" aria-expanded="false">
+                    <li><a href="reportList.ad" aria-expanded="false">
                     		<i class="fa fa-bars"></i><span class="nav-text">신고글 관리</span></a>
 
                     </li>
-                    <li><a href="javascript:void()" aria-expanded="false">
+                    <li><a href="meetList.ad" aria-expanded="false">
                     	<i class="bi bi-pencil-square"></i><span class="nav-text">회의실 관리</span></a>
                     </li>
                 </ul>

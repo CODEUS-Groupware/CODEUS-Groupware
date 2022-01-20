@@ -8,7 +8,7 @@ public class Department {
 	private String deptManager;
 	private String deptManagerName;
 	private String deptManagerJob;
-	private	int upperDept;
+	private	Integer upperDept;
 	private int deptLevel;
 	private int deptOrder;
 	private int deptStatus;
@@ -18,7 +18,7 @@ public class Department {
 	public Department() {}
 
 	public Department(int deptId, String deptName, String deptManager, String deptManagerName, String deptManagerJob,
-			int upperDept, int deptLevel, int deptOrder, int deptStatus, Date createDate, int hasChildren) {
+			Integer upperDept, int deptLevel, int deptOrder, int deptStatus, Date createDate, int hasChildren) {
 		super();
 		this.deptId = deptId;
 		this.deptName = deptName;
@@ -73,11 +73,11 @@ public class Department {
 		this.deptManagerJob = deptManagerJob;
 	}
 
-	public int getUpperDept() {
+	public Integer getUpperDept() {
 		return upperDept;
 	}
 
-	public void setUpperDept(int upperDept) {
+	public void setUpperDept(Integer upperDept) {
 		this.upperDept = upperDept;
 	}
 

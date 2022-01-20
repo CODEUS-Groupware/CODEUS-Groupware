@@ -13,6 +13,7 @@ import com.codeusgroup.codeus.commBoard.model.vo.CommBoard;
 import com.codeusgroup.codeus.commBoard.model.vo.PageInfo;
 import com.codeusgroup.codeus.commBoard.model.vo.Reply;
 import com.codeusgroup.codeus.commBoard.model.vo.Report;
+import com.codeusgroup.codeus.commBoard.model.vo.Search;
 
 
 @Service("bService")
@@ -61,6 +62,12 @@ public class CommBoardServiceImpl implements CommBoardService {
 		public int CommBoardDelete(int bId) {
 			return bDAO.commBoardDelete(sqlSession, bId);
 		}
+		
+		@Override
+		public Report ckReportPost(int bId) {
+			return bDAO.selectPostReport(sqlSession,bId);
+		}
+		
 	
 		// 댓글 
 		
@@ -97,12 +104,29 @@ public class CommBoardServiceImpl implements CommBoardService {
 		public int reportPost(Report rep) {
 			return bDAO.insertReportPost(sqlSession,rep);
 		}
-		@Override
-		public Report ckReportPost(int bId) {
-			return bDAO.selectPostReport(sqlSession,bId);
-		}
-	
 		
-	
+		
+		//자유게시판 검색 
+		@Override
+		public int commsearchListCount(Search search) {
+			return bDAO.commsearchListCount(sqlSession,search);
+		}
+		@Override
+		public ArrayList<CommBoard> commSearchList(Search search, PageInfo pi) {
+			return bDAO.commSearchList(sqlSession,search, pi);
+		}
+		
+
+//		@Override
+//		public void updateReplyCount(int bId) {
+//			// TODO Auto-generated method stub
+//			
+//		}
+//		@Override
+//		public List<Reply> readReply(int getbId) {
+//			// TODO Auto-generated method stub
+//			return null;
+//		}
+
 	}
 

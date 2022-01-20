@@ -247,7 +247,7 @@
 		$("input[name=endday]").val("${endday}");
 		
 		// 종일 체크박스
-		if (${bAllday eq 1 }) {
+		if ("${bAllday eq 1 }") {
 			$("input[name=allday]").prop("checked", true);
 		}
 		
@@ -264,7 +264,7 @@
 	         
 	      });
 	      
-	      <%-- 지은언니 주소록 모달:시작 --%>
+	      <%-- 주소록 모달:시작 --%>
 	       // ====== 조직도 js ====== //
 	      $.fn.extend({
 	             treed: function (o) {
@@ -337,16 +337,16 @@
 	            // 검색어 비우기 
 	             $("input#searchWord").val("");
 	            
-	            var fk_dept_no = $(this).val();
+	            var mId = $(this).val();
 	            //alert("클릭한 조직 이름의 value 값은? ==> " + fk_dept_no);
 	            
 	            // sessionStorage.setItem("fk_dept_no", fk_dept_no);
 	            // var fk_dept_noVal = sessionStorage.getItem("fk_dept_no");
 	            
 	            $.ajax({ 
-	               url:"<%= request.getContextPath() %>/subin/writeAddAddress.ca",
+	               url:"<%= request.getContextPath() %>/writeAddAddress.ca",
 	               // data: {"fk_dept_no" : fk_dept_noVal},
-	               data: {"fk_dept_no" : fk_dept_no},
+	                data: {"deptId" : deptId},
 	               dataType:"json",
 	               success:function(json) {
 	                  
@@ -358,17 +358,17 @@
 	                          html += "<td style='width: 40px; height: 10px; padding-left:2px;'> ";
 	                          html += "<input type='checkbox' name='chkbox' class='"+ index + "'>";
 	                          html += "</td>";
-	                           html += "<td style='width: 80px; height: 10px; padding-left:2px;' class='emp_name'>";
-	                           html += item.emp_name;
+	                           html += "<td style='width: 80px; height: 10px; padding-left:2px;' class='mName'>";
+	                           html += item.mName;
 	                           html += "</td>";
-	                           html += "<td style='width: 80px; height: 10px; padding-left:2px;' class='position_name'>";
-	                           html += item.position_name;
+	                           html += "<td style='width: 80px; height: 10px; padding-left:2px;' class='jobId'>";
+	                           html += item.jobId;
 	                           html += "</td>";   
-	                           html += "<td style='width: 80px; height: 10px; padding-left:2px;' class='dept_name'>";
-	                           html += item.dept_name;
+	                           html += "<td style='width: 80px; height: 10px; padding-left:2px;' class='deptId'>";
+	                           html += item.deptId;
 	                           html += "</td>";    
-	                           html += "<td style='width: 80px; height: 10px; padding-left:2px;' class='emp_no'>";
-	                           html += item.emp_no;
+	                           html += "<td style='width: 80px; height: 10px; padding-left:2px;' class='mId'>";
+	                           html += item.mId;
 	                           html += "</td>";   
 	                           html += "</tr>";   
 
@@ -400,7 +400,7 @@
 	         }
 	         
 	           $.ajax({
-	               url : '<%= request.getContextPath() %>/subin/writeAddressSearch.ca',
+	               url : '<%= request.getContextPath() %>/writeAddressSearch.ca',
 	               data : {"searchWord" : searchWord},
 	               dataType : 'JSON',
 	               success : function(json){
@@ -413,16 +413,16 @@
 	                       html += "<input type='checkbox' name='chkbox' class='"+ index + "'>";
 	                       html += "</td>";
 	                        html += "<td style='width: 80px; height: 10px; padding-left:2px;' >";
-	                        html += item.emp_name;
+	                        html += item.mName;
 	                        html += "</td>";
 	                        html += "<td style='width: 80px; height: 10px; padding-left:2px;' >";
-	                        html += item.position_name;
+	                        html += item.jobName;
 	                        html += "</td>";   
 	                        html += "<td style='width: 80px; height: 10px; padding-left:2px;' >";
-	                        html += item.dept_name;
+	                        html += item.deptName;
 	                        html += "</td>";    
 	                        html += "<td style='width: 80px; height: 10px; padding-left:2px;' >";
-	                        html += item.emp_no;
+	                        html += item.mId;
 	                        html += "</td>";   
 	                        html += "</tr>";   
 	                  
@@ -472,11 +472,11 @@
 	         var tdArr = new Array();
 	         var checkbox = $("input[name=chkbox]:checked");
 
-	         var empList = new Array();
+	         var mList = new Array();
 	         
-	         var resultEmpList = "";
+	         var resultMList = "";
 	         
-	         var resultEmpListTemp = "";
+	         var resultMListTemp = "";
 	         
 	         // 체크된 체크박스 값을 가져온다
 	         checkbox.each(function(i) {
@@ -490,37 +490,37 @@
 	            rowData.push(tr.text().trim());
 	            
 	            // td.eq(0)은 체크박스 이므로  td.eq(1)의 값부터 가져온다.
-	            var emp_name = td.eq(1).text().trim();
-	            var position_name = td.eq(2).text().trim();
-	            var dept_name = td.eq(3).text().trim();
-	            var emp_no = td.eq(4).text().trim(); //  + "\n"; // 엔터 추가
+	            var mName = td.eq(1).text().trim();
+	            var jobId = td.eq(2).text().trim();
+	            var deptId = td.eq(3).text().trim();
+	            var mId = td.eq(4).text().trim(); //  + "\n"; // 엔터 추가
 	            
 	            // 가져온 값을 배열에 담는다.(객체 형태로 담는다. [{} ,{}] 형태 )
-	            empList.push({emp_name: emp_name
-	                       ,position_name: position_name
-	                       ,dept_name: dept_name
-	                       ,emp_no: emp_no
+	            mList.push({mName: mName
+	                       ,jobId: jobId
+	                       ,deptId: deptId
+	                       ,mId: mId
 	            });
 	            
 	            // 배열 반복문, 사원 리스트 중복 값 체크 및 두번재 요소부터 엔터 값 적용하기
-	            $.each(empList, function(index, item){
+	            $.each(mList, function(index, item){
 	                 
-	               // console.log("$.each의 empList 결과는무엇?==? " + item.emp_name);
+	               // console.log("$.each의 empList 결과는무엇?==? " + item.mName);
 	               // console.log("$.each의 empList 결과는무엇?==? " + item.position_name);
 	               // console.log("$.each의 empList 결과는무엇?==? " + item.dept_name);
-	               // console.log("$.each의 empList 결과는무엇?==? " + item.emp_no);
+	               // console.log("$.each의 empList 결과는무엇?==? " + item.mId);
 	               
 	               // 사원 리스트 중복 값 체크를 위한 temp 변수(체크한 내용이 다 들어가있는 변수)
-	               resultEmpListTemp = item.emp_name + "/" + item.position_name + "/" +item.dept_name + "/" +item.emp_no;
+	               resultMListTemp = item.mName + "/" + item.jobId + "/" +item.deptId + "/" +item.mId;
 	               
 	               // 누적값과 temp와 비교
-	               if(resultEmpList.indexOf(resultEmpListTemp) == -1 ) {
+	               if(resultMList.indexOf(resultMListTemp) == -1 ) {
 	               
 	                  if(index == 0) { 
-	                     resultEmpList += item.emp_name + "/" + item.position_name + "/" +item.dept_name + "/" +item.emp_no;
+	                     resultMList += item.mName + "/" + item.jobId + "/" +item.deptId + "/" +item.mId;
 	                  }
 	                  else { // 첫번째 요소가 아닐때만 사원명 앞에 엔터값 추가
-	                     resultEmpList += "\n" + item.emp_name + "/" + item.position_name + "/" +item.dept_name + "/" +item.emp_no;;
+	                     resultMList += "\n" + item.mName + "/" + item.jobId + "/" +item.deptId + "/" +item.mId;
 	                  }
 	               }
 	                 
@@ -530,14 +530,14 @@
 	         
 	         
 	         // 첫번째 행에 문자열 넣기 (결과값)
-	         $(".empAddLists").eq(0).text(resultEmpList);
+	         $(".empAddLists").eq(0).text(resultMList);
 	         
 	      }); // 버튼 클릭 끝
-	      <%-- 지은언니 주소록 모달:끝 --%>
+	      <%-- 주소록 모달:끝 --%>
 
 	});
 	
-	<%-- 지은언니 주소록 모달 버튼 이벤트리스너:시작 --%>
+	<%-- 주소록 모달 버튼 이벤트리스너:시작 --%>
 	// ====== 주소록에서 확인 버튼 눌렀을때 ====== //  
 	  function findEmpOk() {
 	     
@@ -596,7 +596,7 @@
 	    	 var atdHtml = "";
 		     $.each(arrEmpName, function(index, item){
 		    	 
-		    	 atdHtml += '<div class="chip" id="fk_emp_no_receive_name" style="margin-right: 0.5%;">';
+		    	 atdHtml += '<div class="chip" id="mId_name" style="margin-right: 0.5%;">';
 		    	 atdHtml += item
 		    	 atdHtml += '</div>';
 		     });
@@ -607,11 +607,11 @@
 	     
 	     }
 	     
-	     $("input.fk_emp_no_receive").val(strEmpno); // 컨트롤러로 가져갈 사원번호(hidden)
+	     $("input.mId").val(strEmpno); // 컨트롤러로 가져갈 사원번호(hidden)
 
 	     $('.modal').modal('hide'); // 확인버튼 누르자 마자 모달창 숨기기
 	  }
-	  <%-- 지은언니 주소록 모달:끝 --%>
+	  <%-- 주소록 모달:끝 --%>
 	
 	
 	// 캘린더 불러와서 select에 넣어주는 함수
@@ -676,17 +676,12 @@
 			  return false;
 		  }
 
-		  var fk_calendar_no = $("select[name=fk_calendar_no]").val();
-		  if (fk_calendar_no.trim() == "" || fk_calendar_no == "-9999") {
-			  alert("캘린더를 선택해주세요.");
-			  return false;
-		  }
-		  // 참석자 최소 1명 이상 선택하게 함
-		  var fk_emp_no_receive = $("input.fk_emp_no_receive").val();
-		  if (fk_emp_no_receive == "") {
-			  alert("참석자를 최소 1명 이상 선택해주세요.");
-			  return false;
-		  }
+	//	  var scheType = $("select[name=scheType]").val();
+	//	  if (scheType.trim() == "" || scheType == "-9999") {
+	//		  alert("캘린더를 선택해주세요.");
+	//		  return false;
+	//	  }
+		 
 		  
 		  var content = $("textArea[name=content]").val();
 		  if (content.trim() == "") {
@@ -701,21 +696,21 @@
 		// db에 넣기
 		$.ajax({
 			url:"<%= request.getContextPath() %>/addDetailSch.ca",
-			data:{title:title, startday:startday, endday:endday, fk_calendar_no:fk_calendar_no, content:content, fk_emp_no_receive:fk_emp_no_receive},
+			data:{title:title, startday:startday, endday:endday, content:content, mId:"${sessionScope.loginUser.mId}"},
 			type:"POST",
 			dataType:"JSON",
 			success:function(json){
 				
-				if (json.n == 1) {
+				if (json.result == 1) {
 					location.href = "<%= request.getContextPath() %>/goCalendar.ca";
-					
 				}else{
-					alert("DB 오류");
+					alert("addDetailSch success DB 오류 : " + JSON.stringify(json));
 				}
 				
 			},
 			error: function(request, status, error){
-				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+					console.log("addDetailSch DB 오류 : " + JSON.stringify(json));
+				alert("addDetailSch DB 오류 : " + JSON.stringify(json));
 		 	}
 		});
 		  
@@ -741,7 +736,7 @@
 
   <div class="container">
 	<form name="addSchFrm">
-		<input type="hidden" class="fk_emp_no_receive" />
+		<input type="hidden" class="mId" />
 		 <table class="table table-borderless">
 	      <tbody>
 	        <tr>
@@ -789,14 +784,12 @@
 	        
 	        <tr>
 	          <th>내 캘린더</th>
-	          <td><select class="addSchSelect form-control" name="fk_calendar_no" style="width: 30%; height: 35px;"></select></td>
+	          <td><select class="addSchSelect form-control" name="scheType" style="width: 30%; height: 35px;"></select></td>
 	        </tr>
 	        
 	        <tr>
-	          <th>참석자</th>
-	          <td class="atandee_td">
-				  <a data-toggle="modal" data-target="#findEmpListModal" style="cursor: pointer;"><i class="fa fa-plus" style="padding: 0 10px;"> 참석자 선택</i></a>
-	          </td>
+	          <th>일정등록자</th>
+	          <td><input class="form-control title modal_input" maxlength="13" name="mId" type="text" value="${sessionScope.loginUser.mId}" readonly/></td>
 	        </tr>
 	        
 	        <tr>
@@ -825,7 +818,7 @@
  <div class="modal-dialog" style="width: 1500px;">
  
    <!-- Modal content-->
-   <div class="modal-content">
+   <div class="modal-content" style="width: 1150px;">
      <div class="modal-header" style="height: 60px;">
        <button type="button" class="close" data-dismiss="modal" onclick="window.closeModal()"><span style="font-size: 26pt;">&times;</span></button>
        <h3 class="modal-title" style="font-weight: bold">주소록</h3>
@@ -896,22 +889,22 @@
                            </thead>
             
                            <tbody style="height: 300px; " id="empListTbody">
-                              <c:forEach var="emp" items="${empAllList}" varStatus="status">
+                              <c:forEach var="mem" items="${mSearchList}" varStatus="status">
                                        <tr style="height: 20px;" id="empRow" class="${status.index}">
                                            <td style="width: 40px; height: 10px; padding-left:2px;"> 
                                               <input type="checkbox" name="chkbox" class="check${status.index}">
                                            </td>
-                                           <td style="width: 80px; height: 10px; padding-left:2px;" id="emp_name">
-                                              ${emp.emp_name}
+                                           <td style="width: 80px; height: 10px; padding-left:2px;" id="mName">
+                                               ${mem.mName}
                                            </td>
-                                           <td style="width: 50px; height: 10px; padding-left:2px;" id="position_name">
-                                              ${emp.position_name}
+                                           <td style="width: 50px; height: 10px; padding-left:2px;" id="jobId">
+                                               ${mem.jobId}
                                            </td>
-                                           <td style="width: 80px; height: 10px; padding-left:2px;" id="dept_name">
-                                              ${emp.dept_name}
+                                           <td style="width: 80px; height: 10px; padding-left:2px;" id="deptId">
+                                               ${mem.deptId}
                                            </td>
-                                           <td style="width: 120px; height: 10px; padding-left:2px;" id="emp_no">
-                                              ${emp.emp_no}
+                                           <td style="width: 120px; height: 10px; padding-left:2px;" id="mId">
+                                                ${mem.mId}
                                            </td>
                                        </tr>                          
                                    </c:forEach>                                    

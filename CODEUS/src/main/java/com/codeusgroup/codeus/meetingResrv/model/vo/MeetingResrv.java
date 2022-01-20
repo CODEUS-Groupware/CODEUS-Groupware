@@ -11,14 +11,18 @@ public class MeetingResrv {
     private String rev_content;
     private int rev_status;
     private Date rev_apply_date;
+    private int meet_no;
+    private String mId;
     private String meet_name;
     private String mName;
+    private String rev_time;
     
     public MeetingResrv() {
     }
     
     public MeetingResrv(int rev_no, Date rev_date, Timestamp rev_start_time, Timestamp rev_end_time, String rev_content,
-            int rev_status, Date rev_apply_date, String meet_name, String mName) {
+            int rev_status, Date rev_apply_date, int meet_no, String mId, String meet_name, String mName,
+            String rev_time) {
         this.rev_no = rev_no;
         this.rev_date = rev_date;
         this.rev_start_time = rev_start_time;
@@ -26,8 +30,11 @@ public class MeetingResrv {
         this.rev_content = rev_content;
         this.rev_status = rev_status;
         this.rev_apply_date = rev_apply_date;
+        this.meet_no = meet_no;
+        this.mId = mId;
         this.meet_name = meet_name;
         this.mName = mName;
+        this.rev_time = rev_time;
     }
     
     public int getRev_no() {
@@ -86,6 +93,22 @@ public class MeetingResrv {
         this.rev_apply_date = rev_apply_date;
     }
     
+    public int getMeet_no() {
+        return meet_no;
+    }
+    
+    public void setMeet_no(int meet_no) {
+        this.meet_no = meet_no;
+    }
+    
+    public String getmId() {
+        return mId;
+    }
+    
+    public void setmId(String mId) {
+        this.mId = mId;
+    }
+    
     public String getMeet_name() {
         return meet_name;
     }
@@ -102,10 +125,19 @@ public class MeetingResrv {
         this.mName = mName;
     }
     
+    public String getRev_time() {
+        return rev_time;
+    }
+    
+    public void setRev_time(String rev_time) {
+        this.rev_time = rev_time;
+    }
+    
     @Override
     public String toString() {
         return "MeetingResrv [rev_no=" + rev_no + ", rev_date=" + rev_date + ", rev_start_time=" + rev_start_time
                 + ", rev_end_time=" + rev_end_time + ", rev_content=" + rev_content + ", rev_status=" + rev_status
-                + ", rev_apply_date=" + rev_apply_date + ", meet_name=" + meet_name + ", mName=" + mName + "]";
+                + ", rev_apply_date=" + rev_apply_date + ", meet_no=" + meet_no + ", mId=" + mId + ", meet_name="
+                + meet_name + ", mName=" + mName + ", rev_time=" + rev_time + "]";
     }
 }

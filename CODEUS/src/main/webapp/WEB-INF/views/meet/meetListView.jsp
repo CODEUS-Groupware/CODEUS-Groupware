@@ -58,7 +58,7 @@
                                     <!-- 1st 탭 컨텐츠 시작 -->
                                     <div id="navpills-1" class="tab-pane active">
                                         <div class="table-responsive">
-                                            <table class="table table-responsive-sm" style="align-content: center; text-align: center;">
+                                            <table class="table table-responsive-sm" id="tb1" style="align-content: center; text-align: center;">
                                                 <thead>
                                                     <tr>
                                                         <th scope="col" width="50px">예약번호</th>
@@ -80,17 +80,19 @@
                                                             <c:forEach var="mr1" items="${ list1 }">
                                                                 <tr>
                                                                     <td>${ mr1.rev_no }</td>
-                                                                    <td>${ mr1.rev_date } ${ mr1.rev_start_time } ~ ${ mr1.rev_end_time }</td>
+                                                                    <td>${ mr1.rev_time }</td>
                                                                     <td>
-                                                                        <c:if test="${ mr1.rev_status } == 0">
-                                                                            <span class="badge badge-pill badge-success">예약 완료</span>
-                                                                        </c:if>
-                                                                        <c:if test="${ mr1.rev_status } == 1">
-                                                                            <span class="badge badge-pill badge-secondary">사용 완료</span>
-                                                                        </c:if>
-                                                                        <c:if test="${ mr1.rev_status } == 2">
-                                                                            <span class="badge badge-pill badge-warning">예약 취소</span>
-                                                                        </c:if>
+                                                                        <c:choose>
+                                                                            <c:when test="${ mr1.rev_status eq 0 }">
+                                                                                <span class="badge badge-pill badge-success">예약 완료</span>
+                                                                            </c:when>
+                                                                            <c:when test="${ mr1.rev_status eq 1 }">
+                                                                                <span class="badge badge-pill badge-secondary">사용 완료</span>
+                                                                            </c:when>
+                                                                            <c:when test="${ mr1.rev_status eq 2 }">
+                                                                                <span class="badge badge-pill badge-warning">예약 취소</span>
+                                                                            </c:when>
+                                                                        </c:choose>
                                                                     </td>
                                                                     <td>${ mr1.meet_name }</td>
                                                                     <td>${ mr1.mName }</td>
@@ -175,7 +177,7 @@
                                     <!-- 2nd 탭 컨텐츠 시작 -->
                                     <div id="navpills-2" class="tab-pane">
                                         <div class="table-responsive">
-                                            <table class="table table-responsive-sm" style="align-content: center; text-align: center;">
+                                            <table class="table table-responsive-sm" id="tb2" style="align-content: center; text-align: center;">
                                                 <thead>
                                                     <tr>
                                                         <th scope="col" width="50px">예약번호</th>
@@ -197,21 +199,23 @@
                                                             <c:forEach var="mr2" items="${ list2 }">
                                                                 <tr>
                                                                     <td>${ mr2.rev_no }</td>
-                                                                    <td>${ mr2.rev_date } ${ mr2.rev_start_time } ~ ${ mr2.rev_end_time }</td>
+                                                                    <td>${ mr2.rev_time }</td>
                                                                     <td>
-                                                                        <c:if test="${ mr2.rev_status } == 0">
-                                                                            <span class="badge badge-pill badge-success">예약 완료</span>
-                                                                        </c:if>
-                                                                        <c:if test="${ mr2.rev_status } == 1">
-                                                                            <span class="badge badge-pill badge-secondary">사용 완료</span>
-                                                                        </c:if>
-                                                                        <c:if test="${ mr2.rev_status } == 2">
-                                                                            <span class="badge badge-pill badge-warning">예약 취소</span>
-                                                                        </c:if>
+                                                                        <c:choose>
+                                                                            <c:when test="${ mr2.rev_status eq 0 }">
+                                                                                <span class="badge badge-pill badge-success">예약 완료</span>
+                                                                            </c:when>
+                                                                            <c:when test="${ mr2.rev_status eq 1 }">
+                                                                                <span class="badge badge-pill badge-secondary">사용 완료</span>
+                                                                            </c:when>
+                                                                            <c:when test="${ mr2.rev_status eq 2 }">
+                                                                                <span class="badge badge-pill badge-warning">예약 취소</span>
+                                                                            </c:when>
+                                                                        </c:choose>
                                                                     </td>
                                                                     <td>${ mr2.meet_name }</td>
                                                                     <td>${ mr2.rev_content }</td>
-                                                                    <td><input type="checkbox" id="chk" name="rev_no" value="${ mr2.rev_no }"></td>
+                                                                    <td><input type="checkbox" class="chk" name="rev_no" value="${ mr2.rev_no }"></td>
                                                                 </tr>
                                                             </c:forEach>
                                                         </c:if>
@@ -286,10 +290,10 @@
                                                         <td colspan="6">
                                                             <c:if test="${ !empty loginUser }">
                                                             <div class="d-flex justify-content-end">
-                                                                <button type="button" class="btn btn-outline-secondary mr-2" onclick="location.href='mrresrvinsert.mr'">예약 신청</button>
-                                                                <c:if test="${ pi2.currentPage > 1 }">
-                                                                    <button type="button" class="btn btn-outline-secondary mr-2" onclick="location.href='mrresrvupdate.mr'">예약 수정</button>
-                                                                    <button type="button" class="btn btn-outline-secondary" onclick="location.href='mrresrvdelete.mr'">예약 취소</button>
+                                                                <button type="button" class="btn btn-outline-secondary mr-2" onclick="location.href='mrinsertview.mr'">예약 신청</button>
+                                                                <c:if test="${ !list2.isEmpty() }">
+                                                                    <button type="button" class="btn btn-outline-secondary mr-2" onclick="location.href='mrupdateview.mr'">예약 수정</button>
+                                                                    <button type="button" class="btn btn-outline-secondary" onclick="location.href='mrdelete.mr'">예약 취소</button>
                                                                 </c:if>
                                                             </div>
                                                             </c:if>
@@ -299,33 +303,7 @@
                                                 </tfoot>
                                                 
                                             </table>
-                                            
-                                            <script>
-                                                // 체크박스 기능
-                                                $('#chkAll').click(function() {
-                                                    var chkAll = $(this).prop('checked');
-                                                    
-                                                    if(chkAll)
-                                                        $('#chk').prop('checked', true);
-                                                    else
-                                                        $('#chk').prop('checked', false);
-                                                });
-                                                
-                                                $('#chk').click(function() {
-                                                    var chk = $('#chk');
-                                                    
-                                                    var chkAllSelect = true;
-                                                    for(var i in chk)
-                                                        if(chk[i].checked = false)
-                                                            chkAllSelect = false;
-                                                    
-                                                    if(chkAllSelect)
-                                                        $('#chk').prop('checked', true);
-                                                    else
-                                                        $('#chk').prop('checked', false);
-                                                });
-                                            </script>
-                                            
+
                                         </div>
                                     </div>
                                     <!-- 2nd 탭 컨텐츠 끝 -->
@@ -339,6 +317,55 @@
                 </div>
             </div>
         </div>
+    
+    <script>
+    // 예약정보 세부 조회 연결 기능
+    $(function() {
+        $('#tb1 td').mouseenter(function() {
+            $(this).parent().css({'font-weight':'bold', 'cursor':'pointer'});
+        }).mouseout(function() {
+            $(this).parent().css({'font-weight':'normal'});
+        }).click(function() {
+            var rNo = $(this).parent().children().eq(0).text();
+            location.href="mrdetail.mr?revNo=" + rNo + "&page=" + ${ pi1.currentPage };
+        });
+    });
+    
+    $(function() {
+        $('#tb2 td').mouseenter(function() {
+            $(this).parent().css({'font-weight':'bold', 'cursor':'pointer'});
+        }).mouseout(function() {
+            $(this).parent().css({'font-weight':'normal'});
+        }).click(function() {
+            var rNo = $(this).parent().children().eq(0).text();
+            loction.href="mrresrvupdate.mr?revNo=" + rNo + "&page=" + ${ pi2.currentPage };
+        });
+    });
+    
+    // 체크박스 기능
+    $('#chkAll').click(function() {
+        var chkAll = $(this).prop('checked');
+        
+        if(chkAll)
+            $('.chk').prop('checked', true);
+        else
+            $('.chk').prop('checked', false);
+    });
+    
+    $('.chk').click(function() {
+        var chk = document.getElementsByClassName('chk');
+        
+        var chkAllSelect = true;
+        for(var i in chk)
+            if(chk[i].checked == false)
+                chkAllSelect = false;
+        
+        if(chkAllSelect)
+            $('#chkAll').prop('checked', true);
+        else
+            $('#chkAll').prop('checked', false);
+    });
+    </script>
         <!--**********************************
             Content body end
         ***********************************-->

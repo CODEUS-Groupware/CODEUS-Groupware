@@ -10,12 +10,15 @@ import com.codeusgroup.codeus.commBoard.model.vo.CommBoard;
 import com.codeusgroup.codeus.commBoard.model.vo.PageInfo;
 import com.codeusgroup.codeus.commBoard.model.vo.Reply;
 import com.codeusgroup.codeus.commBoard.model.vo.Report;
+import com.codeusgroup.codeus.commBoard.model.vo.Search;
 
 
 @Repository("bDAO")
 public class CommbDAO {
 
 
+	// 자유게시판
+	
 	public int getListCount(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("boardMapper.getListCount");
 	}
@@ -44,20 +47,19 @@ public class CommbDAO {
 		return sqlSession.selectOne("boardMapper.CommBoardDelete", bId);
 	}
 	
-	public int insertReportPost(SqlSessionTemplate sqlSession, Report rep) {
-		return sqlSession.insert("boardMapper.insertPostReport",rep);
-	}
-
-	public Report selectPostReport(SqlSessionTemplate sqlSession, int bId) {
-		return sqlSession.selectOne("boardMapper.selectPostReport",bId);
-	}
-
-	//댓글
 	
 	public int insertBoard(SqlSessionTemplate sqlSession, CommBoard b) {
 		return sqlSession.insert("boardMapper.insertcommBoard", b);
 	}
 	
+	public ArrayList<CommBoard> selectListSearch(SqlSessionTemplate sqlSession, Search search) {
+		return (ArrayList)sqlSession.selectList("boardMapper.searchList",search);
+	}
+
+
+	
+	//댓글
+
 	
 	public ArrayList<Reply> selectReplyList(SqlSessionTemplate sqlSession, int bId) {
 		return (ArrayList)sqlSession.selectList("boardMapper.selectReplyList", bId);
@@ -78,24 +80,53 @@ public class CommbDAO {
 		return sqlSession.update("boardMapper.updateReply",r);
 	}
 
+	
+	//게시글 신고
+	
+	
+		public int insertReportPost(SqlSessionTemplate sqlSession, Report rep) {
+			return sqlSession.insert("boardMapper.insertPostReport",rep);
+		}
 
-	public Report selectReplyReport(SqlSessionTemplate sqlSession, int rId) {
-		return sqlSession.selectOne("boardMapper.selectReplyReport",rId);
-	}
+		public Report selectPostReport(SqlSessionTemplate sqlSession, int bId) {
+			return sqlSession.selectOne("boardMapper.selectPostReport",bId);
+		}
+		
+		
+	
+	//댓글 신고
 
 	public int insertReportReply(SqlSessionTemplate sqlSession, Report rep) {
 		return sqlSession.insert("boardMapper.insertReplyReport",rep);
 	}
-
-	//마켓
+	
+	public Report selectReplyReport(SqlSessionTemplate sqlSession, int rId) {
+		return sqlSession.selectOne("boardMapper.selectReplyReport",rId);
+	}
 	
 	
-	
-	public int marketInsertBoard(SqlSessionTemplate sqlSession, CommBoard b) {
-		return sqlSession.insert("boardMapper.insertmarketBoard", b);
+	//자유게시판 검색 
+	public int commsearchListCount(SqlSessionTemplate sqlSession, Search search) {
+		return sqlSession.selectOne("boardMapper.commsearchListCount", search);
 	}
 
 	
+		
+
+	public ArrayList<CommBoard> commSearchList(SqlSessionTemplate sqlSession, Search search, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("boardMapper.commSearchList", search, rowBounds);
+	}
+
+
+	public int updateReplyCount(SqlSessionTemplate sqlSession, int bId) {
+		return sqlSession.update("boardMapper.updateReplyCount", bId);
+	}
 	
 	}
+
+
+
+
 

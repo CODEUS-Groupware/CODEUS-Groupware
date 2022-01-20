@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="noticeBoardMapper">
+	
+	<select id="getListCount" resultType="_int">
+		select count(*)
+		from board
+		where b_type = '공지' and b_status = 0
+	</select>
+	
+	<select id="selectNoticeBoardList" resultMap="noticeBoardResultSet">
+		SELECT B_NUM, B_TYPE, B_TITLE, B_VIEWS, B_CREARE_DATE, B_MODIFY_DATE, B_STATUS, 
+			   B_PIN, B.M_ID M_ID, M_NAME, JOB_NAME, COUNT(DECODE(REPLY_STATUS, 0, 1)) REPLY_COUNT
+		FROM BOARD B
+		     LEFT JOIN REPLY USING(B_NUM)
+		     LEFT JOIN MEMBER M ON(B.M_ID = M.M_ID)
+		     LEFT JOIN JOB USING(JOB_ID)
+		WHERE B_TYPE = '공지' AND B_STATUS = 0
+		GROUP BY B_NUM, B_TYPE, B_TITLE, B_VIEWS, B_CREARE_DATE, B_MODIFY_DATE, B_STATUS, B_PIN, B.M_ID, M_NAME, JOB_NAME
+		ORDER BY B_PIN DESC, B_NUM DESC
+	</select>
+	
+	<select id="getSearchListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM BOARD
+		     LEFT JOIN MEMBER USING(M_ID)
+		WHERE B_TYPE = '공지' AND B_STATUS = 0
+		<if test="searchCondition == 'content'">
+			  AND B_CONTENT LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition == 'title'">
+			  AND B_TITLE LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition == 'writer'">
+			  AND M_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+	</select>
+	
+	<select id="selectSearchList" resultMap="noticeBoardResultSet">
+		SELECT B_NUM, B_TYPE, B_TITLE, TO_CHAR(B_CONTENT) B_CONTENT, B_VIEWS, B_CREARE_DATE, B_MODIFY_DATE, B_STATUS, 
+			   B_PIN, B.M_ID M_ID, M_NAME, JOB_NAME, COUNT(DECODE(REPLY_STATUS, 0, 1)) REPLY_COUNT
+		FROM BOARD B
+		     LEFT JOIN REPLY USING(B_NUM)
+		     LEFT JOIN MEMBER M ON(B.M_ID = M.M_ID)
+		     LEFT JOIN JOB USING(JOB_ID)
+		WHERE B_TYPE = '공지' AND B_STATUS = 0
+		<if test="searchCondition == 'content'">
+			  AND B_CONTENT LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition == 'title'">
+			  AND B_TITLE LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition == 'writer'">
+			  AND M_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		GROUP BY B_NUM, B_TYPE, B_TITLE, TO_CHAR(B_CONTENT), B_VIEWS, B_CREARE_DATE, B_MODIFY_DATE, B_STATUS, B_PIN, B.M_ID, M_NAME, JOB_NAME
+		ORDER BY B_PIN DESC, B_NUM DESC
+	</select>	
+	
+<!-- 	<resultMap type="" id=""> -->
+<!-- 		<result column="B_CONTENT" property="bContent" jdbcType="LONGVARCHAR"  -->
+<!-- 				javaType="java.lang.String" typeHandler="com.codeusgroup.codeus.common.MyLongTypeHandler"/> -->
+<!-- 	</resultMap> -->
+	
+	<insert id="insertNoticeBoard">
+		insert into board values(seq_b_num.nextval, '공지', #{bTitle}, #{bContent}, 0, default,
+				 				 default, default, #{pin}, #{mId}, null, null)
+	</insert>
+
+	<insert id="insertBoardFile">
+		insert into attachment values(seq_file_no.nextval, #{filePath}, default, 
+					#{fileOriginName}, #{fileChangeName}, default, default, 'BOARD', 
+					<if test="bNum == 0">
+						seq_b_num.currval, 
+					</if>
+					<if test="bNum != 0">
+						#{bNum},
+					</if>
+					#{fileSize})
+	</insert>
+	
+	<update id="updateViews">
+		update board
+		set b_views = b_views + 1
+		where b_num = #{bNum}
+	</update>
+	
+	<select id="selectNoticeBoard" resultMap="noticeBoardResultSet">
+		SELECT B_NUM, B_TYPE, B_TITLE, B_CONTENT, B_VIEWS, B_CREARE_DATE, B_MODIFY_DATE, 
+			   B_STATUS, B_PIN, M_ID, M_NAME , JOB_NAME
+		FROM BOARD
+		     LEFT JOIN MEMBER USING(M_ID)
+		     LEFT JOIN JOB USING(JOB_ID)
+		WHERE B_TYPE = '공지' AND B_STATUS = 0 AND B_NUM = #{bNum} 
+	</select>
+	
+	<select id="selectReplyList" resultMap="replyResultSet">
+		SELECT REPLY_NO, REPLY_CONTENT, REPLY_CREATE_DATE, REPLY_MODIFY_DATE, REPLY_STATUS,
+		       M_ID, M_NAME, JOB_NAME , PARENT_REPLY, LEVEL, CONNECT_BY_ISLEAF AS ISLEAF
+		FROM REPLY 
+		     LEFT JOIN MEMBER USING(M_ID)
+		     LEFT JOIN JOB USING(JOB_ID)
+		WHERE B_NUM = #{bNum} <!-- AND REPLY_STATUS = 0  -->
+		START WITH PARENT_REPLY IS NULL
+		CONNECT BY PRIOR REPLY_NO = PARENT_REPLY
+		ORDER SIBLINGS BY REPLY_NO
+	</select>
+	
+	<select id="selectFileList" resultMap="fileResultSet">
+		SELECT *
+		FROM ATTACHMENT
+		WHERE FILE_TABLE_NAME = 'BOARD' AND FILE_STATUS = 0 AND B_NUM = #{bNum} 
+		ORDER BY FILE_NO
+	</select>
+
+	<select id="getScrapStatus" resultType="_int">
+		select count(*)
+		from scrap
+		where b_Num = #{bNum} and m_Id = #{mId}
+	</select>
+	
+	<insert id="insertScrap">
+		insert into scrap values(#{mId}, #{bNum}, default)
+	</insert>
+	
+	<delete id="deleteScrap">
+		delete from scrap
+		where b_Num = #{bNum} and m_Id = #{mId}
+	</delete>
+	
+	<insert id="insertReply">
+		insert into reply
+		values(seq_reply_no.nextval, #{replyContent}, default, default, default, 
+			   #{refBNum}, #{replyWriter}, #{parentReplyNo})
+	</insert>
+
+	<update id="updateReply">
+		update reply
+		set reply_content = #{replyContent},
+			reply_modify_date = #{replyModifyDate}
+		where reply_no = #{replyNo}
+	</update>
+
+	<update id="deleteReply">
+		update reply
+		set reply_status = 1
+		where reply_no = #{replyNo}	
+	</update>
+
+	<update id="deleteNoticeBoard">
+		update board
+		set b_status = 1
+		where b_num = #{bNum}		
+	</update>
+	
+	<update id="deleteFile">
+		update attachment
+		set file_status = 1
+		where file_no = #{fileNo}
+	</update>
+	
+	<update id="updateNoticeBoard">
+		update board
+		set b_title = #{bTitle},
+			b_content = #{bContent},
+			b_pin = #{pin},
+			b_modify_date = #{modifyDate}
+		where  b_num = #{bNum}
+	</update>
+	
+	
+	<resultMap type="NoticeBoard" id="noticeBoardResultSet">
+		<id column="B_NUM" property="bNum"/>
+		<result column="B_TYPE" property="bType"/>
+		<result column="B_TITLE" property="bTitle"/>
+		<result column="B_CONTENT" property="bContent"/>
+		<result column="B_VIEWS" property="views"/>
+		<result column="B_CREARE_DATE" property="createDate"/>
+		<result column="B_MODIFY_DATE" property="modifyDate"/>
+		<result column="B_STATUS" property="status"/>
+		<result column="B_PIN" property="pin"/>
+		<result column="M_ID" property="mId"/>
+		<result column="M_NAME" property="mName"/>
+		<result column="JOB_NAME" property="jobName"/>
+		<result column="REPLY_COUNT" property="replyCount"/>
+	</resultMap>
+	
+	<resultMap type="NoticeBoardReply" id="replyResultSet">
+		<id column="REPLY_NO" property="replyNo"/>
+		<result column="REPLY_CONTENT" property="replyContent"/>
+		<result column="REPLY_CREATE_DATE" property="replyCreateDate"/>
+		<result column="REPLY_MODIFY_DATE" property="replyModifyDate"/>
+		<result column="REPLY_STATUS" property="replyStatus"/>
+		<result column="M_ID" property="replyWriter"/>
+		<result column="M_NAME" property="writerName"/>
+		<result column="JOB_NAME" property="writerJobName"/>
+		<result column="PARENT_REPLY" property="parentReplyNo"/>
+		<result column="LEVEL" property="level"/>
+		<result column="ISLEAF" property="isLeaf"/>
+		<result column="B_NUM" property="refBNum"/>
+	</resultMap>
+	
+	<resultMap type="NoticeBoardFile" id="fileResultSet">
+		<id column="FILE_NO" property="fileNo"/>
+		<result column="FILE_PATH" property="filePath"/>
+		<result column="UPLOAD_DATE" property="uploadDate"/>
+		<result column="FILE_ORIGIN_NAME" property="fileOriginName"/>
+		<result column="FILE_CHANGE_NAME" property="fileChangeName"/>
+		<result column="FILE_SIZE" property="fileSize"/>
+		<result column="fileThumbYn" property="fileThumbYn"/>
+		<result column="FILE_STATUS" property="fileStatus"/>
+		<result column="FILE_TABLE_NAME" property="tableName"/>
+		<result column="B_NUM" property="bNum"/>
+	</resultMap>	
+	
+</mapper>

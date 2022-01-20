@@ -6,8 +6,6 @@
 <head>
 <meta charset="UTF-8">
     <title>회의실 예약 - 예약 하기 </title>
-    <!-- Clockpicker -->
-    <link href="${contextPath}/resources/assets/vendor/clockpicker/css/bootstrap-clockpicker.min.css" rel="stylesheet">
     <!-- Pick date -->
     <link rel="stylesheet" href="${contextPath}/resources/assets/vendor/pickadate/themes/default.css">
     <link rel="stylesheet" href="${contextPath}/resources/assets/vendor/pickadate/themes/default.date.css">
@@ -39,7 +37,7 @@
                     <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">회의실 예약</li>
-                            <li class="breadcrumb-item active"><a href="mrresrvinsert.mr">예약 신청</a></li>
+                            <li class="breadcrumb-item active"><a href="mrinsertview.mr">예약 신청</a></li>
                         </ol>
                     </div>
                 </div>
@@ -52,92 +50,95 @@
                             </div>
                             <div class="card-body">
                                 <div class="form-validation">
-                                    <form class="form-valide" action="#" method="post">
+                                    <form class="form-valide" action="mrinsert.mr" method="post" onsubmit="return insertValidate();">
                                         <div class="row">
                                             <div class="col-xl-6">
                                                 <div class="form-group row">
-                                                    <label class="col-lg-4 col-form-label" for="username">사원명
-                                                        <span class="text-danger"></span>
-                                                    </label>
+                                                    <label class="col-lg-4 col-form-label" for="mName">사원명</label>
                                                     <div class="col-lg-6">
-                                                        <input type="text" class="form-control" id="username" name="username" value="${ loginUser.mName != NULL ? loginUser.mName : '    -' }" readonly>
+                                                        <input type="text" class="form-control" id="mName" name="mName" value="${ loginUser.mName != NULL ? loginUser.mName : '-' }" readonly>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label class="col-lg-4 col-form-label" for="email">이메일
-                                                        <span class="text-danger"></span>
-                                                    </label>
+                                                    <label class="col-lg-4 col-form-label" for="email">이메일</label>
                                                     <div class="col-lg-6">
-                                                        <input type="text" class="form-control" id="email" name="email" value="${ loginUser.email != NULL ? loginUser.email : '    -' }" readonly>
+                                                        <input type="text" class="form-control" id="email" name="email" value="${ loginUser.email != NULL ? loginUser.email : '-' }" readonly>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label class="col-lg-4 col-form-label" for="jobName">직급
-                                                        <span class="text-danger"></span>
-                                                    </label>
+                                                    <label class="col-lg-4 col-form-label" for="jobName">직위</label>
                                                     <div class="col-lg-6">
-                                                        <input type="text" class="form-control" id="jobName" name="jobName" value="${ loginUser.jobName != NULL ? loginUser.jobName : '    -' }" readonly>
+                                                        <input type="text" class="form-control" id="jobName" name="jobName" value="${ loginUser.jobName != NULL ? loginUser.jobName : '-' }" readonly>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label class="col-lg-4 col-form-label" for="deptName">부서
-                                                        <span class="text-danger"></span>
-                                                    </label>
+                                                    <label class="col-lg-4 col-form-label" for="deptName">부서</label>
                                                     <div class="col-lg-6">
-                                                        <input type="text" class="form-control" id="deptName" name="deptName" value="${ loginUser.deptName != NULL ? loginUser.deptName : '    -' }" readonly>
+                                                        <input type="text" class="form-control" id="deptName" name="deptName" value="${ loginUser.deptName != NULL ? loginUser.deptName : '-' }" readonly>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-xl-6">
                                                 <div class="form-group row">
-                                                    <label class="col-lg-4 col-form-label" for="room">예약할 회의실
+                                                    <label class="col-lg-4 col-form-label" for="r_date">예약날짜
+                                                        <span class="text-danger">*</span>
+                                                    </label>
+                                                    <div class="col-lg-6 input-group datepicker">
+                                                        <input name="datepicker" class="datepicker-default form-control" id="r_date" required> <span class="input-group-append"><span class="input-group-text"><i
+                                                                    class="fa fa-calendar-o"></i></span></span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-lg-4 col-form-label" for="r_start_time">시작시간
                                                         <span class="text-danger">*</span>
                                                     </label>
                                                     <div class="col-lg-6">
-                                                        <select class="form-control" id="rooml" name="room">
-                                                            <option value="">회의실을 선택해주세요.</option>
-                                                        </select>
+                                                        <select class="form-control" id="r_start_time" name="r_start_time" required></select>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label class="col-lg-4 col-form-label" for="date">예약날짜
+                                                    <label class="col-lg-4 col-form-label" for="r_end_time">종료시간
                                                         <span class="text-danger">*</span>
                                                     </label>
                                                     <div class="col-lg-6">
-                                                        <input name="datepicker" class="datepicker-default form-control" id="date">
+                                                        <select class="form-control" id="r_end_time" name="r_end_time" required></select>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label class="col-lg-4 col-form-label" for="start">시작시간
+                                                    <label class="col-lg-4 col-form-label" for="r_room">예약할 회의실
                                                         <span class="text-danger">*</span>
                                                     </label>
-                                                    <div class="col-lg-6 input-group clockpicker">
-                                                        <input type="text" class="form-control" value="09:00" id="start"> <span class="input-group-append"><span class="input-group-text"><i
-                                                                    class="fa fa-clock-o"></i></span></span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label class="col-lg-4 col-form-label" for="end">종료시간
-                                                        <span class="text-danger">*</span>
-                                                    </label>
-                                                    <div class="col-lg-6 input-group clockpicker">
-                                                        <input type="text" class="form-control" value="10:00" id="end"> <span class="input-group-append"><span class="input-group-text"><i
-                                                                    class="fa fa-clock-o"></i></span></span>
+                                                    <div class="col-lg-6">
+                                                        <select class="form-control" id="r_room" name="r_room" required></select>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-xl-12">
                                                 <div class="form-group row">
-                                                    <label class="col-lg-2 col-form-label" for="content">예약목적
+                                                    <label class="col-lg-2 col-form-label" for="r_content">예약목적
                                                         <span class="text-danger">*</span>
                                                     </label>
                                                     <div class="col-lg-10 form-group">
-                                                        <textarea class="form-control" rows="6" id="content" placeholder="예약목적을 작성해주세요.."></textarea>
+                                                        <textarea class="form-control" rows="6" id="r_content" name="r_content" placeholder="- 사용 목적 : &#13;&#10;&#13;&#10;- 사용 인원 : " required></textarea>
                                                     </div>
                                                 </div>
-                                                <div class="form-group row">
-                                                    <div class="col-lg-1 ml-auto">
-                                                        <button type="submit" class="btn btn-primary">신청하기</button>
+                                                <div class="d-flex justify-content-end">
+                                                    <!-- 신청하기 버튼(modal) -->
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#basicModal" onclick="lastCheck();">신청하기</button>
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="basicModal">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title">회의실 예약 신청 확인</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body" id="chkMsg"></div>
+                                                                <div class="modal-footer">
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -180,28 +181,234 @@
     <script src="${contextPath}/resources/assets/vendor/global/global.min.js"></script>
     <script src="${contextPath}/resources/assets/js/quixnav-init.js"></script>
     <script src="${contextPath}/resources/assets/js/custom.min.js"></script>
-    
+
+
+
+    <!-- Daterangepicker -->
     <!-- momment js is must -->
     <script src="${contextPath}/resources/assets/vendor/moment/moment.min.js"></script>
     <script src="${contextPath}/resources/assets/vendor/bootstrap-daterangepicker/daterangepicker.js"></script>
-    <!-- clockpicker -->
-    <script src="${contextPath}/resources/assets/vendor/clockpicker/js/bootstrap-clockpicker.min.js"></script>
-    <!-- Clockpicker init -->
-    <script src="${contextPath}/resources/assets/js/plugins-init/clock-picker-init.js"></script>
     <!-- pickdate -->
     <script src="${contextPath}/resources/assets/vendor/pickadate/picker.js"></script>
     <script src="${contextPath}/resources/assets/vendor/pickadate/picker.time.js"></script>
     <script src="${contextPath}/resources/assets/vendor/pickadate/picker.date.js"></script>
+    <script src="${contextPath}/resources/assets/vendor/pickadate/translations/ko_KR.js"></script>
+    <!-- pickadate 옵션 수정 : 오늘 날짜 이후 + 주중만 선택 가능 -->
+    <script>
+        jQuery.extend(jQuery.fn.pickadate.defaults,{format: "yyyy-mm-dd", formatSubmit: "yyyy-mm-dd", disable: [1, 7], min: "0"});
+    </script>
+
+
+
     <!-- Pickdate -->
     <script src="${contextPath}/resources/assets/js/plugins-init/pickadate-init.js"></script>
-
-
 
     <!-- Jquery Validation -->
     <script src="${contextPath}/resources/assets/vendor/jquery-validation/jquery.validate.min.js"></script>
     <!-- Form validate init -->
     <script src="${contextPath}/resources/assets/js/plugins-init/jquery.validate-init.js"></script>
 
+    <script>
+        /********** 사용할 변수 정의 **********/
+        var isDateUsable = false;       // 예약날짜 입력값 사용 가능 여부
+        var inputDate = null;           // 예약날짜 입력값
+        
+        var isTimeUsable = false;       // 예약시간 입력값 사용 가능 여부
+        var inputStartTime = null;      // 예약시간 시작 입력값
+        var inputEndTime = null;        // 예약시간 종료 입력값
+        
+        var isRoomUsable = false;       // 예약 회의실 입력값 사용 가능 여부
+        var inputRoom = null;           // 예약 회의실 입력값(val)
+        var inputRoomName = null;       // 예약 회의실 입력값(text)
+        
+        var isContentUsable = false;    // 예약목적 입력값 사용 여부
+        var inputContent = null;        // 예약목적 입력값
+        
+        var isEmpty = function(value) { // 입력값이 비어있는 지 확인하는 함수
+            if(value == "" || value == null || value == undefined || (value != null && typeof value == "object" && !Object.keys(value).length))
+                return true;
+            else
+                return false;
+        }
+        
+        
+        
+        
+        
+        /********** 1. 예약날짜 선택 **********/
+        var $input = $('#r_date').pickadate();
+        var picker = $input.pickadate('picker');
+        
+        $('#r_date').on('propertychange change keyup paste input', function() {
+            inputDate = picker.get('select', 'yyyy-mm-dd');
+        });
+        
+        $("#r_date").change(function() {
+            if(!isEmpty(inputDate))
+                isDateUsable = true;
+        });
+        
+        
+        
+        
+        
+        /********** 2. 예약시간 선택 **********/
+        var r_startTime = ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30'];
+        var r_endTime = ['09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00'];
+        
+        $('#r_start_time').one('click', function() {
+            for(var i = 0; i < r_startTime.length; i++) {
+                $('#r_start_time').append('<option value="' + r_startTime[i] + '">' + r_startTime[i] + '</option>');
+            }
+            
+            for(var i = 0; i < r_startTime.length; i++) {
+                if($('#r_start_time').val() == r_startTime[i]) {
+                    for(; i < r_endTime.length; i++) {
+                        $('#r_end_time').append('<option value="' + r_endTime[i] + '">' + r_endTime[i] + '</option>');
+                    }
+                }
+            }
+            
+            inputStartTime = $('#r_start_time').val();
+        }).change(function() {
+            if(!isEmpty($('#r_start_time').val())) {
+                $('#r_end_time').empty();
+                
+                for(var i = 0; i < r_startTime.length; i++) {
+                    if($('#r_start_time').val() == r_startTime[i]) {
+                        for(; i < r_endTime.length; i++) {
+                            $('#r_end_time').append('<option value="' + r_endTime[i] + '">' + r_endTime[i] + '</option>');
+                        }
+                    }
+                }
+            }
+            
+            inputStartTime = $('#r_start_time').val();
+        });
+        
+        $('#r_end_time').one('click', function() {
+            inputEndTime = $('#r_end_time').val();
+            
+            $('#r_room').empty();
+            inputRoom = null;
+            inputRoomName = null;
+        }).change(function() {
+            inputEndTime = $('#r_end_time').val();
+            
+            $('#r_room').empty();
+            inputRoom = null;
+            inputRoomName = null;
+        });
+        
+        $('#r_end_time').change(function() {
+            if(!isEmpty(inputStartTime) && !isEmpty(inputEndTime))
+                isTimeUsable = true;
+        });
+        
+        
+        
+        
+        
+        /********** 3. 예약할 회의실 **********/
+        $('#r_end_time').change(function() {
+            $.ajax({
+                url: "mrcheckrooms.mr",
+                dataType: 'json',
+                data: {inputDate:inputDate, inputStartTime:inputStartTime, inputEndTime:inputEndTime},
+                success: function(data) {
+                    console.log(data);
+                    
+                    $select = $('#r_room');
+                    $select.find('option').remove();
+                    
+                    for(var i in data) {
+                        var $option = $('<option>');
+                        $option.val(data[i].meet_no);
+                        $option.text(data[i].meet_name);
+                        
+                        $select.append($option);
+                    }
+                },
+                error: function(data) {
+                    console.log(data);
+                }
+            });
+        });
+        
+        $('#r_room').on('change input', function() {
+            inputRoom = $('#r_room').val();
+            inputRoomName = $('#r_room option:selected').text();
+            
+            if(!isEmpty(inputRoom))
+                isRoomUsable = true;
+        });
+        
+        
+        
+        
+        
+        /********** 4. 예약목적 **********/
+        $('#r_content').on('change keyup paste input', function() {
+            inputContent = $('#r_content').val();
+        });
+        
+        $('#r_content').change(function() {
+            if(!isEmpty(inputContent) && inputContent.trim() != "")
+                isContentUsable = true;
+            else
+                isContentUsable = false;
+        });
+        
+        
+        
+        
+        
+        /********** 입력 정보 메세지 출력 **********/
+        function lastCheck() {
+            console.log(inputDate);
+            console.log(isDateUsable);
+            
+            console.log(inputStartTime);
+            console.log(inputEndTime);
+            console.log(isTimeUsable);
+            
+            console.log(inputRoom);
+            console.log(inputRoomName);
+            console.log(isRoomUsable);
+            
+            console.log(inputContent);
+            console.log(isContentUsable);
+            
+            $('#chkMsg').next().find('button').remove();
+            var submitBtn = '<button type="submit" class="btn btn-primary">신청</button>';
+            var dismissBtn1 = '<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>';
+            var dismissBtn2 = '<button type="button" class="btn btn-secondary" data-dismiss="modal">확인</button>';
+            
+            if(isDateUsable && isTimeUsable && isRoomUsable && isContentUsable) {
+                $('#chkMsg').next().append(submitBtn).append(dismissBtn1);
+                
+                var chkMsg = inputDate + "  " + inputStartTime + " ~ " + inputEndTime + " / " + inputRoomName;
+                $('#chkMsg').text(chkMsg);
+            } else {
+                $('#chkMsg').next().append(dismissBtn2);
+                
+                var chkMsg = "입력 정보를 다시 확인해주세요.";
+                $('#chkMsg').text(chkMsg);
+            }
+        }
+        
+        
+        
+        
+        
+        /********** 입력 정보 최종 확인 **********/
+        function insertValidate() {
+            if(isDateUsable && isTimeUsable && isRoomUsable && isContentUsable)
+                return true;
+            else
+                return false;
+        }
+    </script>
 </body>
 
 </html>

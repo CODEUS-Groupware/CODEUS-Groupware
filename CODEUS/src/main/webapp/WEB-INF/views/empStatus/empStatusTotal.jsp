@@ -5,6 +5,7 @@
 <%
 	EmpStatus empStatus1 = (EmpStatus)session.getAttribute("empStatus1");
 	EmpStatus empOffTime = (EmpStatus)session.getAttribute("empOffTime");
+	
 %>
 
 <!DOCTYPE html>
@@ -16,6 +17,8 @@
     <title>main page</title>
     <link href="${contextPath}/resources/assets/vendor/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/assets/vendor/chartist/css/chartist.min.css" rel="stylesheet">
+    <!-- CSS only -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
 <style>
 	#clock{
@@ -183,7 +186,14 @@
     color: #ddd;
 }
 
-
+#monthWortkTime *{
+	text-align:center;
+}
+#monthWortkTime {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #BDBDC7;
+}
 
 </style>
 
@@ -288,244 +298,56 @@
                             <div class="card-header">
 	                        	<span id="empTitle" class="card-title">누적 근태현황</span>	                   					
                             </div>                        		                   
-                            <%--<div class="year-month">	
-                            	 <c:set var="year"><fmt:formatDate value="${year}" pattern="yyyy" /></c:set>
-                                <c:set var="month"><fmt:formatDate value="${month}" pattern="MM" /></c:set>
-								<span class="goPrev"><i class="fa fa-angle-left"></i></span>
-								<span id="baseDate"><c:out value="${year}" />.<c:out value="${month}" /></span>
-								<span class="goNext"><i class="fa fa-angle-right"></i></span> 
-							</div>--%>
-				<div class="sec_cal">
-					  <div class="cal_nav">
-					    <a href="javascript:;" class="nav-btn go-prev">prev</a>
-					    <div class="year-month"></div>
-					    <a href="javascript:;" class="nav-btn go-next">next</a>
-					  </div>
-				<div style="display:none;">
-					  <div class="cal_wrap">
-					    <div class="days">
-					      <div class="day">MON</div>
-					      <div class="day">TUE</div>
-					      <div class="day">WED</div>
-					      <div class="day">THU</div>
-					      <div class="day">FRI</div>
-					      <div class="day">SAT</div>
-					      <div class="day">SUN</div>
-					    </div>
-					    <div class="dates"></div>
-					  </div>
-				</div>	  	  
-				</div>		
-	<!-- 			<div>
-
-		        <input type="text" id="choiceYear" style="text-align:center;" value="2022"/>
-		
-		        &nbsp;년&nbsp;&nbsp;
-		
-		        <select id="choiceMonth">
-		
-		            <option value="01">01</option>
-		
-		            <option value="02">02</option>
-		
-		            <option value="03">03</option>
-		
-		            <option value="04">04</option>
-		
-		            <option value="05">05</option>
-		
-		            <option value="06">06</option>
-		
-		            <option value="07">07</option>
-		
-		            <option value="08">08</option>
-		
-		            <option value="09">09</option>
-		
-		            <option value="10">10</option>
-		
-		            <option value="11">11</option>
-		
-		            <option value="12">12</option>
-		
-		        </select>
-		
-		        &nbsp;월&nbsp;&nbsp;
-		
-		        <button type="button" onClick="searchPeriodCalculation( );">검색</button>
-
-  		  </div> -->
-  		  
-  		   <table id="monthWortkTime">
-  		   		<thead>
-	                <tr>
-	                   <td>일자</td>
-	                   <td>업무시작시간</td>
-	                   <td>업무종료시간</td>
-	                   <td>근무시간</td>
-	                   <td>초과시간</td>
-	               </tr>
-	            </thead>
-	            <tbody></tbody>
-             <%--   <c:forEach var="es" items="${ mwList }">
-                   <td align="center">${ es.empRegiDate }</td>
-                   <td align="center">${ es.empOnTime }</td>
-				   <td align="center">${ es.empOffTime }</td>
-				   <td align="center">${ es.strGapTime }</td>
-				   <td align="center">${ es.strOverTime }</td>
-               </c:forEach>    --%>
-          </table> 
-							
-      <!--                   <div class="card">
                             
-                            <div class="card-body">
-                                <div id="accordion-four" class="accordion accordion-no-gutter accordion-bordered">
-                                <div id="weekDate1"></div>
-                                    <div class="accordion__item">
-                                        <div class="accordion__header" data-toggle="collapse" data-target="#bordered_no-gutter_collapseOne">
-                                            <span class="accordion__header--text">1주차</span>
-                                            <span class="accordion__header--indicator style_two"></span>
-                                        </div>
-                                        <div id="bordered_no-gutter_collapseOne" class="collapse accordion__body show" data-parent="#accordion-four">
-                                            <div class="accordion__body--text">
-                                                <table class="empTable1">
-                                                	<tr clss="weekDate1">
-                                                		<td>일자</td>
-                                                		<td>업무시작</td>
-                                                		<td>업무종료</td>
-                                                		<td>총근무시간</td>
-                                                		<td>근무시간 상세</td>
-                                                	</tr>
-                                                	DB에서 불러와서 append하기
-                                                	<tr>
-                                                	
-                                                	</tr>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="accordion__item">
-                                        <div class="accordion__header collapsed" data-toggle="collapse" data-target="#bordered_no-gutter_collapseTwo">
-                                            <span class="accordion__header--text">2주차</span>
-                                            <span class="accordion__header--indicator style_two"></span>
-                                        </div>
-                                        <div id="bordered_no-gutter_collapseTwo" class="collapse accordion__body" data-parent="#accordion-four">
-                                            <div class="accordion__body--text">
-                                                <table class="empTable2">
-                                                	<tr clss="weekDate2">
-                                                		<td>일자</td>
-                                                		<td>업무시작</td>
-                                                		<td>업무종료</td>
-                                                		<td>총근무시간</td>
-                                                		<td>근무시간 상세</td>
-                                                	</tr>
-                                                	DB에서 불러와서 append하기
-                                                	<tr>
-                                                		<td>10:00</td>
-                                                		<td>19:00</td>
-                                                		<td>8시간</td>
-                                                		<td>기본 8시간/ 초과 0시간</td>
-                                                	</tr>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="accordion__item">
-                                        <div class="accordion__header collapsed" data-toggle="collapse" data-target="#bordered_no-gutter_collapseThree">
-                                            <span class="accordion__header--text">3주차</span>
-                                            <span class="accordion__header--indicator style_two"></span>
-                                        </div>
-                                        <div id="bordered_no-gutter_collapseThree" class="collapse accordion__body" data-parent="#accordion-four">
-                                            <div class="accordion__body--text">
-                                               <table class="empTable3">
-                                                	<tr clss="weekDate3">
-                                                		<td>일자</td>
-                                                		<td>업무시작</td>
-                                                		<td>업무종료</td>
-                                                		<td>총근무시간</td>
-                                                		<td>근무시간 상세</td>
-                                                	</tr>
-                                                	DB에서 불러와서 append하기
-                                                	<tr>
-                                                		<td>10:00</td>
-                                                		<td>19:00</td>
-                                                		<td>8시간</td>
-                                                		<td>기본 8시간/ 초과 0시간</td>
-                                                	</tr>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="accordion__item">
-                                        <div class="accordion__header collapsed" data-toggle="collapse" data-target="#bordered_no-gutter_collapseFour">
-                                            <span class="accordion__header--text">4주차</span>
-                                            <span class="accordion__header--indicator style_two"></span>
-                                        </div>
-                                        <div id="bordered_no-gutter_collapseFour" class="collapse accordion__body" data-parent="#accordion-four">
-                                            <div class="accordion__body--text">
-                                               <table class="empTable4">
-                                                	<tr clss="weekDate4">
-                                                		<td>일자</td>
-                                                		<td>업무시작</td>
-                                                		<td>업무종료</td>
-                                                		<td>총근무시간</td>
-                                                		<td>근무시간 상세</td>
-                                                	</tr>
-                                                	DB에서 불러와서 append하기
-                                                	<tr>
-                                                		<td>10:00</td>
-                                                		<td>19:00</td>
-                                                		<td>8시간</td>
-                                                		<td>기본 8시간/ 초과 0시간</td>
-                                                	</tr>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                       <div class="accordion__item">
-                                        <div class="accordion__header collapsed" data-toggle="collapse" data-target="#bordered_no-gutter_collapseFive">
-                                            <span class="accordion__header--text">5주차</span>
-                                            <span class="accordion__header--indicator style_two"></span>
-                                        </div>
-                                        <div id="bordered_no-gutter_collapseFive" class="collapse accordion__body" data-parent="#accordion-four">
-                                            <div class="accordion__body--text">
-                                                <table class="empTable5">
-                                                	<tr clss="weekDate5">
-                                                		<td>일자</td>
-                                                		<td>업무시작</td>
-                                                		<td>업무종료</td>
-                                                		<td>총근무시간</td>
-                                                		<td>근무시간 상세</td>
-                                                	</tr>
-                                                	DB에서 불러와서 append하기
-                                                	<tr>
-                                                		<td>10:00</td>
-                                                		<td>19:00</td>
-                                                		<td>8시간</td>
-                                                		<td>기본 8시간/ 초과 0시간</td>
-                                                	</tr>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
+						<div class="sec_cal">
+							  <div class="cal_nav">
+							    <a href="javascript:;" class="nav-btn go-prev">prev</a>
+							    <div class="year-month"></div>
+							    <a href="javascript:;" class="nav-btn go-next">next</a>
+							  </div>
+						<div style="display:none;">
+							  <div class="cal_wrap">
+							    <div class="days">
+							      <div class="day">MON</div>
+							      <div class="day">TUE</div>
+							      <div class="day">WED</div>
+							      <div class="day">THU</div>
+							      <div class="day">FRI</div>
+							      <div class="day">SAT</div>
+							      <div class="day">SUN</div>
+							    </div>
+							    <div class="dates"></div>
+							  </div>
+						</div>	  	  
+						</div>		
+							<div class="card">
+				                <div class="card-body">
+			                         <table id="monthWortkTime"><!-- 한달 총 근무시간 나타내기 -->
+						  		   		<thead>
+							                <tr>							                  
+							                   <td style="border: 1px solid #eaeaea; height: 45px; font-size:25px;">근무시간</td>
+							                   <td style="border: 1px solid #eaeaea; height: 45px; font-size:25px;">초과시간</td>
+							               </tr>
+							            </thead>
+							            <tbody></tbody>        
+			         				 </table> 
+			                         <div class="card-block accordion-block" id="accodianA">
+						                 <div id="accordion" role="tablist" aria-multiselectable="true">
+								                       
+						                  </div>
+			                         </div>
+			                   </div>
+			             </div>
                     </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-12 col-xxl-6 col-lg-6 col-md-12">
+           		</div>
+                <div class="col-xl-12 col-xxl-6 col-lg-6 col-md-12">
                 	<div class="row">
                     </div>
                 </div>
             </div>
-            
                  <div class="row">
                     <div class="col-lg-3">
                         <div class="card">
-                           
-                               
-                             
                             <div class="card-body">
                                 <!-- Default accordion -->
                                 <div id="accordion-one" class="accordion">
@@ -560,7 +382,7 @@
                                         </div>
                                         <div id="default_collapseThree" class="collapse accordion__body" data-parent="#accordion-one">
                                             <div class="accordion__body--text">
-                                             	<p>누적 근태현황</p>
+                                             	<a href="deptEmpStatus.em"><p>누적 근태현황</p></a>
                                             </div>
                                         </div>
                                     </div>
@@ -571,7 +393,7 @@
                                         </div>
                                         <div id="default_collapseFour" class="collapse accordion__body" data-parent="#accordion-one">
                                             <div class="accordion__body--text">
-                                             	<p>연차 사용현황</p>
+                                             	<a href="deptLeaveStatus.al"><p>연차 사용현황</p></a>
                                             </div>
                                         </div>
                                     </div>
@@ -580,10 +402,8 @@
                            
                         </div>
                         <!-- /# card -->
-                    </div>
-                     
-   
-            </div>
+                   </div>
+            	</div>
             </div>
         </div>
         <!--**********************************
@@ -668,67 +488,7 @@
 	console.log("현재시간:"+nowTime);
 	console.log("onTime:"+nowTime);
 
-	
 
-	    // 해당 주차 / 해당주차 시작날짜 / 해당주차 끝나는날짜를 리턴.
-	    
-/* 	 function searchPeriodCalculation() {
-		//입력한 년도, 월을 가지고 옴
-		 let cYear = document.getElementById("choiceYear").value;
-	     let cMonth = document.getElementById("choiceMonth").value.replace(/(^0+)/, "") - 1;
-	     
-	     let date = new Date(cYear, cMonth);
-	     let firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
-	     let lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-	     var day = lastDay.getDate();
-	     //
-	     const prevLast = new Date(cYear, cMonth, 0);
-	     const thisLast = new Date(cYear, cMonth + 1, 0);
-
-	     const PLDate = prevLast.getDate();//지난달의 마지막날
-	     const PLDay = prevLast.getDay();//요일
-
-	     const TLDate = thisLast.getDate();
-	     const TLDay = thisLast.getDay();
-	     var minSun = null;//월요일을 기준으로하면 일주일의 마지막이 일요일이니까 일요일의 날짜를 구해서 +1이 월요일 --> 여기서 7일 더하기(일요일 개수를 배열로 저장 후 갈이만큼 주차출력)
-	     var weekCount = new Array(); 
-	     var startDate = null;
-	     var endDate = null;
-	     	     
-	     console.log("지난달:"+PLDay);
-	     
-	     for(var i = 0; i <= day; i++){
-	    	 firstDay.setDate(firstDay.getDate()+i);
-	    	//console.log(firstDay);
-	    	if(firstDay.getDay() == 0){
-	    		//console.log(firstDay.getDate());
-	    		minSun = firstDay.getDate();
-	    		weekCount.push(minSun);
-
-	    	}
-	    	//날짜를 해당월의 1일로 초기화
-	    	firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
-	     }     
-	     console.log(weekCount.length);
-	     for(var w = 0; w < weekCount.length; w++){
-	    	 
-	    	
-	    	 if(weekCount[0] == 1){
-	    		 var area = w + 1+"주차";
-	    		 console.log(area);
-		    	 
-		    	 
-	    	 }else{
-	    		 var area = w + 2+"주차";
-	    		 console.log(area);
-		    	 
-	    	 }
-	    	 
-	     }
-	     
-	} */
-
-	    
 	    $('#changeStatus').on('change', function(){
 			var offClock = document.getElementById("workOutTime");
 			var statusValue = $(this).val();
@@ -776,13 +536,22 @@
 					error:function(data){
 						console.log(data);
 					}
-				});
-					
-		});	
+				});					
+			});	
 	    
 	$(document).ready(function() {
 	    calendarInit();
 	});
+	 var $window = $(window);
+	 	var nav = $('.fixed-button');
+	 	    $window.scroll(function(){
+	 	        if ($window.scrollTop() >= 200) {
+	 	        nav.addClass('active');
+	 	    }
+	 	    else {
+	 	        nav.removeClass('active');
+	 	    }
+	 	});
 	/*
 	    달력 렌더링 할 때 필요한 정보 목록 
 
@@ -799,7 +568,6 @@
     var thisMonth = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     // 달력에서 표기하는 날짜 객체
   
-    
     var currentYear = thisMonth.getFullYear(); // 달력에서 표기하는 연
     var currentMonth = thisMonth.getMonth(); // 달력에서 표기하는 월
     var currentDate = thisMonth.getDate(); // 달력에서 표기하는 일
@@ -815,15 +583,12 @@
 	    var thisMonth = new Date(today.getFullYear(), today.getMonth(), today.getDate());
 	    // 달력에서 표기하는 날짜 객체
 	  
-	    
 	    var currentYear = thisMonth.getFullYear(); // 달력에서 표기하는 연
 	    var currentMonth = thisMonth.getMonth(); // 달력에서 표기하는 월
 	    var currentDate = thisMonth.getDate(); // 달력에서 표기하는 일
-	
+		var currentDay = thisMonth.getDay();
 
 	    // kst 기준 현재시간
-	    
-	    // console.log(thisMonth);
 
 	    // 캘린더 렌더링
 	    renderCalender(thisMonth);
@@ -834,90 +599,198 @@
 	        currentYear = thisMonth.getFullYear();
 	        currentMonth = thisMonth.getMonth();
 	        currentDate = thisMonth.getDate();
-	        
-	        console.log("현재달:"+currentYear + "" +(currentMonth+1));
+	        currentDay = thisMonth.getDay();
+	        var nowDate = new Date(currentYear, currentMonth, 1);
 	        var currentYearMonth = currentYear + "" +(currentMonth+1);
-	        console.log(currentYearMonth);
+	       
+	        var lastDate = new Date(currentYear, currentMonth+1, 0).getDate();
+	        var monthSWeek = nowDate.getDay();
+	        var weekSeq = parseInt((parseInt(lastDate) + monthSWeek - 1)/7)+1;
+		 	  console.log(currentYearMonth);
+		 	 console.log(lastDate);
+		 	 console.log("monthWeek:"+monthSWeek);
+		 	  console.log(weekSeq);
+	
+		 	  
+		 	// 이번 주 show
+		 	    // 오늘 날짜에 이번달 시작하는 요일의 getDay를 더해서 한 주를 7의 배수로 만들기
+		 	     var today = new Date();
+		 	  //  var first = new Date(today.getFullYear(), today.getMonth(), 1);
+		 	    var selectedDay = today.getDate();
+		 	    var monthFirst = nowDate.getDay();
+		 	    var todayWeek = Math.ceil((selectedDay + monthFirst) / 7);
+		 	   	var dayList = ['일','월','화','수','목','금','토'];
+		 	    var thisWeek = $('#'+todayWeek+'WeekTable').parents('.collapse');
+		 	    thisWeek.addClass('show');
+		 	    thisWeek.prev().find('i').removeClass('icofont-rounded-down').addClass('icofont-rounded-up');
+		 	    
+		 	    
+		 	   //월별 근무내용 가져오기
+		 	   $.ajax({
+		 		   url:'monthEmpStatus.em',
+		 		  dataType: 'json',
+		 		   data:{
+		 			  currentYearMonth:currentYearMonth,
+			    		currentYear:currentYear,
+			    		currentMonth:currentMonth,
+			    		weekSeq:weekSeq,
+		 		   },
+		 		 
+			      success:function(data){
+			    	  console.log("한달성공");
+					    console.log(data);
+					    var monthTable = $('#monthWortkTime tbody');
+					    var monthTime = "<tr>"+						                  
+						                   "<td style='border: 1px solid #eaeaea; height: 45px; font-size:25px;'>"+data.strGapTime+"</td>"+
+						                   "<td style='border: 1px solid #eaeaea; height: 45px; font-size:25px;''>"+data.strOverTime+"</td>"+
+						               	 "</tr>"
+						monthTable.append(monthTime);               	 
+			      },
+			      error:function(data){
+						console.log(data);
+					}
+		 		   
+		 	   });
+		 	    
+		 	    
+		 	   
+	        //주별 근무내용 가져오기
 	        $.ajax({
 		    	url:'monthWorkTime.em',
-		    	data:{currentYearMonth:currentYearMonth},
+		    	data:{currentYearMonth:currentYearMonth,
+		    		currentYear:currentYear,
+		    		currentMonth:currentMonth,
+		    		weekSeq:weekSeq,
+		    	},
 		    	dataType: 'json',
 		    	success:function(data){
 					console.log(data);	
-					
-					$tableBody = $('#monthWortkTime tbody');
-					$tableBody.html('');
-					
-					var $tr;
-					var $empRegiDate;
-					var $empOnTime;
-					var $empOffTime;
-					var $emptyData;
-					var $gapTime;
-					var $overTime;
-					
-					
-					if (!$.trim(data)){//저장된 데이터가 없을때 
+				
+					 for(var i = 1; i <= weekSeq; i++){
+						var cl = "<div class='accordion-heading clickWeek' role='tab' id='heading"+i+"'>"+
+                         "<h3 class='card-title accordion-title'>"+
+                            " <a class='accordion-msg' data-toggle='collapse' data-parent='#accordion' href='#collapse"+i+"'+ aria-expanded='true' aria-controls='collapse"+i+"'>"+
+                            " <i class='bi bi-chevron-down'>"+"</i>"+
+                                 "&nbsp;"+i+"주차"+
+                            " </a>"+
+                         "</h3>"+
+                     "</div>"+
+                    "<div id='collapse"+i+"'class='panel-collapse collapse in' role='tabpanel' aria-labelledby='heading"+i+"'>"+
+			             " <div class='accordion-content accordion-desc'>"+
+			                     "<div class='table-border-style'  id='content'>"+
+			                            "<div class='table-responsive'>"+
+			                                  "<table class='table table-hover' id='"+i+"WeekTable' style='overflow: hidden;'>"+
+			                                         " <thead>"+
+			                                               " <tr>"+
+			                                                     "<th>"+"일자"+"</th>"+
+			                                                     "<th>"+"업무시작"+"</th>"+
+			                                                    " <th>"+"업무종료"+"</th>"+
+			                                                     "<th>"+"근무시간"+"</th>"+
+			                                                    " <th>"+"초과시간"+"</th>"+
+			                                                     "<th>"+"</th>"+
+			                                                  "</tr>"+
+			                                           " </thead>"+
+			                                           " <tbody>"+
+			                                            "</tbody>"+
+			                                   " </table>"+
+			                                " </div>"+
+			                              "</div>"+
+			                          " </div>"+
+			                       "</div>" 
+                     $('#accordion').append(cl);
+					} 
+                    
+					 var cnt = 1;
+	 	        		// 주 반복
+	 	     	        for(var i = 1; i < 7; i++){
+	 	     	        	var $weekTable = $('#'+i+'WeekTable').find('tbody');
+	 	     	        	$weekTable.empty();
+	 	     	            // 일 반복
+	 	     	            for(var j = 0; j < 7; j++){
+	 	     	            	var $dailyTr = document.createElement('tr');
+	 			                $dailyTr.setAttribute('class', 'clickDaily');
+	 			                
+	 			                if((i == 1 && j >= nowDate.getDay()) || (i != 1 && cnt <= lastDate)){
+	 			                    // 날짜 + 요일
+	 			                    var $td1 = document.createElement('th');
+	 			                    var $td2 = document.createElement('td');
+	 			                    var $td3 = document.createElement('td');
+	 			                    var $td4 = document.createElement('td');
+	 			                    var $td5 = document.createElement('td');
+	 			                    var $td6 = document.createElement('td');
+	 			
+	 			                    $td1.textContent = (cnt < 10 ? "0" + cnt : cnt) + " " + dayList[j];
+	 			                
+	 			                    $td1.setAttribute('id', cnt + "date");
+	 			                    $td2.setAttribute('id', cnt + "start");
+	 			                    $td3.setAttribute('id', cnt + "end");
+	 			                    $td4.setAttribute('id', cnt + "total");
+	 			                    $td5.setAttribute('id', cnt + "detail");
+	 			                    $td6.setAttribute('id', cnt + "request");
+	 			                    
+	 			                    $dailyTr.append($td1);
+	 			                    $dailyTr.append($td2);
+	 			                    $dailyTr.append($td3);
+	 			                    $dailyTr.append($td4);
+	 			                    $dailyTr.append($td5);
+	 			                    $dailyTr.append($td6);
+	 			                    
+	 			                    // 일일 시간
+	 			                    var $timeTr = $('<tr id="'+cnt+'daily" class="timeTr">').css({'display':'none', 'overflow':'hidden'});
+	 			                    var $timeTh = $('<th class="small font-weight-bold" colspan="6">').css({'background-color':'rgba(222, 199, 254, 0.1)'});
+	 			                    var $timeDiv = $('<div class="row" id="'+cnt+'timeDiv">');
+	 			                    for(var k = 00; k < 24; k++){
+	 			                        var $timeDetaildiv = $('<div class="col d-inline-block" id="'+k+'time">').html(k < 10 ? "0" + k : k);
+	 			                        $timeDiv.append($timeDetaildiv);
+	 			                    }
+	 			                    $timeTh.append($timeDiv);
+	 			                    $timeTr.append($timeTh);
+	 								
+	 			                    $weekTable.append($dailyTr);
+	 			                    $weekTable.append($timeTr);
+	 			
+	 			                    cnt++;
+	 			                }
+	 	     	            }
+	 	     	        }
+	 	        		
+	 	     	  	for(var i = 0; i < data.length ; i++){
+ 	        			var day = data[i].empRegiDate.substr(8,3);
+ 	        			console.log("데이:"+day);
+ 	        			var startTime = data[i].empOnTime.substr(11,8);
+ 	        			var endTime = data[i].empOffTime.substr(11,8);
+ 	        			var workTime = data[i].strGapTime;
+ 	        			var overTime = data[i].strOvertime;
+ 	        			//var detailStartTime = data[i].commuteStart.substring(11, 13);
+         				//var detailEndTime = data[i].commuteEnd.substring(11, 13);
+ 	        			
+ 	        			for(var j = 1; j <= 31; j++){
+ 	        				if(day == j){
+ 	        					
+ 	        					$('#'+j+'start').html(startTime);
+ 	        					$('#'+j+'end').html(endTime);
+ 	        					$('#'+j+'total').html(workTime);
+ 	        					
+ 	        					//var workTimeSplit = workTime.toString().split(':');
+ 	        					//var overTime = (workTimeSplit.length == 2) ? '기본'+"{0}h{1}m".format(workTimeSplit[0], workTimeSplit[1]) : '기본'+"{0}h".format(workTimeSplit[0]);
+ 	        					$('#'+j+'detail').html(overTime);
+ 	        				
+ 	        				}
+ 	        			}
+ 					}
+ 	        		
+				 	if (!$.trim(data)){//저장된 데이터가 없을때 
 						console.log("데이터가 없습니다.");
 						$tr = $('<tr>');
-						$emptyDate = $('<td>').text("데이터가 없습니다.");
+						$emptyDate = $('<td colspan="5">').text("데이터가 없습니다.");
 						$tr.append($emptyDate);
 						$tableBody.append($tr);
-					}else{
-						for(var i in data){
-
-							var regiDate = data[i].empRegiDate;
-							var regiDate1 = regiDate.substring(0,10);
-							
-							var ontime = data[i].empOnTime;
-							var ontime1 = ontime.substr(11,8);
-							
-							var offtime = data[i].empOffTime+"";
-							var offtime1 = offtime.substr(11,8);
-							
-							var gaptime = data[i].gapTime+"";
-							var gaptime1 = gaptime.substr(11,8);
-
-							var overtime = data[i].overTime+"";
-							var overtime1 = overtime.substr(11,8);
-							
-							$tr = $('<tr>');
-							$empRegiDate = $('<td>').text(regiDate1);
-							$empOnTime = $('<td>').text(ontime1);
-							$empOffTime = $('<td>').text(offtime1);
-							
-							if(data[i].gapTime === undefined){
-								$gapTime = $('<td>').text("");
-							}else{
-								$gapTime = $('<td>').text(gaptime1);
-							}
-							if(data[i].overTime === undefined){
-								$overTime = $('<td>').text("");
-							}else{
-								$overTime = $('<td>').text(overtime1);
-							}
-							
-							$gapTime = $('<td>').text(gaptime1);
-							$overTime = $('<td>').text(overtime1);
-								
-							$tr.append($empRegiDate);
-							$tr.append($empOnTime);
-							$tr.append($empOffTime);
-							$tr.append($gapTime);
-							$tr.append($overTime);
-							
-							$tableBody.append($tr);
-						}
-					}
-
+					} 
 		    	},
 		    	error:function(data){
 					console.log(data);
 				}
 		    });
-	        
-	        
-	        
 
 	        // 이전 달의 마지막 날 날짜와 요일 구하기
 	        var startDay = new Date(currentYear, currentMonth, 0);
@@ -963,75 +836,23 @@
 	    // 이전달로 이동
 	    $('.go-prev').on('click', function() {
 	        thisMonth = new Date(currentYear, currentMonth - 1, 1);
+	        $('#accodianA').children().empty();
+	        $('#monthWortkTime tbody').children().empty();
 	        renderCalender(thisMonth);
-	        
-	     
+
 	    });
 
 	    // 다음달로 이동
 	    $('.go-next').on('click', function() {
 	        thisMonth = new Date(currentYear, currentMonth + 1, 1);
+	        $('#accodianA').children().empty();
+	        $('#monthWortkTime tbody').children().empty();
 	        renderCalender(thisMonth); 
-	     
-	
+
 	    });
 	} 
 	    
-	/* $('.cal_nav').children('a').on('click', function(){
-		console.log("되는거냐");
-		console.log(currentYear + "/" +(currentMonth+1));
-        var currentYearMonth = currentYear + "" +(currentMonth+1);
-	    console.log("bb:"+currentYearMonth);
-	    // 현재 월 표기
-       var month222 = $('.year-month').text(currentYear + '.' + (currentMonth + 1));
-	
-	    
-	    $.ajax({
-	    	url:'monthWorkTime.em',
-	    	data:{currentYearMonth:currentYearMonth},
-	    	dataType: 'json',
-	    	success:function(data){
-				console.log(data);	
-				console.log(data[0].empOnTime);
-				$tableBody = $('#monthWortkTime tbody');
-				$tableBody.html('');
-				
-				var $tr;
-				var $empRegiDate;
-				var $empOnTime;
-				var $empOffTime;
-				
-				
-				for(var i in data){
-					
-					$tr = $('<tr>');
-					$empRegiDate = $('<td>').text(data[i].empRegiDate);
-					$empOnTime = $('<td>').text(data[i].empOnTime);
-					$empOffTime = $('<td>').text(data[i].empOffTime);
-					
-						
 
-					$tr.append($empRegiDate);
-					$tr.append($empOnTime);
-					$tr.append($empOffTime);
-					
-					$tableBody.append($tr);
-				}
-				
-				
-	    	},
-	    	error:function(data){
-				console.log(data);
-			}
-	    });
-		
-	});
-	     */
-	    
-	  
-	    
-	
-	
 	</script>
 
 

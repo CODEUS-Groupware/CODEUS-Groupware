@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="boardMapper">
 	<select id="getListCount" resultType="_int">
@@ -7,10 +7,63 @@
 		WHERE B_STATUS = '0'
 	</select>
 	
+	<select id="selectBoard" resultMap="boardResultSet">
+		SELECT * 
+		FROM BOARD
+		WHERE B_NUM = #{bId} AND B_STATUS = '0'
+	</select>
+	
+	
 	<select id="CommBoardSelectList" resultMap="boardResultSet">
 		SELECT *
 		FROM board
 		WHERE B_TYPE = '자유'
+		ORDER BY B_NUM DESC
+	</select>
+	
+	<select id="commsearchListCount" resultType="_int" parameterType="Search">
+		<bind name="value" value="'%' + _parameter.getSearchValue() + '%'"/>
+		SELECT COUNT(*)
+		FROM BOARD
+		<where>
+			B_STATUS = '0'
+			AND B_TYPE = '자유'
+		</where>
+			<choose>
+				<when test="searchCondition == 'bTitle'">
+					AND B_TITLE LIKE #{value}
+				</when>
+				<when test="searchCondition == 'bContent'">
+					AND B_CONTENT LIKE #{value}
+				</when>
+				<otherwise>
+					AND (B_TITLE LIKE #{value}
+						OR B_CONTENT LIKE #{value})
+				</otherwise>
+			</choose>
+	</select>
+	
+	<!-- 자유게시글 검색 -->
+	<select id="commSearchList" parameterType="Search" resultMap="boardResultSet">
+		<bind name="value" value="'%' + _parameter.getSearchValue() + '%'"/>
+		SELECT *
+		FROM BOARD
+		<where>
+			B_STATUS = '0'
+			AND B_TYPE = '자유'
+			<choose>
+				<when test="searchCondition == 'bTitle'">
+					AND B_TITLE LIKE #{value}
+				</when>
+				<when test="searchCondition == 'bContent'">
+					AND B_CONTENT LIKE #{value}
+				</when>
+				<otherwise>
+					AND (B_TITLE LIKE #{value}
+						OR B_CONTENT LIKE #{value})
+				</otherwise>
+			</choose>
+		</where>
 		ORDER BY B_NUM DESC
 	</select>
 	
@@ -27,16 +80,20 @@
 		<result property="bStatus" column="B_STATUS"/>
 		<result property="bPin" column="B_PIN"/>
 		<result property="bWriter" column="M_ID"/>
-		
+		<result property="reply_count" column="B_ETC"/>
 	</resultMap>
 	
 	<insert id="insertcommBoard" parameterType="Board">
 
 	INSERT INTO BOARD 
-		VALUES(SEQ_B_NUM.nextval,'자유',#{bTitle},#{bContent},0,SYSDATE, SYSDATE, DEFAULT, DEFAULT, #{bWriter})
+		VALUES(SEQ_B_NUM.nextval,'자유',#{bTitle},#{bContent,jdbcType=CLOB},0,SYSDATE, SYSDATE, DEFAULT, DEFAULT, #{bWriter},null,null)
 								 				 
 	</insert>
 	
+	<update id="addReadCount">
+		UPDATE BOARD SET B_VIEWS = B_VIEWS + 1
+		WHERE B_NUM = #{bId}
+	</update>
 	
 	<delete id="CommBoardDelete">
 		DELETE FROM BOARD 
@@ -49,54 +106,24 @@
 		WHERE B_NUM = #{bId}
 	</update>
 	
-
-	<!-- 마켓 시작 -->
-	
-	
-	<select id="MarketSelectList" resultMap="boardResultSet">
-		SELECT * 
-		FROM BOARD
-            JOIN ATTACHMENT using (B_NUM)	
-            
-		WHERE B_STATUS = '0' and WHERE B_TYPE = '중고'
-		ORDER BY B_NUM DESC
-	</select>
-	
-	<update id="addReadCount">
-		UPDATE BOARD 
-		SET B_views = B_views + 1
-		WHERE B_NUM = #{bId}
-	</update>
-	
-	<select id="selectBoard" resultMap="boardResultSet">
-		SELECT * 
-		FROM BOARD
-		WHERE B_NUM = #{bId} 
-	</select>
-	
-	<insert id="insertmarketBoard" parameterType="Board">
-
-	INSERT INTO BOARD 
-		VALUES(SEQ_B_NUM.nextval,'중고',#{bTitle},#{bContent},0,SYSDATE, SYSDATE, DEFAULT, DEFAULT, #{bWriter})
-								 				 
-	</insert>
-	
-	
 	<!-- 게시글 신고 -->
 	
 		<select id="selectPostReport" resultMap="ReportResultMap">
-  		SELECT * FROM REPORT WHERE B_NUM = #{bId}
-  	</select>
+  		SELECT * FROM REPORT WHERE B_NUM = #{bId} and report_category = '게시글'
+  		</select>
   	
   	<select id="selectPostReportCount" resultType="_int">
-  		SELECT COUNT(*)FROM BOARD B JOIN REPORT BR ON B.B_NUM = BR.B_NUM
+  		SELECT COUNT(*)
+  		FROM BOARD 
+  		JOIN REPORT using (B_NUM) 
+  		WHERE REPORT_CATEGORY = '게시글' and B_NUM = #{bId}
   	</select>
  
  	
   	
   	<insert id="insertPostReport">
   		INSERT INTO REPORT 
-  		VALUES(SEQ_REPORT_NO.NEXTVAL,#{reportType},'게시글',SYSDATE,DEFAULT,#{mId},#{bId},#{rId})
+  		VALUES(SEQ_REPORT_NO.NEXTVAL,#{reportType},'게시글',SYSDATE,DEFAULT,#{mId},#{bId},null)
   	</insert>
 	
 	

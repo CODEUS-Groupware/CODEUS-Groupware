@@ -73,7 +73,7 @@
 					                    		</c:if>
 					                    	</c:forEach>
 					                    </select>
-					                    <input type="search" class="form-control" name="searchValue"  list="memberList" placeholder="사원 이름" required autocomplete="off">
+					                    <input type="search" class="form-control" name="searchValue"  list="memberList" placeholder="사원 이름" autocomplete="off">
 					                    <datalist id="memberList">
 			                        	<c:forEach var="m2" items="${ mList2 }">
 			                        		<option value="${ m2.mName }"></option>                               		
@@ -523,7 +523,7 @@
 	                                        	<c:if test="${ searchValue ne null }"> 
 													<c:param name="selectDept" value="${ selectDept }"/>
 													<c:param name="selectJob" value="${ selectJob }"/>
-														c:param name="searchValue" value="${ searchValue }"/>
+													<c:param name="searchValue" value="${ searchValue }"/>
 												</c:if>	                                       		
                                          	</c:url>
 	                                        <li class="page-item page-indicator">

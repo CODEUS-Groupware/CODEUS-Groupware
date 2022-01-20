@@ -12,6 +12,19 @@
 <link rel="icon" type="image/png" sizes="16x16" href="${contextPath}/assets/resources/images/favicon.png">
 <!-- Custom Stylesheet -->
 <link href="${contextPath}/resources/assets/css/style.css" rel="stylesheet">
+<<<<<<< HEAD
+=======
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+<!-- Google fonts - Noto Sans Korean -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Noto+Sans+KR:wght@300;400&family=Open+Sans&display=swap" rel="stylesheet">
+<style>
+	 body, h1, h2, h3, h4, h5, h6, p, span {
+   	 	font-family: 'Noto Sans KR', sans-serif;
+  	 }
+</style>
+>>>>>>> d31304d0cad71859059cb6703cfe015ab24268ab
 </head>
 
 <body>
@@ -62,18 +75,8 @@
                 <nav class="navbar navbar-expand">
                     <div class="collapse navbar-collapse justify-content-between">
                         <div class="header-left">
-<!--                             <div class="search_bar dropdown">
-                                <span class="search_icon p-3 c-pointer" data-toggle="dropdown">
-                                    <i class="mdi mdi-magnify"></i>
-                                </span>
-                                <div class="dropdown-menu p-0 m-0">
-                                    <form>
-                                        <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-                                    </form>
-                                </div>
-                            </div> -->
                         </div>
-
+                        
                         <ul class="navbar-nav header-right">
                             <li class="nav-item dropdown notification_dropdown">
                                 <a class="nav-link" href="#" role="button" data-toggle="dropdown">
@@ -155,9 +158,30 @@
                                     <a href="./email-inbox.html" class="dropdown-item">
                                         <span class="ml-2">관리자페이지 </span>
                                     </a>
+<<<<<<< HEAD
                                     <a href="logout.me" class="dropdown-item">
                                         <span class="ml-2">로그아웃 </span>
                                     </a>
+=======
+                                    <c:if test="${ loginUser.managerYn == 'Y' }">
+	                                    <a href="${contextPath}/admin/mlist.ad" class="dropdown-item">
+	                                        <i class="fa fa-mail-forward"></i>
+	                                        <span class="ml-2">Admin Page </span>
+	                                    </a>
+                                    </c:if>
+                                     <c:if test="${ loginUser != null }">
+	                                    <a href="logout.me" class="dropdown-item">
+	                                        <i class="icon-key"></i>
+	                                        <span class="ml-2">Logout </span>
+                                    	</a>
+                                    </c:if>                                    
+                                    <c:if test="${ loginUser == null }">
+	                                    <a href="${ contextPath }" class="dropdown-item">
+	                                        <i class="icon-key"></i>
+	                                        <span class="ml-2">Login </span>
+                                    	</a>
+                                    </c:if>  
+>>>>>>> d31304d0cad71859059cb6703cfe015ab24268ab
                                 </div>
                             </li>
                         </ul>
@@ -176,6 +200,7 @@
             <div class="quixnav-scroll">
                 <ul class="metismenu" id="menu">
                 	<li class="nav-label first"></li>
+<<<<<<< HEAD
                     <li><a href="${contextPath}" aria-expanded="false"><i
                                 class="icon icon-app-store"></i><!-- <i class="fa fa-home"></i> --><!-- <i class="fa fa-dashboard"></i> --><span class="nav-text">대시보드</span></a>
                     </li>
@@ -183,6 +208,17 @@
                    <!--  <li class="nav-label">Apps</li> -->
                     <li><a href="javascript:void()" aria-expanded="false">
                     		<i class="fa fa-comments"></i><span class="nav-text">채팅</span></a>
+=======
+                    <li><a href="home.do" aria-expanded="false">
+                         <i class="fa fa-home"></i><span class="nav-text">대시보드</span></a>
+                    </li>
+                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                    		<i class="bi bi-chat-dots"></i><span class="nav-text">채팅</span></a>
+						<ul aria-expanded="false">
+		                    <li><a href="chetList.ch">채팅방 목록</a></li>
+                            <li><a href="chetSearch.ch">채팅방 검색</a></li>
+                       	</ul>
+>>>>>>> d31304d0cad71859059cb6703cfe015ab24268ab
                     </li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
                     		<i class="fa fa-file-text"></i><span class="nav-text">전자결재</span></a>
@@ -195,6 +231,7 @@
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
                     		<i class="icon icon-users-mm"></i><!-- <i class="fa fa-child"></i> --><span class="nav-text">커뮤니티</span></a>
                         <ul aria-expanded="false">
+<<<<<<< HEAD
                             <li><a href="javascript:void()">자유게시판</a></li>
                             <li><a href="javascript:void()">중고장터</a></li>
 
@@ -205,6 +242,24 @@
                     </li>
                     <li><a href="widget-basic.html" aria-expanded="false"><i class="fa fa-folder-open-o"></i><span
                                 class="nav-text">자료실</span></a>
+=======
+                            <li><a href="Commblist.bo">자유게시판</a></li>
+                            <li><a href="marketblist.bo">중고장터</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="noticeBoardList.nb" aria-expanded="false">
+                    	<i class="bi bi-megaphone-fill"></i><span class="nav-text">공지사항</span></a>
+                    </li>
+                    <li><a href="archive.arch" aria-expanded="false">
+                    	<i class="bi bi-cloud-arrow-down"></i><span class="nav-text">자료실</span></a>
+                    </li>
+                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                    		<i class="fa fa-phone-square"></i><span class="nav-text">주소록</span></a>
+                    	<ul aria-expanded="false">
+		                    <li><a href="list.addr">주소록 목록</a></li>
+                            <li><a href="search.addr">주소록 검색</a></li>
+                       	</ul>
+>>>>>>> d31304d0cad71859059cb6703cfe015ab24268ab
                     </li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
                                 class="fa fa-pencil-square-o"></i><span class="nav-text">회의실예약</span></a>
@@ -213,6 +268,7 @@
                             <li><a href="javascript:void()">회의실 목록</a></li>
                         </ul>
                     </li>
+<<<<<<< HEAD
                    	<li><a href="javascript:void()" aria-expanded="false">
                     		<i class="fa fa-phone-square"></i><span class="nav-text">주소록</span></a>
                     </li>  
@@ -224,6 +280,23 @@
                         </ul>
                     </li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
+=======
+                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
+                                class="fa fa-briefcase"></i><span class="nav-text">근태관리</span></a>
+                        <ul aria-expanded="false">
+                           <li><a href="empStatusMain.em">근태 현황</a></li>
+                            <li><a href="annualLeaveMain.al">연차현황</a></li>
+                        </ul>
+                    </li>
+                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
+                                class="fa fa-calendar"></i><span class="nav-text">캘린더</span></a>
+                        <ul aria-expanded="false">
+                            <li><a href="calendar.ca">사내 일정 캘린더</a></li>
+                            <li><a href="calendar2.ca">내 일정 캘린더</a></li>
+                        </ul>
+                    </li>                    
+                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
+>>>>>>> d31304d0cad71859059cb6703cfe015ab24268ab
                                 class="icon icon-single-04"></i><span class="nav-text">마이페이지</span></a>
                         <ul aria-expanded="false">
                             <li><a href="javascript:void()">내 정보</a></li>
@@ -235,7 +308,7 @@
         </div>
         <!--**********************************
             Sidebar end
-        ***********************************-->   
+        ***********************************-->
  
 	
 	    <!--**********************************

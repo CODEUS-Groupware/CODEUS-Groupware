@@ -30,7 +30,8 @@
 		
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
-		<url-pattern>/</url-pattern>
+		<!-- <url-pattern>/</url-pattern> -->
+		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
 	
 	<!-- 인코딩 필터 적용 -->
@@ -51,7 +52,7 @@
 	   <url-pattern>/*</url-pattern> 
 	</filter-mapping> 
 	
-		<!-- 에러페이지 -->
+	<!-- 에러페이지 -->
 	<error-page>
 	  <exception-type>java.lang.Throwable</exception-type>
 	  <location>/common/errorThrowable.do</location>
@@ -91,7 +92,10 @@
 	 	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 	 	<init-param>
 	 		<param-name>contextConfigLocation</param-name>
-	 		<param-value>/WEB-INF/spring/appServlet/admin-context.xml</param-value>
+	 		<param-value>
+	 			/WEB-INF/spring/appServlet/admin-context.xml
+	 			/WEB-INF/spring/appServlet/aspect-context.xml	
+	 		</param-value>
 	 	</init-param>
 	 </servlet>
 	 
@@ -221,11 +225,6 @@
 		<url-pattern>*.bo</url-pattern>
 	</servlet-mapping>
 	
-
-
-
-
-	
 	<!-- 전자결재 관련 -->
 	<servlet>
 		<servlet-name>documentServlet</servlet-name>
@@ -240,5 +239,21 @@
 		<url-pattern>*.dc</url-pattern>
 	</servlet-mapping>
 	
-	 
+	<!-- 공지사항 관련 -->
+	<servlet>
+	 	<servlet-name>noticeBoardServlet</servlet-name>
+	 	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+	 	<init-param>
+	 		<param-name>contextConfigLocation</param-name>
+	 		<param-value>
+	 			/WEB-INF/spring/appServlet/noticeBoard-context.xml
+	 			/WEB-INF/spring/appServlet/aspect-context.xml
+	 		</param-value>
+	 	</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>noticeBoardServlet</servlet-name>
+		<url-pattern>*.nb</url-pattern>
+	</servlet-mapping>  
+	
 </web-app>

@@ -1,13 +1,14 @@
 package com.codeusgroup.codeus.commBoard.model.vo;
 
 import java.sql.Date;
+import java.util.List;
 
 public class MarketBoard {
 
 	
-	private int mbId; //보드 번호
+	private int bId; //보드 번호
 	private String mbType;  //'중고'
-	private String marketCategory; //필요*
+	private String mbCategory;  //'중고'
 	private String mbTitle;  //상품명 
 	private String marketPrice ; // 필요*
 	private String mbContent;  //상품 내용
@@ -16,23 +17,23 @@ public class MarketBoard {
 	private String renameFileName;
 	private Date mbCreateDate;
 	private Date mbModifyDate;
-	private String mbStatus;  //삭제 시간
+	private String mbStatus; 
 	private String mbPin;
-	private String mbWriter; //작성자
+	private String mbWriter; 
 
-
-	
 	
 	public MarketBoard() {}
 
 
-	public MarketBoard(int mbId, String mbType, String mbTitle, String mbContent, int mbViews, String originalFileName,
-			String renameFileName, Date mbCreateDate, Date mbModifyDate, String mbStatus, String mbPin,
-			String mbWriter) {
+	public MarketBoard(int bId, String mbType, String mbCategory, String mbTitle, String marketPrice, String mbContent,
+			int mbViews, String originalFileName, String renameFileName, Date mbCreateDate, Date mbModifyDate,
+			String mbStatus, String mbPin, String mbWriter) {
 		super();
-		this.mbId = mbId;
+		this.bId = bId;
 		this.mbType = mbType;
+		this.mbCategory = mbCategory;
 		this.mbTitle = mbTitle;
+		this.marketPrice = marketPrice;
 		this.mbContent = mbContent;
 		this.mbViews = mbViews;
 		this.originalFileName = originalFileName;
@@ -45,13 +46,13 @@ public class MarketBoard {
 	}
 
 
-	public int getMbId() {
-		return mbId;
+	public int getbId() {
+		return bId;
 	}
 
 
-	public void setMbId(int mbId) {
-		this.mbId = mbId;
+	public void setbId(int bId) {
+		this.bId = bId;
 	}
 
 
@@ -65,6 +66,16 @@ public class MarketBoard {
 	}
 
 
+	public String getMbCategory() {
+		return mbCategory;
+	}
+
+
+	public void setMbCategory(String mbCategory) {
+		this.mbCategory = mbCategory;
+	}
+
+
 	public String getMbTitle() {
 		return mbTitle;
 	}
@@ -72,6 +83,16 @@ public class MarketBoard {
 
 	public void setMbTitle(String mbTitle) {
 		this.mbTitle = mbTitle;
+	}
+
+
+	public String getMarketPrice() {
+		return marketPrice;
+	}
+
+
+	public void setMarketPrice(String marketPrice) {
+		this.marketPrice = marketPrice;
 	}
 
 
@@ -167,12 +188,23 @@ public class MarketBoard {
 
 	@Override
 	public String toString() {
-		return "MarketBoard [mbId=" + mbId + ", mbType=" + mbType + ", mbTitle=" + mbTitle + ", mbContent=" + mbContent
-				+ ", mbViews=" + mbViews + ", originalFileName=" + originalFileName + ", renameFileName="
-				+ renameFileName + ", mbCreateDate=" + mbCreateDate + ", mbModifyDate=" + mbModifyDate + ", mbStatus="
-				+ mbStatus + ", mbPin=" + mbPin + ", mbWriter=" + mbWriter + "]";
+		return "MarketBoard [bId=" + bId + ", mbType=" + mbType + ", mbCategory=" + mbCategory + ", mbTitle=" + mbTitle
+				+ ", marketPrice=" + marketPrice + ", mbContent=" + mbContent + ", mbViews=" + mbViews
+				+ ", originalFileName=" + originalFileName + ", renameFileName=" + renameFileName + ", mbCreateDate="
+				+ mbCreateDate + ", mbModifyDate=" + mbModifyDate + ", mbStatus=" + mbStatus + ", mbPin=" + mbPin
+				+ ", mbWriter=" + mbWriter + ", getbId()=" + getbId() + ", getMbType()=" + getMbType()
+				+ ", getMbCategory()=" + getMbCategory() + ", getMbTitle()=" + getMbTitle() + ", getMarketPrice()="
+				+ getMarketPrice() + ", getMbContent()=" + getMbContent() + ", getMbViews()=" + getMbViews()
+				+ ", getOriginalFileName()=" + getOriginalFileName() + ", getRenameFileName()=" + getRenameFileName()
+				+ ", getMbCreateDate()=" + getMbCreateDate() + ", getMbModifyDate()=" + getMbModifyDate()
+				+ ", getMbStatus()=" + getMbStatus() + ", getMbPin()=" + getMbPin() + ", getMbWriter()=" + getMbWriter()
+				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
+				+ "]";
 	}
 
+
+	
+	
 
 	
 	

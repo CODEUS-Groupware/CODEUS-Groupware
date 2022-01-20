@@ -1,11 +1,13 @@
 package com.codeusgroup.codeus.commBoard.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.codeusgroup.codeus.commBoard.model.vo.CommBoard;
 import com.codeusgroup.codeus.commBoard.model.vo.PageInfo;
 import com.codeusgroup.codeus.commBoard.model.vo.Reply;
 import com.codeusgroup.codeus.commBoard.model.vo.Report;
+import com.codeusgroup.codeus.commBoard.model.vo.Search;
 
 
 public interface CommBoardService {
@@ -13,7 +15,12 @@ public interface CommBoardService {
 	int getCommBoardListCount();
 
 	ArrayList<CommBoard> CommBoardselectList(PageInfo pi);
+	
+	
+	int commsearchListCount(Search search);
 
+	ArrayList<CommBoard> commSearchList(Search search, PageInfo pi);
+	
 	CommBoard selectCommBoard(int bId);
 	
 	int commInsertBoard(CommBoard b);	
@@ -24,6 +31,7 @@ public interface CommBoardService {
 	
 	int reportPost(Report rep);
 	
+	Report ckReportPost(int bId);
 	
 	//댓글
 
@@ -39,7 +47,18 @@ public interface CommBoardService {
 
 	int reportReply(Report rep);
 
-	Report ckReportPost(int bId);
+
+//	List<Reply> readReply(int getbId);
+//
+//	Object read(int getbId);
+//
+//	void ReplyviewCount(int bId);
+//
+//	void updateReplyCount(int bId);
+
+	
+
+	
 
 
 

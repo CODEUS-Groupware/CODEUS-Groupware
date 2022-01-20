@@ -28,8 +28,17 @@
 		<result column="WORK_TIME" property="gapTime"/>
 		<result column="OVER_TIME" property="overTime"/>
 		<result column="WORK_TIME1" property="strGapTime"/>
-		<result column="OVER_TIME1" property="strOverTime"/>		
+		<result column="OVER_TIME1" property="strOverTime"/>
+		 <result column="JOB_ID" property="jobId"/>
+		<result column="DEPT_ID" property="deptId"/> 
+		<result column="JOB_NAME" property="jobName"/>
+		<result column="DEPT_NAME" property="deptName"/> 
+		<result column="M_NAME" property="mName"/> 
+		<result column="week" property="weekNum"/>
+		<result column="monthWork" property="monthWork"/>
+		<result column="monthOver" property="monthOver"/>
 	</resultMap>
+
 	<update id="updateOffTime">
 		update emp_status 
 		set emp_off_time = current_timestamp, emp_status = #{empStatus}
@@ -42,13 +51,6 @@
 		from emp_status
 		where m_id = #{id}
 		        and to_date(emp_regi_date,'YY/MM/DD') in (SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD') FROM emp_status)
-		<!-- select *
-		from emp_status e
-			 join member m on (e.m_id = m.m_id)
-		where e.m_id = #{mId}  
-			  and to_date(emp_regi_date,'YY/MM/DD') in (SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD') FROM emp_status)
-			  and emp_off_time is not null
-     		  and m_status = 0 -->
 	</select>
 	<update id="updateStatus">
 		update emp_status 
@@ -63,13 +65,27 @@
      		  and to_date(emp_regi_date,'YY/MM/DD') in (SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD') FROM emp_status)
 	</update>
 	<select id="selectWeekTime" parameterType="string" resultMap="empResultSet">
-		select  substr(SUM(to_number(to_char(work_time, 'yyyymmddhh24missff'))),6,2)||':'|| 
-        substr(SUM(to_number(to_char(work_time, 'yyyymmddhh24missff'))),8,2)||':'||
-        substr(SUM(to_number(to_char(work_time, 'yyyymmddhh24missff'))),10,2) as WORK_TIME1,
-                SUM(to_number(to_char(over_time, 'yyyymmddhh24missff'))) as OVER_TIME1
+		select to_char(trunc(sum(((to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
+							       ((to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),11,2))*60) )+
+							       (to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),13,2)) ))/3600),'fm9900')||':'||
+     			to_char(trunc(mod( sum(((to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
+								        ((to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),11,2))*60) )+
+								       (to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),13,2)) )),3600)/60),'fm00')||':'||
+       			to_char(mod(sum(((to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
+						        ((to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),11,2))*60) )+
+						       (to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),13,2)) )),60),'fm00') as work_time1,
+		       to_char(trunc(sum(((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
+						        ((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),11,2))*60) )+
+						        (to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),13,2)) ))/3600),'fm9900')||':'||
+		       to_char(trunc(mod( sum(((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
+								        ((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),11,2))*60) )+
+								       (to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),13,2)) )),3600)/60),'fm00')||':'||
+		       to_char(mod(sum(((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
+						        ((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),11,2))*60) )+
+						       (to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),13,2)) )),60),'fm00')as over_time1
+
 		from emp_status
-		where
-		            emp_regi_date between (select to_char(a.s_date, 'yyyy-mm-dd')   monday
+		where emp_regi_date between (select to_char(a.s_date, 'yyyy-mm-dd')   monday
 		                                       from (
 		                                       select sysdate - (to_number(to_char(sysdate,'d'))-2) s_date
 		                                       from dual ) a) 
@@ -77,28 +93,167 @@
 		                                       from (
 		                                       select sysdate - (to_number(to_char(sysdate,'d'))-2) s_date
 		                                       from dual) a)
-		and m_id = #{id}                                    
-		group by m_id
+		and m_id =#{id}     
+		group by m_id          
 	</select>
 	<select id="selectMonthTime" parameterType="string" resultMap="empResultSet">
-		select  substr(SUM(to_number(to_char(work_time, 'yyyymmddhh24missff'))),6,2)||':'|| 
-        substr(SUM(to_number(to_char(work_time, 'yyyymmddhh24missff'))),8,2)||':'||
-        substr(SUM(to_number(to_char(work_time, 'yyyymmddhh24missff'))),10,2) as WORK_TIME1,
-                SUM(to_number(to_char(over_time, 'yyyymmddhh24missff'))) as OVER_TIME1
+		select to_char(trunc(sum(((to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
+							       ((to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),11,2))*60) )+
+							       (to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),13,2)) ))/3600),'fm9900')||':'||
+     			to_char(trunc(mod( sum(((to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
+								        ((to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),11,2))*60) )+
+								       (to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),13,2)) )),3600)/60),'fm00')||':'||
+       			to_char(mod(sum(((to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
+						        ((to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),11,2))*60) )+
+						       (to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),13,2)) )),60),'fm00') as work_time1,
+		       to_char(trunc(sum(((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
+						        ((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),11,2))*60) )+
+						        (to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),13,2)) ))/3600),'fm9900')||':'||
+		       to_char(trunc(mod( sum(((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
+								        ((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),11,2))*60) )+
+								       (to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),13,2)) )),3600)/60),'fm00')||':'||
+		       to_char(mod(sum(((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
+						        ((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),11,2))*60) )+
+						       (to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),13,2)) )),60),'fm00')as over_time1
+		       
 		from emp_status
-		where
-		            emp_regi_date between (select TRUNC(sysdate,'MM')
-		                                    from dual) 
-		                                  and (select LAST_DAY(sysdate)
-		                                        from dual)
-		and m_id = #{id}                                    
-		group by m_id
+		where emp_regi_date between (select TRUNC(sysdate,'MM')
+		                             from dual) 
+		                        and (select LAST_DAY(sysdate)
+		                             from dual)
+		and m_id =#{id}     
+		group by m_id          
 	</select>
 	<select id="monthWorkTime" parameterType="hashmap" resultMap="empResultSet">
-		select *
-		from emp_Status
+		select to_char(trunc(sum(((to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
+							       ((to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),11,2))*60) )+
+							       (to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),13,2)) ))/3600),'fm9900')||':'||
+     			to_char(trunc(mod( sum(((to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
+								        ((to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),11,2))*60) )+
+								       (to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),13,2)) )),3600)/60),'fm00')||':'||
+       			to_char(mod(sum(((to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
+						        ((to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),11,2))*60) )+
+						       (to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),13,2)) )),60),'fm00') as work_time1,
+		       to_char(trunc(sum(((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
+						        ((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),11,2))*60) )+
+						        (to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),13,2)) ))/3600),'fm9900')||':'||
+		       to_char(trunc(mod( sum(((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
+								        ((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),11,2))*60) )+
+								       (to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),13,2)) )),3600)/60),'fm00')||':'||
+		       to_char(mod(sum(((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
+						        ((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),11,2))*60) )+
+						       (to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),13,2)) )),60),'fm00')as over_time1, 
+				 e.m_id,emp_regi_date,  emp_on_time, emp_off_time, dept_name, job_name, m_name
+		from emp_status e
+		    left join member m on (m.m_id = e.m_id)
+		    left join department d on (m.dept_id = d.dept_id)
+		    left join job j on (m.job_id = j.job_id)
+		where e.m_id = #{id}
+		       and emp_regi_date between (select to_date(#{currentYearMonth},'YYMM') from dual) and (select last_Day(to_date(#{currentYearMonth},'YYMM')) from dual)
+               and emp_on_time is not null
+              and emp_off_time is not null
+		group by e.m_id, emp_regi_date, emp_on_time, emp_off_time,dept_name, job_name, j.job_id, m_name
+		order by j.job_id, m_name
+	</select>
+	<select id="selectDeptWorkTime" parameterType="hashmap" resultMap="empResultSet">
+		select to_char(trunc(sum(((to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
+							       ((to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),11,2))*60) )+
+							       (to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),13,2)) ))/3600),'fm9900')||':'||
+     			to_char(trunc(mod( sum(((to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
+								        ((to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),11,2))*60) )+
+								       (to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),13,2)) )),3600)/60),'fm00')||':'||
+       			to_char(mod(sum(((to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
+						        ((to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),11,2))*60) )+
+						       (to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),13,2)) )),60),'fm00') as monthWork,
+		       to_char(trunc(sum(((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
+						        ((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),11,2))*60) )+
+						        (to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),13,2)) ))/3600),'fm9900')||':'||
+		       to_char(trunc(mod( sum(((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
+								        ((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),11,2))*60) )+
+								       (to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),13,2)) )),3600)/60),'fm00')||':'||
+		       to_char(mod(sum(((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
+						        ((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),11,2))*60) )+
+						       (to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),13,2)) )),60),'fm00')as monthOver, e.m_id
+		       
+		from emp_status e
+		    left join member m on (m.m_id = e.m_id)
+		    left join department d on (m.dept_id = d.dept_id)
+		    left join job j on (m.job_id = j.job_id)
 		where emp_regi_date between (select to_date(#{currentYearMonth},'YYMM') from dual) and (select last_Day(to_date(#{currentYearMonth},'YYMM')) from dual)
-			  and m_id = #{id}
+               and emp_on_time is not null
+               and emp_off_time is not null
+			   and d.dept_id = (select d.dept_id
+		                from department d
+		                    join member m on(d.dept_id = m.dept_id)
+		                where m.m_id = #{id})     
+		group by e.m_id 
+	</select>
+	<select id="monthTotalTime" parameterType="hashmap" resultMap="empResultSet">
+		select to_char(trunc(sum(((to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
+							       ((to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),11,2))*60) )+
+							       (to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),13,2)) ))/3600),'fm9900')||':'||
+     			to_char(trunc(mod( sum(((to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
+								        ((to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),11,2))*60) )+
+								       (to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),13,2)) )),3600)/60),'fm00')||':'||
+       			to_char(mod(sum(((to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
+						        ((to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),11,2))*60) )+
+						       (to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),13,2)) )),60),'fm00') as work_time1,
+		       to_char(trunc(sum(((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
+						        ((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),11,2))*60) )+
+						        (to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),13,2)) ))/3600),'fm9900')||':'||
+		       to_char(trunc(mod( sum(((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
+								        ((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),11,2))*60) )+
+								       (to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),13,2)) )),3600)/60),'fm00')||':'||
+		       to_char(mod(sum(((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
+						        ((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),11,2))*60) )+
+						       (to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),13,2)) )),60),'fm00')as over_time1
+		       
+		from emp_status
+		where emp_regi_date between (select to_date(#{currentYearMonth},'YYMM') from dual) and (select last_Day(to_date(#{currentYearMonth},'YYMM')) from dual)
+               and emp_on_time is not null
+               and emp_off_time is not null
+			   and m_id =#{id}     
+		group by m_id          
+	</select>
+	<select id="selectDeptWeekList" parameterType="hashmap" resultMap="empResultSet">
+ with weekWork as(select to_char(emp_regi_date,'YY') as "year" , to_char(emp_regi_date,'mm') as "month", to_char(emp_regi_date, 'W') as "week", 
+        		to_char(trunc(sum(((to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
+							       ((to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),11,2))*60) )+
+							       (to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),13,2)) ))/3600),'fm9900')||':'||
+     			to_char(trunc(mod( sum(((to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
+								        ((to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),11,2))*60) )+
+								       (to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),13,2)) )),3600)/60),'fm00')||':'||
+       			to_char(mod(sum(((to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
+						        ((to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),11,2))*60) )+
+						       (to_number(substr(to_char(work_time, 'yyyymmddhh24missff'),13,2)) )),60),'fm00') as work_time1, 
+                to_char(trunc(sum(((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
+						        ((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),11,2))*60) )+
+						        (to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),13,2)) ))/3600),'fm9900')||':'||
+		       to_char(trunc(mod( sum(((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
+								        ((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),11,2))*60) )+
+								       (to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),13,2)) )),3600)/60),'fm00')||':'||
+		       to_char(mod(sum(((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),9,2))*60*60) )+
+						        ((to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),11,2))*60) )+
+						       (to_number(substr(to_char(over_time, 'yyyymmddhh24missff'),13,2)) )),60),'fm00')as over_time1,
+		                e.m_id
+		 from emp_status e
+				    left join member m on (m.m_id = e.m_id)
+				    left join department d on (m.dept_id = d.dept_id)
+				    left join job j on (m.job_id = j.job_id)
+				where d.dept_id = (select d.dept_id
+				                from department d
+				                    join member m on(d.dept_id = m.dept_id)
+				                where m_id = #{id})  
+		 group by to_char(emp_regi_date,'YY'),to_char(emp_regi_date,'mm'),to_char(emp_regi_date, 'W'), e.m_id
+		 order by "year","month","week")
+         
+	select "year", "month", "week", work_time1, over_time1, m_id
+	from weekWork
+	where "year" = substr(#{currentYear},3) and "month" = #{currentMonth1}   
 	</select>
 
+
+
+
+	
 </mapper>

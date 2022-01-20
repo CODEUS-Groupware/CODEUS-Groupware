@@ -44,6 +44,11 @@ public interface AdminService {
 
 	Department insertDept(Department dept);
 
+	int deleteDept(int deptId);
+
+	int updateDept(Department dept);
+
+	int moveDept(HashMap<String, Integer> map);
 
 
 }

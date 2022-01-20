@@ -201,7 +201,7 @@
 	      defaultDate: localStorage.getItem("checkDate"),	// 달력 날짜 수동 고정(아예 defaultDate를 삭제하면 현재 달 보여줌) 
 	      navLinks: false, 				// 달력의 날짜 텍스트를 선택할 수 있는지 유무
 	      editable: false,
-	      eventLimit: true,				// 셀에 너무 많은 일정이 들어갔을 시 more로 처리
+	      eventLimit: false,				// 셀에 너무 많은 일정이 들어갔을 시 more로 처리 true에서 false로 수정
 	      customButtons: { //주말 숨기기 & 보이기 버튼
 	    	  today : {
 	            text  : '오늘',
@@ -227,19 +227,20 @@
 	         events: function (info, successCallback, failureCallback){
 	        	 setCheckbox();
 	        	 $.ajax({
-	     			url:"<%= request.getContextPath() %>/selectSchList.ca",
+	     			url:"<%= request.getContextPath() %>/selectadminSchList.ca",
 	     			data:{sCalNo:localStorage.getItem("checkCal")},
 	     			dataType:"JSON",
 	     			success:function(json){
-						console.log(json);
+	     				
 	     				var events = [];
 						$.each(json, function(index, item){
+							
 							if (json.length > 0) {
 								events.push({
 		                            title: item.title,
 		                            start: item.startday,
 		                            end: item.endday,
-		                           // color: item.color,
+		                            color: item.color,
 		                            id: item.scheNo
 		                         });
 							}else{
@@ -251,7 +252,7 @@
 						 successCallback(events);  
 	     			},
 	     			error: function(request, status, error){
-	     				console.log(json);
+	     				console.log(json)
 
 	     		 	}
 	     		});
@@ -295,11 +296,11 @@
 			  
 			  $.ajax({
 					url:"addCal.ca",
-					data: {title:title},
+					data: {name: name},
 					dataType:"JSON",
 					success:function(json){
 						var html = "";
-						if (json.n == 1) {
+						if (json.result == 1) {
 							readCalList();
 						}else{
 							alert("DB오류");
@@ -316,7 +317,7 @@
 		// 캘린더(내일정)를 읽어오는 함수
 		function readCalList(){
 			  $.ajax({
-					url:"<%= request.getContextPath() %>/readCalList.ca",
+					url:"<%= request.getContextPath() %>/readAdminCalList.ca",
 					type:"get",
 					dataType:"JSON",
 					success:function(json){
@@ -324,6 +325,7 @@
 						if (json.length > 0) {
 							$.each(json, function(index, item){
 								var name = "";
+								console.log(item.name);
 								if (item.name.length > 8) {                                                               
 									name = item.name.substring(0,8) + "...";
 								}else{
@@ -332,7 +334,7 @@
 								
 								html += "<li>";
 								html += "<p class='nav_ul_p'>";
-								html += "<input id='calendar_id_" + index + "' class='calCheckbox' type='checkbox' value='${ Calendar.scheNo }' />";
+								html += "<input id='calendar_id_" + index + "' class='calCheckbox' type='checkbox' />";
 								html += "<input type='hidden' value='" + item.scheNo + "' />";
 								html += "<label for='calendar_id_" + index + "' class='smallText'>&nbsp;" + name + "</label>";
 								html += "<span class='btn_wrap'>";
@@ -341,10 +343,10 @@
 								html += "</p>";
 								html += "</li>";
 							});
-						}else{
-							html += "<li style='height: 20px;'> 캘린더를 생성해주세요.";
-							html += "</li><br>";
-						}
+						}//else{
+						//	html += "<li style='height: 20px;'> 캘린더를 생성해주세요.";
+						//	html += "</li><br>";
+						//}
 						
 						
 						
@@ -361,13 +363,13 @@
 	// 체크된 내 캘린더를 검사하는 함수
 	function checkCal(){
 		  
-		  var totalLength = $(".calCheckbox:checked").length;
+		  var totalLength = $("input.calCheckbox:checked").length;
 		  
 		  var sCalNo = "";
 		  var selCalNoArr = [];
+		  
 		  $("input.calCheckbox:checked").each(function(index) {
 			  if (index+1 == totalLength) {
-			  console.log(selCalNoArr);
 				  // 마지막에는 , 추가하지 않음
 				  sCalNo += $(this).next().val();
 			  }else{
@@ -380,6 +382,10 @@
 		  var checkCal = localStorage.getItem("checkCal");
 		 //alert(localStorage.getItem("checkCal"));
 		  
+		  if(checkCal == null){
+			  localStorage.setItem("checkCal", sCalNo);
+		  }
+		 
 		  localStorage.removeItem("checkCal");
 		  localStorage.setItem("checkCal", sCalNo);
 		  
@@ -393,13 +399,13 @@
 		  
 		  if (sCalNo != null) {
 			  selCalNoArr = sCalNo.split(",");
-			 console.log(selCalNoArr); 
+			  
 			  $("input.calCheckbox").each(function(index) {
+				  
 				  var scheNo = $(this).next().val();
 				  for (var i = 0; i < selCalNoArr.length; i++) {
-					  console.log(scheNo);
-					  console.log(selCalNoArr[i]);
 					  if(scheNo == selCalNoArr[i]){
+						  
 						  $(this).prop("checked", true);
 						  break;
 					  }
@@ -476,11 +482,11 @@
 		  }
 		  
 		  
-		  var scheNo = $("select[name=scheNo]").val();
-		  if (scheNo.trim() == "" || scheNo == "-9999") {
-			  alert("캘린더를 선택해주세요.");
-			  return false;
-		  }
+		  var scheNo = $("input[name=scheNo]").val();
+		//  if (scheNo.trim() == "" || scheNo == "-9999") {
+			 // alert("캘린더를 선택해주세요.");
+		//	  return false;
+		//  }
 		  
 		  var content = $("input[name=content]").val();
 		  if (content.trim() == "") {
@@ -490,7 +496,6 @@
 		  }
 		  var writer = $("input[name=writer]").val();
 		  if (writer.trim() == "" ){
-			  alert("등록자를 입력해주세요.");
 			  $("input[name=writer]").focus();
 			  return false;
 		  }
@@ -502,9 +507,7 @@
 			url:"<%= request.getContextPath() %>/addModalSch.ca",
 			data:{title:title, startday:startday, endday:endday, scheNo:scheNo, content:content, writer:writer},
 			type:"POST",
-			dataType:"JSON",
 			success:function(json){
-				console.log(json);
 				if (json.result == 1) {
 					window.closeModal();
 					calendar.refetchEvents();
@@ -569,28 +572,30 @@
 									<h2 class="pageTitleText">
 										<i class="fa fa-calendar fa-fw" aria-hidden="true"></i>캘린더
 									</h2>
-									<div class="center p-20" style="padding-top: 0px !important;">
-										<span class="hide-menu addSchedule">
-											<a class="btn btn-danger btn-block btn-rounded waves-effect waves-light" 
-											   href="<%= request.getContextPath() %>/goAddDetailSch.ca">일정등록</a>
-										</span>
-									</div>
+									<c:if test="${sessionScope.loginUser.mId eq 'admin'}">
+										<div class="center p-20" style="padding-top: 0px !important;">
+											<span class="hide-menu addSchedule">
+												<a class="btn btn-danger btn-block btn-rounded waves-effect waves-light" 
+												   href="<%= request.getContextPath() %>/goAddDetailSch.ca">일정등록</a>
+											</span>
+										</div>
+									</c:if>
 									<ul class="nav" id="side-menu" style="padding-left: 9%;">
 										<li style="padding: 10px 0 0;">
 											<span class="largeText">내 캘린더</span>
 											<ul class="nav_ul"></ul>
 										
-											<span class="largeText">공유 캘린더</span>
-											<ul class="nav_share_ul">
+											<!--  <span class="largeText">공유 캘린더</span> -->
+											 <ul class="nav_share_ul">
 												<div style='margin-bottom: 10px;'></div>
 												<li>
 													<p class='nav_ul_p'>
-													<input id='calendar_id_-9999' class='calCheckbox' type='checkbox' value='${Calendar.scheNo}'/>
+													<input id='calendar_id_-9999' class='calCheckbox' type="hidden" /><!-- value ="${calendar.scheNo}" -->
 													<input type='hidden' value='-9999' />
-														<label for='calendar_id_-9999' class='smallText'>&nbsp;초대받은 일정</label>
-															<span class='btn_wrap'>
-															<span class='dot' style='background-color: violet'></span>
-														</span>
+													<!--<label for='calendar_id_-9999' class='smallText'>&nbsp;초대받은 일정</label>
+														<span class='btn_wrap'>
+																<span class='dot' style='background-color: violet'></span>
+														</span> -->
 													</p>
 												</li>
 											</ul>
@@ -611,7 +616,7 @@
 											</div>
 										
 											<div class="add_calendar_box">
-												<a class="add_calendar" href="<%= request.getContextPath() %>/editCal.os" style="color: black;">
+												<a class="add_calendar" href="<%= request.getContextPath() %>/editCal.ca" style="color: black;">
 													<i class="fa fa-cog" style="padding-right: 10px;"></i>내 캘린더 관리
 												</a>
 											</div>
@@ -620,6 +625,7 @@
 								</div>
 							</div>
 							<div id="external-events" class="my-3">
+								<!--  
 								<p>
 									<strong>Draggable Events</strong>
 								</p>
@@ -628,7 +634,11 @@
 								<div class="fc-event">My Event 3</div>
 								<div class="fc-event">My Event 4</div>
 								<div class="fc-event">My Event 5</div>
-								
+								<p>
+									<input type="checkbox" id="drop-remove">
+									<label for="drop-remove">remove after drop</label>
+								</p>
+								-->
 							</div>
 						</div>
 					</div>
@@ -697,16 +707,13 @@
 														</td>
 													</tr>
 													<tr>
-														<th>내 캘린더</th>
-														<td><select class="addSchSelect" name="scheNo"></select></td>
-													</tr>
-													<tr>
 														<th>일정내용</th>
 														<td><input class="form-control modal_input" name="content" type="text" style="height: 30px;" /></td>
 													</tr>
 													<tr>
 														<th>등록자</th>
 														<td><input class="form-control writer modal_input" maxlength="13" name="writer" type="text" readonly value="${sessionScope.loginUser.mId}" />  </td>
+														<td><select class="addSchSelect" name="scheNo" type="hidden"></select></td>
 													</tr>
 												</tbody>
 											</table>

@@ -1,6 +1,6 @@
 package com.codeusgroup.codeus.annualLeave.controller;
 
-import java.io.IOException;
+import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -21,11 +21,7 @@ import com.codeusgroup.codeus.annualLeave.model.vo.AnnualLeave;
 import com.codeusgroup.codeus.empStatus.model.service.EmpStatusService;
 import com.codeusgroup.codeus.empStatus.model.vo.EmpStatus;
 import com.codeusgroup.codeus.leaveRecode.model.service.LeaveRecodeService;
-import com.codeusgroup.codeus.leaveRecode.model.vo.LeaveRecode;
 import com.codeusgroup.codeus.member.model.vo.Member;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonIOException;
 
 @Controller
 public class AnnualLeaveController {
@@ -45,7 +41,11 @@ public class AnnualLeaveController {
 		session = request.getSession();
 		Member member = (Member)session.getAttribute("loginUser");
 		String id = member.getmId();
+
+		//EmpStatus empStatus = new EmpStatus(0, null, null, null, null, null, id);
+
 		EmpStatus empStatus = new EmpStatus(0, null, null, null, null, null, id, null, null);
+
 		EmpStatus empStatus1 = esService.selectComTime(id);
 		EmpStatus empOffTime = esService.selectOffTime(id);
 
@@ -109,50 +109,11 @@ public class AnnualLeaveController {
 		int checkCount = 0;
 		int checkAl = alService.selectAddAnnual();
 		System.out.println("연차리스트:"+checkAl);
-		if(checkAl == 0) {
-
-			for(int i = 0; i < list.size(); i++) {
-				
-				int comYear = list.get(i).getComYear();
-				System.out.println(comYear);
-				//연차갯수 구하는 공식
-				annual = 15 + (comYear - 1)/2;
-
-				AnnualLeave al = new AnnualLeave(0, annual, null, null, list.get(i).getmId()); 
-				alService.insertAnnualCount(al); 
-				strResult = "올해 연차가 발생하였습니다.";
-			}
-		}else {
-			strResult = "이미 올해 연차가 발생되었습니다.";
-		}
-		 Gson gson = new GsonBuilder().create();
-		 try {
-			gson.toJson(strResult, response.getWriter());
-		} catch (JsonIOException | IOException e) {
-			
-			e.printStackTrace();
-		}
 
 	}
+
 	
-	/*@RequestMapping("addAnnualLeave.al")
-	public void addAnnualLeave(HttpServletResponse response) {
-		int annual = 0;
-		String strResult = null;
-		ArrayList<Member> list = alService.selectAnnualCount();
-		
-		for(int i = 0; i < list.size(); i++) {
-			String id = list.get(i).getmId();
-			//id별로 AnnualLeave 가져와서 ArrayList에 추가
-			ArrayList<AnnualLeave> al.set(i) = alService.selectCheckAnnual(id);
-			
-			System.out.println("사원:"+al);
-		}
-		
-		
-		
-	}*/
-	
+
 	
 
 }

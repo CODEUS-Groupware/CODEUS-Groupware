@@ -7,101 +7,98 @@
 <meta charset="UTF-8">
 <title>게시글 등록 댓글</title>
 
-
-
 <style>
 /*댓글*/
-#replyTable {
-	width: 90%;
-	margin-top: 100px;
+
+
+
+a, .text {
+ 	color : black;
 }
-.rCount {
-	width: 90%;
+
+ table {
+        width: 100%;
+        border-collapse: collapse;
+        color : black;
+      }
+ th, td {
+   padding: 10px;
+   color : black;
+ }
+.replyTable {
+	margin: auto;
+	color : black;
 }
-#replyContentArea > textarea {
-	resize: none;
-	width: 100%;
-	border: 1px solid #17a2b8;;
-	border-radius : 5px;
-	margin : 0px;
+#rtb tbody {
+	text-align: center;
+	color : black;
 }
-#replyWrite {
-	margin-right : 400px;
+#rtb th {
+	border-bottom: 1px dotted grey;
 }
-#replyBtnArea {
-	width: 100px; 
-	display: inline-block;
+#rtb td {
+	padding: 3px;
 }
-.rWriter {
-	display: inline-block;
-	margin-right: 30px;
-	vertical-align: top;
-}
-.rDate {
-	display: inline-block;
-	font-size: 0.5em;
-	color: gray;
-}
-#replyListArea {
-	list-style-type: none;
-}
-.rContent, .replyBtnArea {
-	height: 100%;
-	width: 100%;
-}
-.replyBtnArea {
-	text-align: right;
-	marign:0px;]
-}
-.replyUpdateContent {
-	resize: none;
-	width: 100%;
-}
-.reply-row{
-	border-top : 1px solid #ccc;
-	padding : 15px 0;
-}
-.btn1{
-	background-color: #8ad2d5;
-	color: white;
-	border: white;
-	border-radius: 5px;
-	width : 60px;
-	height: 55px;
-}
-.btn1:hover{
-	background-color: #17a2b8;
-}
-#updateReply, #deleteReply {
-	background-color: #8ad2d5;
-	color: white;
-	border: white;
-	border-radius: 5px;
-	width : 60px;
-	height: 55px;
-}
+
+.button {
+ 
+  display: inline-block;
+  font-size: 12px position: relative;
+
 </style>
 
-							
-							<table  class="replyTable" id="rtb" style="color : black;">
-								<thead>
-									<tr>
-										<td colspan="2"><b id="rCount"></b></td>
-									</tr>
-								</thead>
-								<tbody></tbody>
-							</table>
-							<table class="replyTable" >
-								<tr>
-									<td><textarea rows="3" cols="55" id="rContent"></textarea></td>
-									<td><button id="rSubmit" class="btn btn-primary">등록하기</button></td>
-									
-								</tr>
-							</table>
-					
-							
-							<!-- 댓글 등록 -->
-							<script>
+		<div class="col-lg-20">
+               <div class="card" style="background : #f1f3f5;">
+                     <div class="card-body">		
+					<table  class="replyTable" id="rtb" style="color : black;">
+						<thead>
+							<tr>
+							<b id="rCount"><br></b>
+							</tr>
+							<tr>
+								<td colspan="10"></td>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+						<br><hr>
+				<div class="card">
+                   <div class="card-head">
+                  	 <div class="card-body">	
+					<table class="replyTable" style="width : 800px;">
+						<tr>	
+							<td><label type="text" style="color : black;">${ sessionScope.loginUser.mId}</label>
+							<textarea textarea class="form-control" rows="5" cols="500" id="rContent" placeholder="또한 불쾌감을 주는 욕설과 악플은 삭제될 수 있습니다."></textarea></td>
+						</tr>
+						<tr>
+							<td style="text-align: right;"><div id="test_cnt">0 / 100</div></td>
+						</tr>
+						<tr>	
+							<td><p align="right"><button id="rSubmit" class="btn btn-primary"  display: inline-block;>등록하기</button></p><td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>			
+	</div>
+</div>
+<script>
+$(document).ready(function() {
+    $('#rContent').on('keyup', function() {
+        $('#test_cnt').html("("+$(this).val().length+" / 50)");
+ 
+        if($(this).val().length > 50) {
+            $(this).val($(this).val().substring(0, 50));
+            $('#test_cnt').html("(50 / 50)");
+            alter("50자 이내만 가능합니다.")
+        }
+    });
+});
+</script>
+
+				
+				<!-- 댓글 등록 -->
+						<script>
 								$("#rSubmit").on("click", function() {
 									var rContent = $("#rContent").val();
 									var refBid = ${ b.bId };
@@ -119,7 +116,7 @@
 						
 											if(data == "success") {
 												
-												$("rContent").val('');
+												$("#rContent").val('');
 												getReplyList();
 												alert("댓글 등록 성공")
 												
@@ -149,21 +146,23 @@
 											var $rCreateDate;
 											var $btnArea;
 											var $btnAreaT;
+								
+											
 						
 											$("#rCount").text('댓글(' + data.length + ')');
 											
 											if(data.length > 0) {
 												for(var i in data) {
-													$tr = $("<tr id='modifyTr'>");
-													$rWriter = $('<td width="100">').text(data[i].rWriter);
+													$tr = $("<table id='modifyTr'>");
+													$rWriter = $("<td width='80' style='font-weight:bold'>").text(data[i].rWriter);
 													$rContent = $('<td>').text(data[i].rContent);
 													$rCreateDate = $('<td width="100">').text(data[i].rCreateDate);
 												    $btnArea = $("<td width='80'>")
 								                    .append("<a href ='#' onclick='modifyReply(this,"+bId+","+data[i].rId+",\""+data[i].rContent+"\");'>수정/<a> ")
 								                    .append("<a href ='#' onclick='removeReply("+bId+","+data[i].rId+")'>삭제<a>");
 												    $btnAreaT = $("<td width='80' class='modi'>")
-												   .append("<a href ='#' onclick='ReportReply("+bId+","+data[i].rId+")'>신고<a>");
-//			                                       
+												   .append("<a href ='#' onclick='ReportReply("+bId+","+data[i].rId+")'><img class='fit-picture' src='${contextPath}/resources/assets/images/1224162.png' alt=''>신고<a>");
+		                                       		$hr = $("<hr>");
 						
 													$tr.append($rWriter);
 													$tr.append($rContent);
@@ -174,6 +173,7 @@
 								                    	 $tr.append($btnAreaT);
 								                 // };
 													$tableBody.append($tr);
+													$tableBody.append($hr);
 												}
 											} else {
 												var $tr = $('<tr>');
@@ -195,7 +195,7 @@
 							     function modifyReply(obj, bId, rId,rContent){
 							        $trModify = $("<tr>");
 							        $trModify
-							        .append("<td colspan='3'><input type='text' id='modifyReply' size='50' value='"+rContent+"'></td>&nbsp;");
+							        .append("<td colspan='3'><input class='form-control'  type='text' id='modifyReply' size='50' value='"+rContent+"'></td>&nbsp;");
 							        $trModify
 							        .append("<td>&nbsp;<button class='btn btn-primary' onclick='modifyReplyCommit("+bId+","+rId+")'>수정</button></td>");
 							        $trModify
@@ -225,12 +225,14 @@
 							         });
 							      }   
 							         function removeReply(bId, rId){
-							            $.ajax({
+							        	 if(!confirm('삭제 하시겠습니까?')) return;
+							        	 $.ajax({
 							               url : "deleteReply.bo",
 							               type : "get",
 							               data : {"refBid" : bId,   "rId" : rId,},
 							               success : function(data) {
 							                  if(data == "success"){
+							                	 alert("댓글이 삭제 되었습니다.");
 							                     getReplyList();
 							                  }else{
 							                     alert("댓글 삭제 실패");
@@ -256,9 +258,6 @@
 									     }
 								
 					            </script>
-					            
-					            
-				
 </body>
 
 </html>
