@@ -62,12 +62,6 @@ public class CommBoardServiceImpl implements CommBoardService {
 		public int CommBoardDelete(int bId) {
 			return bDAO.commBoardDelete(sqlSession, bId);
 		}
-		
-		@Override
-		public Report ckReportPost(int bId) {
-			return bDAO.selectPostReport(sqlSession,bId);
-		}
-		
 	
 		// 댓글 
 		
@@ -92,6 +86,14 @@ public class CommBoardServiceImpl implements CommBoardService {
 
 	
 		}
+		
+		
+		//신고 
+		@Override
+		public Report ckReportPost(int bId) {
+			return bDAO.selectPostReport(sqlSession,bId);
+		}
+				
 		@Override
 		public Report ckReportReply(int rId) {
 			return bDAO.selectReplyReport(sqlSession,rId);
@@ -102,7 +104,10 @@ public class CommBoardServiceImpl implements CommBoardService {
 		}
 		@Override
 		public int reportPost(Report rep) {
-			return bDAO.insertReportPost(sqlSession,rep);
+			System.out.println(rep);
+			int result = bDAO.insertReportPost(sqlSession,rep);
+			System.out.println(result);
+			return result;
 		}
 		
 		

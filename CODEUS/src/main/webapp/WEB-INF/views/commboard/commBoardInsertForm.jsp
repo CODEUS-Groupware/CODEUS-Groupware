@@ -104,73 +104,70 @@
 
 <body>
 
-<!--**********************************
-           Content body start
-       ***********************************-->
 <div class="content-body">
-   <div class="container-fluid">
-       <div class="row page-titles mx-0">
-           <div class="col-sm-6 p-md-0">
-               <div class="welcome-text">
-                   <h4>Hi, welcome back!</h4>
-                   <span class="ml-1">Datatable</span>
+        <div class="container-fluid">
+            <div class="row page-titles mx-0">
+                <div class="col-sm-6 p-md-0">
+                    <div class="welcome-text">
+                        <h4>Hi, welcome back!</h4>
+                        <span class="ml-1">Datatable</span>
+                    </div>
+                </div>
+                <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0)">Table</a></li>
+                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Datatable</a></li>
+                   </ol>
                </div>
-           </div>
-           <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
-               <ol class="breadcrumb">
-                   <li class="breadcrumb-item"><a href="javascript:void(0)">Table</a></li>
-                   <li class="breadcrumb-item active"><a href="javascript:void(0)">Datatable</a></li>
-               </ol>
-           </div>
-       </div>
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="card  card-primary card-outline">
-          <div class="card-body">
-            <h5 class="card-title"></h5>
-            	<div class="card-body register-card-body">
-   	 				<div class="card-header">
-        		 	<h4 class="card-title">자유게시판</h4>
-   				<form action="binsert.bo" method="post" enctype="Multipart/form-data">	 
-			      <table class="table table-write" id="add_mt" style="color:black ">
-					<colgroup>			
-					<col style="width:120px" />
-					<col style="width:*" />						
-					</colgroup>
-					
-					<tr>						
-						<th>제목</th>
-						<td><input type="text" class="form-control" id="bTitle" 
-							name="bTitle" placeholder="제목" value="${title}" required></td>
-					</tr>
-					<tr>
-						<th>작성자</th>
-						<td><input type="text" class="form-control" 
-								id="bWriter" name="bWriter" readonly value="${ sessionScope.loginUser.mId }"></td>
-					</tr>
-					<tr>
-					<th>내용</th>
-						<td><div class="container">
-							  <textarea id="summernote" class="summernote" name="bContent" ></textarea>
-						 </div></td>
-					</tr>
-                              		
-                   <tr> 
-                       <td colspan ="4" style="text-align: center;">
-							<button type="button" onclick="location.href='Commblist.bo'" class="btn btn-primary">취소</button>
-							<input type="submit" value="등록 하기" id="bSubmit" class="btn btn-primary">
-						</td>
-					</tr>		
-				</table>
-	  		</form>
-		</div>
-	</div>
-		</div>
-		     </div>
-		      	</div>
-		   			 </div>
-		  				</div>
-			 				</div>
+          </div>
+         <div class="row">
+             <div class="col-12">
+                  <div class="card">
+                        <div class="card-body">
+						 <!-- 본문 시작 -->
+							<h3 style="width: 200px; height: 30px;">자유게시판</h3>
+							<p>*불쾌함을 주는 내용이나 광고성 게시글은 관리자에 의해 삭제될 수 있습니다.</p>
+								<div class='market-insert-form'>
+					   				<form action="binsert.bo" method="post" enctype="Multipart/form-data">	 
+								      <table class="table table-write" id="add_mt" style="color:black ">
+										<colgroup>			
+										<col style="width:120px" />
+										<col style="width:*" />						
+										</colgroup>
+										
+										<tr>						
+											<th>제목</th>
+											<td><input type="text" class="form-control" id="bTitle" 
+												name="bTitle" placeholder="제목" value="${title}" required></td>
+										</tr>
+										<tr>
+											<th>작성자</th>
+											<td><input type="text" class="form-control" 
+													id="bWriter" name="bWriter" readonly value="${ sessionScope.loginUser.mId }"></td>
+										</tr>
+										<tr>
+										<th>내용</th>
+											<td><div class="container">
+												  <textarea id="summernote" class="summernote" name="bContent" ></textarea>
+											 </div></td>
+										</tr>
+					                              		
+					                   <tr> 
+					                       <td colspan ="4" style="text-align: center;">
+												<button type="button" onclick="location.href='Commblist.bo'" class="btn btn-primary">취소</button>
+												<input type="submit" value="등록 하기" id="bSubmit" class="btn btn-primary">
+											</td>
+										</tr>		
+									</table>
+						  		</form>
+							</div>
+						</div>
+							</div>
+							     </div>
+							      	</div>
+							   			 </div>
+							  				</div>
+			 			
 
 
 	 <!--**********************************
@@ -204,15 +201,6 @@
 <!-- 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script> -->
 
 
-<!-- <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script> -->
-
-	<script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.cookie.js"></script>
-	<script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.treeview.js" type="text/javascript"></script>
-	<script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.treeview.edit.js" type="text/javascript"></script>
-	<script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.treeview.async.js" type="text/javascript"></script>
-	
-	<!-- drag and drop 관련 js -->
-	<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
 </body>
 
 </html>

@@ -1,6 +1,7 @@
 package com.codeusgroup.codeus.commBoard.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +23,7 @@ public interface marketBoardService {
 	
 	MarketBoard selectMarketOneBoard(int bId);
 
-	List<Map<String, String>> selectAttachmentList(int bId);
+	
 
 	int deleteBoard(int bId);
 
@@ -34,6 +35,30 @@ public interface marketBoardService {
 
 	int saveimage(MarketAtt at);
 
+	int deleteimage(MarketAtt at);
+
+
+	int insertScrap(HashMap<String, String> map);
+	
+	int deleteScrap(HashMap<String, String> map);
+
+	int getScrapStatus(HashMap<String, String> map);
+
+	
+	
+	int getListOptionCount(String option);
+
+	ArrayList<MarketBoard> selectOptionPList(String option, PageInfo pi);
+
+
+	
+	MarketAtt selectAttachmentList(int bId);
+	
+
+	
+
+	
+	
 
 
 }

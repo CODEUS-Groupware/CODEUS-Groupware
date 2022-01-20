@@ -7,6 +7,13 @@
 		WHERE B_STATUS = '0'
 	</select>
 	
+	<select id="selectMarketBoard" resultMap="marketboardResultSet">
+		SELECT * 
+		FROM BOARD
+		WHERE B_NUM = #{bId} AND B_STATUS = '0'
+	</select>
+	
+	
 	<update id="addReadCount">
 		UPDATE BOARD 
 		SET B_views = B_views + 1
@@ -17,9 +24,29 @@
 	<select id="marketBoardSelectList" resultMap="marketboardResultSet">
 		SELECT *
 		FROM board
-		WHERE B_TYPE = '중고'
-		ORDER BY B_NUM DESC
+		WHERE B_TYPE = '중고' AND B_STATUS = '0'
+		ORDER BY B_NUM DESC 
 	</select>
+	
+	
+	<insert id="insertScrap">
+		insert into scrap values(#{mbWriter}, #{bId}, default)
+	</insert>
+	
+	<delete id="deleteScrap">
+		delete from scrap
+		where b_Num = #{bId} and m_Id = #{mbWriter}
+		
+	</delete>
+	
+	
+	<select id="getScrapStatus" resultType="_int">
+		select count(*)
+		from scrap
+		where b_Num = #{bId} and m_Id = #{mbWriter}
+	</select>
+	
+	
 
 	
 	<resultMap type="MarketBoard" id="marketboardResultSet">
@@ -40,13 +67,8 @@
 		
 	</resultMap>
 	
-	<select id="selectMarketBoard" resultMap="marketboardResultSet">
-		SELECT * 
-		FROM BOARD
-		WHERE B_NUM = #{bId} AND B_STATUS = '0'
-	</select>
 
-	<select id="selectAttachmentList" parameterType="_int" resultType="hashmap">
+	<select id="selectAttachmentList" parameterType="_int" resultMap="marketAttResultSet">
 		SELECT * FROM ATTACHMENT WHERE B_NUM = #{bId}
 	</select>
 	
@@ -63,12 +85,17 @@
 		<if test="originalFileName != null">
 				, ORIGINAL_FILENAME = #{originalFileName}, RENAME_FILENAME = #{renameFileName}
 			</if>
-		WHERE BID = #{bId}
+		WHERE B_NUM = #{bId}
 	</update>
 	
 	<update id="deleteBoard">
-		UPDATE BOARD SET B_STATUS = 'N'
-		WHERE BID = #{bId}
+		UPDATE BOARD SET B_STATUS = '1'
+		WHERE B_NUM = #{bId}
+	</update>
+	
+	<update id="deleteimage">
+		UPDATE BOARD SET FILE_STATUS = '1'
+		WHERE FILE_NO = #{filesNo}
 	</update>
 	
 	<!-- 마켓 게시판 -->
@@ -84,12 +111,103 @@
 	VALUES (SEQ_FILE_NO.NEXTVAL,#{path},SYSDATE,#{oriFileName}, #{reFileName},DEFAULT, DEFAULT,'MARKET',SEQ_B_NUM.currval,DEFAULT)
 	</insert>
 	 <resultMap type="MarketAtt" id="marketAttResultSet" >
-		<result property="filesNo" column="FILE_NO"/>
+		<result property="fileNo" column="FILE_NO"/>
 		<result property="bId" column="B_NUM"/>
 		<result property="path" column="FILE_PATH"/>
 		<result property="oriFileName" column="FILE_ORIGIN_NAME"/>
 		<result property="reFileName" column="FILE_CHANGE_NAME"/>
 		<result property="fStatus" column="FILE_STATUS"/>
 	</resultMap>
-	 
+	
+	
+	<select id="marketSearchListCount" resultType="_int" parameterType="Search">
+		<bind name="value" value="'%' + _parameter.getSearchValue() + '%'"/>
+		SELECT COUNT(*)
+		FROM BOARD
+		<where>
+			B_STATUS = '0'
+			AND B_TYPE = '중고'
+		</where>
+			<choose>
+				<when test="searchCondition == 'bTitle'">
+					AND B_TITLE LIKE #{value}
+				</when>
+				<when test="searchCondition == 'bContent'">
+					AND B_CONTENT LIKE #{value}
+				</when>
+				<otherwise>
+					AND (B_TITLE LIKE #{value}
+						OR B_CONTENT LIKE #{value})
+				</otherwise>
+			</choose>
+	</select>
+	
+	<!-- 자유게시글 검색 -->
+	<select id="marketSearchList" parameterType="Search" resultMap="marketboardResultSet">
+		<bind name="value" value="'%' + _parameter.getSearchValue() + '%'"/>
+		SELECT *
+		FROM BOARD
+		<where>
+			B_STATUS = '0'
+			AND B_TYPE = '중고'
+			<choose>
+				<when test="searchCondition == 'bTitle'">
+					AND B_TITLE LIKE #{value}
+				</when>
+				<when test="searchCondition == 'bContent'">
+					AND B_CONTENT LIKE #{value}
+				</when>
+				<otherwise>
+					AND (B_TITLE LIKE #{value}
+						OR B_CONTENT LIKE #{value})
+				</otherwise>
+			</choose>
+		</where>
+		ORDER BY B_NUM DESC
+	</select>
+	
+	
+	
+	<select id="getListOptionCount" resultType="_int">
+		select count(*)
+		from BOARD
+		<where>
+		B_STATUS = '0'
+		AND B_TYPE = '중고'
+		<choose>
+			<when test="option == '최신순'">
+			order by B_CREARE_DATE desc
+			</when>
+		<when test="option == '낮은가격순'">
+			order by B_ETC
+		</when>
+		<when test="option == '높은가격순'">
+			order by B_ETC desc
+		</when>
+			</choose>
+		</where>
+		ORDER BY B_NUM DESC
+	</select>
+	
+	<select id="selectOptionPList" resultMap="marketboardResultSet">
+		select * 
+		from BOARD
+		 <where>
+		B_STATUS = '0'
+		AND B_TYPE = '중고'
+		<choose>
+			<when test="option == '최신순'">
+			order by B_CREARE_DATE desc
+			</when>
+		<when test="option == '낮은가격순'">
+			order by B_ETC
+		</when>
+		<when test="option == '높은가격순'">
+			order by B_ETC desc
+		</when>
+			</choose>
+		</where>
+		ORDER BY B_NUM DESC
+	</select>
+
 </mapper>

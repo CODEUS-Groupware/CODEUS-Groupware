@@ -7,36 +7,60 @@ public class MarketAtt {
 	
 	//첨부파일att 
 	
-	private int filesNo; //파일 num 
+	private int fileNo; //파일 num 
 	private int bId; //마켓 num
 	private String path;
 	private String oriFileName;
 	private String reFileName; //sysname
 	private String fStatus; //파일 상태 
-	    
+	
+	private ArrayList<MarketAtt> attList;
+	
+	public ArrayList<MarketAtt> getFileList() {
+		return attList;
+	}
+
+	public void setFileList(ArrayList<MarketAtt> attList) {
+		this.attList = attList;
+	}
+	   
 	
 	public MarketAtt() {}
 
 
-	public MarketAtt(int filesNo, int bId, String path, String oriFileName, String reFileName, String fStatus) {
+	
+	
+
+	public MarketAtt(int fileNo, int bId, String path, String oriFileName, String reFileName, String fStatus,
+			ArrayList<MarketAtt> attList) {
 		super();
-		this.filesNo = filesNo;
+		this.fileNo = fileNo;
 		this.bId = bId;
 		this.path = path;
 		this.oriFileName = oriFileName;
 		this.reFileName = reFileName;
 		this.fStatus = fStatus;
+		this.attList = attList;
 	}
 
 
-	public int getFilesNo() {
-		return filesNo;
+
+
+
+	public int getFileNo() {
+		return fileNo;
 	}
 
 
-	public void setFilesNo(int filesNo) {
-		this.filesNo = filesNo;
+
+
+
+	public void setFileNo(int fileNo) {
+		this.fileNo = fileNo;
 	}
+
+
+
 
 
 	public int getbId() {
@@ -44,9 +68,15 @@ public class MarketAtt {
 	}
 
 
+
+
+
 	public void setbId(int bId) {
 		this.bId = bId;
 	}
+
+
+
 
 
 	public String getPath() {
@@ -54,19 +84,23 @@ public class MarketAtt {
 	}
 
 
+
+
+
 	public void setPath(String path) {
 		this.path = path;
 	}
 
 
+
+
+
 	public String getOriFileName() {
 		return oriFileName;
 	}
-	
-	
-	private int fileCount;
 
-	private List<MarketBoard> files = new ArrayList<>();
+
+
 
 
 	public void setOriFileName(String oriFileName) {
@@ -74,9 +108,15 @@ public class MarketAtt {
 	}
 
 
+
+
+
 	public String getReFileName() {
 		return reFileName;
 	}
+
+
+
 
 
 	public void setReFileName(String reFileName) {
@@ -84,9 +124,15 @@ public class MarketAtt {
 	}
 
 
+
+
+
 	public String getfStatus() {
 		return fStatus;
 	}
+
+
+
 
 
 	public void setfStatus(String fStatus) {
@@ -94,16 +140,34 @@ public class MarketAtt {
 	}
 
 
-	@Override
-	public String toString() {
-		return "MarketAtt [filesNo=" + filesNo + ", bId=" + bId + ", path=" + path + ", oriFileName=" + oriFileName
-				+ ", reFileName=" + reFileName + ", fStatus=" + fStatus + "]";
+
+
+
+	public ArrayList<MarketAtt> getAttList() {
+		return attList;
 	}
 
 
-	
-	
-	
-	
 
+
+
+	public void setAttList(ArrayList<MarketAtt> attList) {
+		this.attList = attList;
+	}
+
+
+
+
+
+	@Override
+	public String toString() {
+		return "MarketAtt [fileNo=" + fileNo + ", bId=" + bId + ", path=" + path + ", oriFileName=" + oriFileName
+				+ ", reFileName=" + reFileName + ", fStatus=" + fStatus + ", attList=" + attList + "]";
+	}
+
+
+
+
+	
+	
 }
