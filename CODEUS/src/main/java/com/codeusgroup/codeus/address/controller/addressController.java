@@ -26,10 +26,28 @@ public class addressController {
 	private AddressService addrService;
 	
 	@RequestMapping("list.addr")
-	public String addressListView() {
+	public ModelAndView addressListView(@RequestParam(value="page", required = false) Integer page, ModelAndView mv) {
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = page;
+		}
 		
+		int listCount = addrService.getListCount();
 		
-		return "addressListView";
+		PageInfo pi =  Pagination.getPageInfo(currentPage, listCount);
+
+		ArrayList<Member> list = addrService.selectMyList(pi);
+		
+		if(list != null) {
+			mv.addObject("pi", pi);
+			mv.addObject("list", list);
+			mv.setViewName("addressListView");
+			
+		} else {
+			throw new AddressException("주소록 조회에 실패했습니다.");
+		}
+		
+		return mv;
 	}
 	
 	@RequestMapping("search.addr")

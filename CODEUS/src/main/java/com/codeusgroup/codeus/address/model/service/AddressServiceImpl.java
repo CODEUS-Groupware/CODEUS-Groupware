@@ -40,4 +40,9 @@ public class AddressServiceImpl implements AddressService {
 		return addrDAO.addAddress(sqlSession, userId, mId);
 	}
 
+	@Override
+	public ArrayList<Member> selectMyList(PageInfo pi) {
+		return addrDAO.selectMyList(sqlSession, pi);
+	}
+
 }
