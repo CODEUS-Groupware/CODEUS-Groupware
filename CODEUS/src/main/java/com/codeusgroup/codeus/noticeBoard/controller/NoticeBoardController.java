@@ -575,7 +575,6 @@ public class NoticeBoardController {
 		model.addAttribute("searchCondition", searchCondition).addAttribute("searchValue", searchValue);
 		
 		return "redirect:noticeBoardDetail.nb";
-	
 	}		
 	
 
