@@ -12,12 +12,18 @@
 		
 </select> -->
 
-<insert id="insertNewApproval">
-	insert into document
-	values(seq_doc_Num.nextval, #{docName}, #{docContent}, sysdate,
-			sysdate, default, default, sysdate, 
-			#{docStartDate}, #{docEndDate}, #{drafterMId}, #{approvalMId}, #{formNum})
-</insert>
+ <insert id="insertNewApproval"> 
+ 	insert into document 
+ 	values(seq_doc_Num.nextval, #{docName}, #{docContent}, sysdate, 
+ 			sysdate, default, default, sysdate,  
+ 			sysdate, null, #{drafterMId}, #{approvalMId}, null)
+			
+ </insert> 
 	
-	
+<!-- <insert id="insertNewApproval">
+		INSERT INTO DOCUMENT
+		VALUES (100, null, null, null, null, null, null, null, null, null, null, null, 1)
+	 </insert>  -->
+		
 </mapper>
+

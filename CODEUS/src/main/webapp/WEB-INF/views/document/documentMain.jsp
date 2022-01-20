@@ -97,17 +97,6 @@
 				});
 		});// end of $(document).ready(function(){})-------------------
 	
-		function goView(approval_no) {
-			// === #124. 페이징 처리되어진 후 특정 글제목을 클릭하여 상세내용을 본 이후
-			//           사용자가 목록보기 버튼을 클릭했을때 돌아갈 페이지를 알려주기 위해
-			//           현재 페이지 주소를 뷰단으로 넘겨준다.
-			var frm = document.goViewFrm;
-			frm.approval_no.value = approval_no;
-			
-			frm.method = "POST";
-			frm.action = "/approvalDetail.dc";
-			frm.submit();
-		}// end of function goView(seq){}----------------------------------------------
 		
 		
 </script>	
@@ -122,14 +111,14 @@
 
 		<div class="docListTitle">결재 대기중 문서</div>
 		
-			<c:if test="${totalWaitingCount eq 0}">
+			<c:if test="${pi.ListCount eq 0}">
 				<div id="waitingDoc">
 					승인할 문서가 없습니다.
 				</div>
 			</c:if>
-			<c:if test="${totalWaitingCount ne 0}">
+			<c:if test="${pi.listCount ne 0}">
 				<div id="waitingDoc">
-					승인할 문서가 <span style="font-weight: bold">${totalWaitingCount}</span> 건 있습니다.
+					승인할 문서가 <span style="font-weight: bold">${pi.listCount}</span> 건 있습니다.
 				</div>
 				<table class="table table-hover tblElecAppr" style="font-size: 14px; text-align: center;">
 				    <thead>
@@ -141,6 +130,14 @@
 							<th style="width: 57%;">제목</th>
 							<th>첨부</th>
 						</tr>
+						<tr>
+							<th>1</th>
+							<th>2021-01-26</th>
+							<th>일반품의서</th>
+							<th>장현석</th>
+							<th style="width: 57%;">기안문서 입니다.</th>
+							<th>첨부파일.hwp</th>
+						</tr>
 				    </thead>
 				    <tbody>
 				<c:forEach var="elecapprvo" items="${elecapprvoWaitingList}" varStatus="status">
@@ -148,21 +145,21 @@
 					<td>${d.docNum}</td>
 					<td>${d.docCreateDate}</td>
 					<td>
-						<c:if test="${docomentForm.formNum eq 1}">
+						<c:if test="${documentForm.formNum eq 1}">
 							일반품의서
 						</c:if>
-						<c:if test="${docomentForm.formNum eq 2}">
+						<c:if test="${documentForm.formNum eq 2}">
 							비용품의서
 						</c:if>
-						<c:if test="${docomentForm.formNum eq 3}">
+						<c:if test="${documentForm.formNum eq 3}">
 							증명서신청
 						</c:if>
-						<c:if test="${docomentForm.formNum eq 4}">
+						<c:if test="${documentForm.formNum eq 4}">
 							휴가신청서
 						</c:if>
 					</td>
 					<td>${d.drafterMId}</td>
-					<td style="width: 30%;"><span class="subject" onclick="location.href='waitingDetail.os?approval_no=${d.docNum}'">${d.docContent}</span></td>
+					<td style="width: 30%;"><span class="subject" onclick="location.href='newApproval.dc?approval_no=${d.docNum}'">${d.docContent}</span></td>
 					<td>
 						<c:if test="${uploadFile}">
 							<i class="fa fa-file"></i>

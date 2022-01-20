@@ -7,13 +7,13 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Insert title here</title>
+<title>CODEUS</title>
 <!-- Favicon icon -->
 <link rel="icon" type="image/png" sizes="16x16" href="${contextPath}/assets/resources/images/favicon.png">
 <!-- Custom Stylesheet -->
 <link href="${contextPath}/resources/assets/css/style.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 </head>
+
 <body>
 
 	<c:set var="contextPath" value="${ pageContext.servletContext.contextPath }" scope="application"/>
@@ -36,13 +36,13 @@
             Nav header start
         ***********************************-->
         <div class="nav-header">
-            <a href="${contextPath}/home.do" class="brand-logo">
-                <img class="logo-abbr" src="${contextPath}/resources/assets/images/logo.png" alt="" style="border-radius: 50%;">
+            <div class="brand-logo">
+                <img class="logo-abbr" src="${contextPath}/resources/assets/images/logo.png" alt="" style="border-radius: 100%; width: 170px; height: 32px;">
                <%--  <img class="logo-compact" src="${contextPath}/resources/assets/images/logo-text.png" alt=""> --%>
                <%--  <img class="brand-title" src="${contextPath}/resources/assets/images/logo-text.png" alt="" style="width: 200px; height: 100px;"> --%>
                	<b class="logo-compact" style="font-size: x-large;">CODEUS</b>
                	<b class="brand-title" style="font-size: x-large;">CODEUS</b>
-            </a>
+           </div>
 
             <div class="nav-control">
                 <div class="hamburger">
@@ -140,23 +140,23 @@
                                     <i class="mdi mdi-account"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a href="./app-profile.html" class="dropdown-item">
-                                        <i class="icon-user"></i>
-                                        <span class="ml-2">Profile </span>
+                                    <a href="myinfo.me" class="dropdown-item">
+                                        <span class="ml-2">기본정보 </span>
                                     </a>
                                     <a href="./email-inbox.html" class="dropdown-item">
-                                        <i class="icon-envelope-open"></i>
-                                        <span class="ml-2">Chat </span>
+                                        <span class="ml-2">환경설정 </span>
                                     </a>
-                                    <c:if test="${ loginUser.managerYn == 'Y' }">
-	                                    <a href="${contextPath}/admin/mlist.ad" class="dropdown-item">
-	                                        <i class="fa fa-mail-forward"></i>
-	                                        <span class="ml-2">Admin Page </span>
-	                                    </a>
-                                    </c:if>                                   
+                                    <a href="./email-inbox.html" class="dropdown-item">
+                                        <span class="ml-2">알림설정 </span>
+                                    </a>
+                                    <a href="./email-inbox.html" class="dropdown-item">
+                                        <span class="ml-2">보안설정 </span>
+                                    </a>
+                                    <a href="./email-inbox.html" class="dropdown-item">
+                                        <span class="ml-2">관리자페이지 </span>
+                                    </a>
                                     <a href="logout.me" class="dropdown-item">
-                                        <i class="icon-key"></i>
-                                        <span class="ml-2">Logout </span>
+                                        <span class="ml-2">로그아웃 </span>
                                     </a>
                                 </div>
                             </li>
@@ -176,17 +176,13 @@
             <div class="quixnav-scroll">
                 <ul class="metismenu" id="menu">
                 	<li class="nav-label first"></li>
-                    <li><a href="home.do" aria-expanded="false"><!-- <i
-                                class="icon icon-app-store"></i> --><i class="fa fa-home"></i><span class="nav-text">대시보드</span></a>
+                    <li><a href="${contextPath}" aria-expanded="false"><i
+                                class="icon icon-app-store"></i><!-- <i class="fa fa-home"></i> --><!-- <i class="fa fa-dashboard"></i> --><span class="nav-text">대시보드</span></a>
                     </li>
                     
                    <!--  <li class="nav-label">Apps</li> -->
-                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                    <li><a href="javascript:void()" aria-expanded="false">
                     		<i class="fa fa-comments"></i><span class="nav-text">채팅</span></a>
-	                    <ul aria-expanded="false">
-		                    <li><a href="chetList.ch">채팅방 목록</a></li>
-                            <li><a href="chetSearch.ch">채팅방 검색</a></li>
-                       	</ul>
                     </li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
                     		<i class="fa fa-file-text"></i><span class="nav-text">전자결재</span></a>
@@ -194,50 +190,41 @@
                             <li><a href="mydocView.dc">내 문서함</a></li>
                             <li><a href="teamdocView.dc">부서 문서함</a></li>
                             <li><a href="newApprovalView.dc">문서 기안</a></li>
-                            <li><a href="approvalView.dc">문서 전체 목록</a></li>
                         </ul>
                     </li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                    		<i class="bi bi-people"></i><span class="nav-text">커뮤니티</span></a>
+                    		<i class="icon icon-users-mm"></i><!-- <i class="fa fa-child"></i> --><span class="nav-text">커뮤니티</span></a>
                         <ul aria-expanded="false">
-                            <li><a href="Commblist.bo">자유게시판</a></li>
+                            <li><a href="javascript:void()">자유게시판</a></li>
                             <li><a href="javascript:void()">중고장터</a></li>
+
                         </ul>
                     </li>
-                    <li><a href="javascript:void()" aria-expanded="false">
-                    	<i class="bi bi-megaphone-fill"></i><span class="nav-text">공지사항</span></a>
+                    <li><a href="javascript:void()" aria-expanded="false"><i
+                                class="fa fa-bullhorn"></i><span class="nav-text">공지사항</span></a>
                     </li>
-                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                    <li><a href="widget-basic.html" aria-expanded="false"><i class="fa fa-folder-open-o"></i><span
+                                class="nav-text">자료실</span></a>
+                    </li>
+                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
+                                class="fa fa-pencil-square-o"></i><span class="nav-text">회의실예약</span></a>
+                        <ul aria-expanded="false">
+                            <li><a href="javascript:void()">예약하기</a></li>
+                            <li><a href="javascript:void()">회의실 목록</a></li>
+                        </ul>
+                    </li>
+                   	<li><a href="javascript:void()" aria-expanded="false">
                     		<i class="fa fa-phone-square"></i><span class="nav-text">주소록</span></a>
-                    	<ul aria-expanded="false">
-		                    <li><a href="list.addr">주소록 목록</a></li>
-                            <li><a href="search.addr">주소록 검색</a></li>
-                       	</ul>
-                    </li>
-                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                                <i class="bi bi-pencil-square"></i><span class="nav-text">회의실 예약</span></a>
+                    </li>  
+                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
+                                class="fa fa-briefcase"></i><span class="nav-text">근태관리</span></a>
                         <ul aria-expanded="false">
-							<li><a href="mrlist.mr">예약 목록</a></li>
-							<li><a href="mrcal.mr">예약 캘린더</a></li>
-                            <li><a href="mrresrvinsert.mr">예약 신청</a></li>
+                            <li><a href="javascript:void()">근태 현황</a></li>
+                            <li><a href="javascript:void()">Datatable</a></li>
                         </ul>
                     </li>
-                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                    	<i class="bi bi-briefcase-fill"></i><span class="nav-text">근태관리</span></a>
-                        <ul aria-expanded="false">
-                            <li><a href="empStatusMain.em">근태 현황</a></li>
-                            <li><a href="annualLeaveMain.al">연차현황</a></li>
-                        </ul>
-                    </li>
-                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                    	<i class="bi bi-calendar4-week"></i><span class="nav-text">캘린더</span></a>
-                        <ul aria-expanded="false">
-                            <li><a href="calendar.ca">전체 캘린더</a></li>
-                            <li><a href="calendar2.ca">부서 캘린더</a></li>
-                        </ul>
-                    </li>                    
-                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                    	<i class="bi bi-person-circle"></i><span class="nav-text">마이페이지</span></a>
+                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
+                                class="icon icon-single-04"></i><span class="nav-text">마이페이지</span></a>
                         <ul aria-expanded="false">
                             <li><a href="javascript:void()">내 정보</a></li>
                             <li><a href="javascript:void()">스크랩 관리</a></li>
@@ -257,8 +244,6 @@
 	    <!-- Required vendors -->
 	    <script src="${contextPath}/resources/assets/vendor/global/global.min.js"></script>
 	    <script src="${contextPath}/resources/assets/js/quixnav-init.js"></script>
-	    <script src="${contextPath}/resources/assets/js/custom.min.js"></script>   
-	    
-	    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>   
+	    <script src="${contextPath}/resources/assets/js/custom.min.js"></script>      
 </body>
 </html>

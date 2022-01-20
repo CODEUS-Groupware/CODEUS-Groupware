@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.codeusgroup.codeus.document.model.vo.Document;
 
-@Repository("dDAO")
+@Repository("dDao")
 public class DocumentDAO {
 	
 	public int getTotalWaitingCount(SqlSessionTemplate sqlSession, Map<String, String> paraMap) {
@@ -28,6 +28,10 @@ public class DocumentDAO {
 	}
 
 	public int insertNewApproval(SqlSessionTemplate sqlSession, Document d) {
+		System.out.println(d + "dao");
+		System.out.println(sqlSession);
+		
 		return sqlSession.insert("documentMapper.insertNewApproval", d);
 	}
+
 }

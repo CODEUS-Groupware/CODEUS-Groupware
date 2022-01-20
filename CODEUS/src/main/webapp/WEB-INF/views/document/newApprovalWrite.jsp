@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<% String ctxPath = request.getContextPath(); %>
+
 <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700" rel="stylesheet">
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
@@ -320,7 +320,6 @@ input:checked+.slider:before {
 </style>
 
 
-<script src="<%= request.getContextPath()%>/resources/assets/ckeditor/ckeditor.js"></script> 
 
  <!--**********************************
         Main wrapper start
@@ -337,7 +336,7 @@ input:checked+.slider:before {
         
         <div class="content-body">
             <div class="container-fluid">
-			<form action="newApproval.dc" method="post">
+		<form action="newApproval.dc" method="post"> 
 
 <script type="text/javascript">
 
@@ -365,13 +364,13 @@ input:checked+.slider:before {
 	// 기본설정에서 문서종류를 선택시 상세입력의 템플릿을 바꾸기
 	$("select#approvalSort").bind("change", function() {
 		// func_choice($(this).val()); 
-		// $(this).val()은 "1" 또는 "2" 또는 "3" 이다.
+		// $(this).val()은 "1" 또는 "2" 또는 "3" 또는 "4" 이다.
 		var docSortTitle="";
 		var html=""
 		
 		if ($(this).val()==1) {
 			docSortTitle += "일반품의서";
-			html +="<input type='hidden' name='docContent' value='none' />"+
+			html +="<input type='hidden' name='docContent' value='일반 품의 내용입니다.' />"+
 				   "<input type='hidden' name='docContent' value='none' />"+
 				   "<input type='hidden' name='docContent' value='none' />";
 				 
@@ -528,24 +527,7 @@ input:checked+.slider:before {
 	
 	
 	
-	<%-- === 스마트 에디터 구현 시작 === --%>
-    //전역변수
-    var obj = [];
-    
-    //스마트에디터 프레임생성
-    nhn.husky.EZCreator.createInIFrame({
-        oAppRef: obj,
-        elPlaceHolder: "content",
-        sSkinURI: "<%= request.getContextPath() %>/resources/smarteditor/SmartEditor2Skin.html",
-        htParams : {
-            // 툴바 사용 여부 (true:사용/ false:사용하지 않음)
-            bUseToolbar : true,            
-            // 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
-            bUseVerticalResizer : true,    
-            // 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
-            bUseModeChanger : true,
-        }
-    });
+	
     <%-- === 스마트 에디터 구현 끝 === --%>
     
 
@@ -575,596 +557,13 @@ input:checked+.slider:before {
 			return;
 		}
         
-		
-		<%-- === 스마트에디터 구현 시작 === --%>
-        //스마트에디터 사용시 무의미하게 생기는 p태그 제거
-        var contentval = $("#content").val();
-	        
-        // === 확인용 ===
-        // alert(contentval); // content에 내용을 아무것도 입력치 않고 쓰기할 경우 알아보는것.
-        // "<p>&nbsp;</p>" 이라고 나온다.
-        
-        // 스마트에디터 사용시 무의미하게 생기는 p태그 제거하기전에 먼저 유효성 검사를 하도록 한다.
-        // 글내용 유효성 검사 
-        if(contentval == "" || contentval == "<p>&nbsp;</p>") {
-        	alert("글내용을 입력하세요!!");
-        	return;
-        }
-        
-        // 스마트에디터 사용시 무의미하게 생기는 p태그 제거하기
-        contentval = $("textarea#content").val().replace(/<p><br><\/p>/gi, "<br>"); //<p><br></p> -> <br>로 변환
-    /*    
-              대상문자열.replace(/찾을 문자열/gi, "변경할 문자열");
-        ==> 여기서 꼭 알아야 될 점은 나누기(/)표시안에 넣는 찾을 문자열의 따옴표는 없어야 한다는 점입니다. 
-                     그리고 뒤의 gi는 다음을 의미합니다.
-
-        	g : 전체 모든 문자열을 변경 global
-        	i : 영문 대소문자를 무시, 모두 일치하는 패턴 검색 ignore
-    */    
-    	contentval = contentval.replace(/<\/p><p>/gi, "<br>"); //</p><p> -> <br>로 변환  
-    	contentval = contentval.replace(/(<\/p><br>|<p><br>)/gi, "<br><br>"); //</p><br>, <p><br> -> <br><br>로 변환 
-    	contentval = contentval.replace(/(<p>|<\/p>)/gi, ""); //<p> 또는 </p> 모두 제거시
-    
-        $("textarea#content").val(contentval);
-     	// alert(contentval); 	        
-        <%-- === 스마트에디터 구현 끝 === --%>
-        
-    	// 폼(form) 을 전송(submit)
-		var frm = document.addFrm;
-		frm.method = "POST";
-		frm.action = "newApproval.dc";
-		frm.submit();   
-    }); 
-	
-    
-    ////////////주소록시작//////////////
-   	
-    
-       // ====== 조직도 js ====== //
-      $.fn.extend({
-             treed: function (o) {
-               
-               var openedClass = 'glyphicon-minus-sign';
-               var closedClass = 'glyphicon-plus-sign';
-               
-               if (typeof o != 'undefined'){
-                 if (typeof o.openedClass != 'undefined'){
-                 openedClass = o.openedClass;
-                 }
-                 if (typeof o.closedClass != 'undefined'){
-                 closedClass = o.closedClass;
-                 }
-               };
-               
-                 //initialize each of the top levels
-                 var tree = $(this);
-                 tree.addClass("tree");
-                 tree.find('li').has("ul").each(function () {
-                     var branch = $(this); //li with children ul
-                     branch.prepend("<i class='indicator glyphicon " + closedClass + "'></i>");
-                     branch.addClass('branch');
-                     branch.on('click', function (e) {
-                         if (this == e.target) {
-                             var icon = $(this).children('i:first');
-                             icon.toggleClass(openedClass + " " + closedClass);
-                             $(this).children().children().toggle();
-                         }
-                     })
-                     branch.children().children().toggle();
-                 });
-                 
-                 //fire event from the dynamically added icon
-	             tree.find('.branch .indicator').each(function(){
-	               $(this).on('click', function () {
-	                   $(this).closest('li').click();
-	               });
-	             });
-
-                 //fire event to open branch if the li contains an anchor instead of text
-                 tree.find('.branch>a').each(function () {
-                     $(this).on('click', function (e) {
-                         $(this).closest('li').click();
-                         e.preventDefault();
-                     });
-                 });
-                 
-                 //fire event to open branch if the li contains a button instead of text
-                 tree.find('.branch>button').each(function () {
-                     $(this).on('click', function (e) {
-                         $(this).closest('li').click();
-                         e.preventDefault();
-                     });
-                 });
-             }
-         });
-
-      //Initialization of treeviews
-
-      $('#tree1').treed();
-
-      $('#tree2').treed({openedClass:'glyphicon-folder-open', closedClass:'glyphicon-folder-close'});
-
-      $('#tree3').treed({openedClass:'glyphicon-chevron-right', closedClass:'glyphicon-chevron-down'});    
-       
-      // ====== 주소록 모달창 js 끝 ====== // 
-     
-      
-      // ====== 조직도에서 팀이름 클릭 했을때 ====== //
-      $("li.orgName").each(function(){
-         $(this).click(function(){
-            var fk_dept_no = $(this).val();
-            // alert("클릭한 조직 이름의 value 값은? ==> " + fk_dept_no);
-            
-            // sessionStorage.setItem("fk_dept_no", fk_dept_no);
-            // var fk_dept_noVal = sessionStorage.getItem("fk_dept_no");
-            
-            console.log("타입" + typeof(fk_dept_no)); // number 
-            
-            $.ajax({ 
-               url:"<%= ctxPath %>/elecapproval/writeAddAddress.os",
-               // data: {"fk_dept_no" : fk_dept_noVal},
-               data: {"fk_dept_no" : fk_dept_no},
-               dataType:"json",
-               success:function(json) {
-                  
-                  var html = "";
-                     if(json.length > 0) {
-                        $.each(json, function(index, item){
-                        
-                           html += "<tr>";   
-                           html += "<td style='width: 40px; height: 10px; padding-left:2px;'> ";
-                           html += "<input type='checkbox' name='chkbox' class='"+ index + "'>";
-                           html += "</td>";
-                           html += "<td style='width: 80px; height: 10px; padding-left:2px;' class='emp_name'>";
-                           html += item.emp_name;
-                           html += "</td>";
-                           html += "<td style='width: 80px; height: 10px; padding-left:2px;' class='position_name'>";
-                           html += item.position_name;
-                           html += "</td>";   
-                           html += "<td style='width: 80px; height: 10px; padding-left:2px;' class='dept_name'>";
-                           html += item.dept_name;
-                           html += "</td>";    
-                           html += "<td style='width: 80px; height: 10px; padding-left:2px;' class='emp_no'>";
-                           html += item.emp_no;
-                           html += "</td>";   
-                           html += "</tr>";   
-
-                        });
-                        
-                        
-                        $("tbody#empListTbody").html(html);
-                        
-                     }
-                  
-               },
-                 error: function(request, status, error){
-                   alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-                }
-               
-            });      
-            
-            
-            var emp_name = $(".emp_name").text();
-            var position_name = $(".position_name").text();
-            var dept_name = $(".dept_name").text();
-            var emp_no = $(".emp_no").text();
-            
-            console.log("사원명 ==> " + emp_name);
-            console.log("직급명 ==> " + position_name);
-            console.log("부서명 ==> " + dept_name);
-            console.log("사원번호 ==> " + emp_no);
-                                    
-            
-         });
-      });   
-      
-      
-      
-      
-      // ====== 주소록에서 중간결재자, 최종결재자 버튼 클릭했을 때 ====== // 
-      
-      
-      
-      /////////////////////중간결재자 버튼 클릭////////////////////////////
-       $(document).on("click","span.addMidApprover",function() {      
-    	   
-    	 //체크된 체크박스의 갯수를 구할 수 있음.      
-           console.log("length: "+$("input[name=chkbox]:checked").length);
-           
-           var chkCount = $("input[name=chkbox]:checked").length;
-           
-           // 체크된 Row의 값을 가져온다.
-           var rowData = new Array();
-           var tdArr = new Array();
-           var checkbox = $("input[name=chkbox]:checked");
-
-           var empList = new Array();
-           
-           var resultEmpList = "";
-           
-           var resultEmpListTemp = "";
-           
-           // 체크된 체크박스 값을 가져온다
-           checkbox.each(function(i) {
-     
-              // checkbox.parent() : checkbox의 부모는 <td>이다.
-              // checkbox.parent().parent() : <td>의 부모이므로 <tr>이다.
-              var tr = checkbox.parent().parent().eq(i);
-              var td = tr.children();
-              
-              // 체크된 row의 모든 값을 배열에 담는다.
-              rowData.push(tr.text().trim());
-              
-              // td.eq(0)은 체크박스 이므로  td.eq(1)의 값부터 가져온다.
-              var emp_name = td.eq(1).text().trim();
-              var position_name = td.eq(2).text().trim();
-              var dept_name = td.eq(3).text().trim();
-              var emp_no = td.eq(4).text().trim(); //  + "\n"; // 엔터 추가
-              
-              // 가져온 값을 배열에 담는다.(객체 형태로 담는다. [{} ,{}] 형태 )
-              empList.push({emp_name: emp_name
-                         ,position_name: position_name
-                         ,dept_name: dept_name
-                         ,emp_no: emp_no
-              });
-              
-              // 배열 반복문, 사원 리스트 중복 값 체크 및 두번재 요소부터 엔터 값 적용하기
-              $.each(empList, function(index, item){
-                   
-                 // console.log("$.each의 empList 결과는무엇?==? " + item.emp_name);
-                 // console.log("$.each의 empList 결과는무엇?==? " + item.position_name);
-                 // console.log("$.each의 empList 결과는무엇?==? " + item.dept_name);
-                 // console.log("$.each의 empList 결과는무엇?==? " + item.emp_no);
-                 
-                 // 사원 리스트 중복 값 체크를 위한 temp 변수(체크한 내용이 다 들어가있는 변수)
-                 resultEmpListTemp = item.emp_name + "/" + item.position_name + "/" +item.dept_name + "/" +item.emp_no;
-                 
-                 // 누적값과 temp와 비교
-                 if(resultEmpList.indexOf(resultEmpListTemp) == -1 ) {
-                 
-                    if(index == 0) { 
-                       resultEmpList += item.emp_name + "/" + item.position_name + "/" +item.dept_name + "/" +item.emp_no;
-                    }
-                    else { // 첫번째 요소가 아닐때만 사원명 앞에 엔터값 추가
-                       resultEmpList += "\n" + item.emp_name + "/" + item.position_name + "/" +item.dept_name + "/" +item.emp_no;;
-                    }
-                 }
-                   
-              });
-              
-           }); // 체크박스 반복
-           
-           
-           // 첫번째 행에 문자열 넣기 (결과값)
-           $(".midApprLists").eq(0).text(resultEmpList);
-           
-         
-      }); //중간결재자 버튼클릭 끝
-      
-      
-      
-      
-      ////////////////최종결재자 버튼 클릭/////////////////////
-      $(document).on("click","span.addFinApprover",function() {         
-    	  
-         //체크된 체크박스의 갯수를 구할 수 있음.      
-         console.log("length: "+$("input[name=chkbox]:checked").length);
-         
-         var chkCount = $("input[name=chkbox]:checked").length;
-         
-         // 체크된 Row의 값을 가져온다.
-         var rowData = new Array();
-         var tdArr = new Array();
-         var checkbox = $("input[name=chkbox]:checked");
-
-         var empList = new Array();
-         
-         var resultEmpList = "";
-         
-         var resultEmpListTemp = "";
-         
-         // 체크된 체크박스 값을 가져온다
-         checkbox.each(function(i) {
-   
-            // checkbox.parent() : checkbox의 부모는 <td>이다.
-            // checkbox.parent().parent() : <td>의 부모이므로 <tr>이다.
-            var tr = checkbox.parent().parent().eq(i);
-            var td = tr.children();
-            
-            // 체크된 row의 모든 값을 배열에 담는다.
-            rowData.push(tr.text().trim());
-            
-            // td.eq(0)은 체크박스 이므로  td.eq(1)의 값부터 가져온다.
-            var emp_name = td.eq(1).text().trim();
-            var position_name = td.eq(2).text().trim();
-            var dept_name = td.eq(3).text().trim();
-            var emp_no = td.eq(4).text().trim(); //  + "\n"; // 엔터 추가
-            
-            // 가져온 값을 배열에 담는다.(객체 형태로 담는다. [{} ,{}] 형태 )
-            empList.push({emp_name: emp_name
-                       ,position_name: position_name
-                       ,dept_name: dept_name
-                       ,emp_no: emp_no
-            });
-            
-            // 배열 반복문, 사원 리스트 중복 값 체크 및 두번재 요소부터 엔터 값 적용하기
-            $.each(empList, function(index, item){
-                 
-               // console.log("$.each의 empList 결과는무엇?==? " + item.emp_name);
-               // console.log("$.each의 empList 결과는무엇?==? " + item.position_name);
-               // console.log("$.each의 empList 결과는무엇?==? " + item.dept_name);
-               // console.log("$.each의 empList 결과는무엇?==? " + item.emp_no);
-               
-               // 사원 리스트 중복 값 체크를 위한 temp 변수(체크한 내용이 다 들어가있는 변수)
-               resultEmpListTemp = item.emp_name + "/" + item.position_name + "/" +item.dept_name + "/" +item.emp_no;
-               
-               // 누적값과 temp와 비교
-               if(resultEmpList.indexOf(resultEmpListTemp) == -1 ) {
-               
-                  if(index == 0) { 
-                     resultEmpList += item.emp_name + "/" + item.position_name + "/" +item.dept_name + "/" +item.emp_no;
-                  }
-                  else { // 첫번째 요소가 아닐때만 사원명 앞에 엔터값 추가
-                     resultEmpList += "\n" + item.emp_name + "/" + item.position_name + "/" +item.dept_name + "/" +item.emp_no;;
-                  }
-               }
-                 
-            });
-            
-         }); // 체크박스 반복
-         
-         
-         // 첫번째 행에 문자열 넣기 (결과값)
-         $(".finApprLists").eq(0).text(resultEmpList);
-         
-      }); // 최종결재자 버튼 클릭 끝
-
-    
-    ////////////주소록끝//////////////
-    
-    
-	}); // end of $(document).ready(function(){})----------------
-   
-
-// ====== 주소록에서 확인 버튼 눌렀을때 ====== //  
-   function findEmpOk() {
-      
-	///////////////////////중간결재자부분처리//////////////////////////////////
-	// 넣은 문자열 추출
-      var data_mid = $(".midApprLists").eq(0).text();
-      
-      // 엔터를 구분자를 기준으로 잘라서 배열 만들기 
-      var arrData_mid = data_mid.split("\n");
-      
-      // 사원번호 얻기
-      var empnoExtract_mid = "";
-      var arrEmpno_mid = [];
-      
-      var empPositionExtract_mid = "";
-      var arrEmpPosition_mid = [];
-      
-      var empDeptExtract_mid = "";
-      var arrEmpDept_mid = [];
-      
-      // 사원명 얻기
-      var empNameExtract_mid = ""; 
-      var arrEmpName_mid = [];     
-      
-      // 배열 반복문 출력
-      arrData_mid.forEach(function(item, index, arr){
-          //최과장/과장/인사/2019003 
-	    	  
-	       // 사원명
-	       empNameExtract_mid = arr[index].indexOf('/'); // 배열[index]의 첫번째 /의 위치를 구한다. 
-	       arrEmpName_mid.push(arr[index].slice(0, empNameExtract_mid)); // slice : 0번째부터 empNameExtract 앞까지 추출
-	
-	       // 직급
-	       empPositionExtract_mid = arr[index].indexOf('/',empNameExtract_mid+1);
-	       arrEmpPosition_mid.push(arr[index].slice(empNameExtract_mid+1, empPositionExtract_mid)); // slice : empNameExtract+1번째부터 empPositionExtract 앞까지 추출
-	
-	       // 부서명
-	       empDeptExtract_mid = arr[index].indexOf('/', empPositionExtract_mid+1);
-	       arrEmpDept_mid.push(arr[index].slice(empPositionExtract_mid+1, empDeptExtract_mid)); // slice : empPositionExtract+1번째부터 empDeptExtract 앞까지 추출
-	
-	       // 사원번호
-	       empnoExtract_mid = arr[index].lastIndexOf('/'); // 배열[index]의 마지막 /의 위치를 구한다. 
-	       arrEmpno_mid.push(arr[index].slice(empnoExtract_mid+1));
-	         
-         
-      });
-      
-      
-   	  // 사원명
-      for(var i=0; i<arrEmpName_mid.length; i++) {
-         console.log("배열 " + i + "=> " + arrEmpName_mid[i]);
-         
-      }
-      
-      // 직급
-      for(var i=0; i<arrEmpPosition_mid.length; i++) {
-         console.log("배열 " + i + "=> " + arrEmpPosition_mid[i]);
-         
-      } 
-      
-   	  // 부서명
-      for(var i=0; i<arrEmpDept_mid.length; i++) {
-          console.log("배열 " + i + "=> " + arrEmpDept_mid[i]);
-          
-       }    
-   	  
-      // 사원번호
-      for(var i=0; i<arrEmpno_mid.length; i++) {
-          console.log("배열 " + i + "=> " + arrEmpno_mid[i]);
-          
-       }    
-      
-      // 배열을 문자열로 바꾸기
-      
-      var strEmpName_mid = arrEmpName_mid.join(",");
-      var strEmpPosition_mid = arrEmpPosition_mid.join(",");
-      var strEmpDept_mid = arrEmpDept_mid.join(",");
-      var strEmpno_mid = arrEmpno_mid.join(",");
-      
-      console.log("마지막 arrEmpName_mid 추출을 문자열로 만들기  =====> " + strEmpName_mid);
-      // 강과장,남과장
-
-      console.log("마지막 strEmpPosition_mid 추출을 문자열로 만들기  =====> " + strEmpPosition_mid);
-
-      console.log("마지막 strEmpDept_mid 추출을 문자열로 만들기  =====> " + strEmpDept_mid);
-
-      console.log("마지막 arrEmpno_mid 추출을 문자열로 만들기  =====> " + strEmpno_mid);
-      // 2020013,2020019
-      
-    
-      // 빋는 사람 태그 내에 value 넣기
-      $("input#fk_fin_approver_no_name_mid").val(strEmpName_mid); // 사원명
-      $("input#fk_fin_approver_no_dept_mid").val(strEmpDept_mid); // 부서
-      $("input#fk_fin_approver_no_position_mid").val(strEmpPosition_mid); // 직급
-      $("input#fk_mid_approver_no").val(strEmpno_mid); // 사원번호
-	
-	///////////////////////최종결재자부분처리//////////////////////////////////
-      // 넣은 문자열 추출
-      var data = $(".finApprLists").eq(0).text();
-      
-      console.log("ul 태그에서 읽어온 data 값 ==> " + data);
-    
-      // 엔터를 구분자를 기준으로 잘라서 배열 만들기 
-      var arrData = data.split("\n");
-      
-      console.log("\n를 기준으로 자른결과 ==> " + arrData);
-      // console.log("타입" + typeof(arrData)); // Object 
-      
-      // 사원번호 얻기
-      var empnoExtract = "";
-      var arrEmpno = [];
-      
-      var empPositionExtract = "";
-      var arrEmpPosition = [];
-      
-      var empDeptExtract = "";
-      var arrEmpDept = [];
-      
-      // 사원명 얻기
-      var empNameExtract = ""; 
-      var arrEmpName = [];     
-      
-      // 배열 반복문 출력
-      arrData.forEach(function(item, index, arr){
-          //최과장/과장/인사/2019003 
-    	  
-         // 사원명
-         empNameExtract = arr[index].indexOf('/'); // 배열[index]의 첫번째 /의 위치를 구한다. 
-         arrEmpName.push(arr[index].slice(0, empNameExtract)); // slice : 0번째부터 empNameExtract 앞까지 추출
-
-         // 직급
-         empPositionExtract = arr[index].indexOf('/',empNameExtract+1);
-         arrEmpPosition.push(arr[index].slice(empNameExtract+1, empPositionExtract)); // slice : empNameExtract+1번째부터 empPositionExtract 앞까지 추출
-
-         // 부서명
-         empDeptExtract = arr[index].indexOf('/', empPositionExtract+1);
-         arrEmpDept.push(arr[index].slice(empPositionExtract+1, empDeptExtract)); // slice : empPositionExtract+1번째부터 empDeptExtract 앞까지 추출
-
-         // 사원번호
-         empnoExtract = arr[index].lastIndexOf('/'); // 배열[index]의 마지막 /의 위치를 구한다. 
-         arrEmpno.push(arr[index].slice(empnoExtract+1));
-         
-         
-         
-      });
-      
-      
-   	  // 사원명
-      for(var i=0; i<arrEmpName.length; i++) {
-         console.log("배열 " + i + "=> " + arrEmpName[i]);
-         
-      }
-      
-      // 직급
-      for(var i=0; i<arrEmpPosition.length; i++) {
-         console.log("배열 " + i + "=> " + arrEmpPosition[i]);
-         
-      } 
-      
-   	  // 부서명
-      for(var i=0; i<arrEmpDept.length; i++) {
-          console.log("배열 " + i + "=> " + arrEmpDept[i]);
-          
-       }    
-   	  
-      // 사원번호
-      for(var i=0; i<arrEmpno.length; i++) {
-          console.log("배열 " + i + "=> " + arrEmpno[i]);
-          
-       }    
-      
-      // 배열을 문자열로 바꾸기
-      
-      var strEmpName = arrEmpName.join(",");
-      var strEmpPosition = arrEmpPosition.join(",");
-      var strEmpDept = arrEmpDept.join(",");
-      var strEmpno = arrEmpno.join(",");
-      
-      console.log("마지막 arrEmpName 추출을 문자열로 만들기  =====> " + strEmpName);
-      // 강과장,남과장
-
-      console.log("마지막 strEmpPosition 추출을 문자열로 만들기  =====> " + strEmpPosition);
-
-      console.log("마지막 strEmpDept 추출을 문자열로 만들기  =====> " + strEmpDept);
-
-      
-      console.log("마지막 arrEmpno 추출을 문자열로 만들기  =====> " + strEmpno);
-      // 2020013,2020019
-      
-    
-      // 받는 사람 태그 내에 value 넣기
-      $("input#fk_fin_approver_no_name").val(strEmpName); // 사원명
-      $("input#fk_fin_approver_no_dept").val(strEmpDept); // 부서
-      $("input#fk_fin_approver_no_position").val(strEmpPosition); // 직급
-      $("input#fk_fin_approver_no").val(strEmpno); // 사원번호
-           
-      $('.modal').modal('hide'); // 확인버튼 누르자 마자 모달창 숨기기
-   }
-   
-	// '긴급' 체크시 값넣기 (체크된경우 1, 체크해지시 0)
-	function emergencyChk(){
-		if($("input#emergency").is(":checked") == true ){
-			$("input#emergency").val('1');
-		}
-			
-		if( $("input#emergency").is(":checked") == false ){
-			$("input#emergency").val('0');
-		}
-		
-	}
-	   
-	function getDate(){
-		var d = new Date();
-		
-		var mm; 
-		if( (d.getMonth() + 1) < 10 ) {
-			mm = '0'+(d.getMonth() + 1);
-		}else {
-			mm = (d.getMonth() + 1) 
-		}
-		
-		var dd;
-		if( d.getDate() < 10 ) {
-			dd = '0'+ d.getDate();
-		}else {
-			dd = d.getDate();
-		}
-		
-		var dateText = d.getFullYear() + '-' + mm + '-' +  dd;
-		$("#date").text(dateText);
-	}
-	
 	
 </script>
 
 <div id="titleInBox" style="font-weight: bold; font-size: 19px;">새 결재 진행</div>
-<div id="containerBox">
+	<div id="containerBox">
 
-	<form name="addFrm"  enctype="multipart/form-data">
+	
 	<div class="docListTitle">기본설정</div>
 	
 	<div style="display: inline-block; width: 100%">
@@ -1177,7 +576,7 @@ input:checked+.slider:before {
 					<th class="tblElecApprInfo">문서종류</th>
 					<td class="tblElecApprInfo" style="align-items: center;">
 						<div class="box" style="width: 93%; align-items: center;">
-							<select name="formNum" id="approvalSort" class="form-control pull-right row b-none"
+							<select id="approvalSort" class="form-control pull-right row b-none"
 								style="align-items: center;">
 								<option value="">구분 선택</option>
 								<option value="1">일반품의서</option>
@@ -1202,13 +601,13 @@ input:checked+.slider:before {
 					<th class="tblElecApprInfo">기안작성자</th>
 					<!-- *** session에서 로그인유저값 받아서 넣을것*** -->
 					<%-- "${sessionScope.loginuser.name}" --%>
-					<td class="tblElecApprInfo">${sessionScope.loginUser.mName}</td>
+					<td class="tblElecApprInfo">${sessionScope.loginUser.mId}</td>
 				</tr>
 				</tbody>
 			</table>
 			<!-- *** session에서 로그인유저값 받아서 넣을것*** -->
 			<%-- <input type="hidden" name="fk_emp_no" value="${sessionScope.loginuser.userid}" /> --%>
-			<input type="hidden" name="drafterMId" value="${sessionScope.loginUser.mName}" />
+			<input type="hidden" name="drafterMId" id="drafterMId" value="${sessionScope.loginUser.mId}" />
 		</div>
 
 	</div>
@@ -1238,7 +637,7 @@ input:checked+.slider:before {
 						<input type="text" name="approval_mid_name2" id="approval_mid_name2" style="width:50%; margin-left:10px; margin-right: 1%; border-radius:3px; border: 1px solid #adb5bd; " />
 					</td>
 					<td>
-						<input type="text" name="approvalMId" id="approvalMId"  style="width:50%; margin-left:10px; margin-right: 1%; border-radius:3px; border: 1px solid #adb5bd; " /> 
+						<input type="text" name="approvalMId" id="approvalMId" value="${document.approvalMId}" style="width:50%; margin-left:10px; margin-right: 1%; border-radius:3px; border: 1px solid #adb5bd; " /> 
 					</td>
 				</tr>
 				<tr class="tblElecApprLineInfo">
@@ -1254,7 +653,7 @@ input:checked+.slider:before {
 					</td>
 				</tr>
 				<tr class="tblElecApprLineInfo">
-					<th style="width: 22%;">직급</th>
+					<th style="width: 22%;">직위</th>
 					<td>
 						<input type="text" name="approval_mid_position1" id="approval_mid_position1" style="width:50%; margin-left:10px; margin-right: 1%; border-radius:3px; border: 1px solid #adb5bd; " />
 					</td>
@@ -1295,7 +694,7 @@ input:checked+.slider:before {
 					<tr>
 						<td
 							style='padding: 3px; border: 1px solid black; font-size: 27px; font-weight: bold; text-align: center; vertical-align: middle; height: 113px;'
-							colspan='2'><span id="docSortTitle">문서종류</span></td>
+							colspan='2'><span id="docSortTitle">기안문서</span></td>
 						<td
 							style='padding: 3px; height: 113px; vertical-align: middle; border: 1px solid black; text-align: right;'
 							colspan='4'><br></td>
@@ -1314,8 +713,8 @@ input:checked+.slider:before {
 							기 안 일</td>
 						<td
 							style='padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: left;'>
-							<span id="date"
-							name="docCreateDate" style='font-family: &amp; amp; quot; malgun gothic&amp;amp; quot; , dotum , arial, tahoma; font-size: 9pt;' ></span>
+							<span id="docCreateDate"
+							 style='font-family: &amp; amp; quot; malgun gothic&amp;amp; quot; , dotum , arial, tahoma; font-size: 9pt;' >2022-01-26</span>
 						</td>
 						<td
 							style='padding: 3px; height: 20px; vertical-align: middle; border: 1px solid black; text-align: center; font-weight: bold;'>
@@ -1356,7 +755,7 @@ input:checked+.slider:before {
 							style="padding: 3px; height: 25px; vertical-align: middle; border: 1px solid black; text-align: center; font-weight: bold;">
 							제 &nbsp;&nbsp;&nbsp; 목</td>
 						<td style="vertical-align: middle; padding: 7px 0 0 10px;"><input
-							type="text" id="docName" name="docName"
+							type="text" id="docName" name="docName" value="기안 신청합니다."
 							style="font-size: 11pt; vertical-align: middle;">
 							<div id="checkUrgent" style="float: right; margin-right: 10px">
 								<span
@@ -1379,8 +778,7 @@ input:checked+.slider:before {
 							style="padding: 3px; height: 350px; vertical-align: top; border: 1px solid black;"
 							colspan="2">
 							<textarea name="docContent" id="docContent" rows="30"
-								cols="100" style="width: 100%; height: 412px;">
-									
+								cols="100" style="width: 100%; height: 500px;">기안 내용입니다.
 							</textarea>
 						</td>
 					</tr>
@@ -1396,139 +794,23 @@ input:checked+.slider:before {
 				</tbody>
 			</table> <!-- 내용 끝 -->
 			
-			
+			<p id="submitArea">
+       		<button id="cancel" type="button" onclick="javascript:history.back()" style="width: 100px" class="btn btn-danger m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">
+       			취소</button>		
+			 <button id="btnWrite" type="submit" style="width: 100px" class="btn btn-info m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">
+			 	상신</button>
+			</p>		
 			
 		</form>
+		</div>
+		</div>
 		<!-- ------------------------------------------------------------------------------------------------------------------------- -->
 
 
-		<p id="submitArea">
-       		<button id="cancel" type="button" onclick="javascript:history.back()" style="width: 100px" class="btn btn-danger m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">
-       			취소</button>		
-			 <button id="btnWrite" type="submit" id="btnWrite" style="width: 100px" class="btn btn-info m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">
-			 	상신</button>
-		</p>
+
    </div>
 
-		<!-- ----------------------------------------------------------------주소록모달시작--------------------------------------------------------- -->
-
-
-	<%-- 주소록 모달 --%>
-	<!-- Modal -->
-	<div id="findEmpListModal" class="modal fade" role="dialog" data-keyboard="false" data-backdrop="static">
-	 <div class="modal-dialog" style="width: 1200px;">
-	 
-	   <!-- Modal content-->
-	   <div class="modal-content">
-	     <div class="modal-header" style="height: 60px;">
-	       <button type="button" class="close" data-dismiss="modal" onclick="window.closeModal()"><span style="font-size: 26pt;">&times;</span></button>
-	       <h3 class="modal-title" style="font-weight: bold">조직도 검색</h3>
-	     </div>
-	     <div class="modal-body">
-	       <div id="employeeList" style="border: none; width: 100%; height: 470px;"><!-- style="border: none; width: 100%; height: 470px;"> -->
-	             <%-- findEmpList.jsp --%>
-	         <div class="empList_Popup" style="overflow-x:hidden;">
-	             
-	            <div class="content" >
-	            
-	               <div class="content_layout_address" style="margin-left : 40px;">
-	                  <div id="tabArea" style="margin-left : -40px;">
-	                     <ul class="tab_nav nav_layer" style="margin-bottom: 22px;">
-	                        <li value="org">
-	                           <span style="font-size: 12pt; font-weight: bold;">조직도</span>
-	                        </li>
-	                     </ul>
-	                  </div>
-	                  
-	                  <div class="tabWrap father" style="margin-left : -1px; height: 400px;"> <!-- border: solid 5px yellow;"> -->
-	                     <div class="father" style=" border : solid 1px #999; overflow-y:auto; width: 600px">
-	                     <%-- 조직도 시작--%>
-	                     <div class="container" style="padding-top:10px; width: 200px; border-right: solid 1px #999; "> <%-- border: solid 2px navy; " --%>
-	                         <div class="row box" style="width: 200px; "> <%--border: solid 2px pink;" --%>
-	                             <div class="col-md-4">
-	                                 <ul id="tree1">
-	                                     <li style="width:130px;">
-	                                        <a href="#">CODEUS</a>         
-	                                         <ul>
-	                                             <li class="orgName" style="width:120px;" value="1">전략기획팀</li>
-	                                             
-	                                             <li class="orgName" style="width:120px;" value="2">경영지원팀
-	                                                 <%-- 
-	                                                 <ul>
-	                                                     <li style="width:120px;">Reports
-	                                                         <ul>
-	                                                             <li>Report1</li>
-	                                                             <li>Report2</li>
-	                                                             <li>Report3</li>
-	                                                         </ul>
-	                                                     </li>
-	                                                 </ul>
-	                                                 --%>
-	                                             </li>
-	                                             <li class="orgName" value="3">인사팀</li>
-	                                             <li class="orgName" value="4">회계팀</li>
-	                                             <li class="orgName" value="5">영업팀</li>
-	                                             <li class="orgName" value="6">마케팅팀</li>
-	                                             <li class="orgName" value="7">IT팀</li>
-	                                             
-	                                         </ul>
-	                                     </li>
-	                                 </ul>
-	                             </div>
-	                     </div>
-	                  </div>
-	                  <%-- 조직도 끝--%>
-	                  
-	                  <%-- 사원리스트 시작--%>
-	                  <div class="content_list box">
-	                     <div class="search_wrap">
-	                        <form class="emp_search">
-	                           <input id="searchWord" class="search" type="text" placeholder="이름,부서">
-	                            <button type="button" class="btn btn-info btnSearch" style="border-radius: 3px; color: white;">검색</button>   
-	                        </form>  
-	                     </div>
-	                     <div class="scroll_wrap" style="height: 360px;">
-	                        <table style="width: 396px; height: 366px; border: 0px; overflow-y:auto;">
-	                           <thead style="padding:0;">
-	                              <tr style="text-align: left; background: #efefef; font-weight: normal;">
-	                                   <th style="padding-left:2px;">
-	                                      <input type="checkbox" name="checkAll" id="checkAll">
-	                                   </th>
-	                                   <th style="padding-left:2px;">이름</th>
-	                                   <th style="padding-left:2px;">직위</th>
-	                                   <th style="padding-left:2px;">부서</th>
-	                                   <th style="padding-left:2px;">사원ID</th>
-	                               </tr>
-	                           </thead>
-	            
-	                           <tbody style="height: 300px; " id="empListTbody">
-	                              <c:forEach var="emp" items="${empAllList}" varStatus="status">
-	                                       <tr style="height: 20px;" id="empRow" class="${status.index}">
-	                                           <td style="width: 40px; height: 10px; padding-left:2px;"> 
-	                                              <input type="checkbox" name="chkbox" class="check${status.index}">
-	                                           </td>
-	                                           <td style="width: 80px; height: 10px; padding-left:2px;" id="emp_name">
-	                                              ${emp.emp_name}
-	                                           </td>
-	                                           <td style="width: 50px; height: 10px; padding-left:2px;" id="position_name">
-	                                              ${emp.position_name}
-	                                           </td>
-	                                           <td style="width: 80px; height: 10px; padding-left:2px;" id="dept_name">
-	                                              ${emp.dept_name}
-	                                           </td>
-	                                           <td style="width: 120px; height: 10px; padding-left:2px;" id="emp_no">
-	                                              ${emp.emp_no}
-	                                           </td>
-	                                       </tr>                          
-	                                   </c:forEach>                                    
-	                            </tbody>               
-	                        </table>
-	                     </div>
-	                  
-	                  </div>
-	                  <%-- 사원리스트 끝--%>
-	                  
-	                  </div>
+		
 	                  
 	                  <%-- 추가 시작--%>
 	                  <div class="addArea">
@@ -1588,12 +870,10 @@ input:checked+.slider:before {
 	            
 	         
 	            
-	            </div>
-	            </div>
-	         </div>               
+	            
+	                        
 	      <%-- findEmpList.jsp --%>               
-	       </div>
-	     </div>
+	      
 	     <%-- modal-body 끝 --%>
 	     <div class="modal-footer">
 	        <button type="button" class="btn btn-info" style="border-radius: 3px;"
@@ -1601,11 +881,4 @@ input:checked+.slider:before {
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 3px;" onclick="
 	            window.location.reload()">취소</button>
 	      </div>
-	   </div>
-	
-	 </div>
-	</div>
-	</form>
-	</div>
-	</div>
-</div>
+	  
