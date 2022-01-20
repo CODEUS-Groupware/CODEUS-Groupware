@@ -190,12 +190,12 @@
 								</div> 
 							
 								<div class="modal_report_div">
-								 <input type="radio" id="reportChoice1" class="reportChoice"
-								 name="preport" value="A">&nbsp; <label for="radio-1" style="color: black" 
-									class="modal_choise_label">부적절한 내용을 포함</label> <br> 
-								  <input type="radio" id="reportChoice1" class="reportChoice"
-								 name="preport" value="B">&nbsp; <label for="radio-2" style="color: black" align="center"
-									class="modal_choise_label">광고성 내용을 포함</label>
+							 		<label for="reportChoice1" style="color: black" 
+											class="modal_choise_label"><input type="radio" id="reportChoice1" class="reportChoice"
+											 name="preport" value="A">&nbsp; 부적절한 내용을 포함</label> <br> 
+								  	<label for="reportChoice2" style="color: black" align="center"
+											class="modal_choise_label"><input type="radio" id="reportChoice2" class="reportChoice"
+											 name="preport" value="B">&nbsp; 광고성 내용을 포함</label>
 							</div>
 							<A id="btncancel" class="modal_close_btn">닫기</A>
 						
@@ -230,7 +230,7 @@
 					                    height: '100%',
 					                    overflow: 'auto',
 					                    // 레이어 색갈은 여기서 바꾸면 됨
-					                    backgroundColor: 'rgba(0,0,0,0.8)'
+					                   
 					                });
 					                document.body.append(bg);
 					
@@ -277,23 +277,32 @@
 					     		
 					     	 var bg = null;
 					     	   var modal = null;
-					   
-					         $.ajax({
-					            url : "reportCommPost.bo",
-					            type : "post",
-					            data : $("#postReportForm").serialize(),
-					         	dataType : "json",
-					            success : function(data) {
-						        	   if(data == 'success'){
-							        	  	 alert("신고되었습니다. 관리자 확인 후 처리 됩니다.");
-							        	   }else if(data == 'fail'){
-							        		   alert('이미 신고된 댓글 입니다.');               
-					               }
-					               bg.remove();
-					               modal.style.display = 'none';
-					               
-					            }
-					         });
+					   		console.log( $("#postReportForm").serialize());    
+					   		console.log( 1); 
+					   					 
+					   					 
+						   		$.ajax({
+						            url : "reportCommPost.bo",
+						            type : "post",
+						            data : $("#postReportForm").serialize(),
+						            success : function(data) {
+							        	   if(data == 'success'){
+								        	  	 alert("신고되었습니다. 관리자 확인 후 처리 됩니다.");
+								        	   }else if(data == 'fail'){
+								        		   alert('이미 신고된 댓글 입니다.');               
+						               }
+							        	   
+							        	   console.log(2); 
+							               //bg.remove();
+							              // modal.style.display = 'none';
+							              $('#my_modal').hide();
+						            }, 
+						            error: function(data) {
+						            	console.log(data); 
+						            }
+						         });
+					   		
+					   		
 					      });
 					        </script>
 					        

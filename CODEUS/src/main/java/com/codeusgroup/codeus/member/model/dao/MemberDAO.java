@@ -12,21 +12,22 @@ public class MemberDAO {
 		return sqlSession.selectOne("memberMapper.memberLogin", m);
 	}
 
-	public int insertMember(SqlSessionTemplate sqlSession, Member m) {
+//	public int insertMember(SqlSessionTemplate sqlSession, Member m) {
+//		return sqlSession.insert("memberMapper.insertMember", m);
+//	}
+	
+	public Member searchMember(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.selectOne("memberMapper.searchMember", m);
+	}
+
+	public int duplicateId(SqlSessionTemplate sqlSession, String inputId) {
+		return sqlSession.selectOne("memberMapper.duplicateId", inputId);
+	}
+
+	public int joinMember(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.insert("memberMapper.insertMember", m);
 	}
 
-	public Member idSearchMember(SqlSessionTemplate sqlSession, Member m) {
-		return sqlSession.selectOne("memberMapper.idSearchMember", m);
-	}
 
-	public Member pwdSearchMember(SqlSessionTemplate sqlSession, Member m) {
-		return sqlSession.selectOne("memberMapper.pwdSearchMember", m);
-	}
-
-	public void updatePwdMember(SqlSessionTemplate sqlSession, Member m) {
-		sqlSession.update("memberMapper.pwdSearchMember", m);
-		
-	}
 
 }

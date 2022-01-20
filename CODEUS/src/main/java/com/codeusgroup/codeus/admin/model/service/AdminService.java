@@ -6,6 +6,7 @@ import java.util.HashMap;
 import com.codeusgroup.codeus.admin.model.vo.Department;
 import com.codeusgroup.codeus.admin.model.vo.Job;
 import com.codeusgroup.codeus.admin.model.vo.PageInfo;
+import com.codeusgroup.codeus.admin.model.vo.Report;
 import com.codeusgroup.codeus.member.model.vo.Member;
 
 public interface AdminService {
@@ -49,6 +50,16 @@ public interface AdminService {
 	int updateDept(Department dept);
 
 	int moveDept(HashMap<String, Integer> map);
+
+	ArrayList<Report> selectBoardReportList(PageInfo pi);
+
+	ArrayList<Report> selectReplyReportList(PageInfo pi);
+
+	int getReportListCount();
+
+	int handingBoardReport(Report report);
+
+	int handingReplyReport(Report report);
 
 
 }

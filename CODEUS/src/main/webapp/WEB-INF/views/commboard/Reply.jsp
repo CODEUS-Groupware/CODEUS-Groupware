@@ -153,16 +153,16 @@ $(document).ready(function() {
 											
 											if(data.length > 0) {
 												for(var i in data) {
-													$tr = $("<table id='modifyTr'>");
+													$tr = $("<tr id='modifyTr'>");
 													$rWriter = $("<td width='80' style='font-weight:bold'>").text(data[i].rWriter);
 													$rContent = $('<td>').text(data[i].rContent);
 													$rCreateDate = $('<td width="100">').text(data[i].rCreateDate);
-												    $btnArea = $("<td width='80'>")
+													$btnArea = $("<td width='80' class='modi'>")
 								                    .append("<a href ='#' onclick='modifyReply(this,"+bId+","+data[i].rId+",\""+data[i].rContent+"\");'>수정/<a> ")
 								                    .append("<a href ='#' onclick='removeReply("+bId+","+data[i].rId+")'>삭제<a>");
 												    $btnAreaT = $("<td width='80' class='modi'>")
 												   .append("<a href ='#' onclick='ReportReply("+bId+","+data[i].rId+")'><img class='fit-picture' src='${contextPath}/resources/assets/images/1224162.png' alt=''>신고<a>");
-		                                       		$hr = $("<hr>");
+//			                                       
 						
 													$tr.append($rWriter);
 													$tr.append($rContent);
@@ -173,12 +173,10 @@ $(document).ready(function() {
 								                    	 $tr.append($btnAreaT);
 								                 // };
 													$tableBody.append($tr);
-													$tableBody.append($hr);
 												}
 											} else {
 												var $tr = $('<tr>');
-												var $rContent = $('<td colspan="3">').text("등록된 댓글이 없습니다.");
-						
+												var $rContent = $('<td colspan="3">').text("등록된 문의사항이 없습니다.");
 												$tr.append($rContent);
 												$tableBody.append($tr);
 											}
@@ -195,9 +193,9 @@ $(document).ready(function() {
 							     function modifyReply(obj, bId, rId,rContent){
 							        $trModify = $("<tr>");
 							        $trModify
-							        .append("<td colspan='3'><input class='form-control'  type='text' id='modifyReply' size='50' value='"+rContent+"'></td>&nbsp;");
+							        .append("<td colspan='3'><input class='form-control'  type='text' id='modifyReply' size='50' value='"+rContent+"'></td>;");
 							        $trModify
-							        .append("<td>&nbsp;<button class='btn btn-primary' onclick='modifyReplyCommit("+bId+","+rId+")'>수정</button></td>");
+							        .append("<td><button class='btn btn-primary' onclick='modifyReplyCommit("+bId+","+rId+")'>수정</button></td>");
 							        $trModify
 							        .append("<td>&nbsp;<button class='btn btn-primary' onclick='getReplyList()'>취소</button></td>");
 							        $(obj).parent().parent().after($trModify);

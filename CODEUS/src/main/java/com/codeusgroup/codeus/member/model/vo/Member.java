@@ -6,7 +6,7 @@ public class Member {
 	private String mId;
 	private String mPwd;
 	private String mName;
-	private String birthDate;
+	private Date birthDate;
 	private String email;
 	private String phone;
 	private String address;
@@ -23,11 +23,11 @@ public class Member {
 	private String jobName;
 	private String deptId;
 	private String deptName;
-    private int comYear;
+	private int comYear;
 	
-    public Member() {}
+	public Member() {}
 
-	public Member(String mId, String mPwd, String mName, String birthDate, String email, String phone, String address,
+	public Member(String mId, String mPwd, String mName, Date birthDate, String email, String phone, String address,
 			String profile, String imgOriginName, String imgChangeName, Date enrollDate, Date updateDate, Date hireDate,
 			Date endDate, int status, String managerYn, String jobId, String jobName, String deptId, String deptName,
 			int comYear) {
@@ -79,11 +79,11 @@ public class Member {
 		this.mName = mName;
 	}
 
-	public String getBirthDate() {
+	public Date getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthDate(String birthDate) {
+	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
 
@@ -233,5 +233,4 @@ public class Member {
 				+ deptName + ", comYear=" + comYear + "]";
 	}
 
-	
 }	

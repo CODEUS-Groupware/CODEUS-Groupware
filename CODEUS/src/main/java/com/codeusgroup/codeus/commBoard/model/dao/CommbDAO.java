@@ -44,7 +44,7 @@ public class CommbDAO {
 	}
 	
 	public int commBoardDelete(SqlSessionTemplate sqlSession, int bId) {
-		return sqlSession.selectOne("boardMapper.CommBoardDelete", bId);
+		return sqlSession.update("boardMapper.CommBoardDelete", bId);
 	}
 	
 	
@@ -63,7 +63,7 @@ public class CommbDAO {
 	
 	public ArrayList<Reply> selectReplyList(SqlSessionTemplate sqlSession, int bId) {
 		return (ArrayList)sqlSession.selectList("boardMapper.selectReplyList", bId);
-		}
+	}
 
 	public int addCommReply(SqlSessionTemplate sqlSession, Reply r) {
 		return sqlSession.insert("boardMapper.addReply", r);
@@ -85,7 +85,9 @@ public class CommbDAO {
 	
 	
 		public int insertReportPost(SqlSessionTemplate sqlSession, Report rep) {
-			return sqlSession.insert("boardMapper.insertPostReport",rep);
+			int result = sqlSession.insert("boardMapper.insertPostReport",rep);
+			System.out.println(result);
+			return result;
 		}
 
 		public Report selectPostReport(SqlSessionTemplate sqlSession, int bId) {

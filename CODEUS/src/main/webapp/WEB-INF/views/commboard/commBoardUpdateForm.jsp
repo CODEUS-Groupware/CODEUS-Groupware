@@ -86,7 +86,7 @@ $(document).ready(function() {
 										<form action="bupdate.bo" method="post" enctype="Multipart/form-data">
 											<input type="hidden" name="page" value="${ page }">
 											<input type="hidden" name="bId" value="${ b.bId }">
-											<input type="hidden" name="renameFileName" value="${ b.renameFileName }">
+											
 											
 											<table class="table table-write" id="add_mt" style="color:black ">
 											<tr>
@@ -105,19 +105,6 @@ $(document).ready(function() {
 												<textarea id="summernote" name="bContent" ></textarea>
 												</td>
 											</tr>
-	                           		        <tr>
-	                           		        	<td>
-												<label for="file">파일 찾기</label>
-												<td>
-										 		<input type="file" name="reloadFile">
-														<c:if test="${ !empty b.originalFileName }">
-															<br>현재 업로드한 파일 : 
-															<a href="${ contextPath }/resources/buploadFiles/${ b.renameFileName }" download="${ b.originalFileName }">
-																${ b.originalFileName }
-															</a>
-														</c:if>
-												</td>
-	                                   		</tr>
 	                                   		<tr> 
 	                                   		<td colspan ="4" style="text-align: center;">
 											<input type="submit" id="bSubmit" class="btn btn-primary" value="수정하기"> &nbsp;

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.codeusgroup.codeus.admin.model.vo.Department;
 import com.codeusgroup.codeus.admin.model.vo.Job;
 import com.codeusgroup.codeus.admin.model.vo.PageInfo;
+import com.codeusgroup.codeus.admin.model.vo.Report;
 import com.codeusgroup.codeus.member.model.vo.Member;
 
 @Repository("aDAO")
@@ -135,6 +136,40 @@ public class AdminDAO {
 
 	public int moveDept(SqlSessionTemplate sqlSession, HashMap<String, Integer> map) {
 		return sqlSession.update("adminMapper.moveDept", map);
+	}
+
+	public int getReportListCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("adminMapper.getReportListCount");
+	}
+
+	public ArrayList<Report> selectBoardReportList(SqlSessionTemplate sqlSession, PageInfo pi) {
+		int offset  = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("adminMapper.selectBoardReportList", null, rowBounds);
+	}
+
+	public ArrayList<Report> selectReplyReportList(SqlSessionTemplate sqlSession, PageInfo pi) {
+		int offset  = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("adminMapper.selectReplyReportList", null, rowBounds);
+	}
+
+	public int handingBoardReport(SqlSessionTemplate sqlSession, Report report) {
+		return sqlSession.update("adminMapper.handingBoardReport", report);
+	}
+
+	public int deleteBoard(SqlSessionTemplate sqlSession, int bNum) {
+		return sqlSession.update("adminMapper.deleteBoard", bNum);
+	}
+
+	public int handingReplyReport(SqlSessionTemplate sqlSession, Report report) {
+		return sqlSession.update("adminMapper.handingReplyReport", report);
+	}
+
+	public int deleteReply(SqlSessionTemplate sqlSession, int replyNo) {
+		return sqlSession.update("adminMapper.deleteReply", replyNo);
 	}
 
 }

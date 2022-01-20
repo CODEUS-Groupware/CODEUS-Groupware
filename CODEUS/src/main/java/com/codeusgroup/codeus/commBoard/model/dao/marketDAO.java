@@ -1,6 +1,7 @@
 package com.codeusgroup.codeus.commBoard.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -61,8 +62,8 @@ public class marketDAO {
 		return sqlSession.selectOne("marketMapper.selectMarketBoard", bId);
 	
 	}
-	public List<Map<String, String>> selectAttachmentList(SqlSessionTemplate sqlSession, int bId) {
-		return sqlSession.selectList("marketMapper.selectAttachmentList",bId);	
+	public MarketAtt selectAttachmentList(SqlSessionTemplate sqlSession, int bId) {
+		return sqlSession.selectOne("marketMapper.selectAttachmentList",bId);	
 		
 		}
 
@@ -88,7 +89,7 @@ public class marketDAO {
 	public ArrayList<MarketBoard> MarketSearchListt(SqlSessionTemplate sqlSession, Search search, PageInfo pi) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		return (ArrayList)sqlSession.selectList("marketMapper.marketSearchListt", search, rowBounds);
+		return (ArrayList)sqlSession.selectList("marketMapper.marketSearchList", search, rowBounds);
 	}
 
 
@@ -96,8 +97,41 @@ public class marketDAO {
 	public int saveimage(SqlSessionTemplate sqlSession, MarketAtt at) {
 		return sqlSession.insert("marketMapper.saveimage", at);
 	}
-	
+
+
+
+	public int deleteimage(SqlSessionTemplate sqlSession, MarketAtt at) {
+		return sqlSession.delete("marketMapper.deleteimage", at);
 	}
+
+
+
+	public int insertScrap(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		return sqlSession.insert("marketMapper.insertScrap", map);
+	}
+
+	public int deleteScrap(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		return sqlSession.delete("marketMapper.deleteScrap", map);
+	}
+
+
+
+	public int getScrapStatus(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		return sqlSession.selectOne("marketMapper.getScrapStatus", map);
+	}
+
+
+
+	public int getListOptionCount(SqlSessionTemplate sqlSession, String option) {
+		return sqlSession.selectOne("marketMapper.getListOptionCount", option);
+	}
+
+
+
+	public ArrayList<MarketBoard> selectOptionPList(SqlSessionTemplate sqlSession, String option, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		
-
-
+		return (ArrayList)sqlSession.selectList("marketMapper.selectOptionPList", option, rowBounds);
+	}
+}

@@ -251,4 +251,71 @@
 		set upper_dept = #{upperDeptId}, dept_level = #{deptLevel}, dept_order = #{deptOrder}
 		where dept_id = #{moveDeptId}
 	</update>
+	
+	<select id="getReportListCount" resultType="_int">
+		select count(*)
+		from report
+	</select>
+	
+	<select id="selectBoardReportList" resultMap="reportResultSet">
+		select REPORT_NO, REPORT_TYPE, REPORT_CATEGORY, REPORT_DATE, 
+        REPORT_STATUS, B.B_NUM, B_TYPE, B_TITLE, B.M_ID, M_NAME, JOB_NAME
+		from report r
+		     join board b on(b.b_num = r.b_num)
+		     left join MEMBER M ON(M.M_ID = B.M_ID)
+		     left join JOB USING(JOB_ID)
+		where report_category = '게시글'
+		order by report_status, report_date desc
+	</select>	
+	
+	<select id="selectReplyReportList" resultMap="reportResultSet">
+		select REPORT_NO, REPORT_TYPE, REPORT_CATEGORY, REPORT_DATE, REPORT_STATUS, 
+        REPLY_NO, REPLY_CONTENT, B.B_NUM, B_TYPE, B_TITLE, r2.M_ID, M_NAME, JOB_NAME
+		from report r1
+		    left join reply r2 using(reply_no)
+		    join board b on(b.b_num = r2.b_num)
+		    left join MEMBER M ON(M.M_ID = r2.M_ID)
+		     left join JOB USING(JOB_ID)
+		where report_category = '댓글'
+		order by report_status, report_date desc
+	</select>	
+	
+	<update id="handingBoardReport">
+		update report
+		set report_status = #{reportStatus}
+		where report_no = #{reportNo}
+	</update>
+
+	<update id="deleteBoard">
+		update board
+		set b_status = 2
+		where b_num = #{bNum}	
+	</update>
+
+	<update id="handingReplyReport">
+		update report
+		set report_status = #{reportStatus}
+		where report_no = #{reportNo}	
+	</update>
+	
+	<update id="deleteReply">
+		update reply
+		set reply_status = 2
+		where reply_no = #{replyNo}		
+	</update>			
+	
+	<resultMap type="com.codeusgroup.codeus.admin.model.vo.Report" id="reportResultSet">
+		<id column="REPORT_NO" property="reportNo" />
+		<result column="REPORT_TYPE" property="reportType"/>
+		<result column="REPORT_DATE" property="reportDate"/>
+		<result column="REPORT_STATUS" property="reportStatus"/>
+		<result column="REPLY_NO" property="replyNo"/>
+		<result column="REPLY_CONTENT" property="replyContent"/>
+		<result column="B_NUM" property="bNum"/>
+		<result column="B_TITLE" property="bTitle"/>
+		<result column="B_TYPE" property="bType"/>
+		<result column="M_NAME" property="writerName"/>
+		<result column="JOB_NAME" property="writerJobName"/>
+	</resultMap>	
+
 </mapper>
