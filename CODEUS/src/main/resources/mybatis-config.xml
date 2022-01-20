@@ -18,11 +18,11 @@
  		<typeAlias type="com.codeusgroup.codeus.commBoard.model.vo.Report" alias="Report"/>
  		<typeAlias type="com.codeusgroup.codeus.calendar.model.vo.CalArrTemp" alias="CalArrTemp"/>
         <typeAlias type="com.codeusgroup.codeus.meetingResrv.model.vo.MeetingResrv" alias="MeetingResrv"/>
-        <typeAlias type="com.codeusgroup.codeus.chetting.model.vo.Chetting" alias="Chetting"/>
+        <typeAlias type="com.codeusgroup.codeus.chatting.model.vo.Chatroom" alias="Chatroom"/>
+        <typeAlias type="com.codeusgroup.codeus.chatting.model.vo.Message" alias="Message"/>
         <typeAlias type="com.codeusgroup.codeus.meetingResrv.model.vo.MeetingRoom" alias="MeetingRoom"/>
         <typeAlias type="com.codeusgroup.codeus.noticeBoard.model.vo.NoticeBoard" alias="NoticeBoard"/>
 	    <typeAlias type="com.codeusgroup.codeus.meetingResrv.model.vo.MeetingResrv" alias="MeetingResrv"/>
-	    <typeAlias type="com.codeusgroup.codeus.chetting.model.vo.Chetting" alias="Chetting"/>
 	    <typeAlias type="com.codeusgroup.codeus.meetingResrv.model.vo.MeetingRoom" alias="MeetingRoom"/>
 	    <typeAlias type="com.codeusgroup.codeus.noticeBoard.model.vo.NoticeBoard" alias="NoticeBoard"/>
  		<typeAlias type="com.codeusgroup.codeus.noticeBoard.model.vo.NoticeBoardReply" alias="NoticeBoardReply"/>
@@ -36,7 +36,7 @@
  		<mapper resource="mappers/member-mapper.xml"/>
  		<mapper resource="mappers/admin-mapper.xml"/>
 		<mapper resource="mappers/address-mapper.xml"/>
- 		<mapper resource="mappers/chetting-mapper.xml"/>
+ 		<mapper resource="mappers/chatting-mapper.xml"/>
 		<mapper resource="mappers/calendar-mapper.xml"/>
 	  	<mapper resource="mappers/empStatus-mapper.xml"/>
 		<mapper resource="mappers/annualLeave-mapper.xml"/>
