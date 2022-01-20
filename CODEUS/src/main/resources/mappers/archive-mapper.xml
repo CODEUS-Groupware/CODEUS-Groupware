@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="archiveMapper">
+	
+	<select id="selectArchiveCapacity" resultMap="ArchiveCapacityResultSet">
+		SELECT *
+		FROM ARC_CAPACITY
+	</select>
+	
+	<select id="selectFolderList" resultMap="archiveFolderResultSet">
+		SELECT *
+		FROM FOLDER
+		ORDER BY FOLDER_ID
+	</select>
+	
+	<select id="selectHierarchicalfolderList" resultMap="archiveFolderResultSet">
+		SELECT FOLDER_ID, UPPER_FOLDER, LPAD(' ', 2*(LEVEL-1)) || FOLDER_NAME AS FOLDER_NAME
+		FROM FOLDER
+		START WITH UPPER_FOLDER IS NULL
+		CONNECT BY PRIOR FOLDER_ID = UPPER_FOLDER 
+		ORDER SIBLINGS BY FOLDER_ID
+	</select>	
+	
+	<select id="selectFileList" resultMap="archiveFileResultSet">
+		SELECT *
+		FROM ARCHIVE LEFT JOIN FOLDER USING(FOLDER_ID)
+		WHERE FILE_STATUS = 0 
+		<if test="currentFolder != null">
+			AND FOLDER_ID = #{currentFolder}
+		</if>
+		<if test="currentFolder == null">
+			AND FOLDER_ID IS NULL
+		</if>
+		ORDER BY ARC_NO 
+	</select>
+	
+	<insert id="insertTotalCapacity">
+		insert into arc_capacity values(#{capacity}, 0)	
+	</insert>
+	
+	<update id="updateTotalCapacity">
+		update arc_capacity
+		set arc_total_capacity = #{capacity}
+	</update>
+	
+	<insert id="insertArchiveFile">
+		insert into archive 
+		values(seq_arc_no.nextval, #{path}, default, #{originName}, #{changeName}, #{size}, #{extension}, default, #{mId}, #{folderId})	
+	</insert>
+	
+	<update id="updateCurrCapacity">
+		update arc_capacity
+		set arc_curr_capacity = arc_curr_capacity + #{totalSize}
+	</update>
+	
+	<update id="deleteFile">
+		update archive
+		set file_status = 1
+		where arc_no = #{archNo}
+	</update>
+	
+	<delete id="deleteFolder">
+		delete folder
+		where folder_id = #{folderId}
+	</delete>
+	
+	<update id="reduceCurrCapacity">
+		update arc_capacity
+		set arc_curr_capacity = arc_curr_capacity - #{totalSize}
+	</update>
+	
+	<insert id="addFolder">
+		insert into folder
+		values(seq_folder_id.nextval, #{folderName}, #{upperFolderId}, null)
+	</insert>
+
+	<update id="renameFolder">
+		update folder
+		set folder_name = #{folderName}
+		where folder_id = #{folderId}
+	</update>
+
+	<update id="moveFile">
+		update archive
+		set folder_id = #{folderId}
+		where arc_no = #{archNo}
+	</update>
+	
+	<update id="moveFolder">
+		update folder
+		set upper_folder = #{upperFolderId}
+		where folder_id = #{folderId}
+	</update>
+
+	
+	<resultMap type="ArchiveCapacity" id="ArchiveCapacityResultSet">
+		<id column="ARC_TOTAL_CAPACITY" property="totalCapacity"/>
+		<result column="ARC_CURR_CAPACITY" property="currentCapacity"/>
+	</resultMap>
+	
+	<resultMap type="ArchiveFolder" id="archiveFolderResultSet">
+		<id column="FOLDER_ID" property="folderId"/>
+		<result column="FOLDER_NAME" property="folderName"/>
+		<result column="UPPER_FOLDER" property="upperFolderId"/>
+		<result column="FOLDER_LEVEL" property="folderLevel"/>
+	</resultMap>
+		
+	<resultMap type="ArchiveFile" id="archiveFileResultSet">
+		<id column="ARC_NO" property="archNo"/>
+		<result column="ARC_PATH" property="path"/>
+		<result column="ARC_UPLOAD_DATE" property="uploadDate"/>
+		<result column="FILE_ORIGIN_NAME" property="originName"/>
+		<result column="FILE_CHANGE_NAME" property="changeName"/>
+		<result column="FILE_SIZE" property="size"/>
+		<result column="FILE_EXTENSION" property="extension"/>
+		<result column="FILE_STATUS" property="status"/>
+		<result column="M_ID" property="mId"/>
+		<result column="FOLDER_ID" property="folderId"/>
+		<result column="FOLDER_NAME" property="folderName"/>
+	</resultMap>	
+		
+</mapper>

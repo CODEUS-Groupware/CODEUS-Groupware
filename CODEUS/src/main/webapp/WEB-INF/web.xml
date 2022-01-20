@@ -30,7 +30,6 @@
 		
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
-		<!-- <url-pattern>/</url-pattern> -->
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
 	
@@ -110,7 +109,10 @@
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/spring/appServlet/member-context.xml</param-value>
+			<param-value>
+				/WEB-INF/spring/appServlet/member-context.xml
+				/WEB-INF/spring/appServlet/aspect-context.xml	
+			</param-value>
 	 	</init-param>
 	</servlet>
 	<servlet-mapping>
@@ -124,7 +126,10 @@
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/spring/appServlet/chetting-context.xml</param-value>
+			<param-value>
+				/WEB-INF/spring/appServlet/chetting-context.xml
+				/WEB-INF/spring/appServlet/aspect-context.xml	
+			</param-value>
 		</init-param>
 	</servlet>
 	
@@ -139,7 +144,10 @@
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/spring/appServlet/address-context.xml</param-value>
+			<param-value>
+				/WEB-INF/spring/appServlet/address-context.xml
+				/WEB-INF/spring/appServlet/aspect-context.xml	
+			</param-value>
 		</init-param>
 	</servlet>
 	
@@ -156,6 +164,7 @@
 			<param-name>contextConfigLocation</param-name>
 			<param-value>
 				/WEB-INF/spring/appServlet/calendar-context.xml
+				/WEB-INF/spring/appServlet/aspect-context.xml	
 			</param-value>
 		</init-param>
 	</servlet>	
@@ -173,6 +182,7 @@
             <param-name>contextConfigLocation</param-name>
             <param-value>
                 /WEB-INF/spring/appServlet/meet-context.xml
+                /WEB-INF/spring/appServlet/aspect-context.xml	
             </param-value>
         </init-param>
     </servlet>
@@ -187,7 +197,10 @@
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/spring/appServlet/empStatus-context.xml</param-value>
+			<param-value>
+				/WEB-INF/spring/appServlet/empStatus-context.xml
+				/WEB-INF/spring/appServlet/aspect-context.xml	
+			</param-value>
 		</init-param>
 	</servlet>
 	<servlet-mapping>
@@ -201,7 +214,10 @@
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/spring/appServlet/annualLeave-context.xml</param-value>
+			<param-value>
+				/WEB-INF/spring/appServlet/annualLeave-context.xml
+				/WEB-INF/spring/appServlet/aspect-context.xml				
+			</param-value>
 		</init-param>
 	</servlet>
 	<servlet-mapping>
@@ -217,6 +233,7 @@
 			<param-name>contextConfigLocation</param-name>
 			<param-value>
 				/WEB-INF/spring/appServlet/board-context.xml
+				/WEB-INF/spring/appServlet/aspect-context.xml	
 			</param-value>
 		</init-param>
 	</servlet>	
@@ -231,7 +248,10 @@
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/spring/appServlet/document-context.xml</param-value>
+			<param-value>
+				/WEB-INF/spring/appServlet/document-context.xml
+				/WEB-INF/spring/appServlet/aspect-context.xml	
+			</param-value>
 	 	</init-param>
 	</servlet>
 	<servlet-mapping>
@@ -255,5 +275,39 @@
 		<servlet-name>noticeBoardServlet</servlet-name>
 		<url-pattern>*.nb</url-pattern>
 	</servlet-mapping>  
+	
+	<!-- 마이페이지 관련 -->
+	<servlet>
+		<servlet-name>myPageServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>
+				/WEB-INF/spring/appServlet/myPage-context.xml
+				/WEB-INF/spring/appServlet/aspect-context.xml
+			</param-value>
+	 	</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>myPageServlet</servlet-name>
+		<url-pattern>*.mp</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 자료실 관련 -->
+	<servlet>
+	 	<servlet-name>archiveServlet</servlet-name>
+	 	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+	 	<init-param>
+	 		<param-name>contextConfigLocation</param-name>
+	 		<param-value>
+	 			/WEB-INF/spring/appServlet/archive-context.xml
+	 			/WEB-INF/spring/appServlet/aspect-context.xml
+	 		</param-value>
+	 	</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>archiveServlet</servlet-name>
+		<url-pattern>*.arch</url-pattern>
+	</servlet-mapping> 
 	
 </web-app>
