@@ -1,4 +1,4 @@
-package com.codeusgroup.codeus.chetting.exception;
+package com.codeusgroup.codeus.chatting.exception;
 
 public class ChettingException extends RuntimeException {
 	public ChettingException() {}
