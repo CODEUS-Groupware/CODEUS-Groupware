@@ -222,6 +222,22 @@
 	    ***********************************-->
 	    
 	    <script>
+	    
+	 	// sweet alert customize
+		var alert = function(msg, title, icon) {
+			Swal.fire({
+				position: 'top', // 상단 중앙에 띄우기
+				background: '#593bdb', // 알럿창 배경색
+   				color: 'white', // 글자색
+				title : title, // 제목(큰 글씨)
+				text : msg, // 내용(작은 글씨)
+				icon: icon, // info, error 등 icon type
+				timer : 3000, // 자동 종료 타이머
+				customClass : 'sweet-size', 
+				showConfirmButton : false // ok버튼 표시 여부
+			});
+		}
+	    
 	    // 사원 정보 누를 시 프로필 표시
 		$(function() {
 			$('#mSearchList td').mouseenter(function() {

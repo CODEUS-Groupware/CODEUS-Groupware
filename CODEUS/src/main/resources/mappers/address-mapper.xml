@@ -68,7 +68,7 @@
 	</select>
 	
 	<delete id="minusAddress">
-		delete from address where addr_m_id = #{mId}
+		delete address from addr_m_id = #{mId}
 	</delete>
 	
 	
