@@ -131,4 +131,25 @@ public class addressController {
 			throw new AddressException("주소록 추가에 실패했습니다.");
 		}
 	}
+	
+	@RequestMapping(value="minus.addr", method = RequestMethod.POST)
+	public String minusAddress(@ModelAttribute Address addr,
+							 @RequestParam(value="mId", required = false) String mId,
+							 HttpServletRequest request) {
+		
+		String userId = ((Member)request.getSession().getAttribute("loginUser")).getmId();
+		addr.setMyMId(userId);
+		
+		System.out.println(userId);
+		System.out.println(mId);
+		
+		int result = addrService.minusAddress(userId, mId);
+		
+		if(result > 0) {
+			System.out.println("주소록 삭제");
+			return "redirect:list.addr";
+		} else {
+			throw new AddressException("주소록 삭제에 실패했습니다.");
+		}
+	}
 }

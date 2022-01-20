@@ -45,4 +45,9 @@ public class AddressServiceImpl implements AddressService {
 		return addrDAO.selectMyList(sqlSession, pi, userId);
 	}
 
+	@Override
+	public int minusAddress(String userId, String mId) {
+		return addrDAO.minusAddress(sqlSession, userId, mId);
+	}
+
 }

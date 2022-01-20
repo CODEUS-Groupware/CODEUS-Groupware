@@ -17,4 +17,6 @@ public interface AddressService {
 
 	ArrayList<Member> selectMyList(PageInfo pi, String userId);
 
+	int minusAddress(String userId, String mId);
+
 }

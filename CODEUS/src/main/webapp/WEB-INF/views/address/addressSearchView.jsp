@@ -265,7 +265,6 @@
 				type: "POST",
 				successs: function(data) {
 					console.log(data);
-					alert("추가되었습니다.");
 				},
 				error: function() {
 					console.log(data);

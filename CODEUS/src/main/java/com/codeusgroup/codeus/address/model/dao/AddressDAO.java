@@ -50,4 +50,13 @@ public class AddressDAO {
 		
 		return (ArrayList)sqlSession.selectList("addressMapper.selectMyList", userId, rowBounds);
 	}
+
+	public int minusAddress(SqlSessionTemplate sqlSession, String userId, String mId) {
+		
+		HashMap<String, String> map = new HashMap<>();
+		map.put("userId", userId);
+		map.put("mId", mId);
+		
+		return sqlSession.insert("addressMapper.minusAddress", map);
+	}
 }
