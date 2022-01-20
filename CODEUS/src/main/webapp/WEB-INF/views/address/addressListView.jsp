@@ -231,8 +231,13 @@
 				url: "minus.addr",
 				data: {mId:mId},
 				type: "POST",
-				successs: function(data) {
+				success: function(data) {
 					console.log(data);
+					
+					if(data == "success") {
+						location.reload();
+						alert("삭제되었습니다.");
+					}
 				},
 				error: function() {
 					console.log(data);

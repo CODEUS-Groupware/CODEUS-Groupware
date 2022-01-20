@@ -264,8 +264,13 @@
 				url: "add.addr",
 				data: {mId:mId},
 				type: "POST",
-				successs: function(data) {
+				success: function(data) {
 					console.log(data);
+					
+					if(data == "success") {
+						location.reload();
+						alert("추가되었습니다.");
+					}
 				},
 				error: function() {
 					console.log(data);
