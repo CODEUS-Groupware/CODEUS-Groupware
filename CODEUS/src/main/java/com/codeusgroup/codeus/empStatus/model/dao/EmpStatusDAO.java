@@ -101,6 +101,11 @@ public class EmpStatusDAO {
 		return (ArrayList)sqlSession.selectList("empStatusMapper.selectDeptWeekList", map);
 	}
 
+	public EmpStatus selectEmp(SqlSessionTemplate sqlSession, String id) {
+		
+		return sqlSession.selectOne("empStatusMapper.selectEmp", id);
+	}
+
 	
 
 	

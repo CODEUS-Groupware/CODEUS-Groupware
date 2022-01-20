@@ -21,9 +21,13 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
 <style>
+#nowDateArea{
+		color:black;
+	}
 	#clock{
 		font-size:42px;
 		margin-bottom: 15px;
+		color:black;
 	}
 
 	#statusSelect{
@@ -55,6 +59,7 @@
 		font-size:24px;
 		font-weight: bolder;
 		text-align:center;
+		color:black;
 	}
 	#baseDate{
 		cursor: pointer;
@@ -69,7 +74,7 @@
 	}
 	#workInTime, #workOutTime{
 		border:none;
-		color: #BDBDC7;
+		color: black;
 		float: right;
 	}
 	#workingTime{
@@ -193,13 +198,24 @@
 	width: 620px;
 }
 #deptTotalTable th, td{
-	min-width: 130px!important;
-    max-width: 140px!important;
+	 min-width: 120px!important;
+    max-width: 120px!important; 
     text-align: center;
 }
-#deptTotalTable th{
+/* #deptTotalTable th{
 	border-bottom: 1px solid gray;
+} */
+#deptTotalTable{
+	color:black;
+	font-size:14px;
 }
+.weekTd{
+	word-break:keep-all; 
+	text-align:left;
+	font-size:15px;
+	
+}
+
 
 </style>
 
@@ -239,7 +255,7 @@
 									 <c:out value="${date}" />
 									 <div id="clock"></div>
 								</div>
-								<ul>
+								<ul style="color:black;">
 									<li>
 										출근시간
 										<c:choose>
@@ -252,8 +268,7 @@
 										</c:choose>											
 									</li>
 									<li>
-										<dl>
-											<dt>퇴근시간
+										퇴근시간
 											<c:choose>
 												<c:when test="${empStatus1 != null }">
 													<input id="workOutTime" name="workOutTime" value="${empStatus1.getEmpOffTime()}">
@@ -262,8 +277,7 @@
 													<input id="workOutTime" name="workOutTime">
 												</c:otherwise>
 											</c:choose>	
-											</dt>
-										</dl>
+											
 									</li>
 								</ul>
 								<div class="basic-dropdown">
@@ -332,12 +346,12 @@
                             <div class="card-body" id="deptDiv">
                                <table  id="deptTotalTable">
                                		<thead>
-	                               		<th>이름</th>
-	                               		<th>한달 근무시간</th>
-	                               		<th>한달 초과근무시간</th>
+	                               		<th style="border-bottom: 1px solid black;">이름</th>
+	                               		<th style="border-bottom: 1px solid black;">한달 근무시간</th>
+	                               		<th style="border-bottom: 1px solid black;">한달 초과시간</th>
 	                               		<th id="worktable"></th>
                                		</thead>
-                               		<tbody>
+                               		<tbody  style="font-size:18px;">
                                			
                                		</tbody>
                                </table>
@@ -368,7 +382,7 @@
                                         </div>
                                         <div id="default_collapseOne" class="collapse accordion__body" data-parent="#accordion-one">
                                             <div class="accordion__body--text">
-                                                 <a href="empStatusTotal.em"><p>누적 근태현황</p></a>
+                                                 <a href="empStatusTotal.em" style="color:black;"><p>누적 근태현황</p></a>
                                             </div>
                                         </div>
                                     </div>
@@ -379,8 +393,8 @@
                                         </div>
                                         <div id="default_collapseTwo" class="collapse accordion__body" data-parent="#accordion-one">
                                             <div class="accordion__body--text">
-                                                <a href="annualLeaveMain.al"><p>연차 사용현황</p></a>
-                                                <a href="annualLeaveTotal.al"> <p>연차 신청현황</p></a>
+                                                <a href="annualLeaveMain.al" style="color:black;"><p>연차 사용현황</p></a>
+                                                <a href="annualLeaveTotal.al" style="color:black;"> <p>연차 신청현황</p></a>
                                             </div>
                                         </div>
                                     </div>
@@ -392,7 +406,7 @@
                                         </div>
                                         <div id="default_collapseThree" class="collapse accordion__body" data-parent="#accordion-one">
                                             <div class="accordion__body--text">
-                                             	<a href="deptEmpStatus.em"><p>누적 근태현황</p></a>
+                                             	<a href="deptEmpStatus.em" style="color:black;"><p>누적 근태현황</p></a>
                                             </div>
                                         </div>
                                     </div>
@@ -403,7 +417,7 @@
                                         </div>
                                         <div id="default_collapseFour" class="collapse accordion__body" data-parent="#accordion-one">
                                             <div class="accordion__body--text">
-                                             	<a href="deptLeaveStatus.al"><p>연차 사용현황</p></a>
+                                             	<a href="deptLeaveStatus.al" style="color:black;"><p>연차 사용현황</p></a>
                                             </div>
                                         </div>
                                     </div>
@@ -645,9 +659,6 @@
 		 		currentMonth1 = (currentMonth1 < 10) ? "0" + currentMonth1 : currentMonth1;
 		 		console.log("현재월:"+currentMonth1);
 
-
-		 	  
-	        
 	        $.ajax({
 		    	url:'deptWorkTime.em',
 		    	data:{currentYearMonth:currentYearMonth,
@@ -660,14 +671,13 @@
 		    		console.log("부서별 성공");
 					console.log(data);	
 					for(var i = 1; i <= weekSeq; i++){
-						var cl = "<th>"+i+"주차"+"</th>";
+						var cl = "<th style='border-bottom: 1px solid black; height:22px;'>"+i+"주차"+"</th>";
 
                      $('#worktable').append(cl);
 					}
 					 $tableBody = $('#deptTotalTable tbody');
 					 $tableBody.html('');
-					 
-					 
+					 					 
 					
 						$.ajax({
 							url:'personalWorkTime.em',
@@ -685,7 +695,7 @@
 									console.log(typeof data[i].weekNum);
 									console.log(data[i].monthWork);
 								   $tr = $('<tr>');
-									$id = $('<td>').text(data[i].mId);
+									$id = $('<td>').text(data[i].mName);
 									$monthWork = $('<td>').text(data[i].monthWork);
 									$monthOver = $('<td>').text(data[i].monthOver);
 									console.log(data[i].weekNum == 1);
@@ -694,20 +704,22 @@
 									$tr.append($monthOver);
 									$tableBody.append($tr);
 								 
-														
-									
+
 									for(var j in result){
 										console.log(j+"j:"+result[j].mId);
 										 if(result[j].mId == data[i].mId){
 											//같은사원의 td로 출력되게 하기..
-											$work = $('<td>').text(result[j].strGapTime);
+											if(result[j].strOverTime !=''){
+											$work = $('<td class="weekTd">').text("업무 : "+result[j].strGapTime +"\n"+"초과 :"+result[j].strOverTime);
+											/* $work = $('<td style="word-break:keep-all; text-align:left" class="weekTd">').text("업무 : "+result[j].strGapTime +"\n"+"초과 :"+result[j].strOverTime); */
+											}else{
+												$work = $('<td class="weekTd">').text("업무 : "+result[j].strGapTime);
+											}
 											$tr.append($work);
 											$tableBody.append($tr);
 										} 
 									}
-									
-									
-								
+
 								}
 					    		
 					    	},
@@ -715,50 +727,7 @@
 								console.log(result);	
 					    	}
 						});
-					
-					 /* for(var i = 1; i <= weekSeq; i++){
-						var cl = "<th>"+i+"주차"+"</th>";
-
-                     $('#worktable').append(cl);
-					} 
-					 
-					 $tableBody = $('#deptTotalTable tbody');
-					 $tableBody.html('');
-						 for(var i in data){
-							console.log(data[i].weekNum);
-							console.log(typeof data[i].weekNum);
-							console.log(data[i].strGapTime);
-						   $tr = $('<tr>');
-							$id = $('<td>').text(data[i].mId);
-							$monthWork = $('<td>').text(data[i].monthWork);
-							$monthOver = $('<td>').text(data[i].monthOver);
-							console.log(data[i].weekNum == 1);
-								 if(data[i].weekNum == 1){
-								$firstWork = $('<td>').text(data[i].strGapTime);
-							}else if(data[i].weekNum == 2){
-								$secondWork = $('<td>').text(data[i].strGapTime);
-							}else if(data[i].weekNum == 3){
-								$thirdWork = $('<td>').text(data[i].strGapTime);
-							}else if(data[i].weekNum == 4){
-								$forthWork = $('<td>').text(data[i].strGapTime);
-							}else if(data[i].weekNum == 5){
-								$fifthWork = $('<td>').text(data[i].strGapTime);
-							}else if(data[i].weekNum == 6){
-								$sixthWork = $('<td>').text(data[i].strGapTime);
-							}else{
-								$nonWeek =  $('<td>').text(data[i].strGapTime);
-							}
-							$tr.append($id);	
-							$tr.append($monthWork);
-							$tr.append($monthOver);
-							$tr.append($firstWork);
-							$tr.append($secondWork);
-							$tr.append($thirdWork);
-							$tr.append($forthWork);
-							$tr.append($fifthWork);
-							$tr.append($sixthWork);	 
-							$tableBody.append($tr);
-					 }  */
+		
  
 		    	},
 		    	error:function(data){

@@ -21,15 +21,16 @@
 	.container-fluid{
 	
 	}
+	#nowDateArea{
+		color:black;
+	}
 	
 	#clock{
 		font-size:42px;
 		margin-bottom: 15px;
+		color: black;
 	}
 
-	.dropdown{
-		color: 
-	}
 	#statusSelect{
 		width: 50%;
 		height: 50px;
@@ -38,9 +39,7 @@
 	#statusSelect option{
 		background-color: white;
 	}
-	#moreView{
-		float: right;
-	}
+
 	.card-header{
 		width:100%; position:relative;
 	}
@@ -54,18 +53,20 @@
 		font-size: 30px;
 		font-weight: bolder;
 	}
-	#annualSearch{
-		display: flex;
-	}
+	
+	 #annualSearch input{
+		display: inline;
+	} 
 	#searchIcon{
 		height: 35px;
 		padding: 0px;
 		margin:0px;
 	}
-	#searchBox{
+	#searchWordValue{
+		display: inline;
 		width: 200px;
 	}
-	#searchSelectBox{
+	#searchCondition{
 		height: 35px;
 		border: 1px solid #eaeaea;
 	}
@@ -79,15 +80,16 @@
 	}
 	#workInTime, #workOutTime{
 		border:none;
-		color: #BDBDC7;
+		color: black;
 		float: right;
 	}
 	#workingTime{
 		font-size:25px;
 	}
+	#leaveContent{
+		color:black;
+	}
 	
-
-
 </style>
 
 <body onload="printClock()">
@@ -124,7 +126,7 @@
 									 <c:out value="${date}" />
 									 <div id="clock"></div>
 								</div>
-								<ul>
+								<ul style="color:black;">
 									<li>
 										출근시간
 										<c:choose>
@@ -137,18 +139,15 @@
 										</c:choose>											
 									</li>
 									<li>
-										<dl>
-											<dt>퇴근시간
-											<c:choose>
-												<c:when test="${empStatus1 != null }">
-													<input id="workOutTime" name="workOutTime" value="${empStatus1.getEmpOffTime()}">
-												</c:when>
-												<c:otherwise>
-													<input id="workOutTime" name="workOutTime">
-												</c:otherwise>
-											</c:choose>	
-											</dt>
-										</dl>
+										퇴근시간
+										<c:choose>
+											<c:when test="${empStatus1 != null }">
+												<input id="workOutTime" name="workOutTime" value="${empStatus1.getEmpOffTime()}">
+											</c:when>
+											<c:otherwise>
+												<input id="workOutTime" name="workOutTime">
+											</c:otherwise>
+										</c:choose>	
 									</li>
 								</ul>
 								<div class="basic-dropdown">
@@ -187,104 +186,159 @@
                     <div class="col-lg-9">
                         <div class="card">
                             <div class="card-header">
-	                                <span id="empTitle" class="card-title">내 연차 신청현황</span>		                                                   					
+	                            <span id="empTitle" class="card-title">내 연차 신청현황</span>		                                                   					
                             </div>  
                             <!-- 게시물 검색 -->                      		                   
                             <div class="card-body">
 	                            <div id="annualSearch" class="search_bar dropdown">
-	                                <select id="searchSelectBox" name="searchSelectBox">
-	                                	<option value="status">결재상태</option>
-	                                	<option value="title">제목</option>
-	                                	<option value="content">내용</option>
-	                                </select>
-	                                <input id="searchBox" class="form-control" type="search" placeholder="Search" aria-label="Search">
-	                                <span id="searchSpan" class="search_icon c-pointer">
-	                                    <button id="searchBtn" onclick="searchLeaveRecode();"><i id="searchIcon" class="mdi mdi-magnify"></i></button>
-	                                </span>
-	                                <script type="text/javascript">
-	                                	function searchLeaveRecode(){
-	                        			var searchCondition = $("#searchSelectBox").val();
-	                        			var searchValue = $("#searchBox").val();
-	                        			console.log(searchCondition);
-	                        			console.log(searchValue);
-	                        			location.href="leaveRecodeSearch.lr?searchCondition="+searchCondition+"&searchValue="+searchValue;
-	                        			}
-	                                </script>
+	                            	<form action="${ contextPath }/leaveSearch.al" method="get" class="form-inline">
+	                            		
+					                    <select class="form-control" id="searchCondition" name="searchCondition" >
+											<option value="status">결재상태</option>
+											<option value="title">제목</option>
+											<option value="content">내용</option>
+										</select>
+					                    <input type="search" id="searchValue" class="form-control" name="searchValue" placeholder="검색" required autocomplete="off">
+					                    <span id="searchSpan" class="search_icon c-pointer">
+					                   		 <button id="searchBtn"><i id="searchIcon" class="mdi mdi-magnify"></i></button>
+					                    </span> 		 
+		                            </form>
 	                            </div>
                                 <div class="table-responsive">
-                                    <table class="table student-data-table m-t-20" id="leaveContent">
+                                	<table id="leaveContent" class="table table-hover table-responsive-sm" style="color: black; text-align: center;">
+                                   		<thead>	
                                    			 <tr>
-                                                <td>
+                                            	<th style="width: 100px;">
+													결재번호
+                                                </th> 
+                                                <th style="width: 100px;">
 													상태
-                                                </td> 
-                                                <td>
+                                                </th> 
+                                                <th style="width: 150px;">
 													신청날짜
-                                                </td> 
-                                                <td>
+                                                </th>
+                                                <th style="width: 150px;">
+													결재양식
+                                                </th> 
+                                                <th>
 													제목
-                                                </td>                                               
+                                                </th>                                               
                                             </tr>
-                                            <c:forEach var="lr" items="${ list }">
-												<tr>
-													<td align="center">${ lr.leaveStatus }</td>
-													
-													<td align="left">
-														<c:if test="${ !empty loginUser }">
-															<c:url var="lrdetail" value="lrdetail.lr">
-																<c:param name="mId" value="${ lr.mId }"/>
-																<c:param name="page" value="${ pi.currentPage }"/>
-															</c:url>
-															<a href="${ lrdetail }">${ lr.boardTitle }</a>
-														</c:if>
-													</td>																										
-													<td align="center">${ lr.enrollDate }</td>												
-												</tr>
-											</c:forEach>                                           
-                                      <!-- 페이징 처리 -->
-										<tr align="center" height="20" id="buttonTab">
-											<td colspan="6">
-											
-												<!-- [이전] -->
-												<c:if test="${ pi.currentPage <= 1 }">
-													[이전] &nbsp;
-												</c:if>
-												<c:if test="${ pi.currentPage > 1 }">
-													<c:url var="before" value="blist.bo">
-														<c:param name="page" value="${ pi.currentPage - 1 }"/>
-													</c:url>
-													<a href="${ before }">[이전]</a> &nbsp;
-												</c:if>
-												
-												<!-- 페이지 -->
-												<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
-													<c:if test="${ p eq pi.currentPage }">
-														<font color="red" size="4"><b>[${ p }]</b></font>
-													</c:if>
-													
-													<c:if test="${ p ne pi.currentPage }">
-														<c:url var="pagination" value="blist.bo">
-															<c:param name="page" value="${ p }"/>
-														</c:url>
-														<a href="${ pagination }">${ p }</a> &nbsp;
-													</c:if>
-												</c:forEach>
-												
-												<!-- [다음] -->
-												<c:if test="${ pi.currentPage >= pi.maxPage }">
-													[다음]
-												</c:if>
-												<c:if test="${ pi.currentPage < pi.maxPage }">
-													<c:url var="after" value="blist.bo">
-														<c:param name="page" value="${ pi.currentPage + 1 }"/>
-													</c:url> 
-													<a href="${ after }">[다음]</a>
-												</c:if>
-											</td>
-										</tr>      
-                                                                                    
+                                        </thead>
+                                        <tbody>
+                                        	<c:if test="${lrList ne null }">
+	                                            <c:forEach var="lr" items="${ lrList }">
+	                                            <tr>
+	                                            	<td>
+														${lr.leaveNum }
+	                                                </td> 
+	                                                <td>
+														${lr.leaveStatus }
+	                                                </td> 
+	                                                <td>
+														 ${lr.enrollDate}
+	                                                </td> 
+	                                                <td>
+														 ${lr.formName }
+	                                                </td>
+	                                                <td>
+														 ${lr.leaveName }
+	                                                </td>                                               
+	                                            </tr>
+	                                            </c:forEach>
+	                                       </c:if>
+	                                       <c:if test="${empty lrList}">
+	                                       	<tr>
+	                                       		<td colspan="5">등록된 결재가 없습니다.</td>
+	                                       	</tr>
+	                                       </c:if>     
+                                         </tbody>                                                                                           
                                     </table>
                                 </div>
+                                <script>
+								$(function(){
+									$('#leaveList td').mouseenter(function(){
+										$(this).parent().css({'color':'yellowgreen', 'font-weight':'bold', 'cursor':'pointer'});
+									}).mouseout(function(){
+										$(this).parent().css({'color':'black','font-weight':'normal'});
+									}).click(function(){
+										var bId = $(this).parent().children().eq(0).text();
+										location.href="bdetail.bo?bId=" + bId + '&page=' + ${pi.currentPage};
+									});
+								});
+							
+						
+						</script> 
                             </div>
+                            <!-- 페이징 처리 -->
+							<div id="paginationArea" style="margin-left: auto; margin-right: auto;">
+		                       <nav>
+		                             <ul class="pagination pagination-xs pagination-circle">
+												
+									<!-- [이전] -->
+									<c:if test="${ pi.currentPage <= 1 }">
+									<li class="page-item page-indicator disabled">
+			                        <a class="page-link">
+			                            <i class="icon-arrow-left"></i>
+			                        </a>                                     
+		                            </li>
+									</c:if>
+									<c:if test="${ pi.currentPage > 1 }">
+										<c:url var="before" value="${loc}">
+											<c:param name="page" value="${ pi.currentPage - 1 }"/>
+											<c:if test="${ searchValue ne null }">
+												<c:param name="searchSelectWord" value="${ searchCondition }"/>
+												<c:param name="searchWordValue" value="${ searchValue }"/>
+											</c:if>
+										</c:url>
+									<li class="page-item page-indicator">
+		                               <a class="page-link" href="${ before }">
+		                                  <i class="icon-arrow-left"></i>
+		                              </a>
+		                            </li> 	
+									</c:if>
+														
+									<!-- 페이지 -->
+									<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+										<c:if test="${ p eq pi.currentPage }">
+											<li class="page-item active"><a class="page-link">${ p }</a></li>
+										</c:if>														
+										<c:if test="${ p ne pi.currentPage }">
+											<c:url var="pagination" value="${ loc }">
+												<c:param name="page" value="${ p }"/>
+												<c:if test="${ searchCondition ne null }">
+												 	<c:param name="searchSelectWord" value="${ searchCondition }"/>
+													<c:param name="searchWordValue" value="${ searchValue }"/>
+												</c:if>
+											</c:url>
+											<li class="page-item"><a class="page-link" href="${ pagination }">${ p }</a></li>
+										</c:if>
+									</c:forEach>													
+									<!-- [다음] -->
+									<c:if test="${ pi.currentPage >= pi.maxPage }">
+										<li class="page-item page-indicator disabled">
+	                                        <a class="page-link">
+	                                           <i class="icon-arrow-right"></i>
+	                                        </a>
+	                                    </li>
+									</c:if>
+									<c:if test="${ pi.currentPage < pi.maxPage }">
+										<c:url var="after" value="${ loc }">
+											<c:param name="page" value="${ pi.currentPage + 1 }"/>
+											<c:if test="${ searchCondition ne null }">
+											 	<c:param name="searchSelectWord" value="${ searchCondition }"/>
+												<c:param name="searchWordValue" value="${ searchValue }"/>
+											</c:if>
+										</c:url> 
+										<li class="page-item page-indicator">
+	                                       <a class="page-link" href="${ after }">
+	                                           <i class="icon-arrow-right"></i>
+	                                      </a>
+	                                    </li>
+									</c:if>
+								</ul>
+			                 </nav>
+			               </div>
                         </div>
                     </div>
                     <div class="col-xl-12 col-xxl-6 col-lg-6 col-md-12">
@@ -305,7 +359,7 @@
                                         </div>
                                         <div id="default_collapseOne" class="collapse accordion__body" data-parent="#accordion-one">
                                             <div class="accordion__body--text">
-                                                <a href="empStatusTotal.em"><p>누적 근태현황</p></a>
+                                                <a href="empStatusTotal.em" style="color:black;"><p>누적 근태현황</p></a>
                                             </div>
                                         </div>
                                     </div>
@@ -316,8 +370,8 @@
                                         </div>
                                         <div id="default_collapseTwo" class="collapse accordion__body" data-parent="#accordion-one">
                                             <div class="accordion__body--text">
-                                                  <a href="annualLeaveMain.al"><p>연차 사용현황</p></a>
-                                                  <a href="annualLeaveTotal.al"> <p>연차 신청현황</p></a>
+                                                  <a href="annualLeaveMain.al" style="color:black;"><p>연차 사용현황</p></a>
+                                                  <a href="annualLeaveTotal.al" style="color:black;"> <p>연차 신청현황</p></a>
                                             </div>
                                         </div>
                                     </div>
@@ -329,7 +383,7 @@
                                         </div>
                                         <div id="default_collapseThree" class="collapse accordion__body" data-parent="#accordion-one">
                                             <div class="accordion__body--text">
-                                             	<a href="deptEmpStatus.em"><p>누적 근태현황</p></a>
+                                             	<a href="deptEmpStatus.em" style="color:black;"><p>누적 근태현황</p></a>
                                             </div>
                                         </div>
                                     </div>
@@ -340,7 +394,7 @@
                                         </div>
                                         <div id="default_collapseFour" class="collapse accordion__body" data-parent="#accordion-one">
                                             <div class="accordion__body--text">
-                                             	<a href="deptLeaveStatus.al"><p>연차 사용현황</p></a>
+                                             	<a href="deptLeaveStatus.al" style="color:black;"><p>연차 사용현황</p></a>
                                             </div>
                                         </div>
                                     </div>
@@ -503,7 +557,7 @@
 	$(function(){
 		$('#leaveContent td').click(function(){
 			var bId = $(this).parent().children().eq(0).text();
-			location.href="leaveRecodeDetail.lr?mId=" + mId + '&page=' + ${pi.currentPage};
+			location.href="leaveDetail.al?mId=" + mId + '&page=' + ${pi.currentPage};
 		});
 	});
 
