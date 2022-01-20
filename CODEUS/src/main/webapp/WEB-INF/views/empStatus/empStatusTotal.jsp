@@ -21,9 +21,13 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
 <style>
+#nowDateArea{
+		color:black;
+	}
 	#clock{
 		font-size:42px;
 		margin-bottom: 15px;
+		color:black;
 	}
 
 	#statusSelect{
@@ -71,6 +75,7 @@
 		border:none;
 		color: #BDBDC7;
 		float: right;
+		color: black;
 	}
 	#workingTime{
 		font-size:25px;
@@ -194,6 +199,12 @@
     margin-bottom: 1rem;
     color: #BDBDC7;
 }
+#accordion th, td{
+	color:black;
+}
+.accordion-msg{
+	color:black;
+}
 
 </style>
 
@@ -233,7 +244,7 @@
 									 <c:out value="${date}" />
 									 <div id="clock"></div>
 								</div>
-								<ul>
+								<ul style="color:black;">
 									<li>
 										출근시간
 										<c:choose>
@@ -246,8 +257,7 @@
 										</c:choose>											
 									</li>
 									<li>
-										<dl>
-											<dt>퇴근시간
+										퇴근시간
 											<c:choose>
 												<c:when test="${empStatus1 != null }">
 													<input id="workOutTime" name="workOutTime" value="${empStatus1.getEmpOffTime()}">
@@ -256,8 +266,7 @@
 													<input id="workOutTime" name="workOutTime">
 												</c:otherwise>
 											</c:choose>	
-											</dt>
-										</dl>
+										
 									</li>
 								</ul>
 								<div class="basic-dropdown">
@@ -302,7 +311,7 @@
 						<div class="sec_cal">
 							  <div class="cal_nav">
 							    <a href="javascript:;" class="nav-btn go-prev">prev</a>
-							    <div class="year-month"></div>
+							    <div class="year-month" style="color:black;"></div>
 							    <a href="javascript:;" class="nav-btn go-next">next</a>
 							  </div>
 						<div style="display:none;">
@@ -322,11 +331,12 @@
 						</div>		
 							<div class="card">
 				                <div class="card-body">
-			                         <table id="monthWortkTime"><!-- 한달 총 근무시간 나타내기 -->
-						  		   		<thead>
+				                	<table id="monthWortkTime" class="table table-hover table-responsive-sm" text-align: center;">
+                                   		<thead>	
+			                        <!-- 한달 총 근무시간 나타내기 -->						  		  
 							                <tr>							                  
-							                   <td style="border: 1px solid #eaeaea; height: 45px; font-size:25px;">근무시간</td>
-							                   <td style="border: 1px solid #eaeaea; height: 45px; font-size:25px;">초과시간</td>
+							                   <td>근무시간</td>
+							                   <td>초과시간</td>
 							               </tr>
 							            </thead>
 							            <tbody></tbody>        
@@ -358,7 +368,7 @@
                                         </div>
                                         <div id="default_collapseOne" class="collapse accordion__body" data-parent="#accordion-one">
                                             <div class="accordion__body--text">
-                                                 <a href="empStatusTotal.em"><p>누적 근태현황</p></a>
+                                                 <a href="empStatusTotal.em" style="color: black;"><p>누적 근태현황</p></a>
                                             </div>
                                         </div>
                                     </div>
@@ -369,8 +379,8 @@
                                         </div>
                                         <div id="default_collapseTwo" class="collapse accordion__body" data-parent="#accordion-one">
                                             <div class="accordion__body--text">
-                                                <a href="annualLeaveMain.al"><p>연차 사용현황</p></a>
-                                                <a href="annualLeaveTotal.al"> <p>연차 신청현황</p></a>
+                                                <a href="annualLeaveMain.al" style="color: black;"><p>연차 사용현황</p></a>
+                                                <a href="annualLeaveTotal.al" style="color: black;"> <p>연차 신청현황</p></a>
                                             </div>
                                         </div>
                                     </div>
@@ -382,7 +392,7 @@
                                         </div>
                                         <div id="default_collapseThree" class="collapse accordion__body" data-parent="#accordion-one">
                                             <div class="accordion__body--text">
-                                             	<a href="deptEmpStatus.em"><p>누적 근태현황</p></a>
+                                             	<a href="deptEmpStatus.em" style="color: black;"><p>누적 근태현황</p></a>
                                             </div>
                                         </div>
                                     </div>
@@ -393,7 +403,7 @@
                                         </div>
                                         <div id="default_collapseFour" class="collapse accordion__body" data-parent="#accordion-one">
                                             <div class="accordion__body--text">
-                                             	<a href="deptLeaveStatus.al"><p>연차 사용현황</p></a>
+                                             	<a href="deptLeaveStatus.al" style="color: black;"><p>연차 사용현황</p></a>
                                             </div>
                                         </div>
                                     </div>
@@ -641,10 +651,13 @@
 					    console.log(data);
 					    var monthTable = $('#monthWortkTime tbody');
 					    var monthTime = "<tr>"+						                  
-						                   "<td style='border: 1px solid #eaeaea; height: 45px; font-size:25px;'>"+data.strGapTime+"</td>"+
-						                   "<td style='border: 1px solid #eaeaea; height: 45px; font-size:25px;''>"+data.strOverTime+"</td>"+
+						                   "<td style='height:45px; font-size:25px;'>"+data.strGapTime+"</td>"+
+						                   "<td style='height:45px; font-size:25px;''>"+data.strOverTime+"</td>"+
 						               	 "</tr>"
-						monthTable.append(monthTime);               	 
+						               	 
+						monthTable.append(monthTime);  
+						 
+						             	 
 			      },
 			      error:function(data){
 						console.log(data);
@@ -705,6 +718,7 @@
 	 	     	        for(var i = 1; i < 7; i++){
 	 	     	        	var $weekTable = $('#'+i+'WeekTable').find('tbody');
 	 	     	        	$weekTable.empty();
+	 	     	        	
 	 	     	            // 일 반복
 	 	     	            for(var j = 0; j < 7; j++){
 	 	     	            	var $dailyTr = document.createElement('tr');
@@ -779,13 +793,13 @@
  	        			}
  					}
  	        		
-				 	if (!$.trim(data)){//저장된 데이터가 없을때 
+				 	/* if (!$.trim(data)){//저장된 데이터가 없을때 
 						console.log("데이터가 없습니다.");
 						$tr = $('<tr>');
 						$emptyDate = $('<td colspan="5">').text("데이터가 없습니다.");
 						$tr.append($emptyDate);
 						$tableBody.append($tr);
-					} 
+					}  */
 		    	},
 		    	error:function(data){
 					console.log(data);

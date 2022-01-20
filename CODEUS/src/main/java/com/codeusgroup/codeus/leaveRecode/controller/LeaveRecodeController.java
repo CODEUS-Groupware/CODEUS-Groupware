@@ -13,11 +13,7 @@ public class LeaveRecodeController {
 	@Autowired
 	private LeaveRecodeService lrService;
 	
-	@RequestMapping("leaveRecodeSearch.lr")
-	public String leaveRecodeSearch(@RequestParam(value="page", required=false) Integer page, Model model) {
-		
-		return "";
-	}
+	
 	
 
 }

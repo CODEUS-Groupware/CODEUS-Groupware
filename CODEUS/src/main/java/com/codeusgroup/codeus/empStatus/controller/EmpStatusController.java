@@ -48,20 +48,40 @@ public class EmpStatusController {
 		Member member = (Member)session.getAttribute("loginUser");
 		String id = member.getmId();
 		EmpStatus empStatus = new EmpStatus(0, null, null, null, null, null, id, null, null);
-		//EmpStatus empStatus1 = esService.selectComTime(id);
 		EmpStatus empStatus1 = esService.selectOffTime(id);
-
-		//이번주 누적시간 구하기
-		EmpStatus empWeekTime = esService.selectWeekTime(id);
-
-		//이번달 누적시간 구하기
-		EmpStatus empMonthTime = esService.selectMonthTime(id);
-
-		model.addAttribute("empStatus1", empStatus1);	
-		model.addAttribute("empWeekTime", empWeekTime);
-		model.addAttribute("empMonthTime", empMonthTime);
-
-		//System.out.println("시간빌때"+empWeekTime.getStrGapTime());
+		if(empStatus1 != null) {
+			//EmpStatus empStatus1 = esService.selectComTime(id);
+			
+	
+			//이번주 누적시간 구하기
+			EmpStatus empWeekTime = esService.selectWeekTime(id);
+	
+			//이번달 누적시간 구하기
+			EmpStatus empMonthTime = esService.selectMonthTime(id);
+	
+			model.addAttribute("empStatus1", empStatus1);	
+			model.addAttribute("empWeekTime", empWeekTime);
+			model.addAttribute("empMonthTime", empMonthTime);
+	
+			System.out.println("시간빌때"+empWeekTime.getStrGapTime());
+			String gap = empWeekTime.getStrGapTime();
+			//주간 근무시간이 0일때 ::이 출력되서 ""으로 대체
+			if(gap.equals("::")) {
+				empWeekTime.setStrGapTime("");
+			}
+			if(empWeekTime.getStrOverTime().equals("::")) {
+				empWeekTime.setStrOverTime("");
+			}
+			if(empMonthTime.getStrGapTime().equals("::")) {
+				empMonthTime.setStrGapTime("");
+			}
+			if(empMonthTime.getStrOverTime().equals("::")) {
+				empMonthTime.setStrOverTime("");
+			}
+			System.out.println("시간빌때11:"+empWeekTime.getStrOverTime());
+		}
+			
+		
 		return "empStatusMain";
 	}
 
@@ -111,86 +131,71 @@ public class EmpStatusController {
 		//직원 연차조회
 		AnnualLeave al = alService.selectAnnual(id);
 		System.out.println("미:"+al);
+
 		
 		HashMap<String, String> map = new HashMap<>();
 		  map.put("id", id);
-		  
+		  //아예신입이면 al이 null이라서 insert해주고 그 이후에는 update하기?
+		  //comYear가 0이면 신입..
+		  int annualCount = 0;
+		  String annualCountStr = null;
+			/*
+			 * Date date = new Date(); SimpleDateFormat getYearFormat = new SimpleDateFormat("yyyy"); 
+			 * SimpleDateFormat getMonthFormat = new SimpleDateFormat("mm"); 
+			 * int currentYear = Integer.parseInt(getYearFormat.format(date)); 
+			 * int currentMonth =Integer.parseInt(getMonthFormat.format(date));
+			 */
+	       
+	       Calendar now = Calendar.getInstance();
+	       int currentYear = now.get(Calendar.YEAR);
+	       int currentMonth = now.get(Calendar.MONTH) + 1;
+	       
+	      // System.out.println("디비년도:"+al.getRegiYear());
+			System.out.println("1년이상 근무연도:"+currentYear);
+			System.out.println("1년이상 근무월:"+currentMonth);
+			//System.out.println("al.getRegiMonth():"+al.getRegiMonth());
+			/*
+			 * System.out.println("getMonthFormat:"+getMonthFormat);
+			 * System.out.println("date:"+date);
+			 */
+	        
 		if(al == null) {
-			//한달도 안지난 신입일 경우....
-			String annualCount = 1+"";
-			 map.put("annualCount", annualCount);
+			//한달도 안지난 신입일 경우....			
+			annualCountStr = 0+"";
+			 map.put("annualCountStr", annualCountStr);
 			int result2 = alService.insertAnnualCount(map);
 			System.out.println("인서트:"+result2);
+
+		}else if(al != null) {
 			
-		}else if(al != null) {//한 달이상 지난 사원일 경우
-			Date date = al.getAnnualRegiDate();
-			System.out.println("date:"+date);
-		
-			if(al.getComYear()< 1) {//1년미만 근무
-			//1개월 지날때마다 연차 1개씩 추가(1년 될때까지)
-			if(al.getComMonth() == 1 && al.getRegiMonth() == 1) {
-				String annualCount = 1+"";
-				 map.put("annualCount", annualCount);
-				int result2 = alService.insertAnnualCount(map);
-			}else if(al.getComMonth() == 2) {
-				String annualCount = 1+"";
-				 map.put("annualCount", annualCount);
-				int result2 = alService.insertAnnualCount(map);
+		       
+			if(al.getComYear()<1 && al.getRegiMonth() != currentMonth) {//1년미만 근무자 1개월마다 update
+				//System.out.println("1년이상 근무월:"+currentMonth);
+				annualCount = al.getAnnualCount() + 1;
+				annualCountStr = annualCount+"";
+				map.put("annualCountStr", annualCountStr);
+				System.out.println("cc연차갯수:"+annualCountStr);
+				int result3 = alService.updateAnnualCount(map);
+	  
+			}else if(al.getComYear()>=1 && al.getRegiYear() != currentYear) {//1년 이상 근무자 update
+				//올해와 regiDate의 년도를 비교하여 올해연도가 아니면 update
+				System.out.println("디비년도111:"+al.getRegiYear());
+				System.out.println("1년이상 근무연도111:"+currentYear);
+				//연차 휴가일수 = 1년차 15일 + (근속년수 - 1년)/2
+				int count = (int)(15 + (al.getComYear()/2));
 				
-			}else if(al.getComMonth() == 3) {
-				String annualCount = 1+"";
-				 map.put("annualCount", annualCount);
-				int result2 = alService.insertAnnualCount(map);
+				annualCount = count + al.getAnnualCount();
+				System.out.println("연차갯수:"+annualCount);
+				annualCountStr = annualCount+"";
+				 map.put("annualCountStr", annualCountStr);
+				int result4 = alService.updateAnnualCount(map);
 				
-			}else if(al.getComMonth() == 4) {
-				String annualCount = 1+"";
-				 map.put("annualCount", annualCount);
-				int result2 = alService.insertAnnualCount(map);
 				
-			}else if(al.getComMonth() == 5) {
-				String annualCount = 1+"";
-				 map.put("annualCount", annualCount);
-				int result2 = alService.insertAnnualCount(map);
-				
-			}else if(al.getComMonth() == 6) {
-				String annualCount = 1+"";
-				 map.put("annualCount", annualCount);
-				int result2 = alService.insertAnnualCount(map);
-				
-			}else if(al.getComMonth() == 7) {
-				String annualCount = 1+"";
-				 map.put("annualCount", annualCount);
-				int result2 = alService.insertAnnualCount(map);
-				
-			}else if(al.getComMonth() == 8) {
-				String annualCount = 1+"";
-				 map.put("annualCount", annualCount);
-				int result2 = alService.insertAnnualCount(map);
-				
-			}else if(al.getComMonth() == 9) {
-				String annualCount = 1+"";
-				 map.put("annualCount", annualCount);
-				int result2 = alService.insertAnnualCount(map);
-				
-			}else if(al.getComMonth() == 10) {
-				String annualCount = 1+"";
-				 map.put("annualCount", annualCount);
-				int result2 = alService.insertAnnualCount(map);
-				
-			}else if(al.getComMonth() == 11) {
-				String annualCount = 1+"";
-				 map.put("annualCount", annualCount);
-				int result2 = alService.insertAnnualCount(map);
-				
-			}		
-			
-		}else if(al.getComYear()>=1) {//1년 이상 근무 하고올해 연차 발생이 없으면 연차 생성하기
-		
-	        SimpleDateFormat getYearFormat = new SimpleDateFormat("yyyy");
-	        String currentYear = getYearFormat.format(date);
-	        System.out.println(currentYear);
+			}
 		}
-		}	
+		
+	
+			
 	}
 
 	@RequestMapping("offTime.em") 
@@ -362,46 +367,19 @@ public class EmpStatusController {
 		  //deptList.addAll(deptWeekList);
 		 
 		  System.out.println("부서별:" + deptList);
-		 // System.out.println("부서별 주간:" + deptWeekList);
+		  for(int i= 0; i < deptList.size(); i++) {
+			  if(deptList.get(i).getMonthWork().equals("::")) {
+				  deptList.get(i).setMonthWork("");
+			  }
+			  if(deptList.get(i).getMonthOver().equals("::")) {
+				  deptList.get(i).setMonthOver("");
+			  }
+		  }
+		  System.out.println("부서별111111:" + deptList);
 		  model.addAttribute("deptList", deptList);
 		  model.addAttribute("weekSeq", weekSeq);
-		 // model.addAttribute("deptWeekList", deptWeekList);
 
-		/*  
-		  JSONArray jArr = new JSONArray();
-		  for(EmpStatus emp : deptList) {
-				
-				JSONObject job = new JSONObject();
-				job.put("mId", emp.getmId());
-				job.put("monthWork", emp.getMonthWork());
-				job.put("monthOver", emp.getMonthOver());
-				job.put("deptName", emp.getDeptName());
-				job.put("jobName", emp.getJobName());
-				job.put("mName", emp.getmName());
 
-				jArr.add(job);	
-	
-			}
-		  
-		  for(EmpStatus emp : deptWeekList) {
-				
-				JSONObject job = new JSONObject();
-				job.put("mId", emp.getmId());
-				job.put("monthWork", emp.getStrGapTime());
-				job.put("monthOver", emp.getStrOverTime());
-				job.put("deptName", emp.getDeptName());
-				job.put("jobName", emp.getJobName());
-				job.put("strGapTime", emp.getStrGapTime());
-				job.put("strOverTime", emp.getStrOverTime());
-				job.put("weekNum", emp.getWeekNum());
-				job.put("mName", emp.getmName());
-
-				jArr.add(job);	
-
-			}
-			*/
-		  
-		//  System.out.println("job:"+jArr);
 
 		  GsonBuilder gb = new GsonBuilder();
 		  gb.setDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
@@ -526,6 +504,13 @@ public class EmpStatusController {
 		  EmpStatus monthTotal = esService.monthTotalTime(map);
 		  System.out.println("시작");
 		  System.out.println("한달 워크타임:"+monthTotal);
+		  if(monthTotal.getStrGapTime().equals("::")) {
+			  monthTotal.setStrGapTime("");
+		  }
+		  if(monthTotal.getStrOverTime().equals("::")) {
+			  monthTotal.setStrOverTime("");
+		  }
+		  System.out.println("한달 워크타임1111:"+monthTotal);
 
 		  model.addAttribute("mwList", monthTotal);
 		  GsonBuilder gb = new GsonBuilder();
@@ -558,7 +543,16 @@ public class EmpStatusController {
 	
 	
 		  System.out.println("부서별 주간:" + deptWeekList);
-	
+		  for(int i= 0; i < deptWeekList.size(); i++) {
+			  if(deptWeekList.get(i).getStrGapTime().equals("::")) {
+				  deptWeekList.get(i).setStrGapTime("");
+			  }
+			  if(deptWeekList.get(i).getStrOverTime().equals("::")) {
+				  deptWeekList.get(i).setStrOverTime("");
+			  }
+		  }
+		  System.out.println("부서별주간111111:" + deptWeekList);
+		
 		  model.addAttribute("weekSeq", weekSeq);
 		  model.addAttribute("deptWeekList", deptWeekList);
 		  GsonBuilder gb = new GsonBuilder();
@@ -572,4 +566,6 @@ public class EmpStatusController {
 			} 
 		  
 	  }
+
+	
 }

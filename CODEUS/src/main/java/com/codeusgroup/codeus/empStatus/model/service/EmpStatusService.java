@@ -42,6 +42,8 @@ public interface EmpStatusService {
 
 	ArrayList<EmpStatus> selectDeptWeekList(HashMap<String, String> map);
 
+	EmpStatus selectEmp(String id);
+
 	
 
 	

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.codeusgroup.codeus.annualLeave.model.vo.AnnualLeave;
+import com.codeusgroup.codeus.annualLeave.model.vo.PageInfo;
+import com.codeusgroup.codeus.document.model.vo.Document;
 import com.codeusgroup.codeus.empStatus.model.vo.EmpStatus;
 import com.codeusgroup.codeus.leaveRecode.model.vo.LeaveRecode;
 import com.codeusgroup.codeus.member.model.vo.Member;
@@ -28,6 +30,23 @@ public interface AnnualLeaveService {
 	AnnualLeave selectAnnual(String id);
 
 	int insertAnnualCount(HashMap<String, String> map);
+
+	int updateAnnualCount(HashMap<String, String> map);
+
+	
+
+	
+
+	
+
+	
+
+
+
+
+
+
+	
 
 
 

@@ -12,6 +12,7 @@ public class AnnualLeave {
 	private int comYear;
 	private int comMonth;
 	private int regiMonth;
+	private int regiYear;
 
 	
 	public AnnualLeave() {}
@@ -46,15 +47,10 @@ public class AnnualLeave {
 		this.comYear = comYear;
 	}
 	
-
-	
-
-
-
 	
 
 	public AnnualLeave(int annualNo, int annualCount, String annualType, Date annualRegiDate, String mId, Date hireDate,
-			int comYear, int comMonth, int regiMonth) {
+			int comYear, int comMonth, int regiMonth, int regiYear) {
 		super();
 		this.annualNo = annualNo;
 		this.annualCount = annualCount;
@@ -65,9 +61,22 @@ public class AnnualLeave {
 		this.comYear = comYear;
 		this.comMonth = comMonth;
 		this.regiMonth = regiMonth;
+		this.regiYear = regiYear;
 	}
 
 	
+
+	public int getRegiYear() {
+		return regiYear;
+	}
+
+
+
+	public void setRegiYear(int regiYear) {
+		this.regiYear = regiYear;
+	}
+
+
 
 	public int getRegiMonth() {
 		return regiMonth;
@@ -163,16 +172,10 @@ public class AnnualLeave {
 	public String toString() {
 		return "AnnualLeave [annualNo=" + annualNo + ", annualCount=" + annualCount + ", annualType=" + annualType
 				+ ", annualRegiDate=" + annualRegiDate + ", mId=" + mId + ", hireDate=" + hireDate + ", comYear="
-				+ comYear + ", comMonth=" + comMonth + ", regiMonth=" + regiMonth + "]";
+				+ comYear + ", comMonth=" + comMonth + ", regiMonth=" + regiMonth + ", regiYear=" + regiYear + "]";
 	}
 
 
-
-
-
-
 	
-
-
 
 }
