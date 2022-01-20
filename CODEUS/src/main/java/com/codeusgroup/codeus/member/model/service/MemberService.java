@@ -6,12 +6,10 @@ public interface MemberService {
 
 	Member memberLogin(Member m);
 
-	int insertMember(Member m);
+	Member searchMember(Member m);
+	
+	int duplicateId(String inputId);
 
-	Member idSearchMember(Member m);
-
-	Member pwdSearchMember(Member m);
-
-	void updatePwdMember(Member m);
+	int joinMember(Member m);
 
 }
