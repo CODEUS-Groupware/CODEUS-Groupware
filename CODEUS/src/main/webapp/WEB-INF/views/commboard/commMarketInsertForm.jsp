@@ -8,22 +8,9 @@
 <title>중고 게시판 </title>
 
 
-<!-- Favicon icon -->
-<link rel="icon" type="image/png" sizes="16x16" href="./images/favicon.png">
-<!-- Datatable -->
-<link href="${contextPath}/resources/assets/vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet">
-<!-- Custom Stylesheet -->
-<link href="${contextPath}/resources/assets/css/style.css" rel="stylesheet">
-    
-<!-- include libraries(jQuery, bootstrap) -->
-<!-- include libraries(jQuery, bootstrap) -->
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
-<!-- include summernote css/js -->
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+<<!-- summernote CSS
+		============================================ -->
+	<link rel="stylesheet" href="${contextPath}/resources/assets/vendor/summernote/summernote-lite.css">
 
 <script>
     $(document).ready(function () {
@@ -154,9 +141,16 @@ function loadImg(img, num){
 </head>
 <body>
 
-<!--**********************************
-           Content body start
-       ***********************************-->
+   <!--**********************************
+        Main wrapper start
+    ***********************************-->
+    <div id="main-wrapper">	
+
+		<c:import url="../common/menubar.jsp"/>
+    
+        <!--**********************************
+            Content body start
+        ***********************************-->
    <div class="content-body">
         <div class="container-fluid">
             <div class="row page-titles mx-0">
@@ -198,14 +192,14 @@ function loadImg(img, num){
 								   		 <label for="marketaCate" class="col-sm-2 col-form-label">카테고리</label>
 										    <div class="col-sm-8">
 						   					 <select class="form-control " name="mbCategory"  required>
-														<option value="전체">카테고리</option>
-														<option value="의류/미용">의류/미용</option>
-														<option value="전자제품">전자제품</option>
-														<option value="도서/티켓">도서/티켓</option>
-														<option value="기타 중고물품">기타 중고물품</option>
-													</select>				   
+													<option value="전체">카테고리</option>
+													<option value="의류/미용">의류/미용</option>
+													<option value="전자제품">전자제품</option>
+													<option value="도서/티켓">도서/티켓</option>
+													<option value="기타 중고물품">기타 중고물품</option>
+												</select>				   
 												</div>
-										  </div>
+										  	</div>
 										<div class="form-group row">
 								   		 <label for="marketPrice" class="col-sm-2 col-form-label">판매가격</label>
 										    <div class="col-sm-8" style="display : inline-block;">
@@ -229,10 +223,25 @@ function loadImg(img, num){
 										         </div>
 										         <div class="card-body">
 										            <div class="form-group uploadDiv">
-										              <!-- 첨부파일 시작 -->
+										               <!-- 첨부파일 시작 -->
 														<div id="fileArea">
-															<input type="file" name="uploadFile" id="imageFile0" onchange="loadImg(this, 0)"/>
+															<input type="file" id="imageFile" name="uploadFile" />
 														</div>
+															 <div class="select_img"><img src="" /></div>
+															 
+															 <script>
+															  $("#imageFile").change(function(){
+															   if(this.files && this.files[0]) {
+															    var reader = new FileReader;
+															    reader.onload = function(data) {
+															     $(".select_img img").attr("src", data.target.result).width(500);        
+															    }
+															    reader.readAsDataURL(this.files[0]);
+															   }
+															  });
+															 </script>
+															</div>
+														
 														<!-- 첨부파일 끝 -->
 													</div>
 													</div>
@@ -240,8 +249,8 @@ function loadImg(img, num){
 										      </div>
 											</div>
 										 <div class="market-btn-zone" align="center">
-											<input class="btn btn-primary" type="submit"   id = 'btnSave' value="등록">
-											<input class="btn btn-primary" type = 'button' value = '취소' onclick = "golist();">
+										<input class="btn btn-primary" type="submit"   id = 'btnSave' value="등록">
+										<input class="btn btn-primary" type = 'button' value = '취소' onclick = "golist();">
 									</div>
 								</form>
 							</div>
@@ -289,16 +298,6 @@ function loadImg(img, num){
 	============================================ -->
 <!-- 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script> -->
 
-
-<!-- <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script> -->
-
-	<script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.cookie.js"></script>
-	<script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.treeview.js" type="text/javascript"></script>
-	<script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.treeview.edit.js" type="text/javascript"></script>
-	<script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.treeview.async.js" type="text/javascript"></script>
-	
-	<!-- drag and drop 관련 js -->
-	<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
 </body>
 
 </html>

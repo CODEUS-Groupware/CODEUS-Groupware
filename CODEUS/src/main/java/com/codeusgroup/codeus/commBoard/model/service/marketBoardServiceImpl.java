@@ -1,6 +1,7 @@
 package com.codeusgroup.codeus.commBoard.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,7 +39,7 @@ public class marketBoardServiceImpl implements marketBoardService {
 		
 		
 		@Override
-		public List<Map<String, String>> selectAttachmentList(int bId) {
+		public MarketAtt selectAttachmentList(int bId) {
 			return mbDAO. selectAttachmentList(sqlSession, bId);
 		}
 		@Override
@@ -79,5 +80,32 @@ public class marketBoardServiceImpl implements marketBoardService {
 		public int saveimage(MarketAtt at) {
 			return mbDAO.saveimage(sqlSession,at);
 		}
+		@Override
+		public int deleteimage(MarketAtt at) {
+			return mbDAO.deleteimage(sqlSession,at);
+		}
+		@Override
+		public int insertScrap(HashMap<String, String> map) {
+			return mbDAO.insertScrap(sqlSession, map);
+		}
+
+		@Override
+		public int deleteScrap(HashMap<String, String> map) {
+			return mbDAO.deleteScrap(sqlSession, map);
+		}
+		
+		@Override
+		public int getScrapStatus(HashMap<String, String> map) {
+			return mbDAO.getScrapStatus(sqlSession, map);	
+		}
+		@Override
+		public int getListOptionCount(String option) {
+			return mbDAO.getListOptionCount(sqlSession, option);
+		}
+		@Override
+		public ArrayList<MarketBoard> selectOptionPList(String option, PageInfo pi) {
+			return mbDAO.selectOptionPList(sqlSession, option, pi);
+		}
+		
 		
 }

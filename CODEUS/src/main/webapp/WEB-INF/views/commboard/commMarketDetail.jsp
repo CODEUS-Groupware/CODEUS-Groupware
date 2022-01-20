@@ -17,30 +17,32 @@
 	
 	.replyTable{margin:auto; width: 500px;}
 	
-            #my_modal {
-                display: none;
-                width: 300px;
-                padding: 20px 60px;
-                background-color: #fefefe;
-                border: 1px solid #888;
-                border-radius: 3px;
-            }
-
-            #my_modal .modal_close_btn {
-                position: absolute;
-                top: 10px;
-                right: 10px;
-            }
-            
-            li > a{
-            color : black;
-            }
-            
-	         #marketDetail th, td {
-	 		 text-align: center;
-	 		 font-size : 15px;
-	 		 color: black;
-	}
+     #my_modal {display: none;width: 300px; padding: 20px 60px;background-color: #fefefe;border: 1px solid #888;border-radius: 3px;}
+     #my_modal .modal_close_btn {position: absolute;top: 10px; right: 10px;}
+     li > a{color : black;}
+     #marketDetail th, td {text-align: center; font-size : 15px; color: black;}
+	p {olor:black;}
+			
+			 /* scrap 관련 css */
+			 
+	a:hover{cursor: pointer;}
+	.card-body{color: black;}
+	.button:hover{cursor: pointer;}
+	.formBtn{color: #696969; font-size: 15px; font-weight: bold;}
+	.table tbody{font-size: 14px;}
+	.table a{color: black;}
+	.replyUpdateBtn{float:right; padding-right: 10px;}
+  	 #replyArea{font-size: 13px;}
+  	 .nestedReply{margin-left: 20px;}
+  	 .file a{color: black;}	
+		
+			 
+			 
+	.scrapBtn {float: right;}
+	.scrapBtn .bi, .scrapBtn span{color: black;}
+	.scrapBtn:hover {border-color: MediumSlateBlue; background-color: Lavender;}
+	.scrapBtn:hover .bi, .scrapBtn:hover span {color: MediumSlateBlue;}
+	.scrap{background: Lavender;}  	 
     
 </style>
 </head>
@@ -74,14 +76,13 @@
                        </ol>
                    </div>
                </div>
-
-							<!-- 본문 시작 -->
+		<!-- 본문 시작 -->
 		<div class="col-lg-12">
 			<div class="card">
 				 <div class="card-body">
 				     <main class="e-approval-article">
 					    <div class="form-group-container">	
-							<form name="frm_market_view" method="get">
+							<form name="frm_market_view" method="post" enctype="multipart/form-data" >
 							<!-- 마켓 번호 -->
 							<input type="hidden" class="form-control" id="bId" name="bId" value="${mb.bId}">
 							<div class="card-body">
@@ -91,21 +92,10 @@
                                 <table id ="marketDetail" class="table table-responsive-sm">
 							<tr>
 							<td rowspan="7" height ="400" width ="400">
-							
-								<c:forEach items="${at}" var="at">
-									<div class="col partner-col text-center">
-										<img src="${pageContext.request.contextPath}${at.path}${at.ReFileName}" class="img-fluid" alt="${at.OriFileName}">
-									</div>
-								</c:forEach></td>
-							
-							  <c:url var="mupView" value="mupView.bo">
-							<c:param name="bId" value="${ mb.bId }"/>
-							<c:param name="page" value="${ page }"/>
-						</c:url>
-						<c:url var="bDelete" value="mbdelete.bo">
-								<c:param name="bId" value="${mb.bId}"></c:param>
-								<c:param name="fileName" value="${mb.renameFileName }"></c:param>
-						</c:url>
+								
+								<div id="file ${att.fileNo}" class="file">
+			              			<img id="img${ att.fileNo }" src="${contextPath}/resources/buploadFiles/${ att.reFileName }" width="350" height="350" download><br>
+								</div>
 							  	<tr>
 								  	<td>
 									<h3>${ mb.mbTitle }</h3>
@@ -142,17 +132,31 @@
 								<tr>
 								<th>조회수</th>
 								<td>${ mb.mbViews }</td>
+								
+							
 								</tr>
 								<tr>
 								</tr>
 								<tr>
-								<p align="right">
-									<button type="button" class="btn btn-primary" onclick="location.href='${ mupView }'">수정</button>
-									<button type="button" class="btn btn-primary" onclick="location.href='${ mDelete }'">삭제</button>
+									 <c:url var="mupView" value="mupView.bo">
+									<c:param name="bId" value="${ mb.bId }"/>
+									<c:param name="page" value="${ page }"/>
+								</c:url>
+								<c:url var="mDelete" value="marketDelete.bo">
+										<c:param name="bId" value="${mb.bId}"></c:param>
+								</c:url>
+								<tr>
+									<p align="right">
+									 <c:if test="${ loginUser.mId eq mb.mbWriter }">
+										<button type="button" class="btn btn-primary" onclick="location.href='${ mupView }'">수정</button>
+										<button type="button" class="btn btn-primary" onclick="location.href='${ mDelete }'">삭제</button>
+									</c:if>	
 								</p>
 								<td>
-                                        <button type="button" class="btn btn-warning">Add to wishlist <span
-                                        class="btn-icon-right"><i class="fa fa-star"></i></span>
+                                        <!-- 스크랩 버튼 -->
+                            			<button class="scrapBtn btn btn-rounded btn-outline-light ${ scrapStatus == 1 ? 'scrap' : '' }" onclick="scrap('${ mb.bId }')">
+                            				<i class="bi bi-bookmark-star-fill"></i><span> 스크랩</span>
+                            			</button>
                                 		</button>&nbsp&nbsp
                                 		<button type="button" class="btn  btn-square btn-secondary">연락하기</button>
 								</td>
@@ -164,7 +168,7 @@
 								<div class="row">
 			                    <div class="col-md-20">
 			                        <div class="card">
-			                            <div class="card-body" style="width: 80rem;">
+			                            <div class="card-body" style="width: 65rem;">
 			                                <!-- Nav tabs -->
 			                                <div class="default-tab">
 			                                    <ul class="nav nav-tabs" role="tablist">
@@ -178,8 +182,8 @@
 			                                    <div class="tab-content">
 			                                        <div class="tab-pane fade show active" id="home" role="tabpanel">
 			                                            <div class="pt-4">
-			                                           		<div class="card-body">
-			                                                <p style="color:black">${mb.mbContent} </p>
+			                                           		<div class="card-body" style="color:black">
+			                                                <p >${mb.mbContent} </p>
 															</div>
 			                                           </div>
 			                                        </div>
@@ -219,13 +223,9 @@
      		 </script>
      		 
       	</c:if>
-	
-	
-	
-		 		
-<br><br>
+			<br><br>
 			<!-- 본문 끝-->
-<br><br>
+			<br><br>
 			<p align="center">
 				<button  type="button" 
 		            onclick="location.href='home.do'" class="btn btn-primary">홈으로</button>	
@@ -248,15 +248,14 @@
 								</div> 
 							
 								<div class="modal_report_div">
-								 <input type="radio" id="reportChoice1" class="reportChoice"
-								 name="preport" value="A">&nbsp; <label for="radio-1" style="color: black" 
-									class="modal_choise_label">부적절한 내용을 포함</label> <br> 
-								  <input type="radio" id="reportChoice1" class="reportChoice"
-								 name="preport" value="B">&nbsp; <label for="radio-2" style="color: black" align="center"
-									class="modal_choise_label">광고성 내용을 포함</label>
+								 	<label for="reportChoice1" style="color: black" 
+											class="modal_choise_label"><input type="radio" id="reportChoice1" class="reportChoice"
+											 name="preport" value="A">&nbsp; 부적절한 내용을 포함</label> <br> 
+								  <label for="reportChoice2" style="color: black" align="center"
+											class="modal_choise_label"><input type="radio" id="reportChoice2" class="reportChoice"
+											 name="preport" value="B">&nbsp; 광고성 내용을 포함</label>
 							</div>
 							<A id="btncancel" class="modal_close_btn">닫기</A>
-						
 							<div>
 								<hr>
 								<p  style="font-size: 12px; color: black">* 신고 내용은 관리자 검토 후 내부정책에 삭제 처리가 진행됩니다. </p>
@@ -266,97 +265,159 @@
 							</div>
 						</form>
 						<br><br>
-						
 					</div>
-					<!-- 신고 모달창 -->
-		
-     <script>
-         function modal(id) {
-             var zIndex = 9999;
-             var modal = document.getElementById(id);
-
-             // 모달 div 뒤에 희끄무레한 레이어
-             var bg = document.createElement('div');
-             bg.setStyle({
-                 position: 'fixed',
-                 zIndex: zIndex,
-                 left: '0px',
-                 top: '0px',
-                 width: '100%',
-                 height: '100%',
-                 overflow: 'auto',
-                 // 레이어 색갈은 여기서 바꾸면 됨
-                 backgroundColor: 'rgba(0,0,0,0.8)'
-             });
-             document.body.append(bg);
-
-             // 닫기 버튼 처리, 시꺼먼 레이어와 모달 div 지우기
-             modal.querySelector('.modal_close_btn').addEventListener('click', function() {
-                 bg.remove();
-                 modal.style.display = 'none';
-             });
-
-             modal.setStyle({
-                 position: 'fixed',
-                 display: 'block',
-                 boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
-
-                 // 레이어 보다 한칸 위에 보이기
-                 zIndex: zIndex + 1,
-
-                 // div center 정렬
-                 top: '50%',
-                 left: '50%',
-                 transform: 'translate(-50%, -50%)',
-                 msTransform: 'translate(-50%, -50%)',
-                 webkitTransform: 'translate(-50%, -50%)'
-             });
-         }
-
-         // Element 에 style 한번에 오브젝트로 설정하는 함수 추가
-         Element.prototype.setStyle = function(styles) {
-             for (var k in styles) this.style[k] = styles[k];
-             return this;
-         };
-
-         document.getElementById('popup_open_btn').addEventListener('click', function() {
-             // 모달창 띄우기
-             modal('my_modal');
-         });
-     </script>
-     
-     <script>
+				<script>
+	            function modal(id) {
+	                var zIndex = 9999;
+	                var modal = document.getElementById(id);
+	
+	                // 모달 div 뒤에 희끄무레한 레이어
+	                var bg = document.createElement('div');
+	                bg.setStyle({
+	                    position: 'fixed',
+	                    zIndex: zIndex,
+	                    left: '0px',
+	                    top: '0px',
+	                    width: '100%',
+	                    height: '100%',
+	                    overflow: 'auto',
+	                    // 레이어 색갈은 여기서 바꾸면 됨
+	                   
+	                });
+	                document.body.append(bg);
+	
+	                // 닫기 버튼 처리, 시꺼먼 레이어와 모달 div 지우기
+	                modal.querySelector('.modal_close_btn').addEventListener('click', function() {
+	                    bg.remove();
+	                    modal.style.display = 'none';
+	                });
+	
+	                modal.setStyle({
+	                    position: 'fixed',
+	                    display: 'block',
+	                    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+	
+	                    // 레이어 보다 한칸 위에 보이기
+	                    zIndex: zIndex + 1,
+	
+	                    // div center 정렬
+	                    top: '50%',
+	                    left: '50%',
+	                    transform: 'translate(-50%, -50%)',
+	                    msTransform: 'translate(-50%, -50%)',
+	                    webkitTransform: 'translate(-50%, -50%)'
+	                });
+	            }
+	
+	            // Element 에 style 한번에 오브젝트로 설정하는 함수 추가
+	            Element.prototype.setStyle = function(styles) {
+	                for (var k in styles) this.style[k] = styles[k];
+	                return this;
+	            };
+	
+	            document.getElementById('popup_open_btn').addEventListener('click', function() {
+	                // 모달창 띄우기
+	                modal('my_modal');
+	            });
+	        </script>
 	        
-        $("#btnreport").on("click", function() {
-
-     	 if(!confirm('정말로 신고하시겠습니까?')) return;
-     		
-     	 var bg = null;
-     	   var modal = null;
-   
-         $.ajax({
-            url : "reportCommPost.bo",
-            type : "post",
-            data : $("#postReportForm").serialize(),
-         	dataType : "json",
-            success : function(data) {
-	        	   if(data == 'success'){
-		        	  	 alert("신고되었습니다. 관리자 확인 후 처리 됩니다.");
-		        	   }else if(data == 'fail'){
-		        		   alert('이미 신고된 댓글 입니다.');               
-               }
-               bg.remove();
-               modal.style.display = 'none';
-               
-            }
-         });
-      });
-        </script>
+	        <script>
+	        
+	        $("#btnreport").on("click", function() {
+	
+	     	 if(!confirm('정말로 신고하시겠습니까?')) return;
+	     		
+	     	 var bg = null;
+	     	   var modal = null;
+	   		console.log( $("#postReportForm").serialize());    
+	   	
+	   					 
+	   					 
+		   		$.ajax({
+		            url : "reportCommPost.bo",
+		            type : "post",
+		            data : $("#postReportForm").serialize(),
+		            success : function(data) {
+			        	   if(data == 'success'){
+				        	  	 alert("신고되었습니다. 관리자 확인 후 처리 됩니다.");
+				        	   }else if(data == 'fail'){
+				        		   alert('이미 신고된 게시글 입니다.');               
+		               }
+			        	   
+			        	  
+			              $('#my_modal').hide();
+		            }, 
+		            error: function(data) {
+		            	console.log(data); 
+		            }
+		         });
+	   		
+	   		
+	      });
+	  </script>
+	  
+	  <script>
+	  // scrap 관련 js
+			$(function() {
+				$('.scrap').css('background', 'Lavender');
+			});
+			
+ 			function scrap(bId) {
+ 			let $scrapBtn = $('.scrapBtn');
+ 			
+ 			if (!$scrapBtn.hasClass('scrap')) { // 스크랩한 상태가 아닐때
+ 				// 스크랩 추가
+ 				$.ajax({
+			url: 'insertScrap.nb',
+			data: {bId:bId},
+			type: 'POST',
+			success: function(data){
+				console.log(data);
+				if (data.trim() == 'success') {
+					$scrapBtn.css('background', 'Lavender');
+					$scrapBtn.addClass('scrap');
+				} else {
+					alert('알 수 없는 에러가 발생했습니다.', '', 'error');
+				}
+			},
+			error: function(data){
+				console.log(data);
+				alert('알 수 없는 에러가 발생했습니다.', '', 'error');
+			}
+		});			
+ 				
+ 			
+ 			} else { // 스크랩한 상태일때
+ 				// 스크랩 삭제
+ 				$.ajax({
+			url: 'deleteScrap.nb',
+			data: {bId:bId},
+			type: 'POST',
+			success: function(data){
+				console.log(data);
+				if (data.trim() == 'success') {
+					$('.scrapBtn').css('background', '');
+             				$('.scrapBtn').removeClass('scrap');
+				} else {
+					alert('알 수 없는 에러가 발생했습니다.', '', 'error');
+				}
+			},
+			error: function(data){
+				console.log(data);
+				alert('알 수 없는 에러가 발생했습니다.', '', 'error');
+			}
+ 				});
+ 				
+ 			}
+ 		}
+    	</script>
+	  
+	
+	  
+	  
 					        
-
 <!-- 모달 창 -->
 
-      	
       
 <!--**********************************
           Content body end
@@ -387,18 +448,6 @@
     
    <!-- Tree Viewer JS
 	============================================ -->
-<!-- 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script> -->
-
-
-<!-- <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script> -->
-
-	<script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.cookie.js"></script>
-	<script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.treeview.js" type="text/javascript"></script>
-	<script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.treeview.edit.js" type="text/javascript"></script>
-	<script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.treeview.async.js" type="text/javascript"></script>
-	
-	<!-- drag and drop 관련 js -->
-	<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
 </body>
 
 </html>

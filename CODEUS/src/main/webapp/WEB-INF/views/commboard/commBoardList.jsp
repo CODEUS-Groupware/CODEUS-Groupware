@@ -8,6 +8,9 @@
 <title>자유게시판</title>
 <style type="text/css">
 	
+	#buttonTab{border-left: hidden; border-right: hidden;}
+	
+	
 	th, td {
 	 		 text-align: center;
 	 		 font-size : 15px;
@@ -16,6 +19,11 @@
 	#buttonTab{border-left: hidden; border-right: hidden;}
 	
 </style>
+
+
+
+
+
 	<!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon.png">
     <!-- Datatable -->
@@ -35,89 +43,99 @@
 <!--**********************************
           Content body start
     ***********************************-->
-		<div class="content-body">
-		   <div class="container-fluid">
-		       <div class="row page-titles mx-0">
-		           <div class="col-sm-6 p-md-0">
-		               <div class="welcome-text">
-		                   <h4>Hi, welcome back!</h4>
-		                   <span class="ml-1">Datatable</span>
-		               </div>
-		           </div>
-		           <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
-		               <ol class="breadcrumb">
-		                   <li class="breadcrumb-item"><a href="javascript:void(0)">Table</a></li>
-		                   <li class="breadcrumb-item active"><a href="javascript:void(0)">Datatable</a></li>
-		               </ol>
-		           </div>
-		       </div>
-		     <div class="row">
-		           <div class="col-12">
-		               <div class="card">
-		                   <div class="card-header">
-		                       <h4 class="card-title">자유게시판</h4>
-		                  </div>
-		                   <div class="card-body">
-		                       <div class="table-responsive">
-		                       	<div id ="searchBox" class="col-sm-12">
-								<!--  검색 영역 -->
-								<div id="searchArea" align="center" class="form-group row justify-content-center">
-									<div class="w100" style="padding-right:10px">
-									<form action="commBoardSearch.bo" method="get" class="form-inline">
-										<select id="searchCondition" name="searchCondition" class="form-control form-control-sm">
-											<option value="all"
-												<c:if test="${search.searchCondition == 'all'}">selected</c:if>>전체</option>
-											<option value="bTitle"
-												<c:if test="${search.searchCondition == 'bTitle'}">selected</c:if>>제목</option>
-											<option value="bContent"
-												<c:if test="${search.searchCondition == 'bContent'}">selected</c:if>>내용</option>
-										</select> 
-										<input type="text" name="searchValue" class="form-control form-control-sm" value="${search.searchValue }"> 
-											<input type="submit" value="검색" class="btn btn-sm btn-primary">
-										</form>					
-									</div>
-								</div>	
-							<!-- 검색 영역  -->
-							<!-- 본문 테이블 영역  -->
-		              <div class="table-responsive">
-		              	<div class="col-lg-12">
-		                    <div class="card">
-		                 		 <table class="table table-hover table-responsive-sm" style="color : black; text-align: center;"  >
-		                        		<thead>
-		                              		<tr>
-								              <th width="10%">No</th>
-								              <th width="50%">제목</th>
-								              <th>작성자</th>
-								              <th>작성일</th>
-								              <th>조회수</th>
-									         </tr>
-										</thead>
-											<tbody>
-		                                    	<c:if test="${ empty list }">
-		                                       		<tr>
-				                                		<td colspan="4">등록된 게시물이 없습니다.</td>
-			                                   		</tr>
-		                                        </c:if>
-											<c:forEach var="b" items="${ list }">
-											<c:url var="commdetail" value="CommBoardDetail.bo">
-											<c:param name="nId" value="${ n.nId }"/>
-													<c:param name="page" value="${ pi.currentPage }"/>
-													<c:param name="searchCondition" value="${ search.searchCondition }"/>
-													<c:param name="searchValue" value="${ search.searchValue }"/>
-											</c:url>
-											
-											<tr class="contentTR">
-												<th align="center">${ b.bId }</th>
-												<th align="left">${ b.bTitle }</th>	
-												<th align="center">${ b.bWriter }</th>
-												<th align="center">${ b.bCreateDate }</th>
-												<th align="center">${ b.bViews }</th>
-											</tr>
-											</c:forEach>
-									     </tbody>
-									   </table>
-									<!-- 본문 테이블 영역  끝-->
+<div class="content-body">
+   <div class="container-fluid">
+       <div class="row page-titles mx-0">
+           <div class="col-sm-6 p-md-0">
+               <div class="welcome-text">
+                   <h4>Hi, welcome back!</h4>
+                   <span class="ml-1">Datatable</span>
+               </div>
+           </div>
+           <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+               <ol class="breadcrumb">
+                   <li class="breadcrumb-item"><a href="javascript:void(0)">Table</a></li>
+                   <li class="breadcrumb-item active"><a href="javascript:void(0)">Datatable</a></li>
+               </ol>
+           </div>
+       </div>
+     <div class="row">
+           <div class="col-12">
+               <div class="card">
+                   <div class="card-header">
+                       <h4 class="card-title">자유게시판</h4>
+                  </div>
+                   <div class="card-body">
+                       <div class="table-responsive">
+                       	<div id ="searchBox" class="col-sm-11 col-md-11 text-right">
+	
+						<!--  검색 영역 -->
+									
+						<div id="searchArea" align="center" class="form-group row justify-content-center">
+							<div class="w100" style="padding-right:10px">
+							<form action="commBoardSearch.bo" method="get" class="form-inline">
+								<select id="searchCondition" name="searchCondition" class="form-control form-control-sm">
+									<option value="all"
+										<c:if test="${search.searchCondition == 'all'}">selected</c:if>>전체</option>
+									<option value="bTitle"
+										<c:if test="${search.searchCondition == 'bTitle'}">selected</c:if>>제목</option>
+									<option value="bContent"
+										<c:if test="${search.searchCondition == 'bContent'}">selected</c:if>>내용</option>
+								</select> 
+								<input type="text" name="searchValue" class="form-control form-control-sm" value="${search.searchValue }"> 
+									<input type="submit" value="검색" class="btn btn-sm btn-primary">
+							</form>					
+							</div>
+						</div>	
+					<!-- 검색 영역  -->
+					<!-- 본문 테이블 영역  -->
+
+					<div class="col-lg-12">
+                        <div class="card">
+                            	<div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-responsive-sm" style="color : black;">
+                                        <thead>
+                                        <tr>
+							              <th width="10%">No</th>
+							              <th  width="20%">제목</th>
+							              <th>작성자</th>
+							              <th>작성일</th>
+							              <th>조회수</th>
+							          </tr>
+							       </thead>
+							        <tbody>
+									<c:forEach var="b" items="${ list }">
+									<c:url var="commdetail" value="CommBoardDetail.bo">
+									<c:param name="nId" value="${ n.nId }"/>
+											<c:param name="page" value="${ pi.currentPage }"/>
+											<c:param name="searchCondition" value="${ search.searchCondition }"/>
+											<c:param name="searchValue" value="${ search.searchValue }"/>
+									</c:url>
+									
+									<tr class="contentTR">
+										<th align="center">${ b.bId }</th>
+										<th align="left">${ b.bTitle }</th>	
+										<th align="center">${ b.bWriter }</th>
+										<th align="center">${ b.bCreateDate }</th>
+										<th align="center">${ b.bViews }</th>
+									</tr>
+								</c:forEach>
+					    				<tbody>
+                              				<c:if test="${ empty list }"><tr>
+                                				<td colspan="6">등록된 게시물이 없습니다.</td>
+                                				</tr>
+						        			</c:if>
+										  </table>
+										 </div> 
+						  			
+								<!-- 본문 테이블 영역  끝-->
 										<!-- 페이징 처리 -->
+												<div style="margin-left: auto; margin-right: auto;">
+		                            				<nav>
+		                                				<ul class="pagination pagination-xs pagination-circle">
+														
+															<!-- 페이징 처리 -->
 												<div style="margin-left: auto; margin-right: auto;">
 		                            				<nav>
 		                                				<ul class="pagination pagination-xs pagination-circle">
@@ -192,7 +210,6 @@
 			                                				</nav>
 			                           				 	</div>
 			                           					<!-- 페이징 영역 끝 -->
-			                           				<div>
 			                        			</div>
 											</div>
 			               				</div>
@@ -208,60 +225,46 @@
 		 	</div>
 	 	</div>
  	</div>
- </div>
- <script>
-
+ 
+	
+	<script>
 		$(function() {
 			$('.contentTR').click(function() {
 				var bId = $(this).children("th").eq(0).text();
-
+				console.log(bId);
 				location.href = 'CommBoardDetail.bo?bId=' + bId + "&page=" + ${pi.currentPage}
 			});
 		});
 	</script>
- 
-    
-<!--**********************************
-          Content body end
-***************************************-->
+  	
+	 <!--**********************************
+            Content body end
+        ***********************************-->
 
-<!--**********************************
-    Footer start
-***********************************-->
-<div class="footer">
-    <div class="copyright">
-        <p>Copyright © Designed &amp; Developed by <a href="${contextPath}/home.do" target="_blank">CODEUS</a> 2021</p>
+        <!--**********************************
+            Footer start
+        ***********************************-->
+        <div class="footer">
+            <div class="copyright">
+                <p>Copyright © Designed &amp; Developed by <a href="${contextPath}/home.do" target="_blank">CODEUS</a> 2021</p>
+            </div>
+        </div>
+        <!--**********************************
+            Footer end
+        ***********************************-->      
+          
     </div>
-</div>
-<!--**********************************
-    Footer end
-***********************************-->      
-      
-</div>
-
-<!--**********************************
-    Main wrapper end
-***********************************-->
-
-<!--**********************************
-     Scripts
- ***********************************-->
+    
+    <!--**********************************
+        Main wrapper end
+    ***********************************-->
+    
+   <!--**********************************
+        Scripts
+    ***********************************-->
 
     
-   <!-- Tree Viewer JS
-	============================================ -->
-<!-- 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script> -->
 
-
-<!-- <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script> -->
-
-	<script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.cookie.js"></script>
-	<script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.treeview.js" type="text/javascript"></script>
-	<script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.treeview.edit.js" type="text/javascript"></script>
-	<script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.treeview.async.js" type="text/javascript"></script>
-	
-	<!-- drag and drop 관련 js -->
-	<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
 </body>
 
 </html>
