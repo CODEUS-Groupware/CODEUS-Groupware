@@ -56,8 +56,21 @@ public class ChattingController {
 	}
 	
 	@RequestMapping("chatRoom.ch")
-	public String chetRoomView(@RequestParam("roomNum") String roomNum) {
-
-	    return "chatRoomView";
+	public ModelAndView chetRoomView(HttpServletRequest request,
+							   @RequestParam("roomNum") String roomNum,
+							   ModelAndView mv) {
+		String userId = ((Member)request.getSession().getAttribute("loginUser")).getmId();
+		
+		ArrayList<Message> list = chService.selectMessage(roomNum, userId);
+		
+		if(list != null) {
+			mv.addObject("list", list);
+			mv.setViewName("chatRoomView");
+			
+		} else {
+			throw new ChattingException("채팅 목록 조회에 실패했습니다.");
+		}
+		
+	    return mv;
 	}
 }

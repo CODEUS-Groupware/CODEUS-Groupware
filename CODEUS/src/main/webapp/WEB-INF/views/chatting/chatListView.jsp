@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,19 +40,19 @@
      				<div class="col-xl-11 col-lg-10 col-xxl-10 col-md-10">
                         <div class="card">
                             <div class="card-body">
-                                <div class="recent-comment m-t-15">
+                                <div class="recent-comment m-t-15" style="overflow:auto; height:500px;">
                                 	<c:forEach var="ch" items="${ list }">
 	                                    <div class="media">
 	                                        <div class="media-left">
 	                                            <a href="#"><img src="/codeus/resources/assets/images/empty-profile.png" class="img-fluid rounded-circle" alt="" style="width: 70px"></a>
 	                                        </div>
 	                                        <div class="media-body">
-	                                            <h4 id="sander" class="media-heading text-primary">
+	                                            <h4 class="media-heading text-primary sander">
 	                                            	${ ch.sander }
 	                                            	<input type="hidden" class="roomNum" value="${ ch.roomNum }">
 	                                            </h4>
 	                                            <p>${ ch.msgContent }</p>
-	                                            <p class="comment-date">${ ch.msgTime }</p>
+	                                            <p class="comment-date"><fmt:formatDate pattern="yyyy-MM-dd hh:mm" value="${ ch.msgTime }"/></p>
 	                                        </div>
 	                                    </div>
                                     </c:forEach>
@@ -62,7 +64,7 @@
                     <div class="col-xl-1 col-lg-2 col-xxl-2 col-md-2">
                         <div class="card">
                             <div class="card-body">
-                                <div class="recent-comment m-t-15">
+                                <div class="recent-comment m-t-15" style="height:500px;">
                                     <div class="media">
                                         <button class="form-control input-default" style="background: #593bdb; color: white; height: 80px;" onclick="location.href='chatSearch.ch'">대화<br>상대<br>검색</button>
                                     </div>
@@ -108,7 +110,7 @@
 	    ***********************************-->
 	    <script>
 			$(function() {
-				$('#sander').click(function() {
+				$('.sander').click(function() {
 					var roomNum = $(this).children().val();
 					console.log(roomNum);
 					window.open('chatRoom.ch?roomNum=' + roomNum, "_blank",

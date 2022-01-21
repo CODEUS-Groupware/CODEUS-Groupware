@@ -9,4 +9,6 @@ public interface ChatService {
 
 	ArrayList<Message> selectChatroom(String userId);
 
+	ArrayList<Message> selectMessage(String roomNum, String userId);
+
 }

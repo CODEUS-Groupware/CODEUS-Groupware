@@ -24,4 +24,11 @@
 		<result column="CHAT_NUM" property="roomNum"/>
 	</resultMap>
 	
+	<select id="selectMessage" resultMap="MessageResultSet">
+		select *
+		from chat_message
+		join chat_room using(chat_num)
+		where msg_status = '0' and (sander = #{userId} or m_id = #{userId}) and chat_num = #{roomNum}
+	</select>
+	
 </mapper>

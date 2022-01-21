@@ -24,4 +24,9 @@ public class ChatServiceImpl implements ChatService {
 	public ArrayList<Message> selectChatroom(String userId) {
 		return chDAO.selectChatroom(sqlSession, userId);
 	}
+
+	@Override
+	public ArrayList<Message> selectMessage(String roomNum, String userId) {
+		return chDAO.selectMessage(sqlSession, roomNum, userId);
+	}
 }
