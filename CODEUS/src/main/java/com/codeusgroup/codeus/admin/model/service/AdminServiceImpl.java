@@ -141,6 +141,11 @@ public class AdminServiceImpl implements AdminService {
 	public int moveDept(HashMap<String, Integer> map) {
 		return aDAO.moveDept(sqlSession, map);
 	}
+	
+	@Override
+	public int sortDeptOrder(ArrayList<Department> subDeptList) {
+		return aDAO.sortDeptOrder(sqlSession, subDeptList);
+	}
 
 	@Override
 	public int getReportListCount() {

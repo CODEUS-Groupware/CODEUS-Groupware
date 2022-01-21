@@ -464,11 +464,38 @@ public class AdminController {
      * 부서 삭제
      */
 	@RequestMapping("admin/ddelete.ad")
-	public String deleteDept(@RequestParam("deptId") int deptId) {
-		System.out.println(deptId);
-		int result = aService.deleteDept(deptId);
+	public String deleteDept(@RequestParam("deptId") int deptId, @RequestParam("upperDeptId") int upperDeptId) {
 		
-		if (result <= 0) {
+		System.out.println(upperDeptId);
+		
+		// 부서 삭제시 부서 정렬순서 업데이트하기 위해 정렬순으로 삭제된 부서의 상위부서의 하위부서 목록 가져옴
+		ArrayList<Department> subDeptList = aService.getSubDeptList(upperDeptId);
+		
+		int result1 = 0;
+		// 부서 삭제시 같은 상위부서를 가지고 있던 부서 그룹 정렬 새로하기, 1부터 차례대로 값이 들어가게 정렬 
+		if (subDeptList.size() >= 2) {
+			int i = 1;
+			for (Department d : subDeptList) {
+				if (d.getDeptId() != deptId) {
+					d.setDeptOrder(i);
+					i++;
+				}
+			}
+			
+			// 부서 삭제와 동시에 같은 그룹 내에 있던 부서들 정렬 순서 업데이트 하기 위해 subDeptList도 매개변수로 함꼐 보냄
+			result1 = aService.sortDeptOrder(subDeptList);
+			result1 = result1 >= subDeptList.size() ? 1 : 0;
+			
+		} else {
+			result1 = 1;
+		}
+		 
+		int result2 = 0;
+		if (result1 > 0) {
+			result2 = aService.deleteDept(deptId);
+		}
+		
+		if (result2 <= 0) {
 			throw new AdminException("부서 삭제에 실패하였습니다.");
 		} else {
 			return "redirect:deptlist.ad?message=d";
@@ -493,37 +520,55 @@ public class AdminController {
 	
     /**
      * 조직도 내 부서 위치 이동
-     */
+	 * @RequestParam("moveDeptId") 이동하는 부서의 id
+	 * @RequestParam("upperDeptId") 이동 목적지인 상위부서의 id
+	 * @RequestParam("upperDeptLevel") 이동 목적지인 상위부서의 레벨
+	 * @RequestParam("originUpperDept") 이동하는 부서의 기존 상위부서  id
+	 */
 	@RequestMapping("admin/dmove.ad")
 	@ResponseBody
-	public String moveDept(@RequestParam("moveDeptId") int moveDeptId, @RequestParam("upperDeptId") int upperDeptId, 
-						  @RequestParam("upperDeptLevel") int upperDeptLevel, HttpServletResponse response) {
+	public String moveDept(@RequestParam("moveDeptId") int moveDeptId, 
+						   @RequestParam("upperDeptId") int upperDeptId, 
+						   @RequestParam("upperDeptLevel") int upperDeptLevel, 
+						   @RequestParam("originUpperDept") int originUpperDept,
+						   HttpServletResponse response) {
 		
 		int deptLevel = upperDeptLevel + 1; // 이동하려는 상위부서의 부서level + 1
 		
 		ArrayList<Department> subDeptList = aService.getSubDeptList(upperDeptId);
-		int deptOrder = 0;
+		int deptOrder = subDeptList.size() + 1; // 같은 그룹내 가장 마지막 순서로 이동되게 정렬순서 세팅
 		
-		// 같은 상위부서를 가지고 있는 하위부서들의 정렬순서 중 가장 큰 것으로 저장되게 함
-		if (subDeptList.size() > 0) {
-			for (Department d : subDeptList) {
-				if (deptOrder < d.getDeptOrder()) { 
-					deptOrder = d.getDeptOrder(); 
+		// 부서 이동시 기존에 같은 상위부서를 가지고 있던 부서 그룹 정렬 새로 하기, 1부터 차례대로 값이 들어가게 정렬 
+		ArrayList<Department> sortDeptList = aService.getSubDeptList(originUpperDept);
+		int result1 = 0;
+		if (sortDeptList.size() >= 2) {
+			int i = 1;
+			for (Department d : sortDeptList) {
+				if (d.getDeptId() != moveDeptId) {
+					d.setDeptOrder(i);
+					i++;
 				}
 			}
-			deptOrder += 1;
+			
+			result1 = aService.sortDeptOrder(sortDeptList);
+			result1 = result1 >= sortDeptList.size() ? 1 : 0;
+			
 		} else {
-			deptOrder = 1;
+			result1 = 1;
 		}
 		
-		HashMap<String, Integer> map = new HashMap<String, Integer>();
-		map.put("moveDeptId", moveDeptId);
-		map.put("upperDeptId", upperDeptId);
-		map.put("deptLevel", deptLevel);
-		map.put("deptOrder", deptOrder);
-		int result = aService.moveDept(map);
+		int result2 = 0;
+		if (result1 == 1) {
+			
+			HashMap<String, Integer> map = new HashMap<String, Integer>();
+			map.put("moveDeptId", moveDeptId);
+			map.put("upperDeptId", upperDeptId);
+			map.put("deptLevel", deptLevel);
+			map.put("deptOrder", deptOrder);
+			result2 = aService.moveDept(map);
+		}
 		
-		if (result <= 0) {
+		if (result2 <= 0 ) {
 			throw new AdminException("부서 위치 이동에 실패하였습니다.");
 		} else {
 			return "success";
