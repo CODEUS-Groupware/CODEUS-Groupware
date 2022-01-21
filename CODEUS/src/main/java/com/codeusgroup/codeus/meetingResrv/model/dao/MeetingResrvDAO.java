@@ -3,6 +3,7 @@ package com.codeusgroup.codeus.meetingResrv.model.dao;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -85,6 +86,14 @@ public class MeetingResrvDAO {
     
     public int cancelMeetingResrv(SqlSessionTemplate sqlSession, int rNo) {
         return sqlSession.update("meetResrvMapper.cancelMeetingResrv", rNo);
+    }
+    
+    public int completesMeetingResrv(SqlSessionTemplate sqlSession, List<Integer> chksList) {
+        return sqlSession.update("meetResrvMapper.completesMeetingResrv", chksList);
+    }
+    
+    public int cancelsMeetingResrv(SqlSessionTemplate sqlSession, List<Integer> chksList) {
+        return sqlSession.update("meetResrvMapper.cancelsMeetingResrv", chksList);
     }
     
 }

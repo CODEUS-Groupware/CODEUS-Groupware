@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -265,7 +266,7 @@ public class MeetingResrvController {
         return "redirect:mrdetail.mr?rNo=" + mr.getRev_no();
     }
     
-    // 사용 완료 상태로 변경
+    // 사용 완료 상태로 변경(1개)
     @RequestMapping("mrcomplete.mr")
     public String meetingResrvComplete(@RequestParam("rNo") int rNo, @RequestParam("page2") int page2, Model model) {
         int result = mrService.completeMeetingResrv(rNo);
@@ -280,7 +281,19 @@ public class MeetingResrvController {
         return "redirect:mrdetail.mr?rNo=" + rNo;
     }
     
-    // 예약 취소 상태로 변경
+    // 사용 완료 상태로 변경(1개 이상)
+    @RequestMapping(value = "mrcompletes.mr", produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public String meetingResrvCompletes(@RequestParam(value = "chks[]") List<Integer> chksList) {
+        int result = mrService.completesMeetingResrv(chksList);
+        
+        if (result > 0)
+            return "successCompletes";
+        else
+            return "errorCompletes";
+    }
+    
+    // 예약 취소 상태로 변경(1개)
     @RequestMapping("mrcancel.mr")
     public String meetingResrvCancel(@RequestParam("rNo") int rNo, @RequestParam("page2") int page2, Model model) {
         int result = mrService.cancelMeetingResrv(rNo);
@@ -293,6 +306,18 @@ public class MeetingResrvController {
             throw new MeetingResrvException("회의실 예약 상태 수정(예약 취소)에 실패하였습니다.");
         
         return "redirect:mrdetail.mr?rNo=" + rNo;
+    }
+    
+    // 예약 취소 상태로 변경(1개 이상)
+    @RequestMapping(value = "mrcancels.mr", produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public String meetingResrvCancels(@RequestParam(value = "chks[]") List<Integer> chksList) {
+        int result = mrService.cancelsMeetingResrv(chksList);
+        
+        if (result > 0)
+            return "successCancels";
+        else
+            return "errorCancels";
     }
     
     @RequestMapping("mrsearch.mr")

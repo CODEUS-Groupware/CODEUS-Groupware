@@ -3,6 +3,7 @@ package com.codeusgroup.codeus.meetingResrv.model.service;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,6 +96,16 @@ public class MeetingResrvServiceImpl implements MeetingResrvService {
     @Override
     public int cancelMeetingResrv(int rNo) {
         return mrDAO.cancelMeetingResrv(sqlSession, rNo);
+    }
+    
+    @Override
+    public int completesMeetingResrv(List<Integer> chksList) {
+        return mrDAO.completesMeetingResrv(sqlSession, chksList);
+    }
+    
+    @Override
+    public int cancelsMeetingResrv(List<Integer> chksList) {
+        return mrDAO.cancelsMeetingResrv(sqlSession, chksList);
     }
     
 }

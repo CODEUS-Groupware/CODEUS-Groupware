@@ -311,5 +311,23 @@
         set rev_status = '2'
         where rev_no = #{rNo}
     </update>
+    
+    <update id="completesMeetingResrv">
+        update meet_reservation
+        set rev_status = '1'
+        where rev_no in
+              <foreach collection="list" item="item" open="(" separator="," close=")">
+                  #{item}
+              </foreach>
+    </update>
+    
+    <update id="cancelsMeetingResrv">
+        update meet_reservation
+        set rev_status = '2'
+        where rev_no in
+              <foreach collection="list" item="item" open="(" separator="," close=")">
+                  #{item}
+              </foreach>
+    </update>
 
 </mapper>

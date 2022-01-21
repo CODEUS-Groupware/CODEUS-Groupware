@@ -200,6 +200,70 @@
                                                         <button type="button" class="btn btn-primary btn-sm mr-2" id="mrcomplete">사용완료</button>
                                                         <button type="button" class="btn btn-primary btn-sm mr-2" id="mrcancel">예약취소</button>
                                                     </c:if>
+                                                    <!-- SweetAlert2 -->
+                                                    <script>
+                                                        $('#mrcomplete').click(function() {
+                                                            var rNo = ${ mr.rev_no };
+                                                            var page2 = ${ page2 };
+                                                            
+                                                            Swal.fire({
+                                                                title: '사용 완료',
+                                                                html: '<b>사용 완료로 변경하시겠습니까?</b><br><small>※ 예약상태 변경은 되돌릴 수 없습니다.</small>',
+                                                                icon: 'info',
+                                                                showConfirmButton: true,
+                                                                confirmButtonText: '예',
+                                                                showCancelButton: true,
+                                                                cancelButtonText: '아니오'
+                                                            }).then((result) => {
+                                                                if(result.isConfirmed) {
+                                                                    Swal.mixin({
+                                                                        toast: true,
+                                                                        position: 'top-end',
+                                                                        showConfirmButton: false,
+                                                                        timer: 2000,
+                                                                        timerProgressBar: true
+                                                                    }).fire({
+                                                                        icon: 'success',
+                                                                        title: '성공적으로 변경되었습니다.',
+                                                                        width: '400px'
+                                                                    });
+                                                                    
+                                                                    location.href="mrcomplete.mr?rNo=" + rNo + "&page2=" + page2;
+                                                                }
+                                                            });
+                                                        });
+                                                        
+                                                        $('#mrcancel').click(function() {
+                                                            var rNo = ${ mr.rev_no };
+                                                            var page2 = ${ page2 };
+                                                            
+                                                            Swal.fire({
+                                                                title: '예약 취소',
+                                                                html: '<b>예약을 취소하시겠습니까?</b><br><small>※ 예약상태 변경은 되돌릴 수 없습니다.</small>',
+                                                                icon: 'warning',
+                                                                showConfirmButton: true,
+                                                                confirmButtonText: '예',
+                                                                showCancelButton: true,
+                                                                cancelButtonText: '아니오'
+                                                            }).then((result) => {
+                                                                if(result.isConfirmed) {
+                                                                    Swal.mixin({
+                                                                        toast: true,
+                                                                        position: 'top-end',
+                                                                        showConfirmButton: false,
+                                                                        timer: 2000,
+                                                                        timerProgressBar: true
+                                                                    }).fire({
+                                                                        icon: 'success',
+                                                                        title: '성공적으로 변경되었습니다.',
+                                                                        width: '400px'
+                                                                    });
+                                                                    
+                                                                    location.href="mrcancel.mr?rNo=" + rNo + "&page2=" + page2;
+                                                                }
+                                                            });
+                                                        });
+                                                    </script>
                                                     <button type="button" class="btn btn-outline-primary btn-sm" onclick="location.href='${ mrlist }'">돌아가기</button>
                                                     <!-- Modal -->
                                                     <div class="modal fade" id="basicModal">
@@ -283,6 +347,9 @@
     <script src="${contextPath}/resources/assets/vendor/jquery-validation/jquery.validate.min.js"></script>
     <!-- Form validate init -->
     <script src="${contextPath}/resources/assets/js/plugins-init/jquery.validate-init.js"></script>
+    
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.3.6/dist/sweetalert2.all.min.js"></script>
     
     <script>
         /********** 기존 입력 값 호출 **********/
@@ -711,30 +778,6 @@
                 $('#chkMsg').html(chkMsg);
             }
         }
-        
-        
-        
-        
-        
-        $(function() {
-            $('#mrcomplete').click(function() {
-                var rNo = ${ mr.rev_no };
-                var page2 = ${ page2 };
-                location.href="mrcomplete.mr?rNo=" + rNo + "&page2=" + page2;
-            });
-        });
-        
-        
-        
-        
-        
-        $(function() {
-            $('#mrcancel').click(function() {
-                var rNo = ${ mr.rev_no };
-                var page2 = ${ page2 };
-                location.href="mrcancel.mr?rNo=" + rNo + "&page2=" + page2;
-            });
-        });
         
         
         

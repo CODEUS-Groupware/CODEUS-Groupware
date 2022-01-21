@@ -3,6 +3,7 @@ package com.codeusgroup.codeus.meetingResrv.model.service;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.codeusgroup.codeus.meetingResrv.model.vo.MeetingResrv;
 import com.codeusgroup.codeus.meetingResrv.model.vo.MeetingRoom;
@@ -39,5 +40,9 @@ public interface MeetingResrvService {
     int completeMeetingResrv(int rNo);
     
     int cancelMeetingResrv(int rNo);
+    
+    int completesMeetingResrv(List<Integer> chksList);
+    
+    int cancelsMeetingResrv(List<Integer> chksList);
     
 }
