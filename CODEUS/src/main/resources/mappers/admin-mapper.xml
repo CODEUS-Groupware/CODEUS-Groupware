@@ -251,6 +251,12 @@
 		set upper_dept = #{upperDeptId}, dept_level = #{deptLevel}, dept_order = #{deptOrder}
 		where dept_id = #{moveDeptId}
 	</update>
+		
+	<update id="sortDeptOrder">
+		update department
+		set dept_order = #{deptOrder}
+		where dept_id = #{deptId}
+	</update>
 	
 	<select id="getReportListCount" resultType="_int">
 		select count(*)
@@ -302,7 +308,8 @@
 		update reply
 		set reply_status = 2
 		where reply_no = #{replyNo}		
-	</update>			
+	</update>
+	
 	
 	<resultMap type="com.codeusgroup.codeus.admin.model.vo.Report" id="reportResultSet">
 		<id column="REPORT_NO" property="reportNo" />
