@@ -705,13 +705,20 @@
                                                                     var chkCount = $('.chk:checked').length > 0 ? $('.chk:checked').length : -1;
                                                                     var comFlag = true;
                                                                     var dateFlag = true;
+                                                                    var timeFlag = true;
                                                                     
                                                                     function getToday() {
                                                                         var date = new Date();
                                                                         return date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
                                                                     }
                                                                     
+                                                                    function getTime() {
+                                                                        var date = new Date();
+                                                                        return ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
+                                                                    }
+                                                                    
                                                                     var today = getToday();
+                                                                    var now = getTime();
                                                                     
                                                                     var chkArray = new Array();
                                                                     
@@ -720,13 +727,20 @@
                                                                             comFlag = true;
                                                                         if(dateFlag)
                                                                             dateFlag = true;
+                                                                        if(timeFlag)
+                                                                            timeFlag = true;
+                                                                        
+                                                                        var inDay = $(this).parent().parent().children().eq(1).text().substr(0, 10);
+                                                                        var inTime = $(this).parent().parent().children().eq(1).text().substr($(this).parent().parent().children().eq(1).text().indexOf(':') - 2, 5);
                                                                         
                                                                         chkArray.push(this.value);
                                                                         
                                                                         if($(this).parent().parent().children().eq(2).children().text() != '예약 완료')
                                                                             comFlag = false;
-                                                                        if($(this).parent().parent().children().eq(1).text().substr(0, 10) != today)
+                                                                        if(inDay.substr(0, 10) != today)
                                                                             dateFlag = false;
+                                                                        if(inTime.substr(0, 2) > now.substr(0, 2) || !(inTime.substr(0, 2) == now.substr(0, 2) && inTime.substr(4, 2) <= now.substr(4, 2)))
+                                                                            timeFlag = false;
                                                                     });
                                                                     
                                                                     if(chkCount > 0 && comFlag && dateFlag) {
@@ -773,7 +787,7 @@
                                                                     } else {
                                                                         Swal.fire({
                                                                             title: '예약 상태 수정 접근 불가',
-                                                                            html: '<b>수정 가능한 예약을 선택해주세요.</b><br><small>※ "오늘 날짜"이면서 "예약 완료" 상태인 내역만 수정이 가능합니다.</small>',
+                                                                            html: '<b>수정 가능한 예약을 선택해주세요.</b><br><small>※ 예약 시간이 지나고, "예약 완료" 상태인 내역만 수정이 가능합니다.</small>',
                                                                             icon: 'warning',
                                                                             showConfirmButton: true,
                                                                             confirmButtonText: '예',

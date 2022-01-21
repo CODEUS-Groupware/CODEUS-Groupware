@@ -211,9 +211,16 @@
                                                                 return date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
                                                             }
                                                             
-                                                            var today = getToday();
+                                                            function getTime() {
+                                                                var date = new Date();
+                                                                return ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
+                                                            }
                                                             
-                                                            if('${ mr.rev_date }' == today) {
+                                                            var today = getToday();
+                                                            var now = getTime();
+                                                            var inTime = '${ mr.rev_start_time }';
+                                                            
+                                                            if('${ mr.rev_date }' == today && (inTime.substr(0, 2) < now.substr(0, 2) || (inTime.substr(0, 2) == now.substr(0, 2) && inTime.substr(4, 2) <= now.substr(4, 2)))) {
                                                                 Swal.fire({
                                                                     title: '사용 완료',
                                                                     html: '<b>사용 완료로 변경하시겠습니까?</b><br><small>※ 예약상태 변경은 되돌릴 수 없습니다.</small>',
@@ -242,7 +249,7 @@
                                                             } else {
                                                                 Swal.fire({
                                                                             title: '예약 상태 수정 접근 불가',
-                                                                            html: '<b>수정할 수 없는 예약입니다.</b><br><small>※ "오늘 날짜"인 예약만 수정이 가능합니다.</small>',
+                                                                            html: '<b>수정할 수 없는 예약입니다.</b><br><small>※ 예약 당일 시작 시간이 지난 내역만 수정이 가능합니다.</small>',
                                                                             icon: 'warning',
                                                                             showConfirmButton: true,
                                                                             confirmButtonText: '예',
