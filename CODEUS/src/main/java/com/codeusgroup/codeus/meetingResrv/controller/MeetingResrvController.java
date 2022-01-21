@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -32,6 +33,7 @@ public class MeetingResrvController {
     @Autowired
     private MeetingResrvService mrService;
     
+    // 예약 목록 조회(전체 + 내)
     @RequestMapping("mrlist.mr")
     public ModelAndView meetingRoomResrvList(@RequestParam(value = "page1", required = false) Integer page1,
             @RequestParam(value = "page2", required = false) Integer page2, ModelAndView mv, HttpSession session) {
@@ -120,11 +122,13 @@ public class MeetingResrvController {
         return "meetCalcView";
     }
     
+    // 예약 신청 페이지 연결
     @RequestMapping("mrinsertview.mr")
     public String meetingResrvInsertView() {
         return "meetResrvInsertForm";
     }
     
+    // 예약 신청
     @RequestMapping("mrinsert.mr")
     public String meetingResrvInsert(@RequestParam("datepicker") Date r_date,
             @RequestParam("r_start_time") String r_start_time, @RequestParam("r_end_time") String r_end_time,
@@ -153,6 +157,7 @@ public class MeetingResrvController {
             throw new MeetingResrvException("회의실 예약 등록에 실패하였습니다.");
     }
     
+    // 예약 신청 시 가능한 회의실 조회(ajax)
     @RequestMapping(value = "mrcheckrooms.mr", produces = "application/json; charset=UTF-8")
     @ResponseBody
     public String checkRooms(@RequestParam("inputDate") Date inputDate,
@@ -176,6 +181,7 @@ public class MeetingResrvController {
         return gson.toJson(list);
     }
     
+    // 예약 수정 시 가능한 회의실 조회(ajax)
     @RequestMapping(value = "mrcheckroomsupdate.mr", produces = "application/json; charset=UTF-8")
     @ResponseBody
     public String checkRoomsUpdate(@RequestParam("inputDate") Date inputDate,
@@ -201,6 +207,7 @@ public class MeetingResrvController {
         return gson.toJson(list);
     }
     
+    // 예약 내역 세부 조회
     @RequestMapping("mrdetail.mr")
     public String meetingDetail(@RequestParam("rNo") int rNo, @RequestParam("page1") int page1, Model model) {
         MeetingResrv mr = mrService.selectMeetingResrv(rNo);
@@ -214,6 +221,7 @@ public class MeetingResrvController {
         return "meetDetailView";
     }
     
+    // 예약 내역 수정 페이지 연결
     @RequestMapping("mrupdateview.mr")
     public String meetingResrvUpdateView(@RequestParam("rNo") int rNo, @RequestParam("page2") int page2, Model model) {
         MeetingResrv mr = mrService.selectMeetingResrv(rNo);
@@ -223,19 +231,93 @@ public class MeetingResrvController {
         return "meetResrvUpdateForm";
     }
     
+    // 예약 내역 수정(입력 정보)
     @RequestMapping("mrupdate.mr")
-    public String meetingResrvUpdate() {
-        return null;
+    public String meetingResrvUpdate(@RequestParam("r_no") int r_no, @RequestParam("page2") int page2,
+            @RequestParam("datepicker") Date r_date, @RequestParam("r_start_time") String r_start_time,
+            @RequestParam("r_end_time") String r_end_time, @RequestParam("r_room") int r_room,
+            @RequestParam("r_content") String r_content, HttpSession session, Model model) {
+        // 예약 정보 입력
+        MeetingResrv mr = new MeetingResrv();
+        
+        mr.setRev_no(r_no);  // 예약 번호 입력
+        mr.setRev_date(r_date);   // 예약 날짜 입력
+        
+        // Timestamp 양식으로 변하기 위한 조건(예시 : String timeStr = "2022-01-01 12:30:00.0";)으로 변경
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String start_time = sdf.format(r_date) + " " + r_start_time + ":00";
+        String end_time = sdf.format(r_date) + " " + r_end_time + ":00";
+        
+        mr.setRev_start_time(Timestamp.valueOf(start_time));    // 예약 시작시간 입력
+        mr.setRev_end_time(Timestamp.valueOf(end_time));    // 예약 종료 시간 입력
+        mr.setRev_content(r_content);   // 예약목적 내용 입력
+        mr.setMeet_no(r_room);  // 예약 회의실 번호 입력
+        mr.setmId(((Member) session.getAttribute("loginUser")).getmId());   // 예약자 아이디 입력
+        
+        int result = mrService.updateMeetingResrv(mr);
+        
+        if (result > 0) {
+            int page1 = 1;
+            model.addAttribute("page1", page1);
+            model.addAttribute("page2", page2);
+        } else
+            throw new MeetingResrvException("회의실 예약 수정에 실패하였습니다.");
+        
+        return "redirect:mrdetail.mr?rNo=" + mr.getRev_no();
     }
     
+    // 사용 완료 상태로 변경(1개)
     @RequestMapping("mrcomplete.mr")
-    public String meetingResrvComplete() {
-        return null;
+    public String meetingResrvComplete(@RequestParam("rNo") int rNo, @RequestParam("page2") int page2, Model model) {
+        int result = mrService.completeMeetingResrv(rNo);
+        
+        if (result > 0) {
+            int page1 = 1;
+            model.addAttribute("page1", page1);
+            model.addAttribute("page2", page2);
+        } else
+            throw new MeetingResrvException("회의실 예약 상태 수정(사용 완료)에 실패하였습니다.");
+        
+        return "redirect:mrdetail.mr?rNo=" + rNo;
     }
     
+    // 사용 완료 상태로 변경(1개 이상)
+    @RequestMapping(value = "mrcompletes.mr", produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public String meetingResrvCompletes(@RequestParam(value = "chks[]") List<Integer> chksList) {
+        int result = mrService.completesMeetingResrv(chksList);
+        
+        if (result > 0)
+            return "successCompletes";
+        else
+            return "errorCompletes";
+    }
+    
+    // 예약 취소 상태로 변경(1개)
     @RequestMapping("mrcancel.mr")
-    public String meetingResrvCancel() {
-        return null;
+    public String meetingResrvCancel(@RequestParam("rNo") int rNo, @RequestParam("page2") int page2, Model model) {
+        int result = mrService.cancelMeetingResrv(rNo);
+        
+        if (result > 0) {
+            int page1 = 1;
+            model.addAttribute("page1", page1);
+            model.addAttribute("page2", page2);
+        } else
+            throw new MeetingResrvException("회의실 예약 상태 수정(예약 취소)에 실패하였습니다.");
+        
+        return "redirect:mrdetail.mr?rNo=" + rNo;
+    }
+    
+    // 예약 취소 상태로 변경(1개 이상)
+    @RequestMapping(value = "mrcancels.mr", produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public String meetingResrvCancels(@RequestParam(value = "chks[]") List<Integer> chksList) {
+        int result = mrService.cancelsMeetingResrv(chksList);
+        
+        if (result > 0)
+            return "successCancels";
+        else
+            return "errorCancels";
     }
     
     @RequestMapping("mrsearch.mr")

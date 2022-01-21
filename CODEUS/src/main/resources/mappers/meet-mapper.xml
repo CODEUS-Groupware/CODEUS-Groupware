@@ -292,5 +292,42 @@
              left join department using(dept_id)
         where rev_no = #{rNo}
     </select>
+    
+    <update id="updateMeetingResrv">
+        update meet_reservation
+        set rev_date = #{rev_date}, rev_start_time = #{rev_start_time}, rev_end_time = #{rev_end_time},
+            rev_content = #{rev_content}, rev_apply_date = sysdate, meet_no = #{meet_no}, m_id = #{mId}
+        where rev_no = #{rev_no}
+    </update>
+    
+    <update id="completeMeetingResrv">
+        update meet_reservation
+        set rev_status = '1'
+        where rev_no = #{rNo}
+    </update>
+    
+    <update id="cancelMeetingResrv">
+        update meet_reservation
+        set rev_status = '2'
+        where rev_no = #{rNo}
+    </update>
+    
+    <update id="completesMeetingResrv">
+        update meet_reservation
+        set rev_status = '1'
+        where rev_no in
+              <foreach collection="list" item="item" open="(" separator="," close=")">
+                  #{item}
+              </foreach>
+    </update>
+    
+    <update id="cancelsMeetingResrv">
+        update meet_reservation
+        set rev_status = '2'
+        where rev_no in
+              <foreach collection="list" item="item" open="(" separator="," close=")">
+                  #{item}
+              </foreach>
+    </update>
 
 </mapper>

@@ -78,7 +78,7 @@
                                                             <form action="mrsearch.mr">
                                                                 <div class="row justify-content-end">
                                                                     <div class="col-px-0">
-                                                                        <select class="form-control form-control-sm" id="searchCondition" name="searchCondition" required>
+                                                                        <select class="form-control form-control-sm" id="searchCondition1" name="searchCondition" required>
                                                                             <option value="r_no" <c:if test="${searchCondition == 'r_no'}">selected</c:if>>예약번호</option>
                                                                             <option value="r_date" <c:if test="${searchCondition == 'r_date'}">selected</c:if>>예약날짜</option>
                                                                             <option value="r_status" <c:if test="${searchCondition == 'r_status'}">selected</c:if>>예약상태</option>
@@ -89,41 +89,45 @@
                                                                     </div>
                                                                     <div class="col-auto">
                                                                         <div class="input-group">
-                                                                            <input type="text" class="form-control form-control-sm" id="searchKeyword" name="searchKeyword" value="<c:if test="${searchKeyword != ''}">${searchKeyword}</c:if>">
+                                                                            <input type="text" class="form-control form-control-sm" id="searchKeyword1" name="searchKeyword" value="<c:if test="${searchKeyword != ''}">${searchKeyword}</c:if>">
                                                                             <div class="input-group-prepend">
-                                                                                <button class="btn btn-secondary btn-xs">검색</button>
+                                                                                <button class="btn btn-primary btn-xs">검색</button>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                     <!-- 검색 창 placeholder 표시 -->
                                                                     <script>
-                                                                        $('#searchCondition').on('click change', function() {
-                                                                            if($('#searchCondition').val() == 'r_no')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '1'");
-                                                                            else if($('#searchCondition').val() == 'r_date')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '2022-01-26'");
-                                                                            else if($('#searchCondition').val() == 'r_status')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '예약 완료'");
-                                                                            else if($('#searchCondition').val() == 'r_meetName')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '회의실'");
-                                                                            else if($('#searchCondition').val() == 'r_mName')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '홍길동'");
-                                                                            else if($('#searchCondition').val() == 'r_content')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '회의'");
+                                                                        $('#searchCondition1').on('click change', function() {
+                                                                            if($('#searchCondition1').val() == 'r_no')
+                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '1'");
+                                                                            else if($('#searchCondition1').val() == 'r_date')
+                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '2022-01-26'");
+                                                                            else if($('#searchCondition1').val() == 'r_status')
+                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '예약 완료'");
+                                                                            else if($('#searchCondition1').val() == 'r_meetName')
+                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '회의실'");
+                                                                            else if($('#searchCondition1').val() == 'r_mName')
+                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '홍길동'");
+                                                                            else if($('#searchCondition1').val() == 'r_content')
+                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '회의'");
                                                                         });
-                                                                        $('#searchKeyword').on('click change', function() {
-                                                                            if($('#searchCondition').val() == 'r_no')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '1'");
-                                                                            else if($('#searchCondition').val() == 'r_date')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '2022-01-26'");
-                                                                            else if($('#searchCondition').val() == 'r_status')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '예약 완료'");
-                                                                            else if($('#searchCondition').val() == 'r_meetName')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '회의실'");
-                                                                            else if($('#searchCondition').val() == 'r_mName')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '홍길동'");
-                                                                            else if($('#searchCondition').val() == 'r_content')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '회의'");
+                                                                        $('#searchKeyword1').on('click change', function() {
+                                                                            if($('#searchCondition1').val() == 'r_no')
+                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '1'");
+                                                                            else if($('#searchCondition1').val() == 'r_date')
+                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '2022-01-26'");
+                                                                            else if($('#searchCondition1').val() == 'r_status')
+                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '예약 완료'");
+                                                                            else if($('#searchCondition1').val() == 'r_meetName')
+                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '회의실'");
+                                                                            else if($('#searchCondition1').val() == 'r_mName')
+                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '홍길동'");
+                                                                            else if($('#searchCondition1').val() == 'r_content')
+                                                                                $('#searchKeyword1').prop('placeholder', "예시:  '회의'");
+                                                                            
+                                                                            $('#searchKeyword1').css({'background':'lavender'});
+                                                                        }).focusout(function() {
+                                                                            $('#searchKeyword1').css({'background':'white'});
                                                                         });
                                                                     </script>
                                                                 </div>
@@ -144,16 +148,16 @@
                                                     <c:if test="${ !empty loginUser }">
                                                         <c:if test="${ pi1.listCount == 0 || searchPi1.listCount == 0 }">
                                                             <tr>
-                                                                <td colspan="6">예약 내역이 존재하지 않습니다.</td>
+                                                                <td colspan="6" class="nothing">예약 내역이 존재하지 않습니다.</td>
                                                             </tr>
                                                         </c:if>
                                                         <!-- 1st 탭 목록 조회 : 검색 X (전체 목록 조회) -->
                                                         <c:if test="${ pi1.listCount > 0 }">
-                                                            <c:url var="mrdetail" value="mrdetail.mr">
+                                                            <c:url var="mrdetail1" value="mrdetail.mr">
                                                                 <c:param name="rNo" value="${ mr1.rev_no }"/>
-                                                                <c:param name="page" value="${ pi1.currentPage }"/>
+                                                                <c:param name="page1" value="${ pi1.currentPage }"/>
                                                             </c:url>
-                                                            <a href="${ mrdetail }">${ mr1.rev_time }</a>
+                                                            <a href="${ mrdetail1 }">${ mr1.rev_time }</a>
                                                             <c:forEach var="mr1" items="${ list1 }">
                                                                 <tr>
                                                                     <td>${ mr1.rev_no }</td>
@@ -161,13 +165,13 @@
                                                                     <td>
                                                                         <c:choose>
                                                                             <c:when test="${ mr1.rev_status eq 0 }">
-                                                                                <span class="badge badge-pill badge-success">예약 완료</span>
+                                                                                <span class="badge badge-success">예약 완료</span>
                                                                             </c:when>
                                                                             <c:when test="${ mr1.rev_status eq 1 }">
-                                                                                <span class="badge badge-pill badge-secondary">사용 완료</span>
+                                                                                <span class="badge badge-secondary">사용 완료</span>
                                                                             </c:when>
                                                                             <c:when test="${ mr1.rev_status eq 2 }">
-                                                                                <span class="badge badge-pill badge-warning">예약 취소</span>
+                                                                                <span class="badge badge-warning">예약 취소</span>
                                                                             </c:when>
                                                                         </c:choose>
                                                                     </td>
@@ -179,11 +183,11 @@
                                                         </c:if>
                                                         <!-- 1st 탭 목록 조회 : 검색 O (검색 키워드 기준 목록 조회) -->
                                                         <c:if test="${ searchPi1.listCount > 0 }">
-                                                            <c:url var="mrdetail" value="mrdetail.mr">
+                                                            <c:url var="mrdetail2" value="mrdetail.mr">
                                                                 <c:param name="rNo" value="${ searchMr1.rev_no }"/>
-                                                                <c:param name="page" value="${ searchPi1.currentPage }"/>
+                                                                <c:param name="page1" value="${ searchPi1.currentPage }"/>
                                                             </c:url>
-                                                            <a href="${ mrdetail }">${ searchMr1.rev_time }</a>
+                                                            <a href="${ mrdetail2 }">${ searchMr1.rev_time }</a>
                                                             <c:forEach var="searchMr1" items="${ searchList1 }">
                                                                 <tr>
                                                                     <td>${ searchMr1.rev_no }</td>
@@ -191,13 +195,13 @@
                                                                     <td>
                                                                         <c:choose>
                                                                             <c:when test="${ searchMr1.rev_status eq 0 }">
-                                                                                <span class="badge badge-pill badge-success">예약 완료</span>
+                                                                                <span class="badge badge-success">예약 완료</span>
                                                                             </c:when>
                                                                             <c:when test="${ searchMr1.rev_status eq 1 }">
-                                                                                <span class="badge badge-pill badge-secondary">사용 완료</span>
+                                                                                <span class="badge badge-secondary">사용 완료</span>
                                                                             </c:when>
                                                                             <c:when test="${ searchMr1.rev_status eq 2 }">
-                                                                                <span class="badge badge-pill badge-warning">예약 취소</span>
+                                                                                <span class="badge badge-warning">예약 취소</span>
                                                                             </c:when>
                                                                         </c:choose>
                                                                     </td>
@@ -364,7 +368,7 @@
                                                             <form action="mrsearch.mr">
                                                                 <div class="row justify-content-end">
                                                                     <div class="col-px-0">
-                                                                        <select class="form-control form-control-sm" id="searchCondition" name="searchCondition" required>
+                                                                        <select class="form-control form-control-sm" id="searchCondition2" name="searchCondition" required>
                                                                             <option value="r_no" <c:if test="${searchCondition == 'r_no'}">selected</c:if>>예약번호</option>
                                                                             <option value="r_date" <c:if test="${searchCondition == 'r_date'}">selected</c:if>>예약날짜</option>
                                                                             <option value="r_status" <c:if test="${searchCondition == 'r_status'}">selected</c:if>>예약상태</option>
@@ -375,41 +379,45 @@
                                                                     </div>
                                                                     <div class="col-auto">
                                                                         <div class="input-group">
-                                                                            <input type="text" class="form-control form-control-sm" id="searchKeyword" name="searchKeyword" value="<c:if test="${searchKeyword != ''}">${searchKeyword}</c:if>">
+                                                                            <input type="text" class="form-control form-control-sm" id="searchKeyword2" name="searchKeyword" value="<c:if test="${searchKeyword != ''}">${searchKeyword}</c:if>">
                                                                             <div class="input-group-prepend">
-                                                                                <button class="btn btn-secondary btn-xs">검색</button>
+                                                                                <button class="btn btn-primary btn-xs">검색</button>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                     <!-- 검색 창 placeholder 표시 -->
                                                                     <script>
-                                                                        $('#searchCondition').on('click change', function() {
-                                                                            if($('#searchCondition').val() == 'r_no')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '1'");
-                                                                            else if($('#searchCondition').val() == 'r_date')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '2022-01-26'");
-                                                                            else if($('#searchCondition').val() == 'r_status')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '예약 완료'");
-                                                                            else if($('#searchCondition').val() == 'r_meetName')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '회의실'");
-                                                                            else if($('#searchCondition').val() == 'r_mName')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '홍길동'");
-                                                                            else if($('#searchCondition').val() == 'r_content')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '회의'");
+                                                                        $('#searchCondition2').on('click change', function() {
+                                                                            if($('#searchCondition2').val() == 'r_no')
+                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '1'");
+                                                                            else if($('#searchCondition2').val() == 'r_date')
+                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '2022-01-26'");
+                                                                            else if($('#searchCondition2').val() == 'r_status')
+                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '예약 완료'");
+                                                                            else if($('#searchCondition2').val() == 'r_meetName')
+                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '회의실'");
+                                                                            else if($('#searchCondition2').val() == 'r_mName')
+                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '홍길동'");
+                                                                            else if($('#searchCondition2').val() == 'r_content')
+                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '회의'");
                                                                         });
-                                                                        $('#searchKeyword').on('click change', function() {
-                                                                            if($('#searchCondition').val() == 'r_no')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '1'");
-                                                                            else if($('#searchCondition').val() == 'r_date')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '2022-01-26'");
-                                                                            else if($('#searchCondition').val() == 'r_status')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '예약 완료'");
-                                                                            else if($('#searchCondition').val() == 'r_meetName')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '회의실'");
-                                                                            else if($('#searchCondition').val() == 'r_mName')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '홍길동'");
-                                                                            else if($('#searchCondition').val() == 'r_content')
-                                                                                $('#searchKeyword').prop('placeholder', "예시:  '회의'");
+                                                                        $('#searchKeyword2').on('click change', function() {
+                                                                            if($('#searchCondition2').val() == 'r_no')
+                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '1'");
+                                                                            else if($('#searchCondition2').val() == 'r_date')
+                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '2022-01-26'");
+                                                                            else if($('#searchCondition2').val() == 'r_status')
+                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '예약 완료'");
+                                                                            else if($('#searchCondition2').val() == 'r_meetName')
+                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '회의실'");
+                                                                            else if($('#searchCondition2').val() == 'r_mName')
+                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '홍길동'");
+                                                                            else if($('#searchCondition2').val() == 'r_content')
+                                                                                $('#searchKeyword2').prop('placeholder', "예시:  '회의'");
+                                                                            
+                                                                            $('#searchKeyword2').css({'background':'lavender'});
+                                                                        }).focusout(function() {
+                                                                            $('#searchKeyword2').css({'background':'white'});
                                                                         });
                                                                     </script>
                                                                 </div>
@@ -430,16 +438,16 @@
                                                     <c:if test="${ !empty loginUser }">
                                                         <c:if test="${ pi2.listCount == 0 || searchPi2.listCount == 0 }">
                                                             <tr>
-                                                                <td colspan="6">예약 내역이 존재하지 않습니다.</td>
+                                                                <td colspan="6" class="nothing">예약 내역이 존재하지 않습니다.</td>
                                                             </tr>
                                                         </c:if>
                                                         <!-- 2nd 탭 목록 조회 : 검색 X (전체 목록 조회) -->
                                                         <c:if test="${ pi2.listCount > 0 }">
-                                                            <c:url var="mrupdate" value="mrupdateview.mr">
+                                                            <c:url var="mrupdate1" value="mrupdateview.mr">
                                                                 <c:param name="rNo" value="${ mr2.rev_no }"/>
-                                                                <c:param name="page" value="${ pi2.currentPage }"/>
+                                                                <c:param name="page2" value="${ pi2.currentPage }"/>
                                                             </c:url>
-                                                            <a href="${ mrupdate }">${ mr2.rev_time }</a>
+                                                            <a href="${ mrupdate1 }">${ mr2.rev_time }</a>
                                                             <c:forEach var="mr2" items="${ list2 }">
                                                                 <tr>
                                                                     <td>${ mr2.rev_no }</td>
@@ -447,13 +455,13 @@
                                                                     <td>
                                                                         <c:choose>
                                                                             <c:when test="${ mr2.rev_status eq 0 }">
-                                                                                <span class="badge badge-pill badge-success">예약 완료</span>
+                                                                                <span class="badge badge-success">예약 완료</span>
                                                                             </c:when>
                                                                             <c:when test="${ mr2.rev_status eq 1 }">
-                                                                                <span class="badge badge-pill badge-secondary">사용 완료</span>
+                                                                                <span class="badge badge-secondary">사용 완료</span>
                                                                             </c:when>
                                                                             <c:when test="${ mr2.rev_status eq 2 }">
-                                                                                <span class="badge badge-pill badge-warning">예약 취소</span>
+                                                                                <span class="badge badge-warning">예약 취소</span>
                                                                             </c:when>
                                                                         </c:choose>
                                                                     </td>
@@ -465,11 +473,11 @@
                                                         </c:if>
                                                         <!-- 2nd 탭 목록 조회 : 검색 O (검색 키워드 기준 목록 조회) -->
                                                         <c:if test="${ searchPi2.listCount > 0 }">
-                                                            <c:url var="mrdetail" value="mrdetail.mr">
+                                                            <c:url var="mrupdate2" value="mrupdateview.mr">
                                                                 <c:param name="rNo" value="${ searchMr2.rev_no }"/>
-                                                                <c:param name="page" value="${ searchPi2.currentPage }"/>
+                                                                <c:param name="page2" value="${ searchPi2.currentPage }"/>
                                                             </c:url>
-                                                            <a href="${ mrdetail }">${ searchMr2.rev_time }</a>
+                                                            <a href="${ mrupdate2 }">${ searchMr2.rev_time }</a>
                                                             <c:forEach var="searchMr2" items="${ searchList2 }">
                                                                 <tr>
                                                                     <td>${ searchMr2.rev_no }</td>
@@ -477,19 +485,19 @@
                                                                     <td>
                                                                         <c:choose>
                                                                             <c:when test="${ searchMr2.rev_status eq 0 }">
-                                                                                <span class="badge badge-pill badge-success">예약 완료</span>
+                                                                                <span class="badge badge-success">예약 완료</span>
                                                                             </c:when>
                                                                             <c:when test="${ searchMr2.rev_status eq 1 }">
-                                                                                <span class="badge badge-pill badge-secondary">사용 완료</span>
+                                                                                <span class="badge badge-secondary">사용 완료</span>
                                                                             </c:when>
                                                                             <c:when test="${ searchMr2.rev_status eq 2 }">
-                                                                                <span class="badge badge-pill badge-warning">예약 취소</span>
+                                                                                <span class="badge badge-warning">예약 취소</span>
                                                                             </c:when>
                                                                         </c:choose>
                                                                     </td>
                                                                     <td>${ searchMr2.meet_name }</td>
                                                                     <td>${ searchMr2.rev_content }</td>
-                                                                    <td><input type="checkbox" class="chk" name="rev_no" value="${ mr2.rev_no }"></td>
+                                                                    <td><input type="checkbox" class="chk" name="rev_no" value="${ searchMr2.rev_no }"></td>
                                                                 </tr>
                                                             </c:forEach>
                                                         </c:if>
@@ -638,11 +646,194 @@
                                                             <div class="d-flex justify-content-end">
                                                                 <button type="button" class="btn btn-primary btn-sm mr-2" onclick="location.href='mrinsertview.mr'">예약 신청</button>
                                                                 <c:if test="${ !list2.isEmpty() and !searchList2.isEmpty() }">
-                                                                    <button type="button" class="btn btn-primary btn-sm mr-2" onclick="location.href='mrupdateview.mr'">예약 수정</button>
-                                                                    <button type="button" class="btn btn-primary btn-sm" onclick="location.href='mrdelete.mr'">예약 취소</button>
+                                                                    <button type="button" class="btn btn-primary btn-sm mr-2" id="mredit">예약 수정</button>
+                                                                    <button type="button" class="btn btn-primary btn-sm mr-2" id="mrcomplete">사용 완료</button>
+                                                                    <button type="button" class="btn btn-primary btn-sm" id="mrcancel">예약 취소</button>
                                                                 </c:if>
                                                             </div>
                                                             </c:if>
+                                                            <!-- 검색하지 않았을 때 버튼 기능 -->
+                                                            <c:if test="${ pi1.listCount >= 0 and pi2.listCount >= 0 }">
+                                                            <script>
+                                                                $('#mredit').click(function() {
+                                                                    var rNo = -1;
+                                                                    var chkCount = $('.chk:checked').length > 1 ? -1 : 1;
+                                                                    
+                                                                    if(chkCount == 1 && $('.chk:checked').parent().parent().children().eq(2).children().text() == '예약 완료') {
+                                                                        rNo = $('.chk:checked').val();
+                                                                        
+                                                                        location.href="mrupdateview.mr?rNo=" + rNo + "&page2=" + ${ pi2.currentPage };
+                                                                    } else {
+                                                                        Swal.fire({
+                                                                            title: '예약 수정 접근 불가',
+                                                                            html: '<b>수정 가능한 1개의 예약만 선택해주세요.</b><br><small>※ "예약 완료" 상태만 수정이 가능합니다.</small>',
+                                                                            icon: 'warning',
+                                                                            showConfirmButton: true,
+                                                                            confirmButtonText: '예',
+                                                                        });
+                                                                    }
+                                                                });
+                                                            </script>
+                                                            </c:if>
+                                                            <!-- 검색했을 때 버튼 기능 -->
+                                                            <c:if test="${ searchPi1.listCount >= 0 and searchPi2.listCount >= 0 }">
+                                                            <script>
+                                                                $('#mredit').click(function() {
+                                                                    var rNo = -1;
+                                                                    var chkCount = $('.chk:checked').length > 1 ? -1 : 1;
+                                                                    
+                                                                    if(chkCount == 1 && $('.chk:checked').parent().parent().children().eq(2).children().text() == '예약 완료') {
+                                                                        rNo = $('.chk:checked').val();
+                                                                        
+                                                                        location.href="mrupdateview.mr?rNo=" + rNo + "&page2=" + ${ searchPi2.currentPage };
+                                                                    } else {
+                                                                        Swal.fire({
+                                                                            title: '예약 수정 접근 불가',
+                                                                            html: '<b>수정 가능한 1개의 예약만 선택해주세요.</b><br><small>※ "예약 완료" 상태만 수정이 가능합니다.</small>',
+                                                                            icon: 'warning',
+                                                                            showConfirmButton: true,
+                                                                            confirmButtonText: '예',
+                                                                        });
+                                                                    }
+                                                                });
+                                                            </script>
+                                                            </c:if>
+                                                            <!-- 공통 버튼 기능 -->
+                                                            <script>
+                                                                $('#mrcomplete').click(function() {
+                                                                    var rNo = -1;
+                                                                    var chkCount = $('.chk:checked').length > 0 ? $('.chk:checked').length : -1;
+                                                                    var comFlag = true;
+                                                                    
+                                                                    var chkArray = new Array();
+                                                                    
+                                                                    $('.chk:checked').each(function() {
+                                                                        comFlag = true;
+                                                                        chkArray.push(this.value);
+                                                                        
+                                                                        if($(this).parent().parent().children().eq(2).children().text() != '예약 완료')
+                                                                            comFlag = false;
+                                                                    });
+                                                                    
+                                                                    if(chkCount > 0 && comFlag) {
+                                                                        Swal.fire({
+                                                                            title: '사용 완료',
+                                                                            html: '<b>선택한 ' + chkCount + '개의 예약을 사용 완료로 변경하시겠습니까?</b><br><small>※ 예약상태 변경은 되돌릴 수 없습니다.</small>',
+                                                                            icon: 'info',
+                                                                            showConfirmButton: true,
+                                                                            confirmButtonText: '예',
+                                                                            showCancelButton: true,
+                                                                            cancelButtonText: '아니오'
+                                                                        }).then((result) => {
+                                                                            if(result.isConfirmed) {
+                                                                                $.ajax({
+                                                                                    url: 'mrcompletes.mr',
+                                                                                    type: 'post',
+                                                                                    dataType: 'json',
+                                                                                    data: {'chks':chkArray},
+                                                                                    success: function(data) {
+                                                                                        console.log(data);
+                                                                                    },
+                                                                                    error: function(data) {
+                                                                                        console.log(data);
+                                                                                    }
+                                                                                });
+                                                                                
+                                                                                Swal.mixin({
+                                                                                    toast: true,
+                                                                                    position: 'top-end',
+                                                                                    showConfirmButton: false,
+                                                                                    timer: 2000,
+                                                                                    timerProgressBar: true
+                                                                                }).fire({
+                                                                                    icon: 'success',
+                                                                                    title: '성공적으로 변경되었습니다.',
+                                                                                    width: '400px'
+                                                                                });
+                                                                                
+                                                                                $(function() {
+                                                                                    location.reload();
+                                                                                });
+                                                                            }
+                                                                        });
+                                                                    } else {
+                                                                        Swal.fire({
+                                                                            title: '예약 상태 수정 접근 불가',
+                                                                            html: '<b>수정 가능한 예약만 선택해주세요.</b><br><small>※ "예약 완료" 상태만 수정이 가능합니다.</small>',
+                                                                            icon: 'warning',
+                                                                            showConfirmButton: true,
+                                                                            confirmButtonText: '예',
+                                                                        });
+                                                                    }
+                                                                });
+                                                                
+                                                                $('#mrcancel').click(function() {
+                                                                    var rNo = -1;
+                                                                    var chkCount = $('.chk:checked').length > 0 ? $('.chk:checked').length : -1;
+                                                                    var comFlag = true;
+                                                                    
+                                                                    var chkArray = new Array();
+                                                                    
+                                                                    $('.chk:checked').each(function() {
+                                                                        comFlag = true;
+                                                                        chkArray.push(this.value);
+                                                                        
+                                                                        if($(this).parent().parent().children().eq(2).children().text() != '예약 완료')
+                                                                            comFlag = false;
+                                                                    });
+                                                                    
+                                                                    if(chkCount > 0 && comFlag) {
+                                                                        Swal.fire({
+                                                                            title: '예약 취소',
+                                                                            html: '<b>선택한 ' + chkCount + '개의 예약을 취소하시겠습니까?</b><br><small>※ 예약상태 변경은 되돌릴 수 없습니다.</small>',
+                                                                            icon: 'warning',
+                                                                            showConfirmButton: true,
+                                                                            confirmButtonText: '예',
+                                                                            showCancelButton: true,
+                                                                            cancelButtonText: '아니오'
+                                                                        }).then((result) => {
+                                                                            if(result.isConfirmed) {
+                                                                                $.ajax({
+                                                                                    url: 'mrcancels.mr',
+                                                                                    type: 'post',
+                                                                                    dataType: 'json',
+                                                                                    data: {'chks':chkArray},
+                                                                                    success: function(data) {
+                                                                                        console.log(data);
+                                                                                    },
+                                                                                    error: function(data) {
+                                                                                        console.log(data);
+                                                                                    }
+                                                                                });
+                                                                                
+                                                                                Swal.mixin({
+                                                                                    toast: true,
+                                                                                    position: 'top-end',
+                                                                                    showConfirmButton: false,
+                                                                                    timer: 2000,
+                                                                                    timerProgressBar: true
+                                                                                }).fire({
+                                                                                    icon: 'success',
+                                                                                    title: '성공적으로 취소되었습니다.',
+                                                                                    width: '400px'
+                                                                                });
+                                                                                
+                                                                                $(function() {
+                                                                                    location.reload();
+                                                                                });
+                                                                            }
+                                                                        });
+                                                                    } else {
+                                                                        Swal.fire({
+                                                                            title: '예약 상태 수정 접근 불가',
+                                                                            html: '<b>수정 가능한 예약만 선택해주세요.</b><br><small>※ "예약 완료" 상태만 수정이 가능합니다.</small>',
+                                                                            icon: 'warning',
+                                                                            showConfirmButton: true,
+                                                                            confirmButtonText: '예',
+                                                                        });
+                                                                    }
+                                                                });
+                                                            </script>
                                                         </td>
                                                     </tr>
                                                     <!-- 예약 관련 버튼 끝 -->
@@ -664,52 +855,101 @@
             </div>
         </div>
     
-    <script>
-    // 예약정보 세부 조회 연결 기능
-    $(function() {
-        $('#tb1 tbody td').mouseenter(function() {
-            $(this).parent().css({'font-weight':'bold', 'cursor':'pointer'});
+    <!-- 검색하지 않은 목록 조회 시 -->
+    <c:if test="${ pi1.listCount >= 0 and pi2.listCount >= 0 }">
+        <script>
+        // 예약정보 세부 조회 연결 기능
+        $('#tb1 tbody td:not(".nothing")').mouseenter(function() {
+            $(this).parent().css({'font-weight':'bold', 'cursor':'pointer', 'background':'lavender'});
         }).mouseout(function() {
-            $(this).parent().css({'font-weight':'normal'});
+            $(this).parent().css({'font-weight':'normal', 'background':'white'});
         }).click(function() {
             var rNo = $(this).parent().children().eq(0).text();
             location.href="mrdetail.mr?rNo=" + rNo + "&page1=" + ${ pi1.currentPage };
         });
         
-        $('#tb2 tbody td:not(:has(input))').mouseenter(function() {
-            $(this).parent().css({'font-weight':'bold', 'cursor':'pointer'});
+        $('#tb2 tbody td:not(:has(input)):not(".nothing")').mouseenter(function() {
+            $(this).parent().css({'font-weight':'bold', 'cursor':'pointer', 'background':'lavender'});
         }).mouseout(function() {
-            $(this).parent().css({'font-weight':'normal'});
+            $(this).parent().css({'font-weight':'normal', 'background':'white'});
         }).click(function() {
             var rNo = $(this).parent().children().eq(0).text();
             location.href="mrupdateview.mr?rNo=" + rNo + "&page2=" + ${ pi2.currentPage };
         });
-    });
+        
+        // 체크박스 기능
+        $('#chkAll').click(function() {
+            var chkAll = $(this).prop('checked');
+            
+            if(chkAll)
+                $('.chk').prop('checked', true);
+            else
+                $('.chk').prop('checked', false);
+        });
+        
+        $('.chk').click(function() {
+            var chk = $('.chk');
+            
+            var chkAllSelect = true;
+            for(var i in chk)
+                if(chk[i].checked == false)
+                    chkAllSelect = false;
+            
+            if(chkAllSelect)
+                $('#chkAll').prop('checked', true);
+            else
+                $('#chkAll').prop('checked', false);
+        });
+        </script>
+    </c:if>
     
-    // 체크박스 기능
-    $('#chkAll').click(function() {
-        var chkAll = $(this).prop('checked');
+    <!-- 검색한 목록 조회 시 -->
+    <c:if test="${ searchPi1.listCount >= 0 and searchPi2.listCount >= 0 }">
+        <script>
+        // 예약정보 세부 조회 연결 기능
+        $('#tb1 tbody td:not(".nothing")').mouseenter(function() {
+            $(this).parent().css({'font-weight':'bold', 'cursor':'pointer', 'background':'lavender'});
+        }).mouseout(function() {
+            $(this).parent().css({'font-weight':'normal', 'background':'white'});
+        }).click(function() {
+            var rNo = $(this).parent().children().eq(0).text();
+            location.href="mrdetail.mr?rNo=" + rNo + "&page1=" + ${ searchPi1.currentPage };
+        });
         
-        if(chkAll)
-            $('.chk').prop('checked', true);
-        else
-            $('.chk').prop('checked', false);
-    });
-    
-    $('.chk').click(function() {
-        var chk = document.getElementsByClassName('chk');
+        $('#tb2 tbody td:not(:has(input)):not(".nothing")').mouseenter(function() {
+            $(this).parent().css({'font-weight':'bold', 'cursor':'pointer', 'background':'lavender'});
+        }).mouseout(function() {
+            $(this).parent().css({'font-weight':'normal', 'background':'white'});
+        }).click(function() {
+            var rNo = $(this).parent().children().eq(0).text();
+            location.href="mrupdateview.mr?rNo=" + rNo + "&page2=" + ${ searchPi2.currentPage };
+        });
         
-        var chkAllSelect = true;
-        for(var i in chk)
-            if(chk[i].checked == false)
-                chkAllSelect = false;
+        // 체크박스 기능
+        $('#chkAll').click(function() {
+            var chkAll = $(this).prop('checked');
+            
+            if(chkAll)
+                $('.chk').prop('checked', true);
+            else
+                $('.chk').prop('checked', false);
+        });
         
-        if(chkAllSelect)
-            $('#chkAll').prop('checked', true);
-        else
-            $('#chkAll').prop('checked', false);
-    });
-    </script>
+        $('.chk').click(function() {
+            var chk = $('.chk');
+            
+            var chkAllSelect = true;
+            for(var i in chk)
+                if(chk[i].checked == false)
+                    chkAllSelect = false;
+            
+            if(chkAllSelect)
+                $('#chkAll').prop('checked', true);
+            else
+                $('#chkAll').prop('checked', false);
+        });
+        </script>
+    </c:if>
         <!--**********************************
             Content body end
         ***********************************-->
@@ -736,6 +976,8 @@
 	    <!--**********************************
 	        Scripts
 	    ***********************************-->
+        <!-- SweetAlert2 -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.3.6/dist/sweetalert2.all.min.js"/>
 
 </body>
 
