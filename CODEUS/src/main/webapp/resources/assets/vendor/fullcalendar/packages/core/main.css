@@ -713,7 +713,7 @@ Lots taken from Flatly (MIT): https://bootswatch.com/4/flatly/bootstrap.css
 
 /* "primary" coloring */
 .fc-button-primary {
-  color: #fff;
+  color: #000;
   background-color: #2C3E50;
   border-color: #2C3E50;
 }

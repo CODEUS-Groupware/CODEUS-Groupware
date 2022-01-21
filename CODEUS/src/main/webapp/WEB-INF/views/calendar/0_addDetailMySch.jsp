@@ -190,7 +190,6 @@
 		width: 97%;
 	}
 	
-	
 	.table-borderless > tbody > tr > td,
 	.table-borderless > tbody > tr > th,
 	.table-borderless > tfoot > tr > td,
@@ -774,11 +773,6 @@
 				<input type="checkbox" id="allday" name="allday" /><label for="allday">종일</label>
 	          </td>
 	        </tr>
-	        
-<!-- 	        <tr> -->
-<!-- 	          <th>내 캘린더</th> -->
-<!-- 	          <td><select class="addSchSelect form-control" name="scheType" style="width: 30%; height: 35px;"></select></td> -->
-<!-- 	        </tr> -->
 	        <tr>
 	          <th>색상</th>
 	          <td>
@@ -791,7 +785,7 @@
 	          </td>
 	        </tr>
 	        <tr>
-<!-- 	          <th>일정등록자</th> -->
+<!-- 	      <th>일정등록자</th> -->
 	          <td><input class="form-control title modal_input" maxlength="13" name="mId" type="hidden" value="${sessionScope.loginUser.mId}" readonly/></td>
 	        </tr>
 	        
