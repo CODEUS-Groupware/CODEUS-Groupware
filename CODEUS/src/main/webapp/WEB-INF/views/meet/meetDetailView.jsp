@@ -34,11 +34,15 @@
                     <c:url var="mrlist" value="mrlist.mr">
                         <c:param name="page1" value="${ page1 }"/>
                     </c:url>
+                    <c:url var="mrdetail" value="mrdetail.mr">
+                        <c:param name="rNo" value="${ mr.rev_no }"/>
+                        <c:param name="page1" value="${ page1 }"/>
+                    </c:url>
                     <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">회의실 예약</li>
                             <li class="breadcrumb-item active"><a href="${ mrlist }">예약 목록</a></li>
-                            <li class="breadcrumb-item active"><a href="javascript:void()">예약 정보</a></li>
+                            <li class="breadcrumb-item active"><a href="${ mrdetail }">예약 정보</a></li>
                         </ol>
                     </div>
                 </div>
@@ -80,30 +84,50 @@
                                         </div>
                                         <div class="col-xl-6">
                                             <div class="form-group row">
-                                                <label class="col-lg-4 col-form-label" for="r_date">예약날짜
+                                                <label class="col-lg-2 col-form-label" for="r_no">예약번호
                                                 </label>
-                                                <div class="col-lg-6">
+                                                <div class="col-lg-3">
+                                                    <input type="text" class="form-control" id="r_no" name="r_no" value="${ mr.rev_no }" readonly>
+                                                </div>
+                                                <label class="col-lg-2 col-form-label" for="r_status">예약상태
+                                                </label>
+                                                <div class="col-lg-3">
+                                                    <c:choose>
+                                                        <c:when test="${ mr.rev_status eq 0 }">
+                                                            <span class="badge badge-xl badge-success">예약 완료</span>
+                                                        </c:when>
+                                                        <c:when test="${ mr.rev_status eq 1 }">
+                                                            <span class="badge badge-xl badge-secondary">사용 완료</span>
+                                                        </c:when>
+                                                        <c:when test="${ mr.rev_status eq 2 }">
+                                                            <span class="badge badge-xl badge-warning">예약 취소</span>
+                                                        </c:when>
+                                                    </c:choose>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-lg-2 col-form-label" for="r_date">예약날짜
+                                                </label>
+                                                <div class="col-lg-8">
                                                     <input type="text" class="form-control" id="r_date" name="r_date" value="${ mr.rev_date }" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label class="col-lg-4 col-form-label" for="r_start_time">시작시간
+                                                <label class="col-lg-2 col-form-label" for="r_start_time">시작시간
                                                 </label>
-                                                <div class="col-lg-6">
+                                                <div class="col-lg-3">
                                                     <input type="text" class="form-control" id="r_start_time" name="r_start_time" value="${ mr.rev_start_time.getHours() == 9 ? '09' : mr.rev_start_time.getHours() }:${ mr.rev_start_time.getMinutes() == 0 ? '00' : '30' }" readonly>
                                                 </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-lg-4 col-form-label" for="r_end_time">종료시간
+                                                <label class="col-lg-2 col-form-label" for="r_end_time">종료시간
                                                 </label>
-                                                <div class="col-lg-6">
+                                                <div class="col-lg-3">
                                                     <input type="text" class="form-control" id="r_end_time" name="r_end_time" value="${ mr.rev_end_time.getHours() == 9 ? '09' : mr.rev_end_time.getHours() }:${ mr.rev_end_time.getMinutes() == 0 ? '00' : '30' }" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label class="col-lg-4 col-form-label" for="r_room">예약한 회의실
+                                                <label class="col-lg-2 col-form-label" for="r_room">회의실
                                                 </label>
-                                                <div class="col-lg-6">
+                                                <div class="col-lg-8">
                                                     <input type="text" class="form-control" id="r_room" name="r_room" value="${ mr.meet_name }" readonly>
                                                 </div>
                                             </div>
@@ -117,7 +141,7 @@
                                                 </div>
                                             </div>
                                             <div class="d-flex justify-content-end">
-                                               <button type="button" class="btn btn-primary btn-sm" onclick="location.href='${ mrlist }'">돌아가기</button>
+                                               <button type="button" class="btn btn-outline-primary btn-sm" onclick="location.href='${ mrlist }'">돌아가기</button>
                                             </div>
                                         </div>
                                     </div>

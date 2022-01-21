@@ -299,5 +299,17 @@
             rev_content = #{rev_content}, rev_apply_date = sysdate, meet_no = #{meet_no}, m_id = #{mId}
         where rev_no = #{rev_no}
     </update>
+    
+    <update id="completeMeetingResrv">
+        update meet_reservation
+        set rev_status = '1'
+        where rev_no = #{rNo}
+    </update>
+    
+    <update id="cancelMeetingResrv">
+        update meet_reservation
+        set rev_status = '2'
+        where rev_no = #{rNo}
+    </update>
 
 </mapper>

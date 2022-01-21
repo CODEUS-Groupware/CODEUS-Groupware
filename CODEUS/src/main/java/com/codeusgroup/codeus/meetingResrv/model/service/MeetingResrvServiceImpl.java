@@ -87,4 +87,14 @@ public class MeetingResrvServiceImpl implements MeetingResrvService {
         return mrDAO.updateMeetingResrv(sqlSession, mr);
     }
     
+    @Override
+    public int completeMeetingResrv(int rNo) {
+        return mrDAO.completeMeetingResrv(sqlSession, rNo);
+    }
+    
+    @Override
+    public int cancelMeetingResrv(int rNo) {
+        return mrDAO.cancelMeetingResrv(sqlSession, rNo);
+    }
+    
 }

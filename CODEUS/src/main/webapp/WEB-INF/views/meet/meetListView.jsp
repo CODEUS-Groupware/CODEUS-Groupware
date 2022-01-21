@@ -7,6 +7,8 @@
 <meta charset="UTF-8">
     <title>회의실 예약 - 예약 목록 </title>
     <link href="${contextPath}/resources/assets/css/style.css" rel="stylesheet">
+    <link href="${contextPath}/resources/assets/vendor/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
+    <link href="${contextPath}/resources/assets/css/style.css" rel="stylesheet">
     <style type="text/css">
         table {
             align-content: center;
@@ -18,6 +20,7 @@
             white-space: nowrap;
             overflow: hidden;
         }
+}
     </style>
 </head>
 
@@ -91,7 +94,7 @@
                                                                         <div class="input-group">
                                                                             <input type="text" class="form-control form-control-sm" id="searchKeyword1" name="searchKeyword" value="<c:if test="${searchKeyword != ''}">${searchKeyword}</c:if>">
                                                                             <div class="input-group-prepend">
-                                                                                <button class="btn btn-secondary btn-xs">검색</button>
+                                                                                <button class="btn btn-primary btn-xs">검색</button>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -124,6 +127,10 @@
                                                                                 $('#searchKeyword1').prop('placeholder', "예시:  '홍길동'");
                                                                             else if($('#searchCondition1').val() == 'r_content')
                                                                                 $('#searchKeyword1').prop('placeholder', "예시:  '회의'");
+                                                                            
+                                                                            $('#searchKeyword1').css({'background':'lavender'});
+                                                                        }).focusout(function() {
+                                                                            $('#searchKeyword1').css({'background':'white'});
                                                                         });
                                                                     </script>
                                                                 </div>
@@ -161,13 +168,13 @@
                                                                     <td>
                                                                         <c:choose>
                                                                             <c:when test="${ mr1.rev_status eq 0 }">
-                                                                                <span class="badge badge-pill badge-success">예약 완료</span>
+                                                                                <span class="badge badge-success">예약 완료</span>
                                                                             </c:when>
                                                                             <c:when test="${ mr1.rev_status eq 1 }">
-                                                                                <span class="badge badge-pill badge-secondary">사용 완료</span>
+                                                                                <span class="badge badge-secondary">사용 완료</span>
                                                                             </c:when>
                                                                             <c:when test="${ mr1.rev_status eq 2 }">
-                                                                                <span class="badge badge-pill badge-warning">예약 취소</span>
+                                                                                <span class="badge badge-warning">예약 취소</span>
                                                                             </c:when>
                                                                         </c:choose>
                                                                     </td>
@@ -191,13 +198,13 @@
                                                                     <td>
                                                                         <c:choose>
                                                                             <c:when test="${ searchMr1.rev_status eq 0 }">
-                                                                                <span class="badge badge-pill badge-success">예약 완료</span>
+                                                                                <span class="badge badge-success">예약 완료</span>
                                                                             </c:when>
                                                                             <c:when test="${ searchMr1.rev_status eq 1 }">
-                                                                                <span class="badge badge-pill badge-secondary">사용 완료</span>
+                                                                                <span class="badge badge-secondary">사용 완료</span>
                                                                             </c:when>
                                                                             <c:when test="${ searchMr1.rev_status eq 2 }">
-                                                                                <span class="badge badge-pill badge-warning">예약 취소</span>
+                                                                                <span class="badge badge-warning">예약 취소</span>
                                                                             </c:when>
                                                                         </c:choose>
                                                                     </td>
@@ -377,7 +384,7 @@
                                                                         <div class="input-group">
                                                                             <input type="text" class="form-control form-control-sm" id="searchKeyword2" name="searchKeyword" value="<c:if test="${searchKeyword != ''}">${searchKeyword}</c:if>">
                                                                             <div class="input-group-prepend">
-                                                                                <button class="btn btn-secondary btn-xs">검색</button>
+                                                                                <button class="btn btn-primary btn-xs">검색</button>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -410,6 +417,10 @@
                                                                                 $('#searchKeyword2').prop('placeholder', "예시:  '홍길동'");
                                                                             else if($('#searchCondition2').val() == 'r_content')
                                                                                 $('#searchKeyword2').prop('placeholder', "예시:  '회의'");
+                                                                            
+                                                                            $('#searchKeyword2').css({'background':'lavender'});
+                                                                        }).focusout(function() {
+                                                                            $('#searchKeyword2').css({'background':'white'});
                                                                         });
                                                                     </script>
                                                                 </div>
@@ -447,13 +458,13 @@
                                                                     <td>
                                                                         <c:choose>
                                                                             <c:when test="${ mr2.rev_status eq 0 }">
-                                                                                <span class="badge badge-pill badge-success">예약 완료</span>
+                                                                                <span class="badge badge-success">예약 완료</span>
                                                                             </c:when>
                                                                             <c:when test="${ mr2.rev_status eq 1 }">
-                                                                                <span class="badge badge-pill badge-secondary">사용 완료</span>
+                                                                                <span class="badge badge-secondary">사용 완료</span>
                                                                             </c:when>
                                                                             <c:when test="${ mr2.rev_status eq 2 }">
-                                                                                <span class="badge badge-pill badge-warning">예약 취소</span>
+                                                                                <span class="badge badge-warning">예약 취소</span>
                                                                             </c:when>
                                                                         </c:choose>
                                                                     </td>
@@ -477,13 +488,13 @@
                                                                     <td>
                                                                         <c:choose>
                                                                             <c:when test="${ searchMr2.rev_status eq 0 }">
-                                                                                <span class="badge badge-pill badge-success">예약 완료</span>
+                                                                                <span class="badge badge-success">예약 완료</span>
                                                                             </c:when>
                                                                             <c:when test="${ searchMr2.rev_status eq 1 }">
-                                                                                <span class="badge badge-pill badge-secondary">사용 완료</span>
+                                                                                <span class="badge badge-secondary">사용 완료</span>
                                                                             </c:when>
                                                                             <c:when test="${ searchMr2.rev_status eq 2 }">
-                                                                                <span class="badge badge-pill badge-warning">예약 취소</span>
+                                                                                <span class="badge badge-warning">예약 취소</span>
                                                                             </c:when>
                                                                         </c:choose>
                                                                     </td>
@@ -638,8 +649,9 @@
                                                             <div class="d-flex justify-content-end">
                                                                 <button type="button" class="btn btn-primary btn-sm mr-2" onclick="location.href='mrinsertview.mr'">예약 신청</button>
                                                                 <c:if test="${ !list2.isEmpty() and !searchList2.isEmpty() }">
-                                                                    <button type="button" class="btn btn-primary btn-sm mr-2" onclick="location.href='mrupdateview.mr'">예약 수정</button>
-                                                                    <button type="button" class="btn btn-primary btn-sm" onclick="location.href='mrdelete.mr'">예약 취소</button>
+                                                                    <button type="button" class="btn btn-primary btn-sm mr-2">예약 수정</button>
+                                                                    <button type="button" class="btn btn-primary btn-sm mr-2">사용 완료</button>
+                                                                    <button type="button" class="btn btn-primary btn-sm">예약 취소</button>
                                                                 </c:if>
                                                             </div>
                                                             </c:if>
@@ -668,18 +680,18 @@
     // 예약정보 세부 조회 연결 기능
     $(function() {
         $('#tb1 tbody td').mouseenter(function() {
-            $(this).parent().css({'font-weight':'bold', 'cursor':'pointer'});
+            $(this).parent().css({'font-weight':'bold', 'cursor':'pointer', 'background':'lavender'});
         }).mouseout(function() {
-            $(this).parent().css({'font-weight':'normal'});
+            $(this).parent().css({'font-weight':'normal', 'background':'white'});
         }).click(function() {
             var rNo = $(this).parent().children().eq(0).text();
             location.href="mrdetail.mr?rNo=" + rNo + "&page1=" + ${ pi1.currentPage };
         });
         
         $('#tb2 tbody td:not(:has(input))').mouseenter(function() {
-            $(this).parent().css({'font-weight':'bold', 'cursor':'pointer'});
+            $(this).parent().css({'font-weight':'bold', 'cursor':'pointer', 'background':'lavender'});
         }).mouseout(function() {
-            $(this).parent().css({'font-weight':'normal'});
+            $(this).parent().css({'font-weight':'normal', 'background':'white'});
         }).click(function() {
             var rNo = $(this).parent().children().eq(0).text();
             location.href="mrupdateview.mr?rNo=" + rNo + "&page2=" + ${ pi2.currentPage };
@@ -736,6 +748,14 @@
 	    <!--**********************************
 	        Scripts
 	    ***********************************-->
+        <!-- Required vendors -->
+        <script src="${contextPath}/resources/assets/vendor/global/global.min.js"></script>
+        <script src="${contextPath}/resources/assets/js/quixnav-init.js"></script>
+        <script src="${contextPath}/resources/assets/js/custom.min.js"></script>
+
+
+        <script src="${contextPath}/resources/assets/vendor/sweetalert2/dist/sweetalert2.min.js"></script>
+        <script src="${contextPath}/resources/assets/js/plugins-init/sweetalert.init.js"></script>
 
 </body>
 

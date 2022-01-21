@@ -110,7 +110,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label class="col-lg-4 col-form-label" for="r_room">예약할 회의실
+                                                    <label class="col-lg-4 col-form-label" for="r_room">회의실
                                                         <span class="text-danger">*</span>
                                                     </label>
                                                     <div class="col-lg-6">
@@ -128,8 +128,9 @@
                                                     </div>
                                                 </div>
                                                 <div class="d-flex justify-content-end">
-                                                    <!-- 신청하기 버튼(modal) -->
-                                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#basicModal" onclick="lastCheck();">신청하기</button>
+                                                    <!-- 버튼 -->
+                                                    <button type="button" class="btn btn-primary btn-sm mr-2" data-toggle="modal" data-target="#basicModal" onclick="lastCheck();">신청하기</button>
+                                                    <button type="button" class="btn btn-outline-primary btn-sm" onclick="location.href='mrlist.mr'">돌아가기</button>
                                                     <!-- Modal -->
                                                     <div class="modal fade" id="basicModal">
                                                         <div class="modal-dialog" role="document">
@@ -275,6 +276,8 @@
             }
             
             inputStartTime = $('#r_start_time').val();
+            inputEndTime = null;
+            isTimeUsable = false;
         }).on('change paste input', function() {
             if(!isEmpty($('#r_start_time').val())) {
                 $('#r_end_time').empty();
@@ -289,6 +292,8 @@
             }
             
             inputStartTime = $('#r_start_time').val();
+            inputEndTime = null;
+            isTimeUsable = false;
         });
         
         $('#r_end_time').one('click', function() {
@@ -297,12 +302,16 @@
             $('#r_room').empty();
             inputRoom = null;
             inputRoomName = null;
+            
+            isRoomUsable = false;
         }).on('change paste input', function() {
             inputEndTime = $('#r_end_time').val();
             
             $('#r_room').empty();
             inputRoom = null;
             inputRoomName = null;
+            
+            isRoomUsable = false;
         });
         
         $('#r_end_time').on('change paste input', function() {
@@ -386,19 +395,126 @@
             
             $('#chkMsg').next().find('button').remove();
             var submitBtn = '<button type="submit" class="btn btn-primary">신청</button>';
-            var dismissBtn1 = '<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>';
-            var dismissBtn2 = '<button type="button" class="btn btn-secondary" data-dismiss="modal">확인</button>';
+            var dismissBtn1 = '<button type="button" class="btn btn-outline-primary" data-dismiss="modal">취소</button>';
+            var dismissBtn2 = '<button type="button" class="btn btn-outline-primary" data-dismiss="modal">확인</button>';
             
             if(isDateUsable && isTimeUsable && isRoomUsable && isContentUsable) {
                 $('#chkMsg').next().append(submitBtn).append(dismissBtn1);
                 
-                var chkMsg = inputDate + "  " + inputStartTime + " ~ " + inputEndTime + " / " + inputRoomName;
-                $('#chkMsg').text(chkMsg);
+                var chkMsg = '다음 입력 정보로 예약을 신청하시겠습니까?<br><br>';
+                chkMsg = chkMsg + '<div class="input-group">\
+                                      <div class="input-group-append">\
+                                          <button class="btn btn-square btn-primary btn-xs">예약날짜</button>\
+                                      </div>\
+                                      <input type="text" class="form-control form-control-sm" value="' + inputDate + '" readonly>\
+                                  </div><br>\
+                                  <div class="input-group">\
+                                      <div class="input-group-append">\
+                                          <button class="btn btn-square btn-primary btn-xs">시작시간</button>\
+                                      </div>\
+                                      <input type="text" class="form-control form-control-sm" value="' + inputStartTime + '" readonly>\
+                                  </div><br>\
+                                  <div class="input-group">\
+                                      <div class="input-group-append">\
+                                          <button class="btn btn-square btn-primary btn-xs">종료시간</button>\
+                                      </div>\
+                                      <input type="text" class="form-control form-control-sm" value="' + inputEndTime + '" readonly>\
+                                  </div><br>\
+                                  <div class="input-group">\
+                                      <div class="input-group-append">\
+                                          <button class="btn btn-square btn-primary btn-xs">&nbsp;회&nbsp;의&nbsp;실&nbsp;</button>\
+                                      </div>\
+                                      <input type="text" class="form-control form-control-sm" value="' + inputRoomName + '" readonly>\
+                                  </div><br>\
+                                  <div class="input-group">\
+                                      <div class="input-group-append">\
+                                          <button class="btn btn-square btn-primary btn-xs">예약목적</button>\
+                                      </div>\
+                                      <input type="text" class="form-control form-control-sm" value="' + inputContent + '" readonly>\
+                                  </div><br>';
+                
+                $('#chkMsg').html(chkMsg);
             } else {
                 $('#chkMsg').next().append(dismissBtn2);
                 
-                var chkMsg = "입력 정보를 다시 확인해주세요.";
-                $('#chkMsg').text(chkMsg);
+                var chkMsg = '미입력된 정보가 있습니다. 다음 필수 입력 정보를 다시 확인해주세요.<br><br>';
+                
+                if(!isDateUsable)
+                    chkMsg = chkMsg + '<div class="input-group">\
+                                           <div class="input-group-append">\
+                                               <button class="btn btn-square btn-outline-primary btn-xs">예약날짜</button>\
+                                           </div>\
+                                           <input type="text" class="form-control form-control-sm" value="" readonly>\
+                                       </div><br>';
+                else
+                    chkMsg = chkMsg + '<div class="input-group">\
+                                           <div class="input-group-append">\
+                                               <button class="btn btn-square btn-primary btn-xs">예약날짜</button>\
+                                           </div>\
+                                           <input type="text" class="form-control form-control-sm" value="' + inputDate + '" readonly>\
+                                       </div><br>';
+                
+                if(isEmpty(inputStartTime))
+                    chkMsg = chkMsg + '<div class="input-group">\
+                                           <div class="input-group-append">\
+                                               <button class="btn btn-square btn-outline-primary btn-xs">시작시간</button>\
+                                           </div>\
+                                           <input type="text" class="form-control form-control-sm" value="" readonly>\
+                                       </div><br>';
+                else
+                    chkMsg = chkMsg + '<div class="input-group">\
+                                           <div class="input-group-append">\
+                                               <button class="btn btn-square btn-primary btn-xs">시작시간</button>\
+                                           </div>\
+                                           <input type="text" class="form-control form-control-sm" value="' + inputStartTime + '" readonly>\
+                                       </div><br>';
+                
+                if(isEmpty(inputEndTime))
+                    chkMsg = chkMsg + '<div class="input-group">\
+                                           <div class="input-group-append">\
+                                               <button class="btn btn-square btn-outline-primary btn-xs">종료시간</button>\
+                                           </div>\
+                                           <input type="text" class="form-control form-control-sm" value="" readonly>\
+                                       </div><br>';
+                else
+                    chkMsg = chkMsg + '<div class="input-group">\
+                                           <div class="input-group-append">\
+                                               <button class="btn btn-square btn-primary btn-xs">종료시간</button>\
+                                           </div>\
+                                           <input type="text" class="form-control form-control-sm" value="' + inputEndTime + '" readonly>\
+                                       </div><br>';
+                
+                if(!isRoomUsable)
+                    chkMsg = chkMsg + '<div class="input-group">\
+                                           <div class="input-group-append">\
+                                               <button class="btn btn-square btn-outline-primary btn-xs">&nbsp;회&nbsp;의&nbsp;실&nbsp;</button>\
+                                           </div>\
+                                           <input type="text" class="form-control form-control-sm" value="" readonly>\
+                                       </div><br>';
+                else
+                    chkMsg = chkMsg + '<div class="input-group">\
+                                           <div class="input-group-append">\
+                                               <button class="btn btn-square btn-primary btn-xs">&nbsp;회&nbsp;의&nbsp;실&nbsp;</button>\
+                                           </div>\
+                                           <input type="text" class="form-control form-control-sm" value="' + inputRoomName + '" readonly>\
+                                       </div><br>';
+                
+                if(!isContentUsable)
+                    chkMsg = chkMsg + '<div class="input-group">\
+                                           <div class="input-group-append">\
+                                               <button class="btn btn-square btn-outline-primary btn-xs">예약목적</button>\
+                                           </div>\
+                                           <input type="text" class="form-control form-control-sm" value="" readonly>\
+                                       </div><br>';
+                else
+                    chkMsg = chkMsg + '<div class="input-group">\
+                                           <div class="input-group-append">\
+                                               <button class="btn btn-square btn-primary btn-xs">예약목적</button>\
+                                           </div>\
+                                           <input type="text" class="form-control form-control-sm" value="' + inputContent + '" readonly>\
+                                       </div><br>';
+                
+                $('#chkMsg').html(chkMsg);
             }
         }
         

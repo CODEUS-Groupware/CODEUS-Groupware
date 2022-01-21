@@ -79,4 +79,12 @@ public class MeetingResrvDAO {
         return sqlSession.update("meetResrvMapper.updateMeetingResrv", mr);
     }
     
+    public int completeMeetingResrv(SqlSessionTemplate sqlSession, int rNo) {
+        return sqlSession.update("meetResrvMapper.completeMeetingResrv", rNo);
+    }
+    
+    public int cancelMeetingResrv(SqlSessionTemplate sqlSession, int rNo) {
+        return sqlSession.update("meetResrvMapper.cancelMeetingResrv", rNo);
+    }
+    
 }

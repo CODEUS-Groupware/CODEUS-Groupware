@@ -32,6 +32,7 @@ public class MeetingResrvController {
     @Autowired
     private MeetingResrvService mrService;
     
+    // 예약 목록 조회(전체 + 내)
     @RequestMapping("mrlist.mr")
     public ModelAndView meetingRoomResrvList(@RequestParam(value = "page1", required = false) Integer page1,
             @RequestParam(value = "page2", required = false) Integer page2, ModelAndView mv, HttpSession session) {
@@ -120,11 +121,13 @@ public class MeetingResrvController {
         return "meetCalcView";
     }
     
+    // 예약 신청 페이지 연결
     @RequestMapping("mrinsertview.mr")
     public String meetingResrvInsertView() {
         return "meetResrvInsertForm";
     }
     
+    // 예약 신청
     @RequestMapping("mrinsert.mr")
     public String meetingResrvInsert(@RequestParam("datepicker") Date r_date,
             @RequestParam("r_start_time") String r_start_time, @RequestParam("r_end_time") String r_end_time,
@@ -153,6 +156,7 @@ public class MeetingResrvController {
             throw new MeetingResrvException("회의실 예약 등록에 실패하였습니다.");
     }
     
+    // 예약 신청 시 가능한 회의실 조회(ajax)
     @RequestMapping(value = "mrcheckrooms.mr", produces = "application/json; charset=UTF-8")
     @ResponseBody
     public String checkRooms(@RequestParam("inputDate") Date inputDate,
@@ -176,6 +180,7 @@ public class MeetingResrvController {
         return gson.toJson(list);
     }
     
+    // 예약 수정 시 가능한 회의실 조회(ajax)
     @RequestMapping(value = "mrcheckroomsupdate.mr", produces = "application/json; charset=UTF-8")
     @ResponseBody
     public String checkRoomsUpdate(@RequestParam("inputDate") Date inputDate,
@@ -201,6 +206,7 @@ public class MeetingResrvController {
         return gson.toJson(list);
     }
     
+    // 예약 내역 세부 조회
     @RequestMapping("mrdetail.mr")
     public String meetingDetail(@RequestParam("rNo") int rNo, @RequestParam("page1") int page1, Model model) {
         MeetingResrv mr = mrService.selectMeetingResrv(rNo);
@@ -214,6 +220,7 @@ public class MeetingResrvController {
         return "meetDetailView";
     }
     
+    // 예약 내역 수정 페이지 연결
     @RequestMapping("mrupdateview.mr")
     public String meetingResrvUpdateView(@RequestParam("rNo") int rNo, @RequestParam("page2") int page2, Model model) {
         MeetingResrv mr = mrService.selectMeetingResrv(rNo);
@@ -223,6 +230,7 @@ public class MeetingResrvController {
         return "meetResrvUpdateForm";
     }
     
+    // 예약 내역 수정(입력 정보)
     @RequestMapping("mrupdate.mr")
     public String meetingResrvUpdate(@RequestParam("r_no") int r_no, @RequestParam("page2") int page2,
             @RequestParam("datepicker") Date r_date, @RequestParam("r_start_time") String r_start_time,
@@ -257,14 +265,34 @@ public class MeetingResrvController {
         return "redirect:mrdetail.mr?rNo=" + mr.getRev_no();
     }
     
+    // 사용 완료 상태로 변경
     @RequestMapping("mrcomplete.mr")
-    public String meetingResrvComplete() {
-        return null;
+    public String meetingResrvComplete(@RequestParam("rNo") int rNo, @RequestParam("page2") int page2, Model model) {
+        int result = mrService.completeMeetingResrv(rNo);
+        
+        if (result > 0) {
+            int page1 = 1;
+            model.addAttribute("page1", page1);
+            model.addAttribute("page2", page2);
+        } else
+            throw new MeetingResrvException("회의실 예약 상태 수정(사용 완료)에 실패하였습니다.");
+        
+        return "redirect:mrdetail.mr?rNo=" + rNo;
     }
     
+    // 예약 취소 상태로 변경
     @RequestMapping("mrcancel.mr")
-    public String meetingResrvCancel() {
-        return null;
+    public String meetingResrvCancel(@RequestParam("rNo") int rNo, @RequestParam("page2") int page2, Model model) {
+        int result = mrService.cancelMeetingResrv(rNo);
+        
+        if (result > 0) {
+            int page1 = 1;
+            model.addAttribute("page1", page1);
+            model.addAttribute("page2", page2);
+        } else
+            throw new MeetingResrvException("회의실 예약 상태 수정(예약 취소)에 실패하였습니다.");
+        
+        return "redirect:mrdetail.mr?rNo=" + rNo;
     }
     
     @RequestMapping("mrsearch.mr")

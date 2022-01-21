@@ -92,34 +92,54 @@
                                             </div>
                                             <div class="col-xl-6">
                                                 <div class="form-group row">
-                                                    <label class="col-lg-4 col-form-label" for="r_date">예약날짜
+                                                    <label class="col-lg-2 col-form-label" for="r_no">예약번호
+                                                    </label>
+                                                    <div class="col-lg-3">
+                                                        <input type="text" class="form-control" id="r_no" name="r_no" value="${ mr.rev_no }" readonly>
+                                                    </div>
+                                                    <label class="col-lg-2 col-form-label" for="r_status">예약상태
+                                                    </label>
+                                                    <div class="col-lg-3">
+                                                        <c:choose>
+                                                            <c:when test="${ mr.rev_status eq 0 }">
+                                                                <span class="badge badge-xl badge-success">예약 완료</span>
+                                                            </c:when>
+                                                            <c:when test="${ mr.rev_status eq 1 }">
+                                                                <span class="badge badge-xl badge-secondary">사용 완료</span>
+                                                            </c:when>
+                                                            <c:when test="${ mr.rev_status eq 2 }">
+                                                                <span class="badge badge-xl badge-warning">예약 취소</span>
+                                                            </c:when>
+                                                        </c:choose>
+                                                    </div>
+                                                    <!-- 수정 완료 후 페이지 이동을 위한 값 할당 -->
+                                                    <input type="text" name="page2" value="${ page2 }" hidden>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-lg-2 col-form-label" for="r_date">예약날짜
                                                         <c:if test="${ mr.rev_status == 0 }">
                                                             <span class="text-danger">*</span>
                                                         </c:if>
                                                     </label>
                                                     <c:if test="${ mr.rev_status == 0 }">
-                                                        <div class="col-lg-6 input-group datepicker">
+                                                        <div class="col-lg-8 input-group datepicker">
                                                                 <input name="datepicker" class="datepicker-default form-control" id="r_date" required> <span class="input-group-append"><span class="input-group-text"><i
                                                                         class="fa fa-calendar-o"></i></span></span>
-                                                                <!-- 수정을 위한 예약 번호 값 할당 -->
-                                                                <input type="text" name="r_no" value="${ mr.rev_no }" hidden>
-                                                                <!-- 수정 완료 후 페이지 이동을 위한 값 할당 -->
-                                                                <input type="text" name="page2" value="${ page2 }" hidden>
                                                         </div>
                                                     </c:if>
                                                     <c:if test="${ mr.rev_status != 0 }">
-                                                        <div class="col-lg-6">
+                                                        <div class="col-lg-8">
                                                             <input type="text" class="form-control" name="r_date" value="${ mr.rev_date }" readonly>
                                                         </div>
                                                     </c:if>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label class="col-lg-4 col-form-label" for="r_start_time">시작시간
+                                                    <label class="col-lg-2 col-form-label" for="r_start_time">시작시간
                                                         <c:if test="${ mr.rev_status == 0 }">
                                                             <span class="text-danger">*</span>
                                                         </c:if>
                                                     </label>
-                                                    <div class="col-lg-6">
+                                                    <div class="col-lg-3">
                                                         <c:if test="${ mr.rev_status == 0 }">
                                                             <select class="form-control" id="r_start_time" name="r_start_time" required></select>
                                                         </c:if>
@@ -127,14 +147,12 @@
                                                             <input type="text" class="form-control" id="r_start_time" name="r_start_time" value="${ mr.rev_start_time.getHours() == 9 ? '09' : mr.rev_start_time.getHours() }:${ mr.rev_start_time.getMinutes() == 0 ? '00' : '30' }" readonly>
                                                         </c:if>
                                                     </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label class="col-lg-4 col-form-label" for="r_end_time">종료시간
+                                                    <label class="col-lg-2 col-form-label" for="r_end_time">종료시간
                                                         <c:if test="${ mr.rev_status == 0 }">
                                                             <span class="text-danger">*</span>
                                                         </c:if>
                                                     </label>
-                                                    <div class="col-lg-6">
+                                                    <div class="col-lg-3">
                                                         <c:if test="${ mr.rev_status == 0 }">
                                                             <select class="form-control" id="r_end_time" name="r_end_time" required></select>
                                                         </c:if>
@@ -144,12 +162,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label class="col-lg-4 col-form-label" for="r_room">예약한 회의실
+                                                    <label class="col-lg-2 col-form-label" for="r_room">회의실
                                                         <c:if test="${ mr.rev_status == 0 }">
                                                             <span class="text-danger">*</span>
                                                         </c:if>
                                                     </label>
-                                                    <div class="col-lg-6">
+                                                    <div class="col-lg-8">
                                                         <c:if test="${ mr.rev_status == 0 }">
                                                             <select class="form-control" id="r_room" name="r_room" required></select>
                                                         </c:if>
@@ -179,12 +197,10 @@
                                                     <!-- 버튼 -->
                                                     <c:if test="${ mr.rev_status == 0 }">
                                                         <button type="button" class="btn btn-primary btn-sm mr-2" data-toggle="modal" data-target="#basicModal" onclick="lastCheck();">수정하기</button>
+                                                        <button type="button" class="btn btn-primary btn-sm mr-2" id="mrcomplete">사용완료</button>
+                                                        <button type="button" class="btn btn-primary btn-sm mr-2" id="mrcancel">예약취소</button>
                                                     </c:if>
-                                                    <button type="button" class="btn btn-primary btn-sm mr-2" onclick="location.href='${ mrlist }'">돌아가기</button>
-                                                    <c:if test="${ mr.rev_status == 0 }">
-                                                        <button type="button" class="btn btn-warning btn-sm mr-2" onclick="mrcancel.mr">예약취소</button>
-                                                        <button type="button" class="btn btn-success btn-sm" onclick="location.href='mrcomplete.mr'">사용완료</button>
-                                                    </c:if>
+                                                    <button type="button" class="btn btn-outline-primary btn-sm" onclick="location.href='${ mrlist }'">돌아가기</button>
                                                     <!-- Modal -->
                                                     <div class="modal fade" id="basicModal">
                                                         <div class="modal-dialog" role="document">
@@ -315,6 +331,17 @@
         });
         
         $('#r_date').on('propertychange change keyup paste input', function() {
+            isDateUsable = false;
+            inputDate = null;
+            
+            isTimeUsable = false;
+            inputStartTime = null;
+            inputEndTime = null;
+            
+            isRoomUsable = false;
+            inputRoom = null;
+            inputRoomName = null;
+            
             inputDate = picker.get('select', 'yyyy-mm-dd');
         });
         
@@ -367,6 +394,11 @@
             }
             
             inputStartTime = $('#r_start_time').val();
+            inputEndTime = null;
+            isTimeUsable = false;
+            inputRoom = null;
+            inputRoomName = null;
+            isRoomUsable = false;
         });
         
         // 시작, 종료시간 및 회의실 로딩
@@ -391,6 +423,9 @@
             
             inputEndTime = $('#r_end_time').val();
             
+            if(!isEmpty(inputStartTime) && !isEmpty(inputEndTime))
+                isTimeUsable = true;
+            
             $.ajax({
                 url: "mrcheckroomsupdate.mr",
                 dataType: 'json',
@@ -413,9 +448,6 @@
                     console.log(data);
                 }
             });
-            
-            if(!isEmpty(inputStartTime) && !isEmpty(inputEndTime))
-                isTimeUsable = true;
         });
         
         $('#r_end_time').one('click', function() {
@@ -424,12 +456,16 @@
             $('#r_room').empty();
             inputRoom = null;
             inputRoomName = null;
+            
+            isRoomUsable = false;
         }).on('change paste input', function() {
             inputEndTime = $('#r_end_time').val();
             
             $('#r_room').empty();
             inputRoom = null;
             inputRoomName = null;
+            
+            isRoomUsable = false;
         });
         
         $('#r_end_time').on('change paste input', function() {
@@ -523,21 +559,182 @@
             
             $('#chkMsg').next().find('button').remove();
             var submitBtn = '<button type="submit" class="btn btn-primary">수정</button>';
-            var dismissBtn1 = '<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>';
-            var dismissBtn2 = '<button type="button" class="btn btn-secondary" data-dismiss="modal">확인</button>';
+            var dismissBtn1 = '<button type="button" class="btn btn-outline-primary" data-dismiss="modal">취소</button>';
+            var dismissBtn2 = '<button type="button" class="btn btn-outline-primary" data-dismiss="modal">확인</button>';
             
             if(isDateUsable && isTimeUsable && isRoomUsable && isContentUsable) {
                 $('#chkMsg').next().append(submitBtn).append(dismissBtn1);
                 
-                var chkMsg = inputDate + "  " + inputStartTime + " ~ " + inputEndTime + " / " + inputRoomName;
-                $('#chkMsg').text(chkMsg);
+                var chkMsg = '다음 입력 정보로 예약을 수정하시겠습니까?<br><br>';
+                chkMsg = chkMsg + '<div class="input-group">\
+                                      <div class="input-group-append">\
+                                          <button class="btn btn-square btn-primary btn-xs">예약날짜</button>\
+                                      </div>\
+                                          <input type="text" class="form-control form-control-sm" value="' + mr_date + '" readonly>\
+                                          <input type="text" class="col-1 form-control form-control-sm" value="▶" readonly>\
+                                          <input type="text" class="form-control form-control-sm" value="' + inputDate + '" readonly>\
+                                  </div><br>\
+                                  <div class="input-group">\
+                                      <div class="input-group-append">\
+                                          <button class="btn btn-square btn-primary btn-xs">시작시간</button>\
+                                      </div>\
+                                          <input type="text" class="form-control form-control-sm" value="' + mr_startTime + '" readonly>\
+                                          <input type="text" class="col-1 form-control form-control-sm" value="▶" readonly>\
+                                          <input type="text" class="form-control form-control-sm" value="' + inputStartTime + '" readonly>\
+                                  </div><br>\
+                                  <div class="input-group">\
+                                      <div class="input-group-append">\
+                                          <button class="btn btn-square btn-primary btn-xs">종료시간</button>\
+                                      </div>\
+                                          <input type="text" class="form-control form-control-sm" value="' + mr_endTime + '" readonly>\
+                                          <input type="text" class="col-1 form-control form-control-sm" value="▶" readonly>\
+                                          <input type="text" class="form-control form-control-sm" value="' + inputEndTime + '" readonly>\
+                                  </div><br>\
+                                  <div class="input-group">\
+                                      <div class="input-group-append">\
+                                          <button class="btn btn-square btn-primary btn-xs">&nbsp;회&nbsp;의&nbsp;실&nbsp;</button>\
+                                      </div>\
+                                          <input type="text" class="form-control form-control-sm" value="' + mr_room + '" readonly>\
+                                          <input type="text" class="col-1 form-control form-control-sm" value="▶" readonly>\
+                                          <input type="text" class="form-control form-control-sm" value="' + inputRoomName + '" readonly>\
+                                  </div><br>\
+                                  <div class="input-group">\
+                                      <div class="input-group-append">\
+                                          <button class="btn btn-square btn-primary btn-xs">예약목적</button>\
+                                      </div>\
+                                          <input type="text" class="form-control form-control-sm" value="' + mr_content + '" readonly>\
+                                          <input type="text" class="col-1 form-control form-control-sm" value="▶" readonly>\
+                                          <input type="text" class="form-control form-control-sm" value="' + inputContent + '" readonly>\
+                                  </div><br>';
+                
+                $('#chkMsg').html(chkMsg);
             } else {
                 $('#chkMsg').next().append(dismissBtn2);
                 
-                var chkMsg = "입력 정보를 다시 확인해주세요.";
-                $('#chkMsg').text(chkMsg);
+                var chkMsg = '미입력된 정보가 있습니다. 다음 필수 입력 정보를 다시 확인해주세요.<br><br>';
+                
+                if(!isDateUsable)
+                    chkMsg = chkMsg + '<div class="input-group">\
+                                           <div class="input-group-append">\
+                                               <button class="btn btn-square btn-outline-primary btn-xs">예약날짜</button>\
+                                           </div>\
+                                           <input type="text" class="form-control form-control-sm" value="' + mr_date + '" readonly>\
+                                           <input type="text" class="col-1 form-control form-control-sm" value="▷" readonly>\
+                                           <input type="text" class="form-control form-control-sm" value="" readonly>\
+                                       </div><br>';
+                else
+                    chkMsg = chkMsg + '<div class="input-group">\
+                                           <div class="input-group-append">\
+                                               <button class="btn btn-square btn-primary btn-xs">예약날짜</button>\
+                                           </div>\
+                                           <input type="text" class="form-control form-control-sm" value="' + mr_date + '" readonly>\
+                                           <input type="text" class="col-1 form-control form-control-sm" value="▶" readonly>\
+                                           <input type="text" class="form-control form-control-sm" value="' + inputDate + '" readonly>\
+                                       </div><br>';
+                
+                if(isEmpty(inputStartTime))
+                    chkMsg = chkMsg + '<div class="input-group">\
+                                           <div class="input-group-append">\
+                                               <button class="btn btn-square btn-outline-primary btn-xs">시작시간</button>\
+                                           </div>\
+                                           <input type="text" class="form-control form-control-sm" value="' + mr_startTime + '" readonly>\
+                                           <input type="text" class="col-1 form-control form-control-sm" value="▷" readonly>\
+                                           <input type="text" class="form-control form-control-sm" value="" readonly>\
+                                       </div><br>';
+                else
+                    chkMsg = chkMsg + '<div class="input-group">\
+                                           <div class="input-group-append">\
+                                               <button class="btn btn-square btn-primary btn-xs">시작시간</button>\
+                                           </div>\
+                                           <input type="text" class="form-control form-control-sm" value="' + mr_startTime + '" readonly>\
+                                           <input type="text" class="col-1 form-control form-control-sm" value="▶" readonly>\
+                                           <input type="text" class="form-control form-control-sm" value="' + inputStartTime + '" readonly>\
+                                       </div><br>';
+                
+                if(isEmpty(inputEndTime))
+                    chkMsg = chkMsg + '<div class="input-group">\
+                                           <div class="input-group-append">\
+                                               <button class="btn btn-square btn-outline-primary btn-xs">종료시간</button>\
+                                           </div>\
+                                           <input type="text" class="form-control form-control-sm" value="' + mr_endTime + '" readonly>\
+                                           <input type="text" class="col-1 form-control form-control-sm" value="▷" readonly>\
+                                           <input type="text" class="form-control form-control-sm" value="" readonly>\
+                                       </div><br>';
+                else
+                    chkMsg = chkMsg + '<div class="input-group">\
+                                           <div class="input-group-append">\
+                                               <button class="btn btn-square btn-primary btn-xs">종료시간</button>\
+                                           </div>\
+                                           <input type="text" class="form-control form-control-sm" value="' + mr_endTime + '" readonly>\
+                                           <input type="text" class="col-1 form-control form-control-sm" value="▶" readonly>\
+                                           <input type="text" class="form-control form-control-sm" value="' + inputEndTime + '" readonly>\
+                                       </div><br>';
+                
+                if(!isRoomUsable)
+                    chkMsg = chkMsg + '<div class="input-group">\
+                                           <div class="input-group-append">\
+                                               <button class="btn btn-square btn-outline-primary btn-xs">&nbsp;회&nbsp;의&nbsp;실&nbsp;</button>\
+                                           </div>\
+                                           <input type="text" class="form-control form-control-sm" value="' + mr_room + '" readonly>\
+                                           <input type="text" class="col-1 form-control form-control-sm" value="▷" readonly>\
+                                           <input type="text" class="form-control form-control-sm" value="" readonly>\
+                                       </div><br>';
+                else
+                    chkMsg = chkMsg + '<div class="input-group">\
+                                           <div class="input-group-append">\
+                                               <button class="btn btn-square btn-primary btn-xs">&nbsp;회&nbsp;의&nbsp;실&nbsp;</button>\
+                                           </div>\
+                                           <input type="text" class="form-control form-control-sm" value="' + mr_room + '" readonly>\
+                                           <input type="text" class="col-1 form-control form-control-sm" value="▶" readonly>\
+                                           <input type="text" class="form-control form-control-sm" value="' + inputRoomName + '" readonly>\
+                                       </div><br>';
+                
+                if(!isContentUsable)
+                    chkMsg = chkMsg + '<div class="input-group">\
+                                           <div class="input-group-append">\
+                                               <button class="btn btn-square btn-outline-primary btn-xs">예약목적</button>\
+                                           </div>\
+                                           <input type="text" class="form-control form-control-sm" value="' + mr_content + '" readonly>\
+                                           <input type="text" class="col-1 form-control form-control-sm" value="▷" readonly>\
+                                           <input type="text" class="form-control form-control-sm" value="" readonly>\
+                                       </div><br>';
+                else
+                    chkMsg = chkMsg + '<div class="input-group">\
+                                           <div class="input-group-append">\
+                                               <button class="btn btn-square btn-primary btn-xs">예약목적</button>\
+                                           </div>\
+                                           <input type="text" class="form-control form-control-sm" value="' + mr_content + '" readonly>\
+                                           <input type="text" class="col-1 form-control form-control-sm" value="▶" readonly>\
+                                           <input type="text" class="form-control form-control-sm" value="' + inputContent + '" readonly>\
+                                       </div><br>';
+                
+                $('#chkMsg').html(chkMsg);
             }
         }
+        
+        
+        
+        
+        
+        $(function() {
+            $('#mrcomplete').click(function() {
+                var rNo = ${ mr.rev_no };
+                var page2 = ${ page2 };
+                location.href="mrcomplete.mr?rNo=" + rNo + "&page2=" + page2;
+            });
+        });
+        
+        
+        
+        
+        
+        $(function() {
+            $('#mrcancel').click(function() {
+                var rNo = ${ mr.rev_no };
+                var page2 = ${ page2 };
+                location.href="mrcancel.mr?rNo=" + rNo + "&page2=" + page2;
+            });
+        });
         
         
         
