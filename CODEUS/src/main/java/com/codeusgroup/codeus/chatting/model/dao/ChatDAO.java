@@ -23,4 +23,8 @@ public class ChatDAO {
 		
 		return (ArrayList)sqlSession.selectList("chattingMapper.selectMessage", map);
 	}
+
+	public int insertMessage(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		return sqlSession.insert("chattingMapper.insertMessage", map);
+	}
 }

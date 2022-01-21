@@ -1,31 +1,23 @@
 package com.codeusgroup.codeus.chatting.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.codeusgroup.codeus.address.model.exception.AddressException;
-import com.codeusgroup.codeus.address.model.vo.Address;
 import com.codeusgroup.codeus.chatting.exception.ChattingException;
 import com.codeusgroup.codeus.chatting.model.service.ChatService;
 import com.codeusgroup.codeus.chatting.model.vo.Chatroom;
 import com.codeusgroup.codeus.chatting.model.vo.Message;
 import com.codeusgroup.codeus.member.model.vo.Member;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonIOException;
 
 @Controller
 public class ChattingController {
@@ -72,5 +64,32 @@ public class ChattingController {
 		}
 		
 	    return mv;
+	}
+	
+	@RequestMapping("sandMsg.ch")
+	@ResponseBody
+	public String insertMessage(@RequestParam("msg") String msg,
+							    @RequestParam("sander") String sander,
+							    @RequestParam("roomNum") String roomNum,
+							    HttpServletRequest request) {
+	
+		String userId = ((Member)request.getSession().getAttribute("loginUser")).getmId();
+		
+		HashMap<String, String> map = new HashMap();
+		map.put("msg", msg);
+		map.put("sander", sander);
+		map.put("userId", userId);
+		map.put("roomNum", roomNum);
+		
+		int result = chService.insertMessage(map);
+		
+		if(result > 0) {
+			
+			System.out.println("메세지 전송");
+			return "success";
+			
+		} else {
+			throw new ChattingException("메세지 전송에 실패했습니다.");
+		}
 	}
 }

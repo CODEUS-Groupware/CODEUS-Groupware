@@ -56,13 +56,13 @@
 	        
 	       		<table>
 	       			<c:forEach var="msg" items="${ list }">
-	       			
+	       			<input type="hidden" id="roomNum" value="${msg.roomNum}">
 	       			<c:if test="${ msg.sander != loginUser.mId }">
 	            	<tr>
 	            		<td>
 	            			<div class="box">
 	            				<br>
-	            				<div>${ msg.sander }</div>
+	            				<div id="sand">${ msg.sander }</div>
 	            				<p class="msg">${ msg.msgContent }</p>
 	                    		<span class="time"><fmt:formatDate pattern="yyyy-MM-dd hh:mm" value="${ msg.msgTime }"/></span>
 	            			</div>
@@ -86,10 +86,37 @@
 	           	
 	        	</div>
 	
-	        <textarea id="chatText" cols="3" placeholder="내용 입력"></textarea><button>전송</button>
+	        <textarea id="chatText" name="chatText" cols="3" placeholder="내용 입력"></textarea><button id="btnSubmit">전송</button>
 	    </div>
 	</div>
-		
+	
+	<script>
+		$("#btnSubmit").click(function() {
+			var msg = $('#chatText').val();
+			var sander = $('#sand').text();
+			var roomNum = $('#roomNum').val();
+			console.log(msg);
+			console.log(sander);
+			
+			$.ajax({
+				url: "sandMsg.ch",
+				data: {msg:msg, sander:sander},
+				type: "POST",
+				success: function(data) {
+					console.log(data);
+					
+					if(data == "success") {
+						location.reload();
+					}
+				},
+				error: function() {
+					console.log(data);
+				}
+			});
+			
+			$('#chatText').val('');
+		});
+	</script>
 	    
     <!-- Datatable -->
  

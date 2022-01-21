@@ -31,4 +31,8 @@
 		where msg_status = '0' and (sander = #{userId} or m_id = #{userId}) and chat_num = #{roomNum}
 	</select>
 	
+	<insert id="insertMessage">
+		insert into chat_message
+		values(chatmsg_seq.nextval, #{msg}, sysdate, default, CAST(#{roomNum} AS INTEGER), #{sander}, #{userId})
+	</insert>
 </mapper>
