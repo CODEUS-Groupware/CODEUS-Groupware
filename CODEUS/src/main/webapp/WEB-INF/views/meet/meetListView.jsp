@@ -704,18 +704,32 @@
                                                                     var rNo = -1;
                                                                     var chkCount = $('.chk:checked').length > 0 ? $('.chk:checked').length : -1;
                                                                     var comFlag = true;
+                                                                    var dateFlag = true;
+                                                                    
+                                                                    function getToday() {
+                                                                        var date = new Date();
+                                                                        return date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+                                                                    }
+                                                                    
+                                                                    var today = getToday();
                                                                     
                                                                     var chkArray = new Array();
                                                                     
                                                                     $('.chk:checked').each(function() {
-                                                                        comFlag = true;
+                                                                        if(comFlag)
+                                                                            comFlag = true;
+                                                                        if(dateFlag)
+                                                                            dateFlag = true;
+                                                                        
                                                                         chkArray.push(this.value);
                                                                         
                                                                         if($(this).parent().parent().children().eq(2).children().text() != '예약 완료')
                                                                             comFlag = false;
+                                                                        if($(this).parent().parent().children().eq(1).text().substr(0, 10) != today)
+                                                                            dateFlag = false;
                                                                     });
                                                                     
-                                                                    if(chkCount > 0 && comFlag) {
+                                                                    if(chkCount > 0 && comFlag && dateFlag) {
                                                                         Swal.fire({
                                                                             title: '사용 완료',
                                                                             html: '<b>선택한 ' + chkCount + '개의 예약을 사용 완료로 변경하시겠습니까?</b><br><small>※ 예약상태 변경은 되돌릴 수 없습니다.</small>',
@@ -759,7 +773,7 @@
                                                                     } else {
                                                                         Swal.fire({
                                                                             title: '예약 상태 수정 접근 불가',
-                                                                            html: '<b>수정 가능한 예약만 선택해주세요.</b><br><small>※ "예약 완료" 상태만 수정이 가능합니다.</small>',
+                                                                            html: '<b>수정 가능한 예약을 선택해주세요.</b><br><small>※ "오늘 날짜"이면서 "예약 완료" 상태인 내역만 수정이 가능합니다.</small>',
                                                                             icon: 'warning',
                                                                             showConfirmButton: true,
                                                                             confirmButtonText: '예',
@@ -775,7 +789,8 @@
                                                                     var chkArray = new Array();
                                                                     
                                                                     $('.chk:checked').each(function() {
-                                                                        comFlag = true;
+                                                                        if(comFlag)
+                                                                            comFlag = true;
                                                                         chkArray.push(this.value);
                                                                         
                                                                         if($(this).parent().parent().children().eq(2).children().text() != '예약 완료')
@@ -826,7 +841,7 @@
                                                                     } else {
                                                                         Swal.fire({
                                                                             title: '예약 상태 수정 접근 불가',
-                                                                            html: '<b>수정 가능한 예약만 선택해주세요.</b><br><small>※ "예약 완료" 상태만 수정이 가능합니다.</small>',
+                                                                            html: '<b>수정 가능한 예약을 선택해주세요.</b><br><small>※ "예약 완료" 상태만 수정이 가능합니다.</small>',
                                                                             icon: 'warning',
                                                                             showConfirmButton: true,
                                                                             confirmButtonText: '예',
@@ -916,6 +931,7 @@
             location.href="mrdetail.mr?rNo=" + rNo + "&page1=" + ${ searchPi1.currentPage };
         });
         
+        // 체크박스 활성화
         $('#tb2 tbody td:not(:has(input)):not(".nothing")').mouseenter(function() {
             $(this).parent().css({'font-weight':'bold', 'cursor':'pointer', 'background':'lavender'});
         }).mouseout(function() {

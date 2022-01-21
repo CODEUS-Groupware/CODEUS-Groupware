@@ -266,7 +266,7 @@ public class MeetingResrvController {
         return "redirect:mrdetail.mr?rNo=" + mr.getRev_no();
     }
     
-    // 사용 완료 상태로 변경(1개)
+    // 사용 완료 상태로 변경(수정 페이지: 1개)
     @RequestMapping("mrcomplete.mr")
     public String meetingResrvComplete(@RequestParam("rNo") int rNo, @RequestParam("page2") int page2, Model model) {
         int result = mrService.completeMeetingResrv(rNo);
@@ -281,7 +281,7 @@ public class MeetingResrvController {
         return "redirect:mrdetail.mr?rNo=" + rNo;
     }
     
-    // 사용 완료 상태로 변경(1개 이상)
+    // 사용 완료 상태로 변경(조회 페이지: 1개 이상)
     @RequestMapping(value = "mrcompletes.mr", produces = "application/json; charset=UTF-8")
     @ResponseBody
     public String meetingResrvCompletes(@RequestParam(value = "chks[]") List<Integer> chksList) {
@@ -293,7 +293,7 @@ public class MeetingResrvController {
             return "errorCompletes";
     }
     
-    // 예약 취소 상태로 변경(1개)
+    // 예약 취소 상태로 변경(수정 페이지: 1개)
     @RequestMapping("mrcancel.mr")
     public String meetingResrvCancel(@RequestParam("rNo") int rNo, @RequestParam("page2") int page2, Model model) {
         int result = mrService.cancelMeetingResrv(rNo);
@@ -308,7 +308,7 @@ public class MeetingResrvController {
         return "redirect:mrdetail.mr?rNo=" + rNo;
     }
     
-    // 예약 취소 상태로 변경(1개 이상)
+    // 예약 취소 상태로 변경(조회 페이지: 1개 이상)
     @RequestMapping(value = "mrcancels.mr", produces = "application/json; charset=UTF-8")
     @ResponseBody
     public String meetingResrvCancels(@RequestParam(value = "chks[]") List<Integer> chksList) {
@@ -320,6 +320,7 @@ public class MeetingResrvController {
             return "errorCancels";
     }
     
+    // 검색 목록 조회
     @RequestMapping("mrsearch.mr")
     public ModelAndView meetingRoomResrvSearchList(@RequestParam(value = "page1", required = false) Integer page1,
             @RequestParam(value = "page2", required = false) Integer page2, Search search, ModelAndView mv,
