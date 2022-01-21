@@ -61,7 +61,7 @@
                             <div class="card-body">
                                 <div class="recent-comment m-t-15">
                                     <div class="media">
-                                        <button class="form-control input-default" style="background: #593bdb; color: white; height: 80px;">대화<br>상대<br>검색</button>
+                                        <button class="form-control input-default" style="background: #593bdb; color: white; height: 80px;" onclick="location.href='chatSearch.ch'">대화<br>상대<br>검색</button>
                                     </div>
                                     <div class="media">
                                         <button id="delete" class="form-control input-default" style="background: #593bdb; color: white; height: 50px;">채팅방<br>삭제</button>
@@ -109,7 +109,7 @@
 					var sander = $(this).text();
 					console.log(sander);
 					window.open('chatRoom.ch?sander=' + sander, "_blank",
-						"toolbar=yes,menubar=yes,width=700,height=500").focus();
+						"toolbar=yes,menubar=yes,width=500,height=700").focus();
 				});
 			});
 

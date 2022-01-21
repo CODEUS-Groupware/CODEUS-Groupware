@@ -24,6 +24,4 @@
 		<result column="CHAT_NUM" property="roomNum"/>
 	</resultMap>
 	
-	
-	
 </mapper>

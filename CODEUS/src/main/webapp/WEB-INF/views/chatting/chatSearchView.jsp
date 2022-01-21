@@ -117,7 +117,7 @@
                             <div class="card-body">
                                 <div class="recent-comment m-t-15">
                                     <div class="media">
-                                        <button class="form-control input-default" style="background: #593bdb; color: white; height: 50px;">채팅<br>목록</button>
+                                        <button class="form-control input-default" style="background: #593bdb; color: white; height: 50px;" onclick="location.href='chatList.ch'">채팅<br>목록</button>
                                     </div>
                                     <div class="media">
                                         <button class="form-control input-default" style="background: #593bdb; color: white; height: 50px;">채팅방<br>생성</button>
