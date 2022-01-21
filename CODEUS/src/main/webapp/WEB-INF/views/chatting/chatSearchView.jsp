@@ -125,7 +125,6 @@
                                 </div>
                             </div>
                         </div>
-                    	</div> 
                 	</div>
             	</div>
             </div>
@@ -157,6 +156,11 @@
 	    <!--**********************************
 	        Scripts
 	    ***********************************-->
+	    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js">
+	    
+	    
+	    </script>
+	    
     <!-- Datatable -->
     <script src="${contextPath}/resources/assets/vendor/datatables/js/jquery.dataTables.min.js"></script>
     <script src="${contextPath}/resources/assets/js/plugins-init/datatables.init.js"></script>

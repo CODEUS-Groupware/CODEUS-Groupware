@@ -10,15 +10,18 @@ public class Report {
 	private int bNum;
 	private String bTitle;
 	private String bType;
+	private String bStatus;
 	private int replyNo;
 	private String replyContent;
+	private int rStatus;
 	private String writerName;
 	private String writerJobName;
 	
 	public Report() {}
 
 	public Report(int reportNo, String reportType, Date reportDate, int reportStatus, int bNum, String bTitle,
-			String bType, int replyNo, String replyContent, String writerName, String writerJobName) {
+			String bType, String bStatus, int replyNo, String replyContent, int rStatus, String writerName,
+			String writerJobName) {
 		super();
 		this.reportNo = reportNo;
 		this.reportType = reportType;
@@ -27,8 +30,10 @@ public class Report {
 		this.bNum = bNum;
 		this.bTitle = bTitle;
 		this.bType = bType;
+		this.bStatus = bStatus;
 		this.replyNo = replyNo;
 		this.replyContent = replyContent;
+		this.rStatus = rStatus;
 		this.writerName = writerName;
 		this.writerJobName = writerJobName;
 	}
@@ -89,6 +94,14 @@ public class Report {
 		this.bType = bType;
 	}
 
+	public String getbStatus() {
+		return bStatus;
+	}
+
+	public void setbStatus(String bStatus) {
+		this.bStatus = bStatus;
+	}
+
 	public int getReplyNo() {
 		return replyNo;
 	}
@@ -103,6 +116,14 @@ public class Report {
 
 	public void setReplyContent(String replyContent) {
 		this.replyContent = replyContent;
+	}
+
+	public int getrStatus() {
+		return rStatus;
+	}
+
+	public void setrStatus(int rStatus) {
+		this.rStatus = rStatus;
 	}
 
 	public String getWriterName() {
@@ -125,8 +146,8 @@ public class Report {
 	public String toString() {
 		return "Report [reportNo=" + reportNo + ", reportType=" + reportType + ", reportDate=" + reportDate
 				+ ", reportStatus=" + reportStatus + ", bNum=" + bNum + ", bTitle=" + bTitle + ", bType=" + bType
-				+ ", replyNo=" + replyNo + ", replyContent=" + replyContent + ", writerName=" + writerName
-				+ ", writerJobName=" + writerJobName + "]";
+				+ ", bStatus=" + bStatus + ", replyNo=" + replyNo + ", replyContent=" + replyContent + ", rStatus="
+				+ rStatus + ", writerName=" + writerName + ", writerJobName=" + writerJobName + "]";
 	}
 
 }

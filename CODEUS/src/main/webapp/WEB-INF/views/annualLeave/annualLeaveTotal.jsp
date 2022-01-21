@@ -26,7 +26,7 @@
 	}
 	
 	#clock{
-		font-size:42px;
+		font-size:35px;
 		margin-bottom: 15px;
 		color: black;
 	}
@@ -257,7 +257,7 @@
                                 </div>
                                 <script>
 								$(function(){
-									$('#leaveList td').mouseenter(function(){
+									$('#leaveContent td').mouseenter(function(){
 										$(this).parent().css({'color':'yellowgreen', 'font-weight':'bold', 'cursor':'pointer'});
 									}).mouseout(function(){
 										$(this).parent().css({'color':'black','font-weight':'normal'});
@@ -384,17 +384,6 @@
                                         <div id="default_collapseThree" class="collapse accordion__body" data-parent="#accordion-one">
                                             <div class="accordion__body--text">
                                              	<a href="deptEmpStatus.em" style="color:black;"><p>누적 근태현황</p></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="accordion__item">
-                                        <div class="accordion__header collapsed" data-toggle="collapse" data-target="#default_collapseFour">
-                                            <span class="accordion__header--text">내 부서 연차현황</span>
-                                            <span class="accordion__header--indicator"></span>
-                                        </div>
-                                        <div id="default_collapseFour" class="collapse accordion__body" data-parent="#accordion-one">
-                                            <div class="accordion__body--text">
-                                             	<a href="deptLeaveStatus.al" style="color:black;"><p>연차 사용현황</p></a>
                                             </div>
                                         </div>
                                     </div>

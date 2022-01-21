@@ -45,5 +45,7 @@ public interface NoticeBoardService {
 
 	int updateNoticeBoard(NoticeBoard noticeBoard, ArrayList<NoticeBoardFile> fList);
 
+	List<NoticeBoard> selectNoticeBoardListMain();
+
 
 }

@@ -134,7 +134,7 @@
 	                                        </c:if>
 	                                        <c:if test="${ member.mId == 'admin' }"> <!-- 최초 관리자 계정은 관리자 설정 해제 불가 -->
 	                                        	<label class="col-form-label">관리자로 설정</label>
-	                                        	<input type="checkbox" name="managerYn" value="Y" checked disabled="disabled">
+	                                        	<input type="checkbox" name="managerYn" value="Y" checked readonly>
 	                                        	<span style="color: gray; font-size: small">&nbsp;관리자 해제 불가</span>
 	                                        </c:if>	
 	                                        <c:if test="${ member.status == 2 }">

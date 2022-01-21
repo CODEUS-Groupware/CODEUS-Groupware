@@ -137,6 +137,16 @@ public class AdminDAO {
 	public int moveDept(SqlSessionTemplate sqlSession, HashMap<String, Integer> map) {
 		return sqlSession.update("adminMapper.moveDept", map);
 	}
+	
+	public int sortDeptOrder(SqlSessionTemplate sqlSession, ArrayList<Department> subDeptList) {
+		int result = 0;
+		
+		for (Department d : subDeptList) {
+			result += sqlSession.update("adminMapper.sortDeptOrder", d);
+		}
+		
+		return result;
+	}
 
 	public int getReportListCount(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("adminMapper.getReportListCount");
