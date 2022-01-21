@@ -17,11 +17,11 @@ public class AddressDAO {
 		return sqlSession.selectOne("addressMapper.getListCount");
 	}
 
-	public ArrayList<Member> selectMemberList(SqlSessionTemplate sqlSession, PageInfo pi) {
+	public ArrayList<Member> selectMemberList(SqlSessionTemplate sqlSession, PageInfo pi, String userId) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getAddressLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getAddressLimit());
 		
-		return (ArrayList)sqlSession.selectList("addressMapper.selectMemberList", null, rowBounds);
+		return (ArrayList)sqlSession.selectList("addressMapper.selectMemberList", userId, rowBounds);
 	}
 
 	public ArrayList<Member> searchMemebrList(SqlSessionTemplate sqlSession, PageInfo pi, String input, String field) {
@@ -44,10 +44,19 @@ public class AddressDAO {
 		return sqlSession.insert("addressMapper.addAddress", map);
 	}
 
-	public ArrayList<Member> selectMyList(SqlSessionTemplate sqlSession, PageInfo pi) {
+	public ArrayList<Member> selectMyList(SqlSessionTemplate sqlSession, PageInfo pi, String userId) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getAddressLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getAddressLimit());
 		
-		return (ArrayList)sqlSession.selectList("addressMapper.selectMyList", null, rowBounds);
+		return (ArrayList)sqlSession.selectList("addressMapper.selectMyList", userId, rowBounds);
+	}
+
+	public int minusAddress(SqlSessionTemplate sqlSession, String userId, String mId) {
+		
+		HashMap<String, String> map = new HashMap<>();
+		map.put("userId", userId);
+		map.put("mId", mId);
+		
+		return sqlSession.insert("addressMapper.minusAddress", map);
 	}
 }

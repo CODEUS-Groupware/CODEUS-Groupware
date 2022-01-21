@@ -54,7 +54,7 @@
                                                 <td id="mName">사원 이름<br></td>
                                             </tr>
                                             <tr>
-                                                <td id="mJob">직급</td>
+                                                <td id="mJob">직위</td>
                                             </tr>
                                             <tr>
                                                 <td id="mDept">부서</td>
@@ -64,9 +64,6 @@
                                             </tr>
                                             <tr>
                                                 <td id="mEmail">이메일</td>
-                                            </tr>
-                                            <tr>
-                                                <td><button class="form-control input-default" style="background: #593bdb; color: white;">-</button></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -84,7 +81,7 @@
                                             <tr>
                                             	<th></th>
                                                 <th>이름</th>
-                                                <th>직급</th>
+                                                <th>직위</th>
                                                 <th>부서</th>
                                                 <th>연락처</th>
                                                 <th>상태</th>
@@ -107,7 +104,7 @@
 		                                                <td id="dept">${ addr.deptName }</td>
 		                                                <td id="phone">${ addr.phone }</td>
 		                                                <td id="email">${ addr.email }</td>
-		                                                <td><button class="form-control input-default addrPlus" style="background: #593bdb; color: white;">&nbsp+&nbsp</button></td>
+		                                                <td><button class="form-control input-default addrMinus" style="background: #593bdb; color: white;">&nbsp-&nbsp</button></td>
 		                                            </tr>
 	                                            </c:if>
 	                                        </c:forEach>
@@ -115,7 +112,7 @@
                                         		<td style="text-align:center" colspan="7">
                                         			<div style="display:inline-block;">
 					                                    <nav>
-						                                    <ul class="pagination pagination-xs">
+						                                    <ul class="pagination pagination-xs pagination-circle">
 						                                    	
 						                                    	<!-- 이전 -->
 						                                        <li class="page-item page-indicator">
@@ -134,8 +131,7 @@
 						                                        <!-- 페이지 -->
 						                                        <c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
 						                                        	<c:if test="${ p eq pi.currentPage }">
-						                                        		<li class="page-item active"><a class="page-link" href="javascript:void()">${ p }</a>
-						                                        		</li>
+						                                        		<li class="page-item active"><a class="page-link" href="javascript:void()">${ p }</a></li>
 						                                        	</c:if>
 						                                        	
 						                                        	<c:if test="${ p ne pi.currentPage }">
@@ -204,6 +200,22 @@
 	        Scripts
 	    ***********************************-->
 	    <script>
+	    
+	 	// sweet alert customize
+		var alert = function(msg, title, icon) {
+			Swal.fire({
+				position: 'top', // 상단 중앙에 띄우기
+				background: '#593bdb', // 알럿창 배경색
+   				color: 'white', // 글자색
+				title : title, // 제목(큰 글씨)
+				text : msg, // 내용(작은 글씨)
+				icon: icon, // info, error 등 icon type
+				timer : 3000, // 자동 종료 타이머
+				customClass : 'sweet-size', 
+				showConfirmButton : false // ok버튼 표시 여부
+			});
+		}
+	    
 	    $(function() {
 			$('#mList td').mouseenter(function() {
 				$(this).parent().css({'color':'purple', 'cursor':'pointer'});
@@ -222,6 +234,29 @@
 				$("#mPhone").html(tdPhone);
 				$("#mEmail").html(tdEmail);
 				
+			});
+		});
+	    
+	 	// 주소록 삭제 버튼
+		$('.addrMinus').click(function() {
+			var thisRow = $(this).closest('tr');
+			var mId = thisRow.find('td:eq(1)').find('input').val();
+			
+			$.ajax({
+				url: "minus.addr",
+				data: {mId:mId},
+				type: "POST",
+				success: function(data) {
+					console.log(data);
+					
+					if(data == "success") {
+						location.reload();
+						alert("삭제되었습니다.");
+					}
+				},
+				error: function() {
+					console.log(data);
+				}
 			});
 		});
 	    </script>

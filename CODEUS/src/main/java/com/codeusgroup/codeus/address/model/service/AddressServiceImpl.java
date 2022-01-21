@@ -26,8 +26,8 @@ public class AddressServiceImpl implements AddressService {
 	}
 
 	@Override
-	public ArrayList<Member> selectMemebrList(PageInfo pi) {
-		return addrDAO.selectMemberList(sqlSession, pi);
+	public ArrayList<Member> selectMemebrList(PageInfo pi, String userId) {
+		return addrDAO.selectMemberList(sqlSession, pi, userId);
 	}
 
 	@Override
@@ -41,8 +41,13 @@ public class AddressServiceImpl implements AddressService {
 	}
 
 	@Override
-	public ArrayList<Member> selectMyList(PageInfo pi) {
-		return addrDAO.selectMyList(sqlSession, pi);
+	public ArrayList<Member> selectMyList(PageInfo pi, String userId) {
+		return addrDAO.selectMyList(sqlSession, pi, userId);
+	}
+
+	@Override
+	public int minusAddress(String userId, String mId) {
+		return addrDAO.minusAddress(sqlSession, userId, mId);
 	}
 
 }

@@ -32,18 +32,17 @@ public class WebSocketHandler extends TextWebSocketHandler implements Initializi
     private Map<WebSocketSession, String> sessionList = new ConcurrentHashMap<WebSocketSession, String>();
     
     private static int i;
-    /**
-     * websocket 연결 성공 시
-     */
+    
+    // websocket 연결 성공 시
+    
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         i++;
         System.out.println(session.getId() + " 연결 성공 => 총 접속 인원 : " + i + "명");
     }
  
-    /**
-     * websocket 연결 종료 시
-     */
+    
+    // websocket 연결 종료 시
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         i--;
@@ -63,7 +62,7 @@ public class WebSocketHandler extends TextWebSocketHandler implements Initializi
         String msg = message.getPayload();
         
         // Json객체 → Java객체
-        // 출력값 : [roomId=123, messageId=null, message=asd, name=천동민, email=cheon@gmail.com, unReadCount=0]
+        // 출력값 : [roomNum=123, messageId=null, message=asd, name=천동민, email=cheon@gmail.com, unReadCount=0]
         Message chatMessage = objectMapper.readValue(msg, Message.class);
         
         // 받은 메세지에 담긴 roomId로 해당 채팅방을 찾아온다.
