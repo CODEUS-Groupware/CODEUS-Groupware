@@ -3,6 +3,7 @@ package com.codeusgroup.codeus.meetingResrv.model.dao;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -73,6 +74,26 @@ public class MeetingResrvDAO {
     
     public MeetingResrv selectMeetingResrv(SqlSessionTemplate sqlSession, int rNo) {
         return sqlSession.selectOne("meetResrvMapper.selectMeetingResrv", rNo);
+    }
+    
+    public int updateMeetingResrv(SqlSessionTemplate sqlSession, MeetingResrv mr) {
+        return sqlSession.update("meetResrvMapper.updateMeetingResrv", mr);
+    }
+    
+    public int completeMeetingResrv(SqlSessionTemplate sqlSession, int rNo) {
+        return sqlSession.update("meetResrvMapper.completeMeetingResrv", rNo);
+    }
+    
+    public int cancelMeetingResrv(SqlSessionTemplate sqlSession, int rNo) {
+        return sqlSession.update("meetResrvMapper.cancelMeetingResrv", rNo);
+    }
+    
+    public int completesMeetingResrv(SqlSessionTemplate sqlSession, List<Integer> chksList) {
+        return sqlSession.update("meetResrvMapper.completesMeetingResrv", chksList);
+    }
+    
+    public int cancelsMeetingResrv(SqlSessionTemplate sqlSession, List<Integer> chksList) {
+        return sqlSession.update("meetResrvMapper.cancelsMeetingResrv", chksList);
     }
     
 }
