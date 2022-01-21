@@ -659,7 +659,7 @@
 	      defaultDate: localStorage.getItem("checkDate"),	// 달력 날짜 수동 고정(아예 defaultDate를 삭제하면 현재 달 보여줌) 
 	      navLinks: false, 				// 달력의 날짜 텍스트를 선택할 수 있는지 유무
 	      editable: false,
-	      eventLimit: false,				// 셀에 너무 많은 일정이 들어갔을 시 more로 처리 true에서 false로 수정
+	      eventLimit: true,				// 셀에 너무 많은 일정이 들어갔을 시 more로 처리 true에서 false로 수정
 	      customButtons: { //주말 숨기기 & 보이기 버튼
 	    	  today : {
 	            text  : '오늘',
