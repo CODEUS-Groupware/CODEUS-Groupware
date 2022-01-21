@@ -56,7 +56,7 @@ public class ChattingController {
 	}
 	
 	@RequestMapping("chatRoom.ch")
-	public String chetRoomView(@RequestParam("sander") String sander) {
+	public String chetRoomView(@RequestParam("roomNum") String roomNum) {
 
 	    return "chatRoomView";
 	}

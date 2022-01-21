@@ -45,7 +45,10 @@
 	                                            <a href="#"><img src="/codeus/resources/assets/images/empty-profile.png" class="img-fluid rounded-circle" alt="" style="width: 70px"></a>
 	                                        </div>
 	                                        <div class="media-body">
-	                                            <h4 id="sander" class="media-heading text-primary">${ ch.sander }</h4>
+	                                            <h4 id="sander" class="media-heading text-primary">
+	                                            	${ ch.sander }
+	                                            	<input type="hidden" class="roomNum" value="${ ch.roomNum }">
+	                                            </h4>
 	                                            <p>${ ch.msgContent }</p>
 	                                            <p class="comment-date">${ ch.msgTime }</p>
 	                                        </div>
@@ -106,10 +109,10 @@
 	    <script>
 			$(function() {
 				$('#sander').click(function() {
-					var sander = $(this).text();
-					console.log(sander);
-					window.open('chatRoom.ch?sander=' + sander, "_blank",
-						"toolbar=yes,menubar=yes,width=500,height=700").focus();
+					var roomNum = $(this).children().val();
+					console.log(roomNum);
+					window.open('chatRoom.ch?roomNum=' + roomNum, "_blank",
+						"toolbar=yes,menubar=yes,width=500,height=700, resizable=no").focus();
 				});
 			});
 

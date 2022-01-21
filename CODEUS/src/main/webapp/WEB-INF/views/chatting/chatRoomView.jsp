@@ -15,17 +15,16 @@
         .chat_wrap .inner{background-color: ghostwhite; border-radius:5px; padding:10px; overflow-y:scroll;height: 590px;}
         .chat_wrap .item{margin-top:15px}
         .chat_wrap .item:first-child{margin-top:0px}
-        .chat_wrap .item .box{display:inline-block; max-width:180px; position:relative}
-        .chat_wrap .item .box::before{content:""; position:absolute; left:-8px; top:9px; border-top:0px solid transparent; border-bottom:8px solid transparent;border-right:8px solid #fff;}
-        .chat_wrap .item .box .msg {background:#fff; border-radius:10px; padding:8px; text-align:left}
-        .chat_wrap .item .box .time {font-size:11px; color:#999; position:absolute; right: -75px; bottom:5px; width:70px}
-        .chat_wrap .item .mymsg{text-align:right}
-        .chat_wrap .item .mymsg .box::before{left:auto; right:-8px; border-left:8px solid #fee600; border-right:0;}
-        .chat_wrap .item .mymsg .box .msg{background:#fee600}
-        .chat_wrap .item .mymsg .box .time{right:auto; left:-75px}
-        .chat_wrap .item .box{transition:all .3s ease-out; margin:0 0 0 20px;opacity:0}
-        .chat_wrap .item .mymsg .box{transition:all .3s ease-out; margin:0 20px 0 0;}
-        .chat_wrap .item .on .box{margin:0; opacity: 1;}
+        
+        .chat_wrap .box{display:inline-block; max-width:180px; position:relative}
+        .chat_wrap .box::before{content:""; position:absolute; left:-8px; top:9px; border-top:0px solid transparent; border-bottom:8px solid transparent; border-right:8px solid #fff;}
+        .chat_wrap .box .msg {background:#fff; border-radius:10px; padding:8px; text-align:left}
+        .chat_wrap .box .time {font-size:11px; color:#999; position:absolute; right: -75px; bottom:5px; width:70px}
+        
+        .chat_wrap .mybox{display:inline-block; max-width:180px; position:relative; left: 360px;}
+        .chat_wrap .mybox::before{content:""; position:absolute; right:8px; top:9px; border-top:0px solid transparent; border-bottom:8px solid transparent; border-right:8px solid #fff;}
+        .chat_wrap .mybox .msg {background:#ff0; border-radius:10px; padding:8px; text-align:right}
+        .chat_wrap .mybox .time {font-size:11px; color:#999; position:absolute; right: 75px; bottom:5px; width:70px}
 
         textarea{border: 0; width:70%; background:#fff; border-radius:5px; height: 80px; padding-left:5px; box-sizing:border-box; margin-top:5px; resize: none;}
         textarea::placeholder{color:#999}
@@ -53,26 +52,38 @@
 			<div class="chat_wrap">
 	        	<div class="inner">
 	        
-	            <div class="item">
-	                <div class="box">
-	                    <p class="msg">안녕하세요</p>
-	                    <span class="time">오전 10:05</span>
-	                </div>
-	            </div>
-	
-	            <div class="item mymsg">
-	                <div class="box">
-	                    <p class="msg">안녕하세요</p>
-	                    <span class="time">오전 10:05</span>
-	                </div>
-	            </div>
-	            <div class="item mymsg">
-	                <div class="box">
-	                    <p class="msg">안녕하세요</p>
-	                    <span class="time">오전 10:05</span>
-	                </div>
-	            </div>
-	           
+	       		<table>
+	            	<tr>
+	            		<td>
+	            			<div class="box">
+	            				<br>
+	            				<div>강건강</div>
+	            				<p class="msg">안녕하세요</p>
+	                    		<span class="time">오전 10:05</span>
+	            			</div>
+	            		</td>
+	            	</tr>
+	            	<tr>
+	            		<td>
+	            			<div class="box">
+	            				<br>
+	            				<div>강건강</div>
+	            				<p class="msg">안녕하세요</p>
+	                    		<span class="time">오전 10:05</span>
+	            			</div>
+	            		</td>
+	            	</tr>
+	            	<tr>
+	            		<td a>
+	            			<div class="mybox">
+	            				<br>
+	                    		<span class="time">오전 10:05</span>
+	                    		<p class="msg">안녕하세요</p>
+	            			</div>
+	            		</td>
+	            	</tr>
+	           	</table>
+	           	
 	        	</div>
 	
 	        <textarea id="chatText" cols="3" placeholder="내용 입력"></textarea><button>전송</button>
