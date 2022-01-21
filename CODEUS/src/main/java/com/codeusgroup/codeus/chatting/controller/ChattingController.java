@@ -13,44 +13,44 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.codeusgroup.codeus.address.model.exception.AddressException;
 import com.codeusgroup.codeus.address.model.vo.Address;
-import com.codeusgroup.codeus.chatting.exception.ChettingException;
+import com.codeusgroup.codeus.chatting.exception.ChattingException;
 import com.codeusgroup.codeus.chatting.model.service.ChatService;
 import com.codeusgroup.codeus.chatting.model.vo.Chatroom;
 import com.codeusgroup.codeus.chatting.model.vo.Message;
 import com.codeusgroup.codeus.member.model.vo.Member;
 
 @Controller
-public class ChettingController {
+public class ChattingController {
 	
 	@Autowired
 	private ChatService chService;
 	
-	@RequestMapping("chetList.ch")
+	@RequestMapping("chatList.ch")
 	public ModelAndView chetListView(@ModelAttribute Chatroom ch, HttpServletRequest request, ModelAndView mv) {
 		
 		String userId = ((Member)request.getSession().getAttribute("loginUser")).getmId();
 		ch.setMyMid(userId);
 		
-		ArrayList<Message> list = chService.selectChatroom(userId);
+		ArrayList<Message> list = chService.selectChatList(userId);
 		
 		if(list != null) {
 			mv.addObject("list", list);
-			mv.setViewName("chetListView");
+			mv.setViewName("chatListView");
 			return mv;
 			
 		} else {
-			throw new ChettingException("채팅 목록 조회에 실패했습니다.");
+			throw new ChattingException("채팅 목록 조회에 실패했습니다.");
 		}
 	}
 	
-	@RequestMapping("chetSearch.ch")
+	@RequestMapping("chatSearch.ch")
 	public String chetSearchView() {
-		return "chetSearchView";
+		return "chatSearchView";
 	}
 	
-	@RequestMapping("chetRoom.ch")
+	@RequestMapping("chatRoom.ch")
 	public String chetRoomView(@RequestParam("sander") String sander) {
 
-	    return "chetRoomView";
+	    return "chatRoomView";
 	}
 }

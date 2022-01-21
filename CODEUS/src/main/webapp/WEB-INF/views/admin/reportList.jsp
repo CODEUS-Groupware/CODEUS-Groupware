@@ -62,12 +62,12 @@
 					                                                <th scope="col" width="120px">게시판 유형</th>
 					                                                <th scope="col" width="150px">신고 유형</th>
 					                                                <th scope="col" width="120px">신고일</th>
-					                                                <th scope="col" width="100px">처리 상태</th>
+					                                                <th scope="col" width="150px">처리 상태</th>
 					                                                <th scope="col" width="100px">게시글 상세</th>
 					                                                <c:set var="boardLoopFlag" value="false"/>
 					                                                <c:forEach var="br" items="${ boardReportList }">
 					                                                	<c:if test="${ not boardLoopFlag }">
-							                                               	<c:if test="${ br.reportStatus eq 0 }">  <!-- 처리 대기 상태일 때 -->
+							                                               	<c:if test="${ br.reportStatus eq 0 && br.bStatus ne 1 }">  <!-- 처리 대기 상태일 때 -->
 							                                               		<th scope="col" width="200px">신고 처리</th>
 							                                               		<c:set var="boardLoopFlag" value="true"/>
 							                                              	</c:if> 
@@ -83,7 +83,7 @@
 					                                        	</c:if>
 					                                         	<c:forEach var="br" items="${ boardReportList }">
 					                                         		<tr>
-					                                         			<td>${ br.bTitle }
+					                                         			<td>
 					                                         				<c:if test="${ fn:length(br.bTitle) <= 10 }">
 												                                  ${ br.bTitle }
 												                            </c:if>
@@ -99,21 +99,24 @@
 						                                                </td>
 						                                                <td>${ br.reportDate }</td>
 						                                                <td>
-						                                                	<c:set var="reportStatus" value="${ br.reportStatus == 0 ? '처리 대기' : br.reportStatus == 1 ? '삭제' : '신고 취소'}"/>
+						                                                	<c:set var="reportStatus" value="${ br.reportStatus == 0 ? '처리 대기' : br.reportStatus == 1 ? '관리자 삭제' : '신고 취소'}"/>
+						                                                	<c:set var="reportStatus" value="${ br.bStatus == 1 ? '회원 삭제' : reportStatus }"/>
 						                                                	${ reportStatus }
 						                                                </td>
 						                                                <td>
-						                                                	<c:set var="url" value="${ br.bType == '자유' ? 'CommBoardDetail.bo' : 'marketDetail.bo' }"/>
-					                                         				<c:url var="BoardReportDetail" value="${ contextPath }/${ url }">
-								                                                <c:param name="bNum" value="${ br.bNum }"/>
-								                                                <c:param name="page" value="${ pi.currentPage }"/>
-							                                                </c:url>
-					                                         				<a href="${ BoardReportDetail }" class="mr-4" data-toggle="tooltip"
-			                                                            		data-placement="top" title="Edit" style="padding-left: 30%;"><i
-			                                                                	class="fa fa-search color-muted"></i>
-					                                         				</a>
+						                                                	<c:if test="${ (br.reportStatus eq 0 || br.reportStatus eq 2) && br.bStatus ne 1 }"> <!-- 이미 삭제된 게시글은 상세 보기 불가하게  -->
+							                                                	<c:set var="url" value="${ br.bType == '자유' ? 'CommBoardDetail.bo' : 'marketDetail.bo' }"/>
+						                                         				<c:url var="BoardReportDetail" value="${ url }">
+									                                                <c:param name="bId" value="${ br.bNum }"/>
+									                                                <c:param name="page" value="${ pi.currentPage }"/>
+								                                                </c:url>
+								                                                <a href="${ contextPath }/${ BoardReportDetail }" class="mr-4" data-toggle="tooltip"
+				                                                            		data-placement="top" title="Edit" style="padding-left: 30%;"><i
+				                                                                	class="fa fa-search color-muted"></i>
+					                                         					</a>
+							                                                </c:if>
 					                                         			</td>
-					                                         			<c:if test="${ br.reportStatus eq 0 }"> <!-- 처리 대기 상태일 때 -->
+					                                         			<c:if test="${ br.reportStatus eq 0 && br.bStatus ne 1 }"> <!-- 처리 대기 상태일 때 -->
 						                                               		<td>
 								                                                <div class="btn-group">
 								                                                	<input type="hidden" value="${ br.reportNo }">
@@ -195,12 +198,12 @@
 					                                                <th scope="col" width="120px">게시판 유형</th>
 					                                                <th scope="col" width="150px">신고 유형</th>
 					                                                <th scope="col" width="120px">신고일</th>
-					                                                <th scope="col" width="100px">처리 상태</th>
+					                                                <th scope="col" width="150px">처리 상태</th>
 					                                                <th scope="col" width="100px">게시글 상세</th>
 					                                                <c:set var="replyLoopFlag" value="false"/>
 					                                                <c:forEach var="r" items="${ replyReportList }">
 					                                                	<c:if test="${ not replyLoopFlag }">
-							                                               	<c:if test="${ r.reportStatus eq 0 }">  <!-- 처리 대기 상태일 때 -->
+							                                               	<c:if test="${ r.reportStatus eq 0 && r.bStatus ne 1 && r.bStatus ne 2 && r.rStatus ne 1 }">  <!-- 처리 대기 상태일 때 -->
 							                                               		<th scope="col" width="200px">신고 처리</th>
 							                                               		<c:set var="replyLoopFlag" value="true"/>
 							                                              	</c:if> 
@@ -246,21 +249,24 @@
 						                                                </td>
 						                                                <td>${ r.reportDate }</td>
 						                                                <td>
-						                                                	<c:set var="reportStatus" value="${ r.reportStatus == 0 ? '처리 대기' : r.reportStatus == 1 ? '삭제' : '신고 취소'}"/>
+						                                                	<c:set var="reportStatus" value="${ r.reportStatus == 0 ? '처리 대기' : r.reportStatus == 1 ? '관리자 삭제' : '신고 취소'}"/>
+						                                                	<c:set var="reportStatus" value="${ r.rStatus == 1 ? '회원 삭제' : r.bStatus == 1 ? '삭제된 게시글' : reportStatus }"/>
 						                                                	${ reportStatus }
 						                                                </td>
 						                                                <td>
-						                                                	<c:set var="url" value="${ br.bType == '자유' ? 'CommBoardDetail.bo' : 'marketDetail.bo' }"/>
-					                                         				<c:url var="ReplyBoardDetail" value="${ contextPath }/${ url }">
-								                                                <c:param name="bNum" value="${ r.bNum }"/>
-								                                                <c:param name="page" value="${ pi.currentPage }"/>
-							                                                </c:url>
-					                                         				<a href="${ ReplyBoardDetail }" class="mr-4" data-toggle="tooltip"
-			                                                            		data-placement="top" title="Edit" style="padding-left: 30%;"><i
-			                                                                	class="fa fa-search color-muted"></i>
-					                                         				</a>
+						                                                	<c:if test="${ (r.reportStatus eq 0 || r.reportStatus eq 2) && r.bStatus ne 1 && r.bStatus ne 2 }">
+							                                                	<c:set var="url" value="${ br.bType == '자유' ? 'CommBoardDetail.bo' : 'marketDetail.bo' }"/>
+						                                         				<c:url var="ReplyBoardDetail" value="${ url }">
+									                                                <c:param name="bId" value="${ r.bNum }"/>
+									                                                <c:param name="page" value="${ pi.currentPage }"/>
+								                                                </c:url>
+								                                                <a href="${ contextPath }/${ ReplyBoardDetail }" class="mr-4" data-toggle="tooltip"
+				                                                            		data-placement="top" title="Edit" style="padding-left: 30%;"><i
+				                                                                	class="fa fa-search color-muted"></i>
+						                                         				</a>
+							                                                </c:if>
 					                                         			</td>
-					                                         			<c:if test="${ r.reportStatus eq 0 }"> <!-- 처리 대기 상태일 때 -->
+					                                         			<c:if test="${ r.reportStatus eq 0 && r.bStatus ne 1  && r.bStatus ne 2 && r.rStatus ne 1 }"> <!-- 처리 대기 상태일 때 -->
 						                                               		<td>
 								                                                <div class="btn-group">
 								                                                	<input type="hidden" value="${ r.reportNo }">

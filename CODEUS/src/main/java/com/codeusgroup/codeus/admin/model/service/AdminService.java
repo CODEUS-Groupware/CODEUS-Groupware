@@ -50,6 +50,9 @@ public interface AdminService {
 	int updateDept(Department dept);
 
 	int moveDept(HashMap<String, Integer> map);
+	
+	int sortDeptOrder(ArrayList<Department> subDeptList);
+
 
 	ArrayList<Report> selectBoardReportList(PageInfo pi);
 
@@ -60,6 +63,7 @@ public interface AdminService {
 	int handingBoardReport(Report report);
 
 	int handingReplyReport(Report report);
+
 
 
 }

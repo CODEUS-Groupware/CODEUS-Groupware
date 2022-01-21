@@ -514,13 +514,13 @@ public class NoticeBoardController {
 		}
 		
 		ArrayList<NoticeBoardFile> fList = new ArrayList<NoticeBoardFile>(); // 새로 등록할 파일 리스트
-		ArrayList<NoticeBoardFile>  deleteFList = new ArrayList<NoticeBoardFile>(); // 삭제한 기존 파일 리스트 
+		ArrayList<NoticeBoardFile> deleteFList = new ArrayList<NoticeBoardFile>(); // 삭제한 기존 파일 리스트 
 		if (fileOriginName != null && fileOriginName.length > 0) {
 			
 			for (int i = 0; i < fileOriginName.length; i++) {
 				
 				NoticeBoardFile file = new NoticeBoardFile();
-				System.out.println(deleteYn[i]);
+				
 				if (deleteYn[i].equals("Y")) {
 					file.setFileNo(fileNo[i]);
 					
@@ -575,7 +575,33 @@ public class NoticeBoardController {
 		model.addAttribute("searchCondition", searchCondition).addAttribute("searchValue", searchValue);
 		
 		return "redirect:noticeBoardDetail.nb";
-	}		
+	}	
 	
+
+	/**
+     * 메인 페이지 공지사항 리스트 조회(최신순 5개)
+     */	
+	@RequestMapping("noticeBoardListMain.nb")
+	public void noticeBoardListMain(HttpServletResponse response) {
+		
+		List<NoticeBoard> nBoardList = nbService.selectNoticeBoardListMain();
+		
+		if (nBoardList != null) {
+			
+			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			
+			try {
+				gson.toJson(nBoardList, response.getWriter());
+			} catch (JsonIOException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+		} else {
+			throw new NoticeBoardException("메인페이지 공지사항 리스트 조회에 실패하였습니다.");
+		}
+		
+	}
 
 }

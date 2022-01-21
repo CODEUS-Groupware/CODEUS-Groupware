@@ -74,6 +74,7 @@
 								   <a class="badge badge-light" id="deleteDeptBtn" ><i class="bi bi-dash-lg"></i> 삭제</a>
 								   <form id="deleteForm" action="${ contextPath }/admin/ddelete.ad" method="post">
 								   		<input id="deleteDeptId" type="hidden" name="deptId">
+								   		<input id="upperDeptId" type="hidden" name="upperDeptId">
 								   </form>					              
 		                            <!------------ 부서 추가  Modal창 시작 ---------------->
 		                            <div class="modal fade" id="insertDeptModal">
@@ -242,13 +243,20 @@
 								  	// 부서 삭제 버튼 클릭시 실행하는 함수
 								  	$(document).on('click', '#deleteDeptBtn', function(){
 								  		let deptId = $('#deptId').val().trim();
-								  		
+								  		let upperDept = "";
+								  			
 								  		let subDeptCount = 0;
 								  		for(let i in deptArr) {
 			 		            			if(deptId == deptArr[i].upperDept) {
 			 		            				subDeptCount++;
 			 		            			}
+			 		            			
+			 		            			if (deptId == deptArr[i].deptId) {
+			 		            				upperDept = deptArr[i].upperDept;
+			 		            			}
 			 		            		}
+								  		
+								  		console.log(upperDept)
 								  		
 								  		let deptMemberCount = 0;
 								  		<c:forEach var="m" items="${mList}">
@@ -257,7 +265,6 @@
 			 		            			}
 			 		            		</c:forEach>
 								  		
-			 		            		console.log(deptMemberCount);
 								  		if (deptId == "") {
 								  			alert('삭제할 부서를 선택해주세요.');
 								  		} else if (deptId == '${ dList[0].deptId }') {
@@ -275,6 +282,7 @@
 					        				}).then((result) => {
 					        					if (result.value) {
 					        						$('#deleteDeptId').val(deptId);
+					        						$('#upperDeptId').val(upperDept);
 						        					$('#deleteForm').submit();
 			                       				}
 					        				});
@@ -685,7 +693,7 @@
 		                                		if (originUpperDept != upperDeptId) {
 		                                			$.ajax({
 														url: 'dmove.ad',
-								                		data: {moveDeptId:moveDeptId, upperDeptId:upperDeptId, upperDeptLevel:upperDeptLevel},
+								                		data: {moveDeptId:moveDeptId, upperDeptId:upperDeptId, upperDeptLevel:upperDeptLevel, originUpperDept:originUpperDept},
 								                		type: 'POST',
 								                		success: function(data){
 								                			console.log(data);

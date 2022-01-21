@@ -9,12 +9,14 @@ public interface AddressService {
 
 	int getListCount();
 
-	ArrayList<Member> selectMemebrList(PageInfo pi);
+	ArrayList<Member> selectMemebrList(PageInfo pi, String userId);
 
 	ArrayList<Member> searchMemebrList(PageInfo pi, String input, String field);
 
 	int addAddress(String userId, String mId);
 
-	ArrayList<Member> selectMyList(PageInfo pi);
+	ArrayList<Member> selectMyList(PageInfo pi, String userId);
+
+	int minusAddress(String userId, String mId);
 
 }
