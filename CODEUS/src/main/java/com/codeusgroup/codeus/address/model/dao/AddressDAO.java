@@ -16,7 +16,11 @@ public class AddressDAO {
 	public int getListCount(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("addressMapper.getListCount");
 	}
-
+	
+	public int getMyListCount(SqlSessionTemplate sqlSession, String userId) {
+		return sqlSession.selectOne("addressMapper.getMyListCount");
+	}
+	
 	public ArrayList<Member> selectMemberList(SqlSessionTemplate sqlSession, PageInfo pi, String userId) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getAddressLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getAddressLimit());

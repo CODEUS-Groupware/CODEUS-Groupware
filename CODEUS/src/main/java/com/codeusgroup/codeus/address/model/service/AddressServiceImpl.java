@@ -24,6 +24,11 @@ public class AddressServiceImpl implements AddressService {
 	public int getListCount() {
 		return addrDAO.getListCount(sqlSession);
 	}
+	
+	@Override
+	public int getMyListCount(String userId) {
+		return addrDAO.getMyListCount(sqlSession, userId);
+	}
 
 	@Override
 	public ArrayList<Member> selectMemebrList(PageInfo pi, String userId) {

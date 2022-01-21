@@ -42,7 +42,7 @@
                                 	<c:forEach var="ch" items="${ list }">
 	                                    <div class="media">
 	                                        <div class="media-left">
-	                                            <a href="#"><img class="media-object mr-3" src="./images/avatar/4.png" alt="..."></a>
+	                                            <a href="#"><img src="/codeus/resources/assets/images/empty-profile.png" class="img-fluid rounded-circle" alt="" style="width: 70px"></a>
 	                                        </div>
 	                                        <div class="media-body">
 	                                            <h4 id="sander" class="media-heading text-primary">${ ch.sander }</h4>

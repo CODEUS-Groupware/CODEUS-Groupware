@@ -31,16 +31,16 @@ public class addressController {
 										HttpServletRequest request,
 										ModelAndView mv) {
 		
+		String userId = ((Member)request.getSession().getAttribute("loginUser")).getmId();
+		
 		int currentPage = 1;
 		if(page != null) {
 			currentPage = page;
 		}
 		
-		int listCount = addrService.getListCount();
+		int listCount = addrService.getMyListCount(userId);
 		
 		PageInfo pi =  Pagination.getPageInfo(currentPage, listCount);
-		
-		String userId = ((Member)request.getSession().getAttribute("loginUser")).getmId();
 		
 		ArrayList<Member> list = addrService.selectMyList(pi, userId);
 		

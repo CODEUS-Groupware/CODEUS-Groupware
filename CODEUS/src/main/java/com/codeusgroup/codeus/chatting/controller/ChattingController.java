@@ -29,9 +29,8 @@ public class ChattingController {
 	public ModelAndView chetListView(@ModelAttribute Chatroom ch, HttpServletRequest request, ModelAndView mv) {
 		
 		String userId = ((Member)request.getSession().getAttribute("loginUser")).getmId();
-		ch.setMyMid(userId);
 		
-		ArrayList<Message> list = chService.selectChatList(userId);
+		ArrayList<Message> list = chService.selectChatroom(userId);
 		
 		if(list != null) {
 			mv.addObject("list", list);

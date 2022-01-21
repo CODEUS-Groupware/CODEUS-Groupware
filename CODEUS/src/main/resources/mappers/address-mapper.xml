@@ -7,6 +7,12 @@
 		where m_status = '0'
 	</select>
 	
+	<select id="getMyListCount" resultType="_int">
+		select count(*)
+		from member
+		where m_status = '0'
+	</select>
+	
 	<select id="selectMemberList" resultMap="memberResultSet">
 		select *
 		from member

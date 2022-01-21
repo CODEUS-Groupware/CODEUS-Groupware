@@ -8,6 +8,8 @@ import com.codeusgroup.codeus.member.model.vo.Member;
 public interface AddressService {
 
 	int getListCount();
+	
+	int getMyListCount(String userId);
 
 	ArrayList<Member> selectMemebrList(PageInfo pi, String userId);
 

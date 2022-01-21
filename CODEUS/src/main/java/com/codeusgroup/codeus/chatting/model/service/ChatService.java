@@ -7,11 +7,6 @@ import com.codeusgroup.codeus.chatting.model.vo.Message;
 
 public interface ChatService {
 
-	ArrayList<Message> selectChatList(String userId);
-
-	Chatroom selectChatRoom(String roomNum);
-
-	int insertMessage(Message chatMessage);
-
+	ArrayList<Message> selectChatroom(String userId);
 
 }
