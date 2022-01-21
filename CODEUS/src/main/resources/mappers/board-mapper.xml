@@ -158,7 +158,7 @@
 	
 	<insert id="addReply">
 		INSERT INTO REPLY 
-		VALUES(SEQ_REPLY_NO.NEXTVAL, #{rContent},SYSDATE,SYSDATE,DEFAULT,#{refBid},#{rWriter})
+		VALUES(SEQ_REPLY_NO.NEXTVAL, #{rContent},SYSDATE,SYSDATE,DEFAULT,#{refBid},#{rWriter},null)
 	</insert>
 	
 	
