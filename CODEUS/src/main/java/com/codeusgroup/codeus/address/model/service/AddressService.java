@@ -9,7 +9,7 @@ public interface AddressService {
 
 	int getListCount();
 
-	ArrayList<Member> selectMemebrList(PageInfo pi);
+	ArrayList<Member> selectMemebrList(PageInfo pi, String userId);
 
 	ArrayList<Member> searchMemebrList(PageInfo pi, String input, String field);
 

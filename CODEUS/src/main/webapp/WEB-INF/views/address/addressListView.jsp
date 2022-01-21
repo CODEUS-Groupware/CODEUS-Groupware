@@ -54,7 +54,7 @@
                                                 <td id="mName">사원 이름<br></td>
                                             </tr>
                                             <tr>
-                                                <td id="mJob">직급</td>
+                                                <td id="mJob">직위</td>
                                             </tr>
                                             <tr>
                                                 <td id="mDept">부서</td>
@@ -81,7 +81,7 @@
                                             <tr>
                                             	<th></th>
                                                 <th>이름</th>
-                                                <th>직급</th>
+                                                <th>직위</th>
                                                 <th>부서</th>
                                                 <th>연락처</th>
                                                 <th>상태</th>
@@ -131,8 +131,7 @@
 						                                        <!-- 페이지 -->
 						                                        <c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
 						                                        	<c:if test="${ p eq pi.currentPage }">
-						                                        		<li class="page-item active"><a class="page-link" href="javascript:void()">${ p }</a>
-						                                        		</li>
+						                                        		<li class="page-item active"><a class="page-link" href="javascript:void()">${ p }</a></li>
 						                                        	</c:if>
 						                                        	
 						                                        	<c:if test="${ p ne pi.currentPage }">

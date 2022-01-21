@@ -54,7 +54,7 @@
                                                 <td id="mName">사원 이름<br></td>
                                             </tr>
                                             <tr>
-                                                <td id="mJob">직급</td>
+                                                <td id="mJob">직위</td>
                                             </tr>
                                             <tr>
                                                 <td id="mDept">부서</td>
@@ -102,7 +102,7 @@
                                             <tr>
                                             	<th></th>
                                                 <th>이름</th>
-                                                <th>직급</th>
+                                                <th>직위</th>
                                                 <th>부서</th>
                                                 <th>연락처</th>
                                                 <th>메일</th>

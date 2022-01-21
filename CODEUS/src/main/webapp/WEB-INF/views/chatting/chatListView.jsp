@@ -108,7 +108,7 @@
 				$('#sander').click(function() {
 					var sander = $(this).text();
 					console.log(sander);
-					window.open('chetRoom.ch?sander=' + sander, "_blank",
+					window.open('chatRoom.ch?sander=' + sander, "_blank",
 						"toolbar=yes,menubar=yes,width=700,height=500").focus();
 				});
 			});

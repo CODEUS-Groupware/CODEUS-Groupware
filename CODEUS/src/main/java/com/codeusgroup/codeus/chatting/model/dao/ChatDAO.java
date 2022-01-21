@@ -11,8 +11,8 @@ import com.codeusgroup.codeus.chatting.model.vo.Message;
 @Repository("chetDAO")
 public class ChatDAO {
 
-	public ArrayList<Message> selectChatroom(SqlSessionTemplate sqlSession, String userId) {
-		return (ArrayList)sqlSession.selectList("chettingMapper.selectChatroom", userId);
+	public ArrayList<Message> selectChatList(SqlSessionTemplate sqlSession, String userId) {
+		return (ArrayList)sqlSession.selectList("chattingMapper.selectChatList", userId);
 	}
 
 	public Chatroom selectChatRoom(SqlSessionTemplate sqlSession, String roomNum) {

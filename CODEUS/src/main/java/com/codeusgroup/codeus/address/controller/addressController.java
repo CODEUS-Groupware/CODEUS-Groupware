@@ -57,7 +57,9 @@ public class addressController {
 	}
 	
 	@RequestMapping("search.addr")
-	public ModelAndView addressSearchView(@RequestParam(value="page", required = false) Integer page, ModelAndView mv) {
+	public ModelAndView addressSearchView(@RequestParam(value="page", required = false) Integer page,
+										  HttpServletRequest request,
+										  ModelAndView mv) {
 		int currentPage = 1;
 		if(page != null) {
 			currentPage = page;
@@ -67,7 +69,9 @@ public class addressController {
 		
 		PageInfo pi =  Pagination.getPageInfo(currentPage, listCount);
 		
-		ArrayList<Member> list = addrService.selectMemebrList(pi);
+		String userId = ((Member)request.getSession().getAttribute("loginUser")).getmId();
+		
+		ArrayList<Member> list = addrService.selectMemebrList(pi, userId);
 		
 		if(list != null) {
 			mv.addObject("pi", pi);

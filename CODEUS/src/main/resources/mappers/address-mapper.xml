@@ -10,7 +10,7 @@
 	<select id="selectMemberList" resultMap="memberResultSet">
 		select *
 		from member
-		where m_status = '0' and m_manager_yn = 'N'
+		where m_status = '0' and m_manager_yn = 'N' and m_id not in #{userId}
 	</select>
 	
 	<resultMap type="Member" id="memberResultSet">
@@ -63,12 +63,12 @@
 		where m_id in (
 			select addr_m_id
 			from address
-			where m_id = #{userId}
+			where m_id = #{userId} and m_status = '0' and m_manager_yn = 'N'
 			)
 	</select>
 	
 	<delete id="minusAddress">
-		delete address from addr_m_id = #{mId}
+		delete from address where addr_m_id = #{mId} and m_id = #{userId}
 	</delete>
 	
 	

@@ -17,11 +17,11 @@ public class AddressDAO {
 		return sqlSession.selectOne("addressMapper.getListCount");
 	}
 
-	public ArrayList<Member> selectMemberList(SqlSessionTemplate sqlSession, PageInfo pi) {
+	public ArrayList<Member> selectMemberList(SqlSessionTemplate sqlSession, PageInfo pi, String userId) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getAddressLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getAddressLimit());
 		
-		return (ArrayList)sqlSession.selectList("addressMapper.selectMemberList", null, rowBounds);
+		return (ArrayList)sqlSession.selectList("addressMapper.selectMemberList", userId, rowBounds);
 	}
 
 	public ArrayList<Member> searchMemebrList(SqlSessionTemplate sqlSession, PageInfo pi, String input, String field) {

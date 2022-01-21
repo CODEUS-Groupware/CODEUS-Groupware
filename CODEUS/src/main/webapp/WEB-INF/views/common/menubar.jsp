@@ -189,8 +189,8 @@
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
                     		<i class="bi bi-chat-dots"></i><span class="nav-text">채팅</span></a>
 						<ul aria-expanded="false">
-		                    <li><a href="chetList.ch">채팅방 목록</a></li>
-                            <li><a href="chetSearch.ch">채팅방 검색</a></li>
+		                    <li><a href="chatList.ch">채팅방 목록</a></li>
+                            <li><a href="chatSearch.ch">채팅방 검색</a></li>
                        	</ul>
                     </li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">

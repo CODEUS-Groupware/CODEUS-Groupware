@@ -26,8 +26,8 @@ public class AddressServiceImpl implements AddressService {
 	}
 
 	@Override
-	public ArrayList<Member> selectMemebrList(PageInfo pi) {
-		return addrDAO.selectMemberList(sqlSession, pi);
+	public ArrayList<Member> selectMemebrList(PageInfo pi, String userId) {
+		return addrDAO.selectMemberList(sqlSession, pi, userId);
 	}
 
 	@Override
