@@ -206,31 +206,48 @@
                                                             var rNo = ${ mr.rev_no };
                                                             var page2 = ${ page2 };
                                                             
-                                                            Swal.fire({
-                                                                title: '사용 완료',
-                                                                html: '<b>사용 완료로 변경하시겠습니까?</b><br><small>※ 예약상태 변경은 되돌릴 수 없습니다.</small>',
-                                                                icon: 'info',
-                                                                showConfirmButton: true,
-                                                                confirmButtonText: '예',
-                                                                showCancelButton: true,
-                                                                cancelButtonText: '아니오'
-                                                            }).then((result) => {
-                                                                if(result.isConfirmed) {
-                                                                    Swal.mixin({
-                                                                        toast: true,
-                                                                        position: 'top-end',
-                                                                        showConfirmButton: false,
-                                                                        timer: 2000,
-                                                                        timerProgressBar: true
-                                                                    }).fire({
-                                                                        icon: 'success',
-                                                                        title: '성공적으로 변경되었습니다.',
-                                                                        width: '400px'
-                                                                    });
-                                                                    
-                                                                    location.href="mrcomplete.mr?rNo=" + rNo + "&page2=" + page2;
-                                                                }
-                                                            });
+                                                            function getToday() {
+                                                                var date = new Date();
+                                                                return date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+                                                            }
+                                                            
+                                                            var today = getToday();
+                                                            
+                                                            if('${ mr.rev_date }' == today) {
+                                                                Swal.fire({
+                                                                    title: '사용 완료',
+                                                                    html: '<b>사용 완료로 변경하시겠습니까?</b><br><small>※ 예약상태 변경은 되돌릴 수 없습니다.</small>',
+                                                                    icon: 'info',
+                                                                    showConfirmButton: true,
+                                                                    confirmButtonText: '예',
+                                                                    showCancelButton: true,
+                                                                    cancelButtonText: '아니오'
+                                                                }).then((result) => {
+                                                                    if(result.isConfirmed) {
+                                                                        Swal.mixin({
+                                                                            toast: true,
+                                                                            position: 'top-end',
+                                                                            showConfirmButton: false,
+                                                                            timer: 2000,
+                                                                            timerProgressBar: true
+                                                                        }).fire({
+                                                                            icon: 'success',
+                                                                            title: '성공적으로 변경되었습니다.',
+                                                                            width: '400px'
+                                                                        });
+                                                                        
+                                                                        location.href="mrcomplete.mr?rNo=" + rNo + "&page2=" + page2;
+                                                                    }
+                                                                });
+                                                            } else {
+                                                                Swal.fire({
+                                                                            title: '예약 상태 수정 접근 불가',
+                                                                            html: '<b>수정할 수 없는 예약입니다.</b><br><small>※ "오늘 날짜"인 예약만 수정이 가능합니다.</small>',
+                                                                            icon: 'warning',
+                                                                            showConfirmButton: true,
+                                                                            confirmButtonText: '예',
+                                                                        });
+                                                            }
                                                         });
                                                         
                                                         $('#mrcancel').click(function() {
