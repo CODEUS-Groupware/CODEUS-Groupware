@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Insert title here</title>
+<title>대시보드</title>
 <!-- Favicon icon -->
 <link rel="icon" type="image/png" sizes="16x16" href="${contextPath}/assets/resources/images/favicon.png">
 <!-- Custom Stylesheet -->
@@ -182,7 +182,7 @@
                 <ul class="metismenu" id="menu">
                 	<li class="nav-label first"></li>
                     <li><a href="home.do" aria-expanded="false">
-                         <i class="fa fa-home"></i><span class="nav-text">대시보드</span></a>
+                         <i class="bi bi-house"></i><span class="nav-text">대시보드</span></a>
                     </li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
                     		<i class="bi bi-chat-dots"></i><span class="nav-text">채팅</span></a>
@@ -192,7 +192,7 @@
                        	</ul>
                     </li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                    		<i class="fa fa-file-text"></i><span class="nav-text">전자결재</span></a>
+                    		<i class="bi bi-file-text"></i><span class="nav-text">전자결재</span></a>
                         <ul aria-expanded="false">
                             <li><a href="mydocView.dc">내 문서함</a></li>
                             <li><a href="teamdocView.dc">부서 문서함</a></li>
@@ -208,13 +208,13 @@
                         </ul>
                     </li>
                     <li><a href="noticeBoardList.nb" aria-expanded="false">
-                    	<i class="bi bi-megaphone-fill"></i><span class="nav-text">공지사항</span></a>
+                    	<i class="bi bi-megaphone"></i><span class="nav-text">공지사항</span></a>
                     </li>
                     <li><a href="archive.arch" aria-expanded="false">
                     	<i class="bi bi-cloud-arrow-down"></i><span class="nav-text">자료실</span></a>
                     </li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                    		<i class="fa fa-phone-square"></i><span class="nav-text">주소록</span></a>
+                    		<i class="bi bi-telephone-plus"></i><span class="nav-text">주소록</span></a>
                     	<ul aria-expanded="false">
 		                    <li><a href="list.addr">주소록 목록</a></li>
                             <li><a href="search.addr">주소록 검색</a></li>
@@ -229,21 +229,21 @@
                         </ul>
                     </li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
-                                class="fa fa-briefcase"></i><span class="nav-text">근태관리</span></a>
+                                class="bi bi-briefcase"></i><span class="nav-text">근태관리</span></a>
                         <ul aria-expanded="false">
                            <li><a href="empStatusMain.em">근태 현황</a></li>
                             <li><a href="annualLeaveMain.al">연차현황</a></li>
                         </ul>
                     </li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
-                                class="fa fa-calendar"></i><span class="nav-text">캘린더</span></a>
+                                class="bi bi-calendar4-week"></i><span class="nav-text">캘린더</span></a>
                         <ul aria-expanded="false">
                             <li><a href="calendar.ca">사내 일정 캘린더</a></li>
                             <li><a href="myCalendar.ca">내 일정 캘린더</a></li>
                         </ul>
                     </li>                    
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
-                                class="icon icon-single-04"></i><span class="nav-text">마이페이지</span></a>
+                                class="bi bi-person-circle"></i><span class="nav-text">마이페이지</span></a>
                         <ul aria-expanded="false">
                             <li><a href="myInfo.mp">내 정보</a></li>
                             <li><a href="scrapList.mp">스크랩 관리</a></li>
