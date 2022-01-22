@@ -19,6 +19,10 @@
 
     <link rel="icon" type="image/png" sizes="16x16" href="./resources/assets/images/favicon.png">
     <link href="./resources/assets/css/style.css" rel="stylesheet">
+    
+    <!-- flatpicker css  -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
 </head>
 <body class="h-100">
 
@@ -89,7 +93,17 @@
                                             	<br>
                                             </div>
 			                               	&nbsp;&nbsp;<label class="col-form-label">생년월일</label>
-			                               	<input type="text" id="birthDate" name="inputBirthDate" class="form-control" readonly>
+			                               	<div class="flatpickr" style="display: inline-block;">
+												<input type="text" id="birthDate" name="inputBirthDate" class="form-control"  data-input>
+												 
+												<a class="input-button" title="toggle" data-toggle>
+													<i class="icon-calendar"></i>
+												</a>
+												 
+												<a id="clearBtn" class="input-button" title="clear" data-clear>
+													<i class="icon-close"></i>
+												</a>
+											</div>
 			                               	<br>
 			                               	&nbsp;&nbsp;<label class="col-form-label">우편번호</label>
 			                               	<input type="text" id="post" name="post" class="form-control postcodify_postcode5" readonly>
@@ -116,8 +130,7 @@
 			                            </div> 
                                     </div>
                                 </form>
-                                    <!-- datepicker cdn  -->
-								<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+                                
                                 <script>
                                 	
                                 	// 이름 형식 체크
@@ -147,8 +160,6 @@
 	                                	$(this).val(inputId);
 	                        			
 	                        			let regId = /^[A-Za-z]{1}[0-9A-Za-z]{3,11}$/;
-	                        			// [7,11] : 7~11자 붙여서 써야함(띄어쓰기x)
-	                        			// 8~12자로 영어와 숫자만 가능합니다.(영어로 시작)
 	                        			
 	                        			if (!regId.test(inputId)) {
 	                        				$('#idGuide').text('4~12자로 영어와 숫자만 가능합니다.(영어로 시작)');
@@ -329,48 +340,30 @@
 		                				}
 		                				
 		                			});
-		                			
-		                			// datepicker
-		                			$(function(){
-                                		// datepicker에 지우기 버튼 추가
-                                		var old_fn = $.datepicker._updateDatepicker;
-                                		
-                                		$.datepicker._updateDatepicker = function(inst) {
-                                			old_fn.call(this, inst);
-                                			
-                                			var buttonPane = $(this).datepicker("widget").find(".ui-datepicker-buttonpane");
-                                    		
-                                    		$("<button type='button' class='ui-datepicker-clean ui-state-default ui-priority-primary ui-corner-all'>지우기</button>").appendTo(buttonPane).click(function(ev) {
-                                    			$.datepicker._clearDate(inst.input);
-                                    		});
-                                		}
-                                	});
-		                			
-                                	// 생년월일은 오늘 이전 날짜로만 선택 가능
-	                            	$('#birthDate').datepicker({
-	                            		dateFormat : 'yy-mm-dd',
-	                            		prevText : '이전 달',
-	                            		nextText : '다음 달',
-	                            		cleanText : '지우기',
-	                            		yearRange: '-100:+0',
-	                            		monthNames : [ '1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월',
-	                            				'10월', '11월', '12월' ],
-	                            		monthNamesShort : [ '1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월',
-	                            				'9월', '10월', '11월', '12월' ],
-	                            		dayNames : [ '일', '월', '화', '수', '목', '금', '토' ],
-	                            		dayNamesShort : [ '일', '월', '화', '수', '목', '금', '토' ],
-	                            		dayNamesMin : [ '일', '월', '화', '수', '목', '금', '토' ],
-	                            		showMonthAfterYear : true,
-	                            		yearSuffix : '년',
-	                            		buttonImageOnly : true,
-	                            		changeMonth : true,
-	                            		changeYear : true,
-	                            		maxDate : '0',
-	                            		showButtonPanel : true,
-	                            		currentText : '오늘 날짜',
-	                            		closeText : '닫기',
-	                            		showAnim : "slide",
-	                            		regional : "ko"
+                            	</script>
+                            	
+                            	<!-- flatpicker cdn  -->
+								<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+								<script src="https://npmcdn.com/flatpickr/dist/flatpickr.min.js"></script>
+								<script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
+                            	<script>
+                            		let now = new Date();
+                            		let oneYearAgo = new Date(now.setFullYear(now.getFullYear() - 100));
+                            		
+	                            	// 생년월일은 100년 전부터 오늘 날짜까지만 선택 가능
+	                            	const $flatpickr = $("#birthDate").flatpickr({
+	                            		dateFormat: "Y-m-d",
+	                            		minDate : oneYearAgo,
+	                            		maxDate: "today",	
+	                            		"locale": "ko" // 언어 한글로 설정
+	                            	});
+	                            	
+	                            	flatpickr.localize(flatpickr.l10ns.ko);
+	                            	flatpickr("mySelector");
+	                            	
+	                            	// 입력한 데이터 지우기 버튼
+	                            	$("#clearBtn").click(function() {
+	                            	   $flatpickr.clear();
 	                            	});
 	                            	
 	                        		// sweet alert customize
@@ -385,6 +378,9 @@
 		    				        		showConfirmButton : false // ok버튼 표시 여부
 		    				        	});
 		    				         }
+                            	
+                            	
+                            	
                             	</script>
                                 </div>
                             </div>
