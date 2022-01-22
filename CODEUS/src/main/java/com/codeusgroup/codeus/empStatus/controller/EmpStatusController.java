@@ -197,7 +197,6 @@ public class EmpStatusController {
 	
 			
 	}
-
 	@RequestMapping("offTime.em") 
 	  public void updateOffTime(@ModelAttribute EmpStatus empStatus, @RequestParam("offTime") String offTime, 
 			                    @RequestParam("off") Date off, @RequestParam("status") String status,
@@ -223,7 +222,6 @@ public class EmpStatusController {
       int tiHours2 = 0;
       String gap = null;
       String over = null;
-     // DateFormat df = new SimpleDateFormat("HH:mm:ss"); // HH=24h, hh=12h
      
 		  if(tiHours >= 9) {
 			  tiHours = 9;

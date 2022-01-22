@@ -25,7 +25,7 @@
 	}
 	
 	#clock{
-		font-size:35px;
+		font-size:40px;
 		margin-bottom: 15px;
 		color:black;
 	}
@@ -191,7 +191,7 @@
                             </div>                        		                   
                             <div class="card-body">
                                 <div class="table-responsive">
-                                	<table id="WorkTable" class="table table-hover table-responsive-sm" style="color: black; text-align: center;">                              
+                                	<table id="WorkTable" class="table table-responsive-sm" style="color: black; text-align: center;">                              
                                         <thead>
                                             <tr>
                                                 <th>
@@ -284,6 +284,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- 부서장이 로그인 할 경우 아래 2개 영역 보이게 하기 -->
                                     <div class="accordion__item">
                                         <div class="accordion__header collapsed" data-toggle="collapse" data-target="#default_collapseThree">
                                             <span class="accordion__header--text">내 부서 근태현황</span>
@@ -310,7 +311,7 @@
                             
                             <div class="card-body">
                                 <div class="table-responsive">
-                                <table id="totalWorkTime" class="table table-hover table-responsive-sm" style="color: black; text-align: center;">                              
+                                <table id="totalWorkTime" class="table table-responsive-sm" style="color: black; text-align: center;">                              
                                         <thead>                                        
                                             <tr>
                                                 <th>
@@ -521,30 +522,40 @@
 					console.log(data);	
 					
 					 if(statusValue == "업무종료"){
-						 $('#changeStatus').attr("disabled","disabled");
-						//input에는 text, innerhtml이 아니라 val를 써서 화면에 출력해야함
-						var gap = document.getElementById("workingTime1");// 
-						var date = new Date(data.empOffTime);
-						 var month = date.getMonth() + 1;
-						 var day = date.getDate();
-						 var hour = date.getHours();
-						 var minute = date.getMinutes();
-						 var second = date.getSeconds();
-
-				        month = month >= 10 ? month : '0' + month;
-				        day = day >= 10 ? day : '0' + day;
-				        hour = hour >= 10 ? hour : '0' + hour;
-				        minute = minute >= 10 ? minute : '0' + minute;
-				        second = second >= 10 ? second : '0' + second;
-
-				        var offDate = date.getFullYear() + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
-						
-				        console.log("툌:"+offDate);
-
-						$('#workOutTime').val(offDate);
-						//gap.innerHTML = data.strGapTime;
-						 
-					} 
+						 Swal.fire({
+							 title: '퇴근하시겠습니까?',
+							  //text: "이미 생성하셨다면 취소를 눌러주세요.",
+							 // icon: 'warning',
+							  showCancelButton: true,
+							  confirmButtonColor: '#3085d6',
+							  cancelButtonColor: '#d33',
+							  confirmButtonText: '확인',
+							  cancelButtonText: '취소'
+						}).then((result) => {
+								console.log(result.value);
+								if(result.value){		
+									$('#changeStatus').prop("disabled",  true);
+									var date = new Date(data.empOffTime);
+									 var month = date.getMonth() + 1;
+									 var day = date.getDate();
+									 var hour = date.getHours();
+									 var minute = date.getMinutes();
+									 var second = date.getSeconds();
+			
+							        month = month >= 10 ? month : '0' + month;
+							        day = day >= 10 ? day : '0' + day;
+							        hour = hour >= 10 ? hour : '0' + hour;
+							        minute = minute >= 10 ? minute : '0' + minute;
+							        second = second >= 10 ? second : '0' + second;
+			
+							        var offDate = date.getFullYear() + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
+									
+							        console.log("툌:"+offDate);
+			
+									$('#workOutTime').val(offDate);
+								}
+						})
+					}
 				},
 				error:function(data){
 					console.log(data);
