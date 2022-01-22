@@ -146,12 +146,12 @@
 	                        			let inputId = $(this).val().trim();
 	                                	$(this).val(inputId);
 	                        			
-	                        			let regId = /^[A-Za-z]{1}[0-9A-Za-z]{7,11}$/;
+	                        			let regId = /^[A-Za-z]{1}[0-9A-Za-z]{3,11}$/;
 	                        			// [7,11] : 7~11자 붙여서 써야함(띄어쓰기x)
 	                        			// 8~12자로 영어와 숫자만 가능합니다.(영어로 시작)
 	                        			
 	                        			if (!regId.test(inputId)) {
-	                        				$('#idGuide').text('8~12자로 영어와 숫자만 가능합니다.(영어로 시작)');
+	                        				$('#idGuide').text('4~12자로 영어와 숫자만 가능합니다.(영어로 시작)');
 		                					$('#idGuide').addClass('text-danger');
 		                					$('.idGuide').show();
 		                					idCheck = false;
