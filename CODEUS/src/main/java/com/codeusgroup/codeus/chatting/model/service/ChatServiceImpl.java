@@ -1,6 +1,7 @@
 package com.codeusgroup.codeus.chatting.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,17 +22,17 @@ public class ChatServiceImpl implements ChatService {
 	private SqlSessionTemplate sqlSession;
 
 	@Override
-	public ArrayList<Message> selectChatList(String userId) {
-		return chDAO.selectChatList(sqlSession, userId);
+	public ArrayList<Message> selectChatroom(String userId) {
+		return chDAO.selectChatroom(sqlSession, userId);
 	}
 
 	@Override
-	public Chatroom selectChatRoom(String roomNum) {
-		return chDAO.selectChatRoom(sqlSession, roomNum);
+	public ArrayList<Message> selectMessage(String roomNum, String userId) {
+		return chDAO.selectMessage(sqlSession, roomNum, userId);
 	}
 
 	@Override
-	public int insertMessage(Message chatMessage) {
-		return chDAO.insertMessage(sqlSession, chatMessage);
+	public int insertMessage(HashMap<String, Object> map) {
+		return chDAO.insertMessage(sqlSession, map);
 	}
 }

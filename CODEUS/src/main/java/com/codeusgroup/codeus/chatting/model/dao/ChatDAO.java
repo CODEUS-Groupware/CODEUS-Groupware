@@ -1,6 +1,7 @@
 package com.codeusgroup.codeus.chatting.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -11,16 +12,19 @@ import com.codeusgroup.codeus.chatting.model.vo.Message;
 @Repository("chetDAO")
 public class ChatDAO {
 
-	public ArrayList<Message> selectChatList(SqlSessionTemplate sqlSession, String userId) {
-		return (ArrayList)sqlSession.selectList("chattingMapper.selectChatList", userId);
+	public ArrayList<Message> selectChatroom(SqlSessionTemplate sqlSession, String userId) {
+		return (ArrayList)sqlSession.selectList("chattingMapper.selectChatroom", userId);
 	}
 
-	public Chatroom selectChatRoom(SqlSessionTemplate sqlSession, String roomNum) {
-		return sqlSession.selectOne("chatMapper.selectChatRoom", roomNum);
+	public ArrayList<Message> selectMessage(SqlSessionTemplate sqlSession, String roomNum, String userId) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("roomNum", roomNum);
+		map.put("userId", userId);
+		
+		return (ArrayList)sqlSession.selectList("chattingMapper.selectMessage", map);
 	}
 
-	public int insertMessage(SqlSessionTemplate sqlSession, Message chatMessage) {
-		return sqlSession.insert("chatMapper.insertMessage", chatMessage);
+	public int insertMessage(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		return sqlSession.insert("chattingMapper.insertMessage", map);
 	}
-	
 }

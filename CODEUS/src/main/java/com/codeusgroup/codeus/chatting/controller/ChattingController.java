@@ -1,6 +1,7 @@
 package com.codeusgroup.codeus.chatting.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,10 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.codeusgroup.codeus.address.model.exception.AddressException;
-import com.codeusgroup.codeus.address.model.vo.Address;
 import com.codeusgroup.codeus.chatting.exception.ChattingException;
 import com.codeusgroup.codeus.chatting.model.service.ChatService;
 import com.codeusgroup.codeus.chatting.model.vo.Chatroom;
@@ -29,9 +29,8 @@ public class ChattingController {
 	public ModelAndView chetListView(@ModelAttribute Chatroom ch, HttpServletRequest request, ModelAndView mv) {
 		
 		String userId = ((Member)request.getSession().getAttribute("loginUser")).getmId();
-		ch.setMyMid(userId);
 		
-		ArrayList<Message> list = chService.selectChatList(userId);
+		ArrayList<Message> list = chService.selectChatroom(userId);
 		
 		if(list != null) {
 			mv.addObject("list", list);
@@ -49,8 +48,48 @@ public class ChattingController {
 	}
 	
 	@RequestMapping("chatRoom.ch")
-	public String chetRoomView(@RequestParam("sander") String sander) {
-
-	    return "chatRoomView";
+	public ModelAndView chetRoomView(HttpServletRequest request,
+							   @RequestParam("roomNum") String roomNum,
+							   ModelAndView mv) {
+		String userId = ((Member)request.getSession().getAttribute("loginUser")).getmId();
+		
+		ArrayList<Message> list = chService.selectMessage(roomNum, userId);
+		
+		if(list != null) {
+			mv.addObject("list", list);
+			mv.setViewName("chatRoomView");
+			
+		} else {
+			throw new ChattingException("채팅 목록 조회에 실패했습니다.");
+		}
+		
+	    return mv;
+	}
+	
+	@RequestMapping("sandMsg.ch")
+	@ResponseBody
+	public String insertMessage(@RequestParam("msg") String msg,
+							    @RequestParam("sander") String sander,
+							    @RequestParam("roomNum") int roomNum,
+							    HttpServletRequest request) {
+	
+		String userId = ((Member)request.getSession().getAttribute("loginUser")).getmId();
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("msg", msg);
+		map.put("sander", sander);
+		map.put("userId", userId);
+		map.put("roomNum", roomNum);
+		
+		int result = chService.insertMessage(map);
+		
+		if(result > 0) {
+			
+			System.out.println("메세지 전송");
+			return "success";
+			
+		} else {
+			throw new ChattingException("메세지 전송에 실패했습니다.");
+		}
 	}
 }

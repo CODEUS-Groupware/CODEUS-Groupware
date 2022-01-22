@@ -36,7 +36,7 @@
 
                 <div class="row">
                 	<div class="col-xl-3 col-lg-2 col-xxl-2 col-md-2">
-                        <div class="card">
+                        <div class="card" style="height:500px;">
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table student-data-table m-t-20" style="color : black; text-align: center;">
@@ -76,7 +76,7 @@
                     </div>
                 	
                     <div class="col-xl-9 col-lg-10 col-xxl-10 col-md-10">
-                        <div class="card">
+                        <div class="card" style="height:500px;">
                             <div class="card-header">
                                 <form name="searchform" method="post" action="research.addr" style="width: 100%">
                                 <table style="border: none; width: 100%">

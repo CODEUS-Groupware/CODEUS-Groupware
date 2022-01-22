@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,16 +40,19 @@
      				<div class="col-xl-11 col-lg-10 col-xxl-10 col-md-10">
                         <div class="card">
                             <div class="card-body">
-                                <div class="recent-comment m-t-15">
+                                <div class="recent-comment m-t-15" style="overflow:auto; height:500px;">
                                 	<c:forEach var="ch" items="${ list }">
 	                                    <div class="media">
 	                                        <div class="media-left">
-	                                            <a href="#"><img class="media-object mr-3" src="./images/avatar/4.png" alt="..."></a>
+	                                            <a href="#"><img src="/codeus/resources/assets/images/empty-profile.png" class="img-fluid rounded-circle" alt="" style="width: 70px"></a>
 	                                        </div>
 	                                        <div class="media-body">
-	                                            <h4 id="sander" class="media-heading text-primary">${ ch.sander }</h4>
+	                                            <h4 class="media-heading text-primary sander">
+	                                            	${ ch.sander }
+	                                            	<input type="hidden" class="roomNum" value="${ ch.roomNum }">
+	                                            </h4>
 	                                            <p>${ ch.msgContent }</p>
-	                                            <p class="comment-date">${ ch.msgTime }</p>
+	                                            <p class="comment-date"><fmt:formatDate pattern="yyyy-MM-dd hh:mm" value="${ ch.msgTime }"/></p>
 	                                        </div>
 	                                    </div>
                                     </c:forEach>
@@ -59,9 +64,9 @@
                     <div class="col-xl-1 col-lg-2 col-xxl-2 col-md-2">
                         <div class="card">
                             <div class="card-body">
-                                <div class="recent-comment m-t-15">
+                                <div class="recent-comment m-t-15" style="height:500px;">
                                     <div class="media">
-                                        <button class="form-control input-default" style="background: #593bdb; color: white; height: 80px;">대화<br>상대<br>검색</button>
+                                        <button class="form-control input-default" style="background: #593bdb; color: white; height: 80px;" onclick="location.href='chatSearch.ch'">대화<br>상대<br>검색</button>
                                     </div>
                                     <div class="media">
                                         <button id="delete" class="form-control input-default" style="background: #593bdb; color: white; height: 50px;">채팅방<br>삭제</button>
@@ -105,11 +110,11 @@
 	    ***********************************-->
 	    <script>
 			$(function() {
-				$('#sander').click(function() {
-					var sander = $(this).text();
-					console.log(sander);
-					window.open('chatRoom.ch?sander=' + sander, "_blank",
-						"toolbar=yes,menubar=yes,width=700,height=500").focus();
+				$('.sander').click(function() {
+					var roomNum = $(this).children().val();
+					console.log(roomNum);
+					window.open('chatRoom.ch?roomNum=' + roomNum, "_blank",
+						"toolbar=yes,menubar=yes,width=500,height=700, resizable=no").focus();
 				});
 			});
 
