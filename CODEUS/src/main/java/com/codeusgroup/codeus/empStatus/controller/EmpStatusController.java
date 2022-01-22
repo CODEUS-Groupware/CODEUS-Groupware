@@ -319,6 +319,14 @@ public class EmpStatusController {
 		  System.out.println("시작");
 		  System.out.println("한달 워크타임:"+mwList);
 
+		  for(int i= 0; i < mwList.size(); i++) {
+			  if(mwList.get(i).getStrGapTime().equals("::")) {
+				  mwList.get(i).setStrGapTime("");
+			  }
+			  if(mwList.get(i).getStrOverTime().equals("::")) {
+				  mwList.get(i).setStrOverTime("");
+			  }
+		  }
 		  model.addAttribute("mwList", mwList);
 		  
 		  GsonBuilder gb = new GsonBuilder();

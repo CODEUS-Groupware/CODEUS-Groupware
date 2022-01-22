@@ -28,7 +28,7 @@
 		<result column="WORK_TIME" property="gapTime"/>
 		<result column="OVER_TIME" property="overTime"/>
 		<result column="WORK_TIME1" property="strGapTime"/>
-		<result column="OVER_TIME1" property="strOverTime"/>
+		<result column="over_time1" property="strOverTime"/>
 		 <result column="JOB_ID" property="jobId"/>
 		<result column="DEPT_ID" property="deptId"/> 
 		<result column="JOB_NAME" property="jobName"/>

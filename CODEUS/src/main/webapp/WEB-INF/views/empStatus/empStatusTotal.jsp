@@ -781,7 +781,7 @@
  	        			var startTime = data[i].empOnTime.substr(11,8);
  	        			var endTime = data[i].empOffTime.substr(11,8);
  	        			var workTime = data[i].strGapTime;
- 	        			var overTime = data[i].strOvertime;
+ 	        			var overTime = data[i].strOverTime;
  	        			//var detailStartTime = data[i].commuteStart.substring(11, 13);
          				//var detailEndTime = data[i].commuteEnd.substring(11, 13);
  	        			
