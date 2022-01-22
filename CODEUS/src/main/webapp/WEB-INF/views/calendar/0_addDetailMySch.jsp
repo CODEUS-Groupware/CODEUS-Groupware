@@ -777,9 +777,9 @@
 	          <th>색상</th>
 	          <td>
 	          		<select class="colorSelect form-control" name="color" style="width: 15%; height: 35px;">
-	          			<option value="blue">파란색</option>
+	          			<option value="blue">보라색</option>
 	          			<option value="green">초록색</option>
-	          			<option value="red">보라색</option>
+	          			<option value="red">빨간색</option>
 	          			<option value="black">검정색</option>
 	          		</select>
 	          </td>

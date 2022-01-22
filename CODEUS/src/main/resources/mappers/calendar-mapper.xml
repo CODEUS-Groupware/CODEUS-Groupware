@@ -11,7 +11,7 @@
 	<select id="readAdminCalList" parameterType="String" resultMap="calendarResultSet">
 		select SCHE_NO, M_ID, SCHE_TITLE, sche_color
 		from calendar
-		where SCHE_STATUS = 0 and sche_type = 'B' and m_id = 'admin'
+		where SCHE_STATUS = 0 and sche_type = 'B' and m_id = 'kimdo'
 		order by SCHE_NO       
 	</select>
 
@@ -28,7 +28,7 @@
 	<select id="selectadminSchList" parameterType="CalArrTemp" resultMap="calendarResultSet">
 		SELECT *
 		from CALENDAR 
-		where SCHE_STATUS = 0 and sche_type = 'B' and m_id = 'admin' 
+		where SCHE_STATUS = 0 and sche_type = 'B' and m_id = 'kimdo' 
 			AND SCHE_NO IN
 			<foreach collection="calNoArr" index="i" open="(" separator="," close=")">
 				${calNoArr[i]}
@@ -53,13 +53,13 @@
 			insert into calendar values
 			(seq_sche_no.nextval, 'B', #{scheTitle}, default, default,  
 									default, default, 
-									default, default, #{mId}, 'skyblue')
+									default, default, #{mId}, '#6b51df')
 	</insert>
 	<!-- 캘린더 클릭으로 일정 추가 -->
 	<insert id="addModalSch" parameterType="HashMap">
 		INSERT INTO CALENDAR VALUES(seq_sche_no.nextval, 'B', #{title}, #{content}, default, 
                             to_timestamp(#{startday}, 'YYYY-MM-DD HH24:MI:SS'), to_timestamp(#{endday}, 'YYYY-MM-DD HH24:MI:SS'), 
-                            #{allday}, DEFAULT, #{cWriter}, 'red')
+                            #{allday}, DEFAULT, #{cWriter}, '#6b51df')
 	</insert>
 
 	<insert id="addModalMySch" parameterType="HashMap">
