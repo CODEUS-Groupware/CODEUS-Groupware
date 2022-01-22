@@ -21,9 +21,14 @@
      #my_modal .modal_close_btn {position: absolute;top: 10px; right: 10px;}
      li > a{color : black;}
      #marketDetail th, td {text-align: center; font-size : 15px; color: black;}
-	p {olor:black;}
+	
+	p {color:black;}
+	
+	tr,td {
+		color:black;
+		padding: 5px;
+	}	
 			
-			 /* scrap 관련 css */
 			 
 	a:hover{cursor: pointer;}
 	.card-body{color: black;}
@@ -58,24 +63,9 @@
             Content body start
         ***********************************-->
    
+   <div class="content-body">
+      <div class="container-fluid">
       <c:if test="${mb.mbStatus eq '0'}">    
-       
-        <div class="content-body">
-           <div class="container-fluid">
-               <div class="row page-titles mx-0">
-                   <div class="col-sm-6 p-md-0">
-                       <div class="welcome-text">
-                           <h4>Hi, welcome back!</h4>
-                           <span class="ml-1">Datatable</span>
-                       </div>
-                   </div>
-                   <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
-                       <ol class="breadcrumb">
-                           <li class="breadcrumb-item"><a href="javascript:void(0)">Table</a></li>
-                           <li class="breadcrumb-item active"><a href="javascript:void(0)">Datatable</a></li>
-                       </ol>
-                   </div>
-               </div>
 		<!-- 본문 시작 -->
 		<div class="col-lg-12">
 			<div class="card">
@@ -92,16 +82,22 @@
                                 <table id ="marketDetail" class="table table-responsive-sm">
 							<tr>
 							<td rowspan="7" height ="400" width ="400">
-								
 								<div id="file ${att.fileNo}" class="file">
+								<c:choose>
+									<c:when test="${null ne att.fileNo}">
 			              			<img id="img${ att.fileNo }" src="${contextPath}/resources/buploadFiles/${ att.reFileName }" width="350" height="350" download><br>
+			              			</c:when>
+			              			<c:otherwise>
+			              				<img id="noimg" src="${contextPath}/resources/assets/images/noimg.jpg"> 
+			              			</c:otherwise>
+			              		</c:choose>
 								</div>
 							  	<tr>
 								  	<td>
 									<h3>${ mb.mbTitle }</h3>
 									</td>
 									<td>
-										 <c:if test="${ loginUser.mId ne mb.mbWriter || loginUser.mId eq 'admin' }">   
+										 <c:if test="${ loginUser.mId ne mb.mbWriter || loginUser.mId eq '' }">   
 											 <p align="right">
 											  <span  type="button"  id="popup_open_btn" id="report">
 											  <img class='fit-picture' 
@@ -120,20 +116,19 @@
 								</tr>
 								
 								<tr>
-									<th>작성날짜</th>
+									<td>작성날짜</td>
 									<td>${ mb.mbCreateDate }</td>
 								</tr>
 								
 							    <tr>
-								<th>작성자</th>
+								<td>작성자</td>
 								<td>${ mb.mbWriter }</td>
 								</tr>
 								
 								<tr>
-								<th>조회수</th>
+								<td>조회수</td>
 								<td>${ mb.mbViews }</td>
 								
-							
 								</tr>
 								<tr>
 								</tr>
@@ -146,24 +141,81 @@
 										<c:param name="bId" value="${mb.bId}"></c:param>
 								</c:url>
 								<tr>
-									<p align="right">
+									
 									 <c:if test="${ loginUser.mId eq mb.mbWriter }">
+									 <p align="right">
 										<button type="button" class="btn btn-primary" onclick="location.href='${ mupView }'">수정</button>
 										<button type="button" class="btn btn-primary" onclick="location.href='${ mDelete }'">삭제</button>
+										</p>
 									</c:if>	
-								</p>
 								<td>
-                                        <!-- 스크랩 버튼 -->
+                                       <%--  <!-- 스크랩 버튼 -->
                             			<button class="scrapBtn btn btn-rounded btn-outline-light ${ scrapStatus == 1 ? 'scrap' : '' }" onclick="scrap('${ mb.bId }')">
                             				<i class="bi bi-bookmark-star-fill"></i><span> 스크랩</span>
+                            			</button> --%>
+                            			<button class="scrapBtn btn btn-rounded btn-outline-light ${ scrapStatus == 1 ? 'scrap' : '' }" onclick="scrap('${ mb.bId }')">
+                            				<i class="bi bi-bookmark-star-fill"></i><span>찜하기</span>
                             			</button>
-                                		</button>&nbsp&nbsp
                                 		<button type="button" class="btn  btn-square btn-secondary">연락하기</button>
-								</td>
-								
-								</tr>
-													  
+										</td>
+									</tr>
 								</table>
+								<script>
+	                            	// scrap 관련 js
+	                       			$(function() {
+	                       				$('.scrap').css('background', 'Lavender');
+	                       			});
+	                       			
+		                       		function scrap(bId) {
+		                       			let $scrapBtn = $('.scrapBtn');
+		                       			console.log(bId)
+		                       			if (!$scrapBtn.hasClass('scrap')) { // 스크랩한 상태가 아닐때
+		                       				// 스크랩 추가
+		                       				$.ajax({
+	                   							url: 'insertScrap.nb',
+	                   							data: {bNum: bId},
+	                   							type: 'POST',
+	                   							success: function(data){
+	                   								console.log(data);
+	                   								if (data.trim() == 'success') {
+	                   									$scrapBtn.css('background', 'Lavender');
+	                   									$scrapBtn.addClass('scrap');
+	                   								} else {
+	                   									alert('알 수 없는 에러가 발생했습니다.', '', 'error');
+	                   								}
+	                   							},
+	                   							error: function(data){
+	                   								console.log(data);
+	                   								alert('알 수 없는 에러가 발생했습니다.', '', 'error');
+	                   							}
+	                   						});			
+		                       				
+		                       			
+		                       			} else { // 스크랩한 상태일때
+		                       				// 스크랩 삭제
+		                       				$.ajax({
+	                   							url: 'deleteScrap.nb',
+	                   							data: {bNum: bId},
+	                   							type: 'POST',
+	                   							success: function(data){
+	                   								console.log(data);
+	                   								if (data.trim() == 'success') {
+	                   									$('.scrapBtn').css('background', '');
+	            	                       				$('.scrapBtn').removeClass('scrap');
+	                   								} else {
+	                   									alert('알 수 없는 에러가 발생했습니다.', '', 'error');
+	                   								}
+	                   							},
+	                   							error: function(data){
+	                   								console.log(data);
+	                   								alert('알 수 없는 에러가 발생했습니다.', '', 'error');
+	                   							}
+		                       				});
+		                       				
+		                       			}
+		                       		}
+                            	</script>
+								
 								<!-- 하단 영역 -->
 								<div class="row">
 			                    <div class="col-md-20">
@@ -206,6 +258,11 @@
 			              </div> 
 		            </form>    
 				 </div>
+		 	<br><br>
+		<p align="center">
+	<button  type="button" onclick="location.href='home.do'" class="btn btn-primary">홈으로</button>	
+	<button  type="button" onclick="location.href='marketblist.bo'" class="btn btn-primary">목록</button>
+			</p>
 			</main>
 				</div>
 					</div>
@@ -213,8 +270,8 @@
 							</div>
 								</div>
 									</div>
-									</c:if>
-		<c:if test="${ loginUser.mId eq 'admin' && b.bStatus eq '1'  }">
+		</c:if>
+		<c:if test="${ loginUser.mId eq 'kimdo' && b.bStatus eq '1'  }">
      		 
      		 <script language=javascript> 
      		 console.log('123');
@@ -225,13 +282,6 @@
       	</c:if>
 			<br><br>
 			<!-- 본문 끝-->
-			<br><br>
-			<p align="center">
-				<button  type="button" 
-		            onclick="location.href='home.do'" class="btn btn-primary">홈으로</button>	
-				<button  type="button" 
-		            onclick="location.href='marketblist.bo'" class="btn btn-primary">목록</button>
-			</p>
 				<!-- 신고 모달 창 -->
 							<div id="my_modal">
 							<form id="postReportForm">
@@ -355,65 +405,6 @@
 	   		
 	      });
 	  </script>
-	  
-	  <script>
-	  // scrap 관련 js
-			$(function() {
-				$('.scrap').css('background', 'Lavender');
-			});
-			
- 			function scrap(bId) {
- 			let $scrapBtn = $('.scrapBtn');
- 			
- 			if (!$scrapBtn.hasClass('scrap')) { // 스크랩한 상태가 아닐때
- 				// 스크랩 추가
- 				$.ajax({
-			url: 'insertScrap.nb',
-			data: {bId:bId},
-			type: 'POST',
-			success: function(data){
-				console.log(data);
-				if (data.trim() == 'success') {
-					$scrapBtn.css('background', 'Lavender');
-					$scrapBtn.addClass('scrap');
-				} else {
-					alert('알 수 없는 에러가 발생했습니다.', '', 'error');
-				}
-			},
-			error: function(data){
-				console.log(data);
-				alert('알 수 없는 에러가 발생했습니다.', '', 'error');
-			}
-		});			
- 				
- 			
- 			} else { // 스크랩한 상태일때
- 				// 스크랩 삭제
- 				$.ajax({
-			url: 'deleteScrap.nb',
-			data: {bId:bId},
-			type: 'POST',
-			success: function(data){
-				console.log(data);
-				if (data.trim() == 'success') {
-					$('.scrapBtn').css('background', '');
-             				$('.scrapBtn').removeClass('scrap');
-				} else {
-					alert('알 수 없는 에러가 발생했습니다.', '', 'error');
-				}
-			},
-			error: function(data){
-				console.log(data);
-				alert('알 수 없는 에러가 발생했습니다.', '', 'error');
-			}
- 				});
- 				
- 			}
- 		}
-    	</script>
-	  
-	
-	  
 	  
 					        
 <!-- 모달 창 -->

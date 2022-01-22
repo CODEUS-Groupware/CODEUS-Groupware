@@ -164,14 +164,14 @@ $(document).ready(function() {
 												   .append("<a href ='#' onclick='ReportReply("+bId+","+data[i].rId+")'><img class='fit-picture' src='${contextPath}/resources/assets/images/1224162.png' alt=''>신고<a>");
 //			                                       
 						
-													$tr.append($rWriter);
+												    $tr.append($rWriter);
 													$tr.append($rContent);
 													$tr.append($rCreateDate);
-													//if(data[i].rWriter == loginUser.mId || loginUser.mId == 'admin'){
+													if(data[i].rWriter == '${loginUser.mId}' || '${loginUser.mId}' == 'kimdo'){
 													$tr.append($btnArea);
-													//}else if(data[i].rWriter != loginUser.mId){
+													}else if(data[i].rWriter != '${loginUser.mId}'){
 								                    	 $tr.append($btnAreaT);
-								                 // };
+								                 	};
 													$tableBody.append($tr);
 												}
 											} else {

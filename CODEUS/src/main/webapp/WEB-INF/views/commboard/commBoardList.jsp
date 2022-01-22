@@ -16,12 +16,9 @@
 	 		 font-size : 15px;
 	 		 color: black;
 	}
-	#buttonTab{border-left: hidden; border-right: hidden;}
+
 	
 </style>
-
-
-
 
 
 	<!-- Favicon icon -->
@@ -45,20 +42,6 @@
     ***********************************-->
 <div class="content-body">
    <div class="container-fluid">
-       <div class="row page-titles mx-0">
-           <div class="col-sm-6 p-md-0">
-               <div class="welcome-text">
-                   <h4>Hi, welcome back!</h4>
-                   <span class="ml-1">Datatable</span>
-               </div>
-           </div>
-           <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
-               <ol class="breadcrumb">
-                   <li class="breadcrumb-item"><a href="javascript:void(0)">Table</a></li>
-                   <li class="breadcrumb-item active"><a href="javascript:void(0)">Datatable</a></li>
-               </ol>
-           </div>
-       </div>
      <div class="row">
            <div class="col-12">
                <div class="card">
@@ -98,7 +81,7 @@
                                         <thead>
                                         <tr>
 							              <th width="10%">No</th>
-							              <th  width="20%">제목</th>
+							              <th  width="30%">제목</th>
 							              <th>작성자</th>
 							              <th>작성일</th>
 							              <th>조회수</th>
