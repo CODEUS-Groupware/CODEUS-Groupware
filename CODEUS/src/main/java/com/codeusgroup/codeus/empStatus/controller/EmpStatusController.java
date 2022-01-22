@@ -49,10 +49,10 @@ public class EmpStatusController {
 		String id = member.getmId();
 		EmpStatus empStatus = new EmpStatus(0, null, null, null, null, null, id, null, null);
 		EmpStatus empStatus1 = esService.selectOffTime(id);
+		System.out.println("오늘아이디:"+id);
+		System.out.println("오늘:"+empStatus1);
 		if(empStatus1 != null) {
-			//EmpStatus empStatus1 = esService.selectComTime(id);
-			
-	
+
 			//이번주 누적시간 구하기
 			EmpStatus empWeekTime = esService.selectWeekTime(id);
 	
@@ -63,7 +63,6 @@ public class EmpStatusController {
 			model.addAttribute("empWeekTime", empWeekTime);
 			model.addAttribute("empMonthTime", empMonthTime);
 	
-			System.out.println("시간빌때"+empWeekTime.getStrGapTime());
 			String gap = empWeekTime.getStrGapTime();
 			//주간 근무시간이 0일때 ::이 출력되서 ""으로 대체
 			if(gap.equals("::")) {
@@ -78,7 +77,17 @@ public class EmpStatusController {
 			if(empMonthTime.getStrOverTime().equals("::")) {
 				empMonthTime.setStrOverTime("");
 			}
-			System.out.println("시간빌때11:"+empWeekTime.getStrOverTime());
+			System.out.println("아아아아:"+ empStatus1);
+		}else if(empStatus1 == null) {
+			//이번주 누적시간 구하기
+			EmpStatus empWeekTime = esService.selectWeekTime(id);
+	
+			//이번달 누적시간 구하기
+			EmpStatus empMonthTime = esService.selectMonthTime(id);
+	
+			model.addAttribute("empStatus1", empStatus1);	
+		
+			
 		}
 			
 		
