@@ -8,8 +8,10 @@
 	</select>
 	
 	<select id="selectMarketBoard" resultMap="marketboardResultSet">
-		SELECT * 
-		FROM BOARD
+		SELECT B_NUM, B_TYPE, B_TITLE, B_VIEWS, B_CREARE_DATE, B_MODIFY_DATE, B_STATUS
+			   B.M_ID M_ID,B_ETC, B_CATEGORY, B_CONTENT
+		FROM BOARD B
+		 		LEFT JOIN MEMBER M ON(B.M_ID = M.M_ID)
 		WHERE B_NUM = #{bId} AND B_STATUS = '0'
 	</select>
 	
@@ -22,32 +24,40 @@
 	
 	
 	<select id="marketBoardSelectList" resultMap="marketboardResultSet">
-		SELECT *
-		FROM board
+		SELECT B_NUM, B_TYPE, B_TITLE, B_VIEWS, B_CREARE_DATE, B_MODIFY_DATE, B_STATUS, 
+			   B_PIN, B.M_ID M_ID,B_ETC, B_CATEGORY, B_CONTENT
+			   
+		FROM BOARD B
+			LEFT JOIN MEMBER M ON(B.M_ID = M.M_ID)
 		WHERE B_TYPE = '중고' AND B_STATUS = '0'
 		ORDER BY B_NUM DESC 
 	</select>
 	
 	
-	<insert id="insertScrap">
-		insert into scrap values(#{mbWriter}, #{bId}, default)
-	</insert>
+	<update id="updateimage">
+			update ATTACHMENT
+			SET FILE_STATUS = '1',
+			FILE_PATH = #{path},
+			FILE_ORIGIN_NAME = #{oriFileName},
+			FILE_CHANGE_NAME = #{reFileName}
+			where b_Num = #{bId}
+	</update>
 	
-	<delete id="deleteScrap">
-		delete from scrap
-		where b_Num = #{bId} and m_Id = #{mbWriter}
-		
-	</delete>
 	
+	
+	<update id="deleteFiles">
+		update ATTACHMENT
+		SET FILE_STATUS = '1'
+		where b_Num = #{bId}
+	</update>
+
 	
 	<select id="getScrapStatus" resultType="_int">
 		select count(*)
 		from scrap
-		where b_Num = #{bId} and m_Id = #{mbWriter}
+		where b_Num = #{bId} and m_Id = #{mId}
 	</select>
 	
-	
-
 	
 	<resultMap type="MarketBoard" id="marketboardResultSet">
 		<id property="bId" column="B_NUM"/>
@@ -94,7 +104,7 @@
 	</update>
 	
 	<update id="deleteimage">
-		UPDATE BOARD SET FILE_STATUS = '1'
+		UPDATE ATTACHMENT SET FILE_STATUS = '1'
 		WHERE FILE_NO = #{filesNo}
 	</update>
 	
@@ -124,6 +134,7 @@
 		<bind name="value" value="'%' + _parameter.getSearchValue() + '%'"/>
 		SELECT COUNT(*)
 		FROM BOARD
+			LEFT JOIN MEMBER USING(M_ID)
 		<where>
 			B_STATUS = '0'
 			AND B_TYPE = '중고'
@@ -142,11 +153,14 @@
 			</choose>
 	</select>
 	
-	<!-- 자유게시글 검색 -->
+	<!-- 마켓 검색 -->
 	<select id="marketSearchList" parameterType="Search" resultMap="marketboardResultSet">
 		<bind name="value" value="'%' + _parameter.getSearchValue() + '%'"/>
-		SELECT *
-		FROM BOARD
+		SELECT B_NUM, B_TYPE, B_TITLE, B_VIEWS, B_CREARE_DATE, B_MODIFY_DATE, B_STATUS, 
+			   B.M_ID M_ID,B_ETC, B_CATEGORY, B_CONTENT
+			   
+		FROM BOARD B
+			LEFT JOIN MEMBER M ON(B.M_ID = M.M_ID) 
 		<where>
 			B_STATUS = '0'
 			AND B_TYPE = '중고'
@@ -171,43 +185,31 @@
 	<select id="getListOptionCount" resultType="_int">
 		select count(*)
 		from BOARD
-		<where>
-		B_STATUS = '0'
-		AND B_TYPE = '중고'
-		<choose>
-			<when test="option == '최신순'">
-			order by B_CREARE_DATE desc
-			</when>
-		<when test="option == '낮은가격순'">
-			order by B_ETC
-		</when>
-		<when test="option == '높은가격순'">
-			order by B_ETC desc
-		</when>
-			</choose>
-		</where>
-		ORDER BY B_NUM DESC
+		where B_STATUS = '0' AND B_TYPE = '중고'
+		<if test="option == '최신순'">
+			order by b_date DESC
+		</if>
+		<if test="option == '낮은가격순'">
+			order by p_price
+		</if>
+		<if test="option == '높은가격순'">
+			order by p_price DESC
+		</if>
 	</select>
 	
 	<select id="selectOptionPList" resultMap="marketboardResultSet">
 		select * 
 		from BOARD
-		 <where>
-		B_STATUS = '0'
-		AND B_TYPE = '중고'
-		<choose>
-			<when test="option == '최신순'">
-			order by B_CREARE_DATE desc
-			</when>
-		<when test="option == '낮은가격순'">
-			order by B_ETC
-		</when>
-		<when test="option == '높은가격순'">
-			order by B_ETC desc
-		</when>
-			</choose>
-		</where>
-		ORDER BY B_NUM DESC
+		where B_STATUS = '0' AND B_TYPE = '중고'
+		<if test="option == '최신순'">
+			order by b_date DESC
+		</if>
+		<if test="option == '낮은가격순'">
+			order by p_price
+		</if>
+		<if test="option == '높은가격순'">
+			order by p_price DESC
+		</if>
 	</select>
 
 </mapper>

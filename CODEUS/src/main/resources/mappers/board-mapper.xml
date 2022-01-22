@@ -8,15 +8,20 @@
 	</select>
 	
 	<select id="selectBoard" resultMap="boardResultSet">
-		SELECT * 
-		FROM BOARD
+		SELECT B_NUM, B_TYPE, B_TITLE, B_VIEWS, B_CREARE_DATE, B_MODIFY_DATE, B_STATUS
+			   B.M_ID M_ID
+		FROM BOARD B
+		 		LEFT JOIN MEMBER M ON(B.M_ID = M.M_ID)
 		WHERE B_NUM = #{bId} AND B_STATUS = '0'
+		ORDER BY B_NUM DESC
 	</select>
 	
 	
 	<select id="CommBoardSelectList" resultMap="boardResultSet">
-		SELECT *
-		FROM board
+		SELECT B_NUM, B_TYPE, B_TITLE, B_VIEWS, B_CREARE_DATE, B_MODIFY_DATE, B_STATUS, 
+			   B_PIN, B.M_ID M_ID
+		FROM BOARD B
+			LEFT JOIN MEMBER M ON(B.M_ID = M.M_ID)
 		WHERE B_TYPE = '자유' AND B_STATUS = '0'
 		ORDER BY B_NUM DESC 
 	</select>
@@ -25,6 +30,7 @@
 		<bind name="value" value="'%' + _parameter.getSearchValue() + '%'"/>
 		SELECT COUNT(*)
 		FROM BOARD
+			LEFT JOIN MEMBER USING(M_ID)
 		<where>
 			B_STATUS = '0'
 			AND B_TYPE = '자유'
@@ -46,8 +52,10 @@
 	<!-- 자유게시글 검색 -->
 	<select id="commSearchList" parameterType="Search" resultMap="boardResultSet">
 		<bind name="value" value="'%' + _parameter.getSearchValue() + '%'"/>
-		SELECT *
-		FROM BOARD
+		SELECT B_NUM, B_TYPE, B_TITLE, B_VIEWS, B_CREARE_DATE, B_MODIFY_DATE, B_STATUS, 
+			   B_PIN, B.M_ID M_ID
+		FROM BOARD B
+			LEFT JOIN MEMBER M ON(B.M_ID = M.M_ID)
 		<where>
 			B_STATUS = '0'
 			AND B_TYPE = '자유'
@@ -158,12 +166,16 @@
 	
 	<insert id="addReply">
 		INSERT INTO REPLY 
-		VALUES(SEQ_REPLY_NO.NEXTVAL, #{rContent},SYSDATE,SYSDATE,DEFAULT,#{refBid},#{rWriter},null)
+		VALUES(SEQ_REPLY_NO.NEXTVAL, #{rContent},SYSDATE,SYSDATE,DEFAULT,#{refBid},#{rWriter},NULL)
 	</insert>
 	
 	
 	<select id="selectReplyList" resultMap="replyResultSet">
-		SELECT * 
+		SELECT REPLY_NO, REPLY_CONTENT, REPLY_CREATE_DATE, REPLY_MODIFY_DATE, REPLY_STATUS,
+		       M_ID
+		FROM REPLY 
+		     LEFT JOIN MEMBER USING(M_ID)
+		     LEFT JOIN JOB USING(JOB_ID)
 		FROM REPLY
 		WHERE B_NUM = #{refBid} AND REPLY_STATUS = '0'
 		ORDER BY REPLY_NO DESC

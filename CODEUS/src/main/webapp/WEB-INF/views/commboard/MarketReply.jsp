@@ -162,11 +162,11 @@ $(document).ready(function() {
 													$tr.append($rWriter);
 													$tr.append($rContent);
 													$tr.append($rCreateDate);
-													//if(data[i].rWriter == loginUser.mId || loginUser.mId == 'admin'){
+													if(data[i].rWriter == '${loginUser.mId}' || '${loginUser.mId}' == 'kimdo'){
 													$tr.append($btnArea);
-													//}else if(data[i].rWriter != loginUser.mId){
+													}else if(data[i].rWriter != '${loginUser.mId}'){
 								                    	 $tr.append($btnAreaT);
-								                 // };
+								                 	};
 													$tableBody.append($tr);
 												}
 											} else {

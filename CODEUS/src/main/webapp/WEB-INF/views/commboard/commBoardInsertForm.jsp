@@ -7,32 +7,103 @@
 <meta charset="UTF-8">
 <title>게시글 등록</title>
 
+<link rel="stylesheet" href="${contextPath}/resources/assets/vendor/summernote/summernote-lite.css">
 
-<!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon.png">
-    <!-- Datatable -->
-    <link href="${contextPath}/resources/assets/vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet">
-    <!-- Custom Stylesheet -->
-    <link href="${contextPath}/resources/assets/css/style.css" rel="stylesheet">
+
+
+<style>
+        table th {
+            font-size: 15px;}
+            
+            
+		   label {
+		   	color : black;
+		   }   
+		   
+		   p {
+		   	color : black;
+		   }   
+		   
+            
+</style>
+</head>
+
+<body>
+    <!--**********************************
+        Main wrapper start
+    ***********************************-->
+    <div id="main-wrapper">	
+
+		<c:import url="../common/menubar.jsp"/>
+	<div class="content-body">
+        <div class="container-fluid">
+	         <div class="row">
+	             <div class="col-12">
+	                  <div class="card">
+	                        <div class="card-body">
+							 <!-- 본문 시작 -->
+								<h3 style="width: 200px; height: 30px;">자유게시판</h3>
+								<br>
+								<p>*불쾌함을 주는 내용이나 광고성 게시글은 관리자에 의해 삭제될 수 있습니다.</p>
+									<div class='market-insert-form'>
+						   				<form action="binsert.bo" method="post" enctype="Multipart/form-data">	 
+									      <table class="table table-write" id="add_mt" style="color:black ">
+											<colgroup>			
+											<col style="width:120px" />
+											<col style="width:*" />						
+											</colgroup>
+											
+											<tr>						
+												<th>제목</th>
+												<td><input type="text" class="form-control" id="bTitle" 
+													name="bTitle" placeholder="제목" value="${title}" required></td>
+											</tr>
+											<tr>
+												<th>작성자</th>
+												<td><input type="text" class="form-control" 
+														id="bWriter" name="bWriter" readonly value="${ sessionScope.loginUser.mId }"></td>
+											</tr>
+											<tr>
+											<th>내용</th>
+												<td><div class="container">
+													  <textarea id="summernote" class="summernote" name="bContent" ></textarea>
+												 </div></td>
+											</tr>
+						                              		
+						                   <tr> 
+						                       <td colspan ="4" style="text-align: center;">
+						                       		<input type="submit" value="등록" id="bSubmit" class="btn btn-primary">
+													<button type="button" onclick="location.href='Commblist.bo'" class="btn btn-primary">취소</button>
+												</td>
+											</tr>		
+										</table>
+							  		</form>
+								</div>
+							</div>
+							</div>
+							     </div>
+							      	</div>
+							   			 </div>
+							  				</div>
+			 			
+
+		</div>
+	 <!--**********************************
+            Content body end
+        ***********************************-->
     
-   <!-- include libraries(jQuery, bootstrap) -->
-<!-- include libraries(jQuery, bootstrap) -->
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
-<!-- include summernote css/js -->
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-
-
-<script>
+		<!--**********************************
+		       Summernote  Scripts
+		***********************************-->
+ 	<script src="${contextPath}/resources/assets/vendor/summernote/summernote-lite.js"></script>
+		<script src="${contextPath}/resources/assets/vendor/summernote/lang/summernote-ko-KR.js"></script>
+                      	<script>
         $(document).ready(function () {
             //여기 아래 부분
             $('#summernote').summernote({
                 height: 400,                     // 에디터 높이
-                minHeight: 400,                      // 최소 높이
-                maxHeight: 400,                      // 최대 높이
+                 minHeight: null,                      // 최소 높이
+                 maxHeight: null,                      // 최대 높이
                 focus: false,                       // 에디터 로딩후 포커스를 맞출지 여부
                 lang: "ko-KR",                  // 한글 설정
                 placeholder: '내용을 입력해주세요.',   //placeholder 설정
@@ -82,98 +153,20 @@
     </script>
 
 
-    <script>
-        //서머노트에 text 쓰기
-        $('#summernote').summernote('insertText');
-        // 서머노트 쓰기 활성화
-        $('#summernote').summernote('enable');
-        // 서머노트 리셋
-        $('#summernote').summernote('reset');
-        // 마지막으로 한 행동 취소 ( 뒤로가기 )
-        $('#summernote').summernote('undo');
-        // 앞으로가기
-        $('#summernote').summernote('redo');
-    </script>
+<!--     <script> -->
+//         //서머노트에 text 쓰기
+//         $('#summernote').summernote('insertText');
+//         // 서머노트 쓰기 활성화
+//         $('#summernote').summernote('enable');
+//         // 서머노트 리셋
+//         $('#summernote').summernote('reset');
+//         // 마지막으로 한 행동 취소 ( 뒤로가기 )
+//         $('#summernote').summernote('undo');
+//         // 앞으로가기
+//         $('#summernote').summernote('redo');
+<!--     </script> -->
 
-
-<style>
-        table th {
-            font-size: 15px;
-    </style>
-</head>
-
-<body>
-
-<div class="content-body">
-        <div class="container-fluid">
-            <div class="row page-titles mx-0">
-                <div class="col-sm-6 p-md-0">
-                    <div class="welcome-text">
-                        <h4>Hi, welcome back!</h4>
-                        <span class="ml-1">Datatable</span>
-                    </div>
-                </div>
-                <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="javascript:void(0)">Table</a></li>
-                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Datatable</a></li>
-                   </ol>
-               </div>
-          </div>
-         <div class="row">
-             <div class="col-12">
-                  <div class="card">
-                        <div class="card-body">
-						 <!-- 본문 시작 -->
-							<h3 style="width: 200px; height: 30px;">자유게시판</h3>
-							<p>*불쾌함을 주는 내용이나 광고성 게시글은 관리자에 의해 삭제될 수 있습니다.</p>
-								<div class='market-insert-form'>
-					   				<form action="binsert.bo" method="post" enctype="Multipart/form-data">	 
-								      <table class="table table-write" id="add_mt" style="color:black ">
-										<colgroup>			
-										<col style="width:120px" />
-										<col style="width:*" />						
-										</colgroup>
-										
-										<tr>						
-											<th>제목</th>
-											<td><input type="text" class="form-control" id="bTitle" 
-												name="bTitle" placeholder="제목" value="${title}" required></td>
-										</tr>
-										<tr>
-											<th>작성자</th>
-											<td><input type="text" class="form-control" 
-													id="bWriter" name="bWriter" readonly value="${ sessionScope.loginUser.mId }"></td>
-										</tr>
-										<tr>
-										<th>내용</th>
-											<td><div class="container">
-												  <textarea id="summernote" class="summernote" name="bContent" ></textarea>
-											 </div></td>
-										</tr>
-					                              		
-					                   <tr> 
-					                       <td colspan ="4" style="text-align: center;">
-												<button type="button" onclick="location.href='Commblist.bo'" class="btn btn-primary">취소</button>
-												<input type="submit" value="등록 하기" id="bSubmit" class="btn btn-primary">
-											</td>
-										</tr>		
-									</table>
-						  		</form>
-							</div>
-						</div>
-							</div>
-							     </div>
-							      	</div>
-							   			 </div>
-							  				</div>
-			 			
-
-
-	 <!--**********************************
-            Content body end
-        ***********************************-->
-
+		                            	
         <!--**********************************
             Footer start
         ***********************************-->

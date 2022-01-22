@@ -49,29 +49,14 @@
 	 <!--**********************************
             Content body start
         ***********************************-->
-       <c:if test="${b.bStatus eq '0'}">    
-        
-         <div class="content-body">
-            <div class="container-fluid">
-                <div class="row page-titles mx-0">
-                    <div class="col-sm-6 p-md-0">
-                        <div class="welcome-text">
-                            <h4>Hi, welcome back!</h4>
-                            <span class="ml-1">Datatable</span>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">Table</a></li>
-                            <li class="breadcrumb-item active"><a href="javascript:void(0)">Datatable</a></li>
-                        </ol>
-                    </div>
-                </div>
+   <div class="content-body">
+      <div class="container-fluid">
+      <c:if test="${b.bStatus eq '0'}">       
                <div class="row">
                    <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                 <c:if test="${ loginUser.mId ne b.bWriter || loginUser.mId eq 'admin' }">   
+                                 <c:if test="${ loginUser.mId ne b.bWriter || loginUser.mId eq 'kimdo' }">   
 								 <p align="right">
 								  <button  type="button"  id="popup_open_btn"
 					                   class="btn btn-primary" id="report">REPORT</button>	
@@ -85,7 +70,7 @@
                             <div class="card-body">
                                 <div class="table-responsive">
                                   <table class="table table-responsive-sm" style="color:black">
-								<h3 sylte="color: black;">${ b.bTitle }<h3>
+								<h3 style="color:black;">${ b.bTitle }</h3>
 								<tr>
 									<th>번호</th>
 									<td>${ b.bId }</td>
@@ -106,12 +91,13 @@
 										<c:param name="bId" value="${b.bId}"></c:param>
 								</c:url>
 								<tr>
-									<p align="right">
+									
 									 <c:if test="${ loginUser.mId eq b.bWriter }">
+									 <p align="right">
 										<button type="button" class="btn btn-primary" onclick="location.href='${ bupView }'">수정</button>
 										<button type="button" class="btn btn-primary" onclick="location.href='${ bDelete }'">삭제</button>
-									</c:if>	
 									</p>
+									</c:if>	
 								</tr>
 								<tr>
 								<td colspan="5">
@@ -121,11 +107,7 @@
 								<p>${ fn:replace(b.bContent, newLineChar, "<br>") }</p>	
 								</td>
 								</tr>
-			                
-								
 							</table>
-							
-			                
 								  <script>
 										$(function(){
 											$('#delete').click(function(){
@@ -140,14 +122,9 @@
 											});
 										});
 										</script>
-							
-	
 							<br><br>
-							
 							<!-- 본문 끝-->
-							
 							<!-- 댓글 영역 -->
-						
 		                    <!-- Column starts -->
 		                            <div class="card-body">
 		                                <div id="accordion-two" class="accordion accordion-bordered">
@@ -166,14 +143,12 @@
 		                        </div>
 		                    </div>
 		                    <!-- 댓글 영역 -->
-                   
 							<p align="center">
 								<button  type="button" 
 						            onclick="location.href='home.do'" class="btn btn-primary">홈으로</button>	
 								<button  type="button" 
 						            onclick="location.href='Commblist.bo'" class="btn btn-primary">목록</button>
 							</p>
-	
 						<!-- 신고 모달 창 -->
 							<div id="my_modal">
 							<form id="postReportForm">
@@ -314,7 +289,7 @@
 				</div>
 		</c:if>
 		
-		<c:if test="${ loginUser.mId eq 'admin' && b.bStatus eq '1'  }">
+		<c:if test="${ loginUser.mId eq 'kimdo' && b.bStatus eq '1'  }">
      		 
      		 <script language=javascript> 
      		 console.log('123');
