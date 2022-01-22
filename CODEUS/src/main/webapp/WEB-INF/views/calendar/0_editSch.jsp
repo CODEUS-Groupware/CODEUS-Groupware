@@ -973,7 +973,7 @@
 		          <th>색상</th>
 		          <td>
 		          		<select class="colorSelect form-control" name="color" style="width: 15%; height: 35px;">
-		          			<option value="blue" <c:if test ="${cal.color eq 'blue'}">selected="selected"</c:if>>파란색</option>
+		          			<option value="#6b51df" <c:if test ="${cal.color eq '#6b51df'}">selected="selected"</c:if>>보라색</option>
 		          			<option value="green" <c:if test ="${cal.color eq 'green'}">selected="selected"</c:if>>초록색</option>
 		          			<option value="red" <c:if test ="${cal.color eq 'red'}">selected="selected"</c:if>>빨간색</option>
 		          			<option value="black" <c:if test ="${cal.color eq 'black'}">selected="selected"</c:if>>검정색</option>

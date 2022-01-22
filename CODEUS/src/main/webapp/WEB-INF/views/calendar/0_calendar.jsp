@@ -569,7 +569,7 @@
 									<h2 class="pageTitleText">
 										<i class="fa fa-calendar fa-fw" aria-hidden="true"></i>사내 캘린더
 									</h2>
-									<c:if test="${sessionScope.loginUser.mId eq 'admin'}">
+									<c:if test="${sessionScope.loginUser.mId eq 'kimdo'}">
 										<div class="center p-20" style="padding-top: 0px !important;">
 											<span class="hide-menu addSchedule">
 												<a class="btn btn-danger btn-block btn-rounded waves-effect waves-light" 
