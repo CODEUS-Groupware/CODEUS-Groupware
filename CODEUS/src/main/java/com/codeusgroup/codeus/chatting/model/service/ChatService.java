@@ -12,6 +12,6 @@ public interface ChatService {
 
 	ArrayList<Message> selectMessage(String roomNum, String userId);
 
-	int insertMessage(HashMap<String, String> map);
+	int insertMessage(HashMap<String, Object> map);
 
 }

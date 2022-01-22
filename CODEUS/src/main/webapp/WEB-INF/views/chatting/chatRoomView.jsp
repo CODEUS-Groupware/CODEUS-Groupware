@@ -97,10 +97,11 @@
 			var roomNum = $('#roomNum').val();
 			console.log(msg);
 			console.log(sander);
+			console.log(roomNum);
 			
 			$.ajax({
 				url: "sandMsg.ch",
-				data: {msg:msg, sander:sander},
+				data: {msg:msg, sander:sander, roomNum:roomNum},
 				type: "POST",
 				success: function(data) {
 					console.log(data);

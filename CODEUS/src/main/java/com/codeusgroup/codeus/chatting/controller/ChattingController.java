@@ -70,12 +70,12 @@ public class ChattingController {
 	@ResponseBody
 	public String insertMessage(@RequestParam("msg") String msg,
 							    @RequestParam("sander") String sander,
-							    @RequestParam("roomNum") String roomNum,
+							    @RequestParam("roomNum") int roomNum,
 							    HttpServletRequest request) {
 	
 		String userId = ((Member)request.getSession().getAttribute("loginUser")).getmId();
 		
-		HashMap<String, String> map = new HashMap();
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("msg", msg);
 		map.put("sander", sander);
 		map.put("userId", userId);

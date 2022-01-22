@@ -32,7 +32,7 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public int insertMessage(HashMap<String, String> map) {
+	public int insertMessage(HashMap<String, Object> map) {
 		return chDAO.insertMessage(sqlSession, map);
 	}
 }

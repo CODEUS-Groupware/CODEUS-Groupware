@@ -7,6 +7,7 @@
 		from chat_message
 		join chat_room on(chat_message.chat_num = chat_room.chat_num)
 		where chat_status = '0' and (sander = #{userId} or m_id = #{userId}) and sander not in #{userId}
+			
 	</select>
 	
 	<resultMap type="Chatroom" id="ChattingResultSet">
@@ -33,6 +34,6 @@
 	
 	<insert id="insertMessage">
 		insert into chat_message
-		values(chatmsg_seq.nextval, #{msg}, sysdate, default, CAST(#{roomNum} AS INTEGER), #{sander}, #{userId})
+		values(chatmsg_seq.nextval, #{msg}, sysdate, default, #{roomNum}, #{userId}, #{sander})
 	</insert>
 </mapper>
