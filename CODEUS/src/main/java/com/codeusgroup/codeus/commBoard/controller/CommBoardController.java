@@ -54,6 +54,7 @@ public class CommBoardController {
 	@Autowired
 	private CommBoardService bService;
 	
+	
 	@Autowired
 	private marketBoardService mbService;
 
@@ -84,7 +85,7 @@ public class CommBoardController {
 	
 	//자유게시판 summernote게시물 등록  - 파일 컨드롤러
 
-    @PostMapping(value="/uploadSummernoteImageFile.", produces = "application/json")
+    @PostMapping(value="uploadSummernoteImageFile.bo", produces = "application/json")
     @ResponseBody
     public JsonObject uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile) {
 
@@ -458,6 +459,7 @@ public class CommBoardController {
 			
 			int scrapStatus = mbService.getScrapStatus(map);
 			
+			System.out.println(scrapStatus);
 			if( mb != null) {
 				model.addAttribute("scrapStatus", scrapStatus);
 				model.addAttribute("mb", mb);
@@ -514,7 +516,8 @@ public class CommBoardController {
 
 		
 		@RequestMapping("marketInsert.bo")
-		public String boardInsert(@ModelAttribute MarketBoard mb, @RequestParam("uploadFile") MultipartFile uploadFile, HttpServletRequest request) {
+		public String boardInsert(@ModelAttribute MarketBoard mb, @RequestParam("uploadFile") 
+									MultipartFile uploadFile, HttpServletRequest request) {
 			
 			MarketAtt at = new MarketAtt();
 			
@@ -595,22 +598,15 @@ public class CommBoardController {
 		@RequestMapping("mupdate.bo")
 		public String updateBoard(@ModelAttribute MarketAtt at, @RequestParam("reloadFile") MultipartFile reloadFile, @RequestParam("page") int page, 
 				  HttpServletRequest request, Model model, MarketBoard mb ) {
+			
+			
+			ArrayList<MarketAtt> attList = new ArrayList<MarketAtt>();
 
-			if(reloadFile != null && !reloadFile.isEmpty()) { 
-			if(at.getReFileName() != null) { 
-				deleteFile(at.getReFileName(), request);
-			}
-			
-			String renameFileName = saveFile(reloadFile, request);
-			
-			if(renameFileName != null) {
-				at.setOriFileName(reloadFile.getOriginalFilename());
-				at.setReFileName(renameFileName);
-			}
-			}
 			
 			int result = mbService.updateMarkBoard(mb);
 			
+			
+
 			if(result > 0) {
 						model.addAttribute("page", page);
 				} else {
@@ -618,16 +614,37 @@ public class CommBoardController {
 				throw new BoardException("게시글 수정을 실패하였습니다.");
 			}
 			
+			
+			
+			if(reloadFile != null && !reloadFile.isEmpty()) { 
+				if(at.getReFileName() != null) { 
+					deleteFile(at.getReFileName(), request);
+				}
+				
+				String renameFileName = saveFile(reloadFile, request);
+			
+			
+			if(renameFileName != null) {
+				at.setReFileName(renameFileName);
+				at.setOriFileName(reloadFile.getOriginalFilename());
+				at.setPath("/resources/buploadFiles\\" + renameFileName);
+				
+				attList.add(at);
+				
+				result += mbService.updateimage(at);
+				
+				if(result < 2) {
+					throw new BoardException("게시글 상세 조회에 실패하였습니다.");
+				
+					}
+				
+				}
+			
+			}
+			
 			return "redirect:marketDetail.bo?bId=" + mb.getbId();
-}
+		}
 
-		
-		
-		
-		
-		
-		
-		
 		
 	private void deleteFile(String renameFileName, HttpServletRequest request) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
@@ -693,84 +710,6 @@ public ModelAndView marketSearch( ModelAndView mv, Search search,
 	return mv;
 }
 
-@RequestMapping("insertScrap.bo")
-@ResponseBody
-public String insertScrap(@RequestParam("bId") String bId, HttpSession session) {
-	
-	String mbWriter = ((Member)session.getAttribute("loginUser")).getmId();
-	
-	HashMap<String, String> map = new HashMap<String, String>();
-	map.put("bId", bId);
-	map.put("mbWriter", mbWriter);
-	
-	String result = mbService.insertScrap(map) >= 1 ? "success" : "fail";
-	
-	return result;
-
-}
-
-/**
- * 글 스크랩 해제
- */		
-@RequestMapping("deleteScrap.bo")
-@ResponseBody
-public String deleteScrap(@RequestParam("bId") String bId, HttpSession session) {
-	
-	String mId = ((Member)session.getAttribute("loginUser")).getmId();
-	
-	
-	HashMap<String, String> map = new HashMap<String, String>();
-	map.put("bId", bId);
-	map.put("mId", mId);
-	
-	String result = mbService.deleteScrap(map) >= 1 ? "success" : "fail";
-	
-	return result;
-
-}	
-
-
-//@RequestMapping("psearch.po")
-//public ModelAndView productSearch(@RequestParam(value="page", required=false) Integer page,
-//								  @RequestParam("searchOption") String searchOption,
-//								  @RequestParam("searchText") String searchText,
-//								  ModelAndView mv) {
-//	
-//	MarketBoard mb = new MarketBoard();
-//	mb.setMbCategory(searchOption);
-//	mb.setpName(searchText);
-//	
-//	int currentPage = 1;
-//	if (page != null) {
-//		currentPage = page;
-//	}
-//
-//	int listCount = pService.getListSearchCount(p);// 총 게시글 수
-//
-//	PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
-//
-//	ArrayList<Product> plist = pService.selectSearchPList(p, pi);
-//	ArrayList<Files> flist = pService.selectSearchFList(p, pi);
-//
-//	if (plist != null && flist != null) {
-//		mv.addObject("plist", plist)
-//		   .addObject("flist", flist)
-//		   .addObject("pi", pi)
-//		   .addObject("searchOption", searchOption)
-//		   .addObject("searchText", searchText)
-//		   .setViewName("productList");
-//	} else {
-//		throw new ProductException("상품 검색에 실패하였습니다.");
-//	}
-//	
-//	return mv;
-//}
-//
-//
-//
-//
-
-
 
 
 //쇼핑몰 최신순, 판매순, 낮은가격순, 높은 가격순 조건 검색
@@ -787,14 +726,15 @@ public String deleteScrap(@RequestParam("bId") String bId, HttpSession session) 
 		int listCount = mbService.getListOptionCount(option);// 총 게시글 수
 
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
-
+		
 		ArrayList<MarketBoard> mlist = mbService.selectOptionPList(option, pi);
 	
 
 		if (mlist != null) {
 			mv.addObject("mlist", mlist)
 			   .addObject("pi", pi)
-			   .setViewName("productList");
+			   .setViewName("commMarketList");
+			
 		} else {
 			throw new BoardException("상품 검색에 실패하였습니다.");
 		}

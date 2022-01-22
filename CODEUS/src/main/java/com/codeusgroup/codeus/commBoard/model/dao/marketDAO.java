@@ -106,19 +106,10 @@ public class marketDAO {
 
 
 
-	public int insertScrap(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
-		return sqlSession.insert("marketMapper.insertScrap", map);
-	}
-
-	public int deleteScrap(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
-		return sqlSession.delete("marketMapper.deleteScrap", map);
-	}
-
-
-
 	public int getScrapStatus(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
 		return sqlSession.selectOne("marketMapper.getScrapStatus", map);
 	}
+	
 
 
 
@@ -133,5 +124,11 @@ public class marketDAO {
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		
 		return (ArrayList)sqlSession.selectList("marketMapper.selectOptionPList", option, rowBounds);
+	}
+
+
+
+	public int updateimage(SqlSessionTemplate sqlSession, MarketAtt at) {
+		return sqlSession.update("marketMapper.updateimage", at);
 	}
 }

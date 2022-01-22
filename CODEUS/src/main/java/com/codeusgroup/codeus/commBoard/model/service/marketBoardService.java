@@ -38,14 +38,9 @@ public interface marketBoardService {
 	int deleteimage(MarketAtt at);
 
 
-	int insertScrap(HashMap<String, String> map);
-	
-	int deleteScrap(HashMap<String, String> map);
-
 	int getScrapStatus(HashMap<String, String> map);
 
-	
-	
+
 	int getListOptionCount(String option);
 
 	ArrayList<MarketBoard> selectOptionPList(String option, PageInfo pi);
@@ -53,7 +48,11 @@ public interface marketBoardService {
 
 	
 	MarketAtt selectAttachmentList(int bId);
+
+	int updateimage(MarketAtt at);
+
 	
+
 
 	
 
