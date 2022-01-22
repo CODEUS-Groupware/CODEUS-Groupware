@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
     <title>회의실 예약 - 예약 목록 </title>
     <link href="${contextPath}/resources/assets/css/style.css" rel="stylesheet">
-    <style type="text/css">
+    <style>
         table {
             align-content: center;
             text-align: center;
@@ -665,7 +665,7 @@
                                                                         location.href="mrupdateview.mr?rNo=" + rNo + "&page2=" + ${ pi2.currentPage };
                                                                     } else {
                                                                         Swal.fire({
-                                                                            title: '예약 수정 접근 불가',
+                                                                            title: '예약 상태 수정 불가',
                                                                             html: '<b>수정 가능한 1개의 예약만 선택해주세요.</b><br><small>※ "예약 완료" 상태만 수정이 가능합니다.</small>',
                                                                             icon: 'warning',
                                                                             showConfirmButton: true,
@@ -688,7 +688,7 @@
                                                                         location.href="mrupdateview.mr?rNo=" + rNo + "&page2=" + ${ searchPi2.currentPage };
                                                                     } else {
                                                                         Swal.fire({
-                                                                            title: '예약 수정 접근 불가',
+                                                                            title: '예약 상태 수정 불가',
                                                                             html: '<b>수정 가능한 1개의 예약만 선택해주세요.</b><br><small>※ "예약 완료" 상태만 수정이 가능합니다.</small>',
                                                                             icon: 'warning',
                                                                             showConfirmButton: true,
@@ -704,22 +704,50 @@
                                                                     var rNo = -1;
                                                                     var chkCount = $('.chk:checked').length > 0 ? $('.chk:checked').length : -1;
                                                                     var comFlag = true;
+                                                                    var dateFlag = true;
+                                                                    var timeFlag = true;
+                                                                    
+                                                                    function getToday() {
+                                                                        var date = new Date();
+                                                                        return date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+                                                                    }
+                                                                    
+                                                                    function getTime() {
+                                                                        var date = new Date();
+                                                                        return ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
+                                                                    }
+                                                                    
+                                                                    var today = getToday();
+                                                                    var now = getTime();
                                                                     
                                                                     var chkArray = new Array();
                                                                     
                                                                     $('.chk:checked').each(function() {
-                                                                        comFlag = true;
+                                                                        if(comFlag)
+                                                                            comFlag = true;
+                                                                        if(dateFlag)
+                                                                            dateFlag = true;
+                                                                        if(timeFlag)
+                                                                            timeFlag = true;
+                                                                        
+                                                                        var inDay = $(this).parent().parent().children().eq(1).text().substr(0, 10);
+                                                                        var inTime = $(this).parent().parent().children().eq(1).text().substr($(this).parent().parent().children().eq(1).text().indexOf(':') - 2, 5);
+                                                                        
                                                                         chkArray.push(this.value);
                                                                         
                                                                         if($(this).parent().parent().children().eq(2).children().text() != '예약 완료')
                                                                             comFlag = false;
+                                                                        if(inDay.substr(0, 10) != today)
+                                                                            dateFlag = false;
+                                                                        if(inTime.substr(0, 2) > now.substr(0, 2) || !(inTime.substr(0, 2) == now.substr(0, 2) && inTime.substr(4, 2) <= now.substr(4, 2)))
+                                                                            timeFlag = false;
                                                                     });
                                                                     
-                                                                    if(chkCount > 0 && comFlag) {
+                                                                    if(chkCount > 0 && comFlag && dateFlag) {
                                                                         Swal.fire({
-                                                                            title: '사용 완료',
+                                                                            title: '사용 완료 확인',
                                                                             html: '<b>선택한 ' + chkCount + '개의 예약을 사용 완료로 변경하시겠습니까?</b><br><small>※ 예약상태 변경은 되돌릴 수 없습니다.</small>',
-                                                                            icon: 'info',
+                                                                            icon: 'question',
                                                                             showConfirmButton: true,
                                                                             confirmButtonText: '예',
                                                                             showCancelButton: true,
@@ -758,8 +786,8 @@
                                                                         });
                                                                     } else {
                                                                         Swal.fire({
-                                                                            title: '예약 상태 수정 접근 불가',
-                                                                            html: '<b>수정 가능한 예약만 선택해주세요.</b><br><small>※ "예약 완료" 상태만 수정이 가능합니다.</small>',
+                                                                            title: '예약 상태 수정 불가',
+                                                                            html: '<b>수정 가능한 예약을 선택해주세요.</b><br><small>※ 예약 시간이 지나고, "예약 완료" 상태인 내역만 수정이 가능합니다.</small>',
                                                                             icon: 'warning',
                                                                             showConfirmButton: true,
                                                                             confirmButtonText: '예',
@@ -775,7 +803,8 @@
                                                                     var chkArray = new Array();
                                                                     
                                                                     $('.chk:checked').each(function() {
-                                                                        comFlag = true;
+                                                                        if(comFlag)
+                                                                            comFlag = true;
                                                                         chkArray.push(this.value);
                                                                         
                                                                         if($(this).parent().parent().children().eq(2).children().text() != '예약 완료')
@@ -784,9 +813,9 @@
                                                                     
                                                                     if(chkCount > 0 && comFlag) {
                                                                         Swal.fire({
-                                                                            title: '예약 취소',
+                                                                            title: '예약 취소 확인',
                                                                             html: '<b>선택한 ' + chkCount + '개의 예약을 취소하시겠습니까?</b><br><small>※ 예약상태 변경은 되돌릴 수 없습니다.</small>',
-                                                                            icon: 'warning',
+                                                                            icon: 'question',
                                                                             showConfirmButton: true,
                                                                             confirmButtonText: '예',
                                                                             showCancelButton: true,
@@ -825,8 +854,8 @@
                                                                         });
                                                                     } else {
                                                                         Swal.fire({
-                                                                            title: '예약 상태 수정 접근 불가',
-                                                                            html: '<b>수정 가능한 예약만 선택해주세요.</b><br><small>※ "예약 완료" 상태만 수정이 가능합니다.</small>',
+                                                                            title: '예약 상태 수정 불가',
+                                                                            html: '<b>수정 가능한 예약을 선택해주세요.</b><br><small>※ "예약 완료" 상태만 수정이 가능합니다.</small>',
                                                                             icon: 'warning',
                                                                             showConfirmButton: true,
                                                                             confirmButtonText: '예',
@@ -916,6 +945,7 @@
             location.href="mrdetail.mr?rNo=" + rNo + "&page1=" + ${ searchPi1.currentPage };
         });
         
+        // 체크박스 활성화
         $('#tb2 tbody td:not(:has(input)):not(".nothing")').mouseenter(function() {
             $(this).parent().css({'font-weight':'bold', 'cursor':'pointer', 'background':'lavender'});
         }).mouseout(function() {
@@ -976,6 +1006,11 @@
 	    <!--**********************************
 	        Scripts
 	    ***********************************-->
+        <!-- Required vendors -->
+        <script src="${contextPath}/resources/assets/vendor/global/global.min.js"></script>
+        <script src="${contextPath}/resources/assets/js/quixnav-init.js"></script>
+        <script src="${contextPath}/resources/assets/js/custom.min.js"></script>
+        
         <!-- SweetAlert2 -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.3.6/dist/sweetalert2.all.min.js"/>
 

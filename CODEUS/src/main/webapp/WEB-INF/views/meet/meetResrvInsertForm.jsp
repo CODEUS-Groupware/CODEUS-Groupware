@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="${contextPath}/resources/assets/vendor/pickadate/themes/default.date.css">
     <!-- Custom Stylesheet -->
     <link href="${contextPath}/resources/assets/css/style.css" rel="stylesheet">
-    <style type="text/css">
+    <style>
         #chkMsg {
             color: black;
         }
@@ -246,6 +246,17 @@
         var picker = $input.pickadate('picker');
         
         $('#r_date').on('propertychange change keyup paste input', function() {
+            isDateUsable = false;
+            inputDate = null;
+            
+            isTimeUsable = false;
+            inputStartTime = null;
+            inputEndTime = null;
+            
+            isRoomUsable = false;
+            inputRoom = null;
+            inputRoomName = null;
+            
             inputDate = picker.get('select', 'yyyy-mm-dd');
         });
         
@@ -290,10 +301,13 @@
                     }
                 }
             }
-            
-            inputStartTime = $('#r_start_time').val();
+            inputRoom = null;
+            inputRoomName = null;
+            isRoomUsable = false;
             inputEndTime = null;
             isTimeUsable = false;
+            
+            inputStartTime = $('#r_start_time').val();
         });
         
         $('#r_end_time').one('click', function() {
