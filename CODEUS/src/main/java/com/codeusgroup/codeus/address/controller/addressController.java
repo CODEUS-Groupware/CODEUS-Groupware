@@ -38,14 +38,9 @@ public class addressController {
 			currentPage = page;
 		}
 		
-		int listCount = addrService.getMyListCount(userId);
-		
-		PageInfo pi =  Pagination.getPageInfo(currentPage, listCount);
-		
-		ArrayList<Member> list = addrService.selectMyList(pi, userId);
+		ArrayList<Member> list = addrService.selectMyList(userId);
 		
 		if(list != null) {
-			mv.addObject("pi", pi);
 			mv.addObject("list", list);
 			mv.setViewName("addressListView");
 			

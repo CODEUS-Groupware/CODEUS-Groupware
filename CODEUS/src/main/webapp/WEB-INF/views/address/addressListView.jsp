@@ -108,62 +108,10 @@
 		                                            </tr>
 	                                            </c:if>
 	                                        </c:forEach>
-                                            <tr>
-                                        		<td style="text-align:center" colspan="7">
-                                        			<div style="display:inline-block;">
-					                                    <nav>
-						                                    <ul class="pagination pagination-xs pagination-circle">
-						                                    	
-						                                    	<!-- 이전 -->
-						                                        <li class="page-item page-indicator">
-						                                        	<c:if test="${ pi.currentPage <= 1 }">
-						                                        		<i class="icon-arrow-left"></i>
-						                                        	</c:if>
-						                                        	<c:if test="${ pi.currentPage > 1 }">
-						                                        		<c:url var="before" value="list.addr">
-																			<c:param name="page" value="${ pi.currentPage - 1 }"/>
-																		</c:url>
-						                                            	<a class="page-link" href="${ before }">
-						                                                	<i class="icon-arrow-left"></i></a>
-						                                            </c:if>
-						                                        </li>
-						                                        
-						                                        <!-- 페이지 -->
-						                                        <c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
-						                                        	<c:if test="${ p eq pi.currentPage }">
-						                                        		<li class="page-item active"><a class="page-link" href="javascript:void()">${ p }</a></li>
-						                                        	</c:if>
-						                                        	
-						                                        	<c:if test="${ p ne pi.currentPage }">
-						                                        		<c:url var="pagination" value="list.addr">
-																			<c:param name="page" value="${ p }"/>
-																		</c:url>
-						                                        		<li class="page-item"><a class="page-link" href="${ pagination }">${ p }</a></li>
-						                                        	</c:if>
-						                                        </c:forEach>
-						                                        
-						                                        <!-- 다음 -->
-						                                        <li class="page-item page-indicator">
-						                                        	<c:if test="${ pi.currentPage >= pi.maxPage }">
-						                                        		<i class="icon-arrow-right"></i>
-						                                        	</c:if>
-						                                        	<c:if test="${ pi.currentPage < pi.maxPage }">
-						                                        		<c:url var="after" value="list.addr">
-																			<c:param name="page" value="${ pi.currentPage + 1 }"/>
-																		</c:url>
-						                                            	<a class="page-link" href="${ after }">
-						                                                	<i class="icon-arrow-right"></i></a>
-						                                            </c:if>
-						                                        </li>
-						                                    </ul>
-						                                </nav>
-				                                    </div>
-                                        		</td>
-                                        	</tr>
                                         </tbody>
                                     </table>
                                 </div>
-                                <div style="text-align: right">
+                                <div style="text-align: right;">
                                 	<button class="form-control input-default" style="background: #593bdb; color: white; display:inline-block; width: 150px;" onclick="location.href='search.addr'">주소록 검색</button>
                                 </div>
                             </div>
@@ -250,8 +198,8 @@
 					console.log(data);
 					
 					if(data == "success") {
-						location.reload();
 						alert("삭제되었습니다.");
+						location.reload();
 					}
 				},
 				error: function() {
