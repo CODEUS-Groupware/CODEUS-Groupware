@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Insert title here</title>
+<title>대시보드</title>
 <!-- Favicon icon -->
 <link rel="icon" type="image/png" sizes="16x16" href="${contextPath}/assets/resources/images/favicon.png">
 <!-- Custom Stylesheet -->
@@ -47,9 +47,7 @@
         <div class="nav-header">
             <a href="${contextPath}/home.do" class="brand-logo">
                 <img class="logo-abbr" src="${contextPath}/resources/assets/images/logo.png" alt="" style="border-radius: 50%;">
-               <%--  <img class="logo-compact" src="${contextPath}/resources/assets/images/logo-text.png" alt=""> --%>
-               <%--  <img class="brand-title" src="${contextPath}/resources/assets/images/logo-text.png" alt="" style="width: 200px; height: 100px;"> --%>
-               	<b class="logo-compact" style="font-size: x-large;">CODEUS</b>
+                <b class="logo-compact" style="font-size: x-large;">CODEUS</b>
                	<b class="brand-title" style="font-size: x-large;">CODEUS</b>
             </a>
 
@@ -74,79 +72,79 @@
                         </div>
                         
                         <ul class="navbar-nav header-right">
-                            <li class="nav-item dropdown notification_dropdown">
-                                <a class="nav-link" href="#" role="button" data-toggle="dropdown">
-                                    <i class="mdi mdi-bell"></i>
-                                    <div class="pulse-css"></div>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <ul class="list-unstyled">
-                                        <li class="media dropdown-item">
-                                            <span class="success"><i class="ti-user"></i></span>
-                                            <div class="media-body">
-                                                <a href="#">
-                                                    <p><strong>Martin</strong> has added a <strong>customer</strong> Successfully
-                                                    </p>
-                                                </a>
-                                            </div>
-                                            <span class="notify-time">3:20 am</span>
-                                        </li>
-                                        <li class="media dropdown-item">
-                                            <span class="primary"><i class="ti-shopping-cart"></i></span>
-                                            <div class="media-body">
-                                                <a href="#">
-                                                    <p><strong>Jennifer</strong> purchased Light Dashboard 2.0.</p>
-                                                </a>
-                                            </div>
-                                            <span class="notify-time">3:20 am</span>
-                                        </li>
-                                        <li class="media dropdown-item">
-                                            <span class="danger"><i class="ti-bookmark"></i></span>
-                                            <div class="media-body">
-                                                <a href="#">
-                                                    <p><strong>Robin</strong> marked a <strong>ticket</strong> as unsolved.
-                                                    </p>
-                                                </a>
-                                            </div>
-                                            <span class="notify-time">3:20 am</span>
-                                        </li>
-                                        <li class="media dropdown-item">
-                                            <span class="primary"><i class="ti-heart"></i></span>
-                                            <div class="media-body">
-                                                <a href="#">
-                                                    <p><strong>David</strong> purchased Light Dashboard 1.0.</p>
-                                                </a>
-                                            </div>
-                                            <span class="notify-time">3:20 am</span>
-                                        </li>
-                                        <li class="media dropdown-item">
-                                            <span class="success"><i class="ti-image"></i></span>
-                                            <div class="media-body">
-                                                <a href="#">
-                                                    <p><strong> James.</strong> has added a<strong>customer</strong> Successfully
-                                                    </p>
-                                                </a>
-                                            </div>
-                                            <span class="notify-time">3:20 am</span>
-                                        </li>
-                                    </ul>
-                                    <a class="all-notification" href="#">See all notifications <i
-                                            class="ti-arrow-right"></i></a>
-                                </div>
-                            </li>
+<!--                             <li class="nav-item dropdown notification_dropdown"> -->
+<!--                                 <a class="nav-link" href="#" role="button" data-toggle="dropdown"> -->
+<!--                                     <i class="mdi mdi-bell"></i> -->
+<!--                                     <div class="pulse-css"></div> -->
+<!--                                 </a> -->
+<!--                                 <div class="dropdown-menu dropdown-menu-right"> -->
+<!--                                     <ul class="list-unstyled"> -->
+<!--                                         <li class="media dropdown-item"> -->
+<!--                                             <span class="success"><i class="ti-user"></i></span> -->
+<!--                                             <div class="media-body"> -->
+<!--                                                 <a href="#"> -->
+<!--                                                     <p><strong>Martin</strong> has added a <strong>customer</strong> Successfully -->
+<!--                                                     </p> -->
+<!--                                                 </a> -->
+<!--                                             </div> -->
+<!--                                             <span class="notify-time">3:20 am</span> -->
+<!--                                         </li> -->
+<!--                                         <li class="media dropdown-item"> -->
+<!--                                             <span class="primary"><i class="ti-shopping-cart"></i></span> -->
+<!--                                             <div class="media-body"> -->
+<!--                                                 <a href="#"> -->
+<!--                                                     <p><strong>Jennifer</strong> purchased Light Dashboard 2.0.</p> -->
+<!--                                                 </a> -->
+<!--                                             </div> -->
+<!--                                             <span class="notify-time">3:20 am</span> -->
+<!--                                         </li> -->
+<!--                                         <li class="media dropdown-item"> -->
+<!--                                             <span class="danger"><i class="ti-bookmark"></i></span> -->
+<!--                                             <div class="media-body"> -->
+<!--                                                 <a href="#"> -->
+<!--                                                     <p><strong>Robin</strong> marked a <strong>ticket</strong> as unsolved. -->
+<!--                                                     </p> -->
+<!--                                                 </a> -->
+<!--                                             </div> -->
+<!--                                             <span class="notify-time">3:20 am</span> -->
+<!--                                         </li> -->
+<!--                                         <li class="media dropdown-item"> -->
+<!--                                             <span class="primary"><i class="ti-heart"></i></span> -->
+<!--                                             <div class="media-body"> -->
+<!--                                                 <a href="#"> -->
+<!--                                                     <p><strong>David</strong> purchased Light Dashboard 1.0.</p> -->
+<!--                                                 </a> -->
+<!--                                             </div> -->
+<!--                                             <span class="notify-time">3:20 am</span> -->
+<!--                                         </li> -->
+<!--                                         <li class="media dropdown-item"> -->
+<!--                                             <span class="success"><i class="ti-image"></i></span> -->
+<!--                                             <div class="media-body"> -->
+<!--                                                 <a href="#"> -->
+<!--                                                     <p><strong> James.</strong> has added a<strong>customer</strong> Successfully -->
+<!--                                                     </p> -->
+<!--                                                 </a> -->
+<!--                                             </div> -->
+<!--                                             <span class="notify-time">3:20 am</span> -->
+<!--                                         </li> -->
+<!--                                     </ul> -->
+<!--                                     <a class="all-notification" href="#">See all notifications <i -->
+<!--                                             class="ti-arrow-right"></i></a> -->
+<!--                                 </div> -->
+<!--                             </li> -->
                             <li class="nav-item dropdown header-profile">
                                 <a class="nav-link" href="#" role="button" data-toggle="dropdown">
                                     <i class="mdi mdi-account"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a href="./app-profile.html" class="dropdown-item">
+                                    <a href="myInfo.mp" class="dropdown-item">
                                         <i class="icon-user"></i>
                                         <span class="ml-2">Profile </span>
                                     </a>
-                                    <a href="./email-inbox.html" class="dropdown-item">
-                                        <i class="icon-envelope-open"></i>
-                                        <span class="ml-2">Chat </span>
-                                    </a>
+<!--                                     <a href="./email-inbox.html" class="dropdown-item"> -->
+<!--                                         <i class="icon-envelope-open"></i> -->
+<!--                                         <span class="ml-2">Chat </span> -->
+<!--                                     </a> -->
                                     <c:if test="${ loginUser.managerYn == 'Y' }">
 	                                    <a href="${contextPath}/admin/mlist.ad" class="dropdown-item">
 	                                        <i class="fa fa-mail-forward"></i>
@@ -184,7 +182,7 @@
                 <ul class="metismenu" id="menu">
                 	<li class="nav-label first"></li>
                     <li><a href="home.do" aria-expanded="false">
-                         <i class="fa fa-home"></i><span class="nav-text">대시보드</span></a>
+                         <i class="bi bi-house"></i><span class="nav-text">대시보드</span></a>
                     </li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
                     		<i class="bi bi-chat-dots"></i><span class="nav-text">채팅</span></a>
@@ -194,7 +192,7 @@
                        	</ul>
                     </li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                    		<i class="fa fa-file-text"></i><span class="nav-text">전자결재</span></a>
+                    		<i class="bi bi-file-text"></i><span class="nav-text">전자결재</span></a>
                         <ul aria-expanded="false">
                             <li><a href="mydocView.dc">내 문서함</a></li>
                             <li><a href="teamdocView.dc">부서 문서함</a></li>
@@ -210,13 +208,13 @@
                         </ul>
                     </li>
                     <li><a href="noticeBoardList.nb" aria-expanded="false">
-                    	<i class="bi bi-megaphone-fill"></i><span class="nav-text">공지사항</span></a>
+                    	<i class="bi bi-megaphone"></i><span class="nav-text">공지사항</span></a>
                     </li>
                     <li><a href="archive.arch" aria-expanded="false">
                     	<i class="bi bi-cloud-arrow-down"></i><span class="nav-text">자료실</span></a>
                     </li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                    		<i class="fa fa-phone-square"></i><span class="nav-text">주소록</span></a>
+                    		<i class="bi bi-telephone-plus"></i><span class="nav-text">주소록</span></a>
                     	<ul aria-expanded="false">
 		                    <li><a href="list.addr">주소록 목록</a></li>
                             <li><a href="search.addr">주소록 검색</a></li>
@@ -231,21 +229,21 @@
                         </ul>
                     </li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
-                                class="fa fa-briefcase"></i><span class="nav-text">근태관리</span></a>
+                                class="bi bi-briefcase"></i><span class="nav-text">근태관리</span></a>
                         <ul aria-expanded="false">
                            <li><a href="empStatusMain.em">근태 현황</a></li>
                             <li><a href="annualLeaveMain.al">연차현황</a></li>
                         </ul>
                     </li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
-                                class="fa fa-calendar"></i><span class="nav-text">캘린더</span></a>
+                                class="bi bi-calendar4-week"></i><span class="nav-text">캘린더</span></a>
                         <ul aria-expanded="false">
                             <li><a href="calendar.ca">사내 일정 캘린더</a></li>
                             <li><a href="myCalendar.ca">내 일정 캘린더</a></li>
                         </ul>
                     </li>                    
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
-                                class="icon icon-single-04"></i><span class="nav-text">마이페이지</span></a>
+                                class="bi bi-person-circle"></i><span class="nav-text">마이페이지</span></a>
                         <ul aria-expanded="false">
                             <li><a href="myInfo.mp">내 정보</a></li>
                             <li><a href="scrapList.mp">스크랩 관리</a></li>
@@ -257,7 +255,21 @@
         <!--**********************************
             Sidebar end
         ***********************************-->
- 
+ 		<script>
+	 		// sweet alert customize
+			var alert = function(msg, title, icon) {
+				Swal.fire({
+					position: 'top',
+					background: '#292B30',
+	   				color: 'white',
+					title : title,
+					text : msg,
+					icon: icon,
+					timer : 1500,
+					showConfirmButton : false
+				});
+			}
+ 		</script>
 	
 	    <!--**********************************
 	        Scripts

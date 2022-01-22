@@ -56,7 +56,11 @@
  		font-size: large;
  		font-weight: bold;
  	}
- 	
+ 	 	
+ 	#myDept{
+ 		color: darkgray;
+ 		font-weight: bold;
+ 	}
  
  	/* 공지사항 관련 css */
  	.table tbody{font-size: 14px;}
@@ -357,6 +361,7 @@
 											$('#offTimeBtn').attr("disabled","disabled");
 											$('#offTimeBtn').css('color','gray');
 											$('#offTimeBtn').css('border-color','gray');
+											alert('퇴근되었습니다.');
 										}
 										 
 									},
@@ -486,18 +491,19 @@
 									  confirmButtonText: '확인',
 									  cancelButtonText: '취소'
 								}).then((result) => {
-								if(result.value){ //확인
-									
-										//카메라 끄기
-										mediaStream.stop();
+                    if(result.value){ //확인
 
-									comTime();
-									$('#QRModal').modal('hide'); 
+                      //카메라 끄기
+                      mediaStream.stop();
 
-									return;
-			                    } else {
-			                    	return false;
-			                    }
+                      comTime();
+                      $('#QRModal').modal('hide'); 
+
+                      return;
+                      
+                    } else {
+                      return false;
+                    }
 								})
 							}
 							// QR코드 인식에 실패한 경우 
@@ -517,18 +523,14 @@
                     <div class="col-lg-8">
                         <div class="card">
                             <div class="card-body">
-                                <div class="card">
-									<div class="card-body" >
-										<div id="external-events" height="1px"class="my-3"> <!-- 없으면 캘린더 출력안됌 --> </div>
-										<div id='calendar' height="10px;"></div>
-									</div>
-								</div>
+								<div id="external-events" height="1px"class="my-3"> <!-- 없으면 캘린더 출력안됌 --> </div>
+								<div id='calendar' height="10px;"></div>
                             </div>
                         </div>
                     </div>
                     <!------------- 캘린더 끝  ------------->
                     
-                    <div class="col-lg-4">>
+                    <div class="col-lg-4">
                     </div>
                    	<!------------- 공지사항 시작  ------------->
                     <div class="col-lg-8">
@@ -574,7 +576,6 @@
  	             				url: 'noticeBoardListMain.nb',
  	             				dataType: 'json',
  	            				success: function(data){
- 	            					console.log(data);
  	            					
  	            					if (data.length > 0) {
  	            						
@@ -588,7 +589,8 @@
  	            							if (data[i].pin == 'Y') {
  	            								$tr.css('background', '#F8F8FF');
  	            								$tr.append($('<td>').append('<i class="bi bi-megaphone-fill pin">'));
- 	            							} else {          										$tr.append($('<td>').text(data[i].bNum));
+ 	            							} else {
+          										$tr.append($('<td>').text(data[i].bNum));
  	            							}
  	            							
  	            							bTitle = data[i].bTitle.length > 10 ? data[i].bTitle.substring(0, data[i].bTitle.length) + "..." : data[i].bTitle
