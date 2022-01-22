@@ -85,19 +85,10 @@ public class marketBoardServiceImpl implements marketBoardService {
 			return mbDAO.deleteimage(sqlSession,at);
 		}
 		@Override
-		public int insertScrap(HashMap<String, String> map) {
-			return mbDAO.insertScrap(sqlSession, map);
-		}
-
-		@Override
-		public int deleteScrap(HashMap<String, String> map) {
-			return mbDAO.deleteScrap(sqlSession, map);
-		}
-		
-		@Override
 		public int getScrapStatus(HashMap<String, String> map) {
 			return mbDAO.getScrapStatus(sqlSession, map);	
 		}
+		
 		@Override
 		public int getListOptionCount(String option) {
 			return mbDAO.getListOptionCount(sqlSession, option);
@@ -105,6 +96,10 @@ public class marketBoardServiceImpl implements marketBoardService {
 		@Override
 		public ArrayList<MarketBoard> selectOptionPList(String option, PageInfo pi) {
 			return mbDAO.selectOptionPList(sqlSession, option, pi);
+		}
+		@Override
+		public int updateimage(MarketAtt at) {
+			return mbDAO.updateimage(sqlSession,at);
 		}
 		
 		
