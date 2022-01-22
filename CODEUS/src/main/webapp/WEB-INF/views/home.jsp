@@ -56,7 +56,11 @@
  		font-size: large;
  		font-weight: bold;
  	}
- 	
+ 	 	
+ 	#myDept{
+ 		color: darkgray;
+ 		font-weight: bold;
+ 	}
  
  	/* 공지사항 관련 css */
  	.table tbody{font-size: 14px;}
@@ -340,6 +344,7 @@
 											$('#offTimeBtn').attr("disabled","disabled");
 											$('#offTimeBtn').css('color','gray');
 											$('#offTimeBtn').css('border-color','gray');
+											alert('퇴근되었습니다.');
 										}
 										 
 									},
@@ -445,7 +450,7 @@
 
 											comTime();
 											$('#QRModal').modal('hide'); 
-
+											alert('출근되었습니다.');
 											return;
 					                    } else {
 					                    	return false;
@@ -468,18 +473,14 @@
                     <div class="col-lg-8">
                         <div class="card">
                             <div class="card-body">
-                                <div class="card">
-									<div class="card-body" >
-										<div id="external-events" height="1px"class="my-3"> <!-- 없으면 캘린더 출력안됌 --> </div>
-										<div id='calendar' height="10px;"></div>
-									</div>
-								</div>
+								<div id="external-events" height="1px"class="my-3"> <!-- 없으면 캘린더 출력안됌 --> </div>
+								<div id='calendar' height="10px;"></div>
                             </div>
                         </div>
                     </div>
                     <!------------- 캘린더 끝  ------------->
                     
-                    <div class="col-lg-4">>
+                    <div class="col-lg-4">
                     </div>
                    	<!------------- 공지사항 시작  ------------->
                     <div class="col-lg-8">
@@ -525,7 +526,6 @@
  	             				url: 'noticeBoardListMain.nb',
  	             				dataType: 'json',
  	            				success: function(data){
- 	            					console.log(data);
  	            					
  	            					if (data.length > 0) {
  	            						
