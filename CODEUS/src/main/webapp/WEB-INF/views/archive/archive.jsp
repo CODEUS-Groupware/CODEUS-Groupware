@@ -79,7 +79,7 @@
 	                            			<c:if test="${fn:length(folderList) > 0}">
 	                            				<a class="moveFolderModalBtn modalBtn btn btn-outline-dark" data-toggle="modal" data-target="#moveFolder">이동</a>
 	                            			</c:if>
-	                            			<a class="filedeleteBtn btn btn-outline-dark">
+	                            			<a id="filedeleteBtn" class="btn btn-outline-dark">
 	                            					<i class="bi bi-trash"></i> 삭제</a>
 	                            			<c:if test="${ currentFolder != null }">
 	                            				<input type="hidden" name="currentFolder" value="${ currentFolder }">
@@ -307,8 +307,8 @@
 					        		});
 					        		
 					        		// 파일 또는 폴더 삭제
-					        		$('.filedeleteBtn').on('click', function() {
-					        			
+					        		$('#filedeleteBtn').on('click', function() {
+					        			console.log(11)
 										let checkArr = document.getElementsByClassName('checkOne');
 										
 										// 선택한 폴더의 하위 폴더가 있는지 확인
@@ -409,8 +409,10 @@
                             	
                             	</script>
 	                                <div class="table-responsive">
-	                                <form id="deleteFileForm" action="deleteFile.arch" method="post">
+	                                <form id="deleteFileForm" action="deleteFile.arch" method="post"> 
 	                                	<input type="hidden" name="currentFolder" value="${ currentFolder }">
+	                                	<input type="text" style="display: none;"> <!-- 엔터키 누를때 자동 submit 방지 위한 input text 태그(text type의 input태그가 2개 이상이어야 방지됨)  -->
+	                                	<input type="text" style="display: none;">
 	                                    <table class="archiveTable table table-hover table-responsive-sm" style="color: black; text-align: center;">
 	                                        <thead>
 	                                            <tr style="font-size: large; text-align: left;">
@@ -459,7 +461,7 @@
 	                                         	<c:forEach var="file" items="${ fileList }">
 	                                         	
 	                                         		<tr style="text-align: left;">
-	                                         			<td><input type="checkbox" class="checkOne" name="archNo" value="${ file.archNo }/${ file.size }/${ file.originName }"></td>
+	                                         			<td><input type="checkbox" class="checkOne" name="archNo" value="${ file.archNo }/${ file.size }/${ file.changeName }"></td>
 		                                                <td>
 		                                                	${ file.originName }
 		                                                	<a class="badge badge-light" href="${contextPath}/resources/uploadFiles/archive/${ file.changeName }" download> 
