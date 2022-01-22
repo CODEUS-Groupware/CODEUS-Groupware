@@ -1,6 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%
+    pageContext.setAttribute("CR", "\r");
+    pageContext.setAttribute("LF", "\n");
+    pageContext.setAttribute("CRLF", "\r\n");
+    pageContext.setAttribute("SP", "&nbsp;");
+    pageContext.setAttribute("BR", "<br/>");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +19,7 @@
     <link rel="stylesheet" href="${contextPath}/resources/assets/vendor/pickadate/themes/default.date.css">
     <!-- Custom Stylesheet -->
     <link href="${contextPath}/resources/assets/css/style.css" rel="stylesheet">
-    <style type="text/css">
+    <style>
         #chkMsg {
             color: black;
         }
@@ -189,6 +197,7 @@
                                                             <textarea class="form-control" rows="6" id="r_content" name="r_content" placeholder="- 사용 목적 : &#13;&#10;&#13;&#10;- 사용 인원 : " required></textarea>
                                                         </c:if>
                                                         <c:if test="${ mr.rev_status != 0 }">
+                                                            
                                                             <textarea class="form-control" rows="6" id="r_content" name="r_content" readonly>${ mr.rev_content }</textarea>
                                                         </c:if>
                                                     </div>
@@ -222,7 +231,7 @@
                                                             
                                                             if('${ mr.rev_date }' == today && (inTime.substr(0, 2) < now.substr(0, 2) || (inTime.substr(0, 2) == now.substr(0, 2) && inTime.substr(4, 2) <= now.substr(4, 2)))) {
                                                                 Swal.fire({
-                                                                    title: '사용 완료',
+                                                                    title: '사용 완료 확인',
                                                                     html: '<b>사용 완료로 변경하시겠습니까?</b><br><small>※ 예약상태 변경은 되돌릴 수 없습니다.</small>',
                                                                     icon: 'info',
                                                                     showConfirmButton: true,
@@ -248,7 +257,7 @@
                                                                 });
                                                             } else {
                                                                 Swal.fire({
-                                                                            title: '예약 상태 수정 접근 불가',
+                                                                            title: '예약 상태 수정 불가',
                                                                             html: '<b>수정할 수 없는 예약입니다.</b><br><small>※ 예약 당일 시작 시간이 지난 내역만 수정이 가능합니다.</small>',
                                                                             icon: 'warning',
                                                                             showConfirmButton: true,
@@ -262,7 +271,7 @@
                                                             var page2 = ${ page2 };
                                                             
                                                             Swal.fire({
-                                                                title: '예약 취소',
+                                                                title: '예약 취소 확인',
                                                                 html: '<b>예약을 취소하시겠습니까?</b><br><small>※ 예약상태 변경은 되돌릴 수 없습니다.</small>',
                                                                 icon: 'warning',
                                                                 showConfirmButton: true,
@@ -382,7 +391,8 @@
         var mr_startTime = '<c:out value="${ mr.rev_start_time }"/>'.substr(11, 5);
         var mr_endTime = '<c:out value="${ mr.rev_end_time }"/>'.substr(11, 5);
         var mr_room = '<c:out value="${ mr.meet_name }"/>';
-        var mr_content = '<c:out value="${ mr.rev_content }"/>';
+        var mr_content = '<c:out value="${ fn:replace(mr.rev_content, CRLF, BR) }" escapeXml="false"/>';
+        mr_content = mr_content.replaceAll('<br/>', '\n');
         
         
         

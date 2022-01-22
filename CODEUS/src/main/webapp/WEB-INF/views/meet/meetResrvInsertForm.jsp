@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="${contextPath}/resources/assets/vendor/pickadate/themes/default.date.css">
     <!-- Custom Stylesheet -->
     <link href="${contextPath}/resources/assets/css/style.css" rel="stylesheet">
-    <style type="text/css">
+    <style>
         #chkMsg {
             color: black;
         }
