@@ -529,27 +529,39 @@
 						console.log(data);	
 
 						 if(statusValue == "업무종료"){
-							$('#changeStatus').attr("disabled","disabled");
-							//input에는 text, innerhtml이 아니라 val를 써서 화면에 출력해야함
-
-							var date = new Date(data.empOffTime);
-							 var month = date.getMonth() + 1;
-							 var day = date.getDate();
-							 var hour = date.getHours();
-							 var minute = date.getMinutes();
-							 var second = date.getSeconds();
-
-					        month = month >= 10 ? month : '0' + month;
-					        day = day >= 10 ? day : '0' + day;
-					        hour = hour >= 10 ? hour : '0' + hour;
-					        minute = minute >= 10 ? minute : '0' + minute;
-					        second = second >= 10 ? second : '0' + second;
-
-					        var offDate = date.getFullYear() + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
-							
-					        console.log("툌:"+offDate);
-
-							$('#workOutTime').val(offDate);
+							 Swal.fire({
+								 title: '퇴근하시겠습니까?',
+								  //text: "이미 생성하셨다면 취소를 눌러주세요.",
+								 // icon: 'warning',
+								  showCancelButton: true,
+								  confirmButtonColor: '#3085d6',
+								  cancelButtonColor: '#d33',
+								  confirmButtonText: '확인',
+								  cancelButtonText: '취소'
+							}).then((result) => {
+									console.log(result.value);
+									if(result.value){		
+										$('#changeStatus').prop("disabled",  true);
+										var date = new Date(data.empOffTime);
+										 var month = date.getMonth() + 1;
+										 var day = date.getDate();
+										 var hour = date.getHours();
+										 var minute = date.getMinutes();
+										 var second = date.getSeconds();
+				
+								        month = month >= 10 ? month : '0' + month;
+								        day = day >= 10 ? day : '0' + day;
+								        hour = hour >= 10 ? hour : '0' + hour;
+								        minute = minute >= 10 ? minute : '0' + minute;
+								        second = second >= 10 ? second : '0' + second;
+				
+								        var offDate = date.getFullYear() + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
+										
+								        console.log("툌:"+offDate);
+				
+										$('#workOutTime').val(offDate);
+									}
+							})
 						} 
 					},
 					error:function(data){

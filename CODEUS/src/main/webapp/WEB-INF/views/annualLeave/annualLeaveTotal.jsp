@@ -26,7 +26,7 @@
 	}
 	
 	#clock{
-		font-size:35px;
+		font-size:40px;
 		margin-bottom: 15px;
 		color: black;
 	}
@@ -258,12 +258,13 @@
                                 <script>
 								$(function(){
 									$('#leaveContent td').mouseenter(function(){
-										$(this).parent().css({'color':'yellowgreen', 'font-weight':'bold', 'cursor':'pointer'});
+										$(this).parent().css({'cursor':'pointer'});
 									}).mouseout(function(){
 										$(this).parent().css({'color':'black','font-weight':'normal'});
 									}).click(function(){
 										var bId = $(this).parent().children().eq(0).text();
 										location.href="bdetail.bo?bId=" + bId + '&page=' + ${pi.currentPage};
+										//클릭시 approvalDetail로 이동하게 하기
 									});
 								});
 							
@@ -509,25 +510,40 @@
 					console.log(data);	
 	
 					if(statusValue == "업무종료"){
-						$('#changeStatus').prop("disabled",  true);
-						var date = new Date(data.empOffTime);
-						 var month = date.getMonth() + 1;
-						 var day = date.getDate();
-						 var hour = date.getHours();
-						 var minute = date.getMinutes();
-						 var second = date.getSeconds();
-
-				        month = month >= 10 ? month : '0' + month;
-				        day = day >= 10 ? day : '0' + day;
-				        hour = hour >= 10 ? hour : '0' + hour;
-				        minute = minute >= 10 ? minute : '0' + minute;
-				        second = second >= 10 ? second : '0' + second;
-
-				        var offDate = date.getFullYear() + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
+						Swal.fire({
+							title: '퇴근하시겠습니까?',
+							  //text: "이미 생성하셨다면 취소를 눌러주세요.",
+							 // icon: 'warning',
+							  showCancelButton: true,
+							  confirmButtonColor: '#3085d6',
+							  cancelButtonColor: '#d33',
+							  confirmButtonText: '확인',
+							  cancelButtonText: '취소'
+						}).then((result) => {
+								console.log(result.value);
+								if(result.value){		
+									$('#changeStatus').prop("disabled",  true);
+									var date = new Date(data.empOffTime);
+									 var month = date.getMonth() + 1;
+									 var day = date.getDate();
+									 var hour = date.getHours();
+									 var minute = date.getMinutes();
+									 var second = date.getSeconds();
+			
+							        month = month >= 10 ? month : '0' + month;
+							        day = day >= 10 ? day : '0' + day;
+							        hour = hour >= 10 ? hour : '0' + hour;
+							        minute = minute >= 10 ? minute : '0' + minute;
+							        second = second >= 10 ? second : '0' + second;
+			
+							        var offDate = date.getFullYear() + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
+									
+							        console.log("툌:"+offDate);
+			
+									$('#workOutTime').val(offDate);
+								}
+						})
 						
-				        console.log("툌:"+offDate);
-
-						$('#workOutTime').val(offDate);
 					}else{
 						console.log("실패");
 					}

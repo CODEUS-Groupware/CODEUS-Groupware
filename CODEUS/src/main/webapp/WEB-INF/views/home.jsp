@@ -267,7 +267,7 @@
 							</div>
                         </div>
                     </div>
-                    <script>
+                             <script>
 	                    	$(function(){
 	                    		printTime();
 	                    		addAnnualLeave();
@@ -282,7 +282,7 @@
 								setTimeout("printTime()",1000); // setTimeout(“실행할함수”,시간) 시간은1초의 경우 1000
 								
 							}			
-	                    	
+
 						  	//출퇴근
 							function comTime(){
 								
@@ -292,7 +292,8 @@
 								var day = new Date();
 								console.log(day);
 								
-										
+								console.log(nowTime);
+								
 								
 								$.ajax({
 									url:'comTime.em',
@@ -321,15 +322,31 @@
 									}
 								});
 					
-							}
+							} 
 					
 						  function offTime(){
-								
+							 // var offTimeCheck = confirm('퇴근하시겠습니까?');
+							 Swal.fire({
+							  title: '퇴근하시겠습니까?',
+							  //text: "이미 생성하셨다면 취소를 눌러주세요.",
+							 // icon: 'warning',
+							  showCancelButton: true,
+							  confirmButtonColor: '#3085d6',
+							  cancelButtonColor: '#d33',
+							  confirmButtonText: '확인',
+							  cancelButtonText: '취소'
+						}).then((result) => {
+								console.log(result.value);
+
+							//var check = confirm('QR생성 하시겠습니까?\n이미 생성하셨다면 취소를 눌러주세요.');
+							if(result.value){
 								var now = new Date();
 								var nowDate =  now.getFullYear() + "/" + (now.getMonth()+1)+"/"+now.getDate();
 								var offTime = now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds() ;//현재시간
 								var off = new Date();
 								var status = "업무종료";
+								
+
 								$.ajax({
 									url:'offTime.em',
 									data:{off:off, 
@@ -352,120 +369,153 @@
 										console.log(data);
 									}
 								});
-					
 							}
-						// QR출근하기
-							$('#comTimeBtn').click(function() {
-			
-								var check = confirm('QR생성 하시겠습니까?\n이미 생성하셨다면 취소를 눌러주세요.');
-								if(check){
-									
-									// 카메라 사용시
-									navigator.mediaDevices.getUserMedia({
-										video : {facingMode : "environment"}
-									}).then(function(stream) {
-										mediaStream = stream;
-										//QR코드 인식 후 카메라 끄기 위해 함수 선언
-							            mediaStream.stop = function () {
-							                this.getAudioTracks().forEach(function (track) {
-							                    track.stop();
-							                });
-							                this.getVideoTracks().forEach(function (track) { //in case... :)
-							                    track.stop();
-							                });
-							            };
-										video.srcObject = stream;
-										video.setAttribute("playsinline", true); // iOS 사용시 전체 화면을 사용하지 않음을 전달
-										video.play();
-										requestAnimationFrame(tick);
-									});
-									
-									$('#QRModal').modal('show');
-									var mId = '<c:out value="${loginUser.mId}"/>';
-									
-									var qrcode = new QRCode(document.getElementById("qrcode"), {
-									    text: mId,
-									    width: 128,
-									    height: 128,
-									    colorDark : "#000000",
-									    colorLight : "#ffffff",
-									    correctLevel : QRCode.CorrectLevel.H
-									});
-									
-								    $("#qrcode > img").css({"margin":"auto"});
-								    
-								 
-								} else {
-									$('#QRModal').modal('hide');			
-									popupOpen('qrStart.co');
-								}
-							});
-							var video = document.createElement("video");
-							var canvasElement = document.getElementById("canvas");
-							var canvas = canvasElement.getContext("2d");
-							var loadingMessage = document.getElementById("loadingMessage");
-							var outputContainer = document.getElementById("output");
-							var outputMessage = document.getElementById("outputMessage");
-							var outputData = document.getElementById("outputData");
+						})
 							
-							function drawLine(begin, end, color) {
-								canvas.beginPath();
-								canvas.moveTo(begin.x, begin.y);
-								canvas.lineTo(end.x, end.y);
-								canvas.lineWidth = 4;
-								canvas.strokeStyle = color;
-								canvas.stroke();
 							}
-							
-							
-							
-							function tick() {
-								loadingMessage.innerText = "⌛ 스캔 기능을 활성화 중입니다."
-								if (video.readyState === video.HAVE_ENOUGH_DATA) {
-									loadingMessage.hidden = true;
-									canvasElement.hidden = false;
-									outputContainer.hidden = false;
-									// 읽어들이는 비디오 화면의 크기
-									canvasElement.height = video.videoHeight;
-									canvasElement.width = video.videoWidth;
-									canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
-									var imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
-									var code = jsQR(imageData.data, imageData.width,imageData.height, {
-												inversionAttempts : "dontInvert",
-									});
-									// QR코드 인식에 성공한 경우
-									if (code) {
-										// 인식한 QR코드의 영역을 감싸는 사용자에게 보여지는 테두리 생성
-										drawLine(code.location.topLeftCorner, code.location.topRightCorner, "#FF0000");
-										drawLine(code.location.topRightCorner, code.location.bottomRightCorner, "#FF0000");
-										drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, "#FF0000");
-										drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, "#FF0000");
-										outputMessage.hidden = true;
-										outputData.parentElement.hidden = false;
-										// QR코드 메시지 출력
-										//outputData.innerHTML = code.data;
-										if(confirm('출근하시겠습니까?') == true){ //확인
-												//카메라 끄기
-												mediaStream.stop();
-
-											comTime();
-											$('#QRModal').modal('hide'); 
-											alert('출근되었습니다.');
-											return;
-					                    } else {
-					                    	return false;
-					                    }
-									}
-									// QR코드 인식에 실패한 경우 
-									else {
-										outputMessage.hidden = false;
-										outputData.parentElement.hidden = true;
-									}
-								}
-								requestAnimationFrame(tick);
-							}
-							
 					    
+					</script>
+					
+					<script>
+				
+					// QR출근하기
+					$('#comTimeBtn').click(function() {
+						Swal.fire({
+							  title: 'QR생성 하시겠습니까?',
+							  text: "이미 생성하셨다면 취소를 눌러주세요.",
+							 // icon: 'warning',
+							  showCancelButton: true,
+							  confirmButtonColor: '#3085d6',
+							  cancelButtonColor: '#d33',
+							  confirmButtonText: '확인',
+							  cancelButtonText: '취소'
+						}).then((result) => {
+								console.log(result.value);
+
+							//var check = confirm('QR생성 하시겠습니까?\n이미 생성하셨다면 취소를 눌러주세요.');
+							if(result.value){
+								
+								// 카메라 사용시
+								navigator.mediaDevices.getUserMedia({
+									video : {facingMode : "environment"}
+								}).then(function(stream) {
+									mediaStream = stream;
+									//QR코드 인식 후 카메라 끄기 위해 함수 선언
+						            mediaStream.stop = function () {
+						                this.getAudioTracks().forEach(function (track) {
+						                    track.stop();
+						                });
+						                this.getVideoTracks().forEach(function (track) { //in case... :)
+						                    track.stop();
+						                });
+						            };
+									video.srcObject = stream;
+									video.setAttribute("playsinline", true); // iOS 사용시 전체 화면을 사용하지 않음을 전달
+									video.play();
+									requestAnimationFrame(tick);
+								});
+								
+								$('#QRModal').modal('show');
+								var mId = '<c:out value="${loginUser.mId}"/>';
+								
+								var qrcode = new QRCode(document.getElementById("qrcode"), {
+								    text: mId,
+								    width: 128,
+								    height: 128,
+								    colorDark : "#000000",
+								    colorLight : "#ffffff",
+								    correctLevel : QRCode.CorrectLevel.H
+								});
+								
+							    $("#qrcode > img").css({"margin":"auto"});
+	
+							}
+								
+							else {
+								$('#QRModal').modal('hide');			
+								popupOpen('qrStart.co');
+							}
+						})
+					});
+					
+					var video = document.createElement("video");
+					var canvasElement = document.getElementById("canvas");
+					var canvas = canvasElement.getContext("2d");
+					var loadingMessage = document.getElementById("loadingMessage");
+					var outputContainer = document.getElementById("output");
+					var outputMessage = document.getElementById("outputMessage");
+					var outputData = document.getElementById("outputData");
+					
+					function drawLine(begin, end, color) {
+						canvas.beginPath();
+						canvas.moveTo(begin.x, begin.y);
+						canvas.lineTo(end.x, end.y);
+						canvas.lineWidth = 4;
+						canvas.strokeStyle = color;
+						canvas.stroke();
+					}
+
+					function tick() {
+						loadingMessage.innerText = "⌛ 스캔 기능을 활성화 중입니다."
+						if (video.readyState === video.HAVE_ENOUGH_DATA) {
+							loadingMessage.hidden = true;
+							canvasElement.hidden = false;
+							outputContainer.hidden = false;
+							// 읽어들이는 비디오 화면의 크기
+							canvasElement.height = video.videoHeight;
+							canvasElement.width = video.videoWidth;
+							canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
+							var imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
+							var code = jsQR(imageData.data, imageData.width,imageData.height, {
+										inversionAttempts : "dontInvert",
+							});
+							// QR코드 인식에 성공한 경우
+							if (code) {
+								// 인식한 QR코드의 영역을 감싸는 사용자에게 보여지는 테두리 생성
+								drawLine(code.location.topLeftCorner, code.location.topRightCorner, "#FF0000");
+								drawLine(code.location.topRightCorner, code.location.bottomRightCorner, "#FF0000");
+								drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, "#FF0000");
+								drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, "#FF0000");
+								outputMessage.hidden = true;
+								outputData.parentElement.hidden = false;
+								// QR코드 메시지 출력
+								outputData.innerHTML = code.data;
+								
+								Swal.fire({
+									  title: '출근되었습니다.',
+									  //text: "이미 생성하셨다면 취소를 눌러주세요.",
+									  //icon: 'warning',
+									  showCancelButton: false,
+									  confirmButtonColor: '#3085d6',
+									  cancelButtonColor: '#d33',
+									  confirmButtonText: '확인',
+									  cancelButtonText: '취소'
+								}).then((result) => {
+                    if(result.value){ //확인
+
+                      //카메라 끄기
+                      mediaStream.stop();
+
+                      comTime();
+                      $('#QRModal').modal('hide'); 
+
+                      return;
+                      
+                    } else {
+                      return false;
+                    }
+								})
+							}
+							// QR코드 인식에 실패한 경우 
+							else {
+								outputMessage.hidden = false;
+								outputData.parentElement.hidden = true;
+							}
+							
+						}
+						requestAnimationFrame(tick);
+					}
+		
 					</script>
 					<!------------- 프로필, 출퇴근, 결재상태 끝  ------------->
 					
@@ -539,7 +589,8 @@
  	            							if (data[i].pin == 'Y') {
  	            								$tr.css('background', '#F8F8FF');
  	            								$tr.append($('<td>').append('<i class="bi bi-megaphone-fill pin">'));
- 	            							} else {          										$tr.append($('<td>').text(data[i].bNum));
+ 	            							} else {
+          										$tr.append($('<td>').text(data[i].bNum));
  	            							}
  	            							
  	            							bTitle = data[i].bTitle.length > 10 ? data[i].bTitle.substring(0, data[i].bTitle.length) + "..." : data[i].bTitle
