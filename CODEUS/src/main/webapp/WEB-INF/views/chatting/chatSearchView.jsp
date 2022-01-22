@@ -46,74 +46,28 @@
                        	 		</table>
                             </div>
                             <div class="card-body">
-                                <div class="recent-comment m-t-15">
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <a href="#"><img class="media-object mr-3" src="./images/avatar/4.png" alt="..."></a>
-                                        </div>
-                                        <div class="media-body">
-                                            <h4 class="media-heading text-primary">남나눔</h4>
-                                            <p>오늘도 즐겁게!</p>
-                                            <p class="comment-date">10 min ago</p>
-                                        </div>
-                                    </div>
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <a href="#"><img class="media-object mr-3" src="./images/avatar/2.png" alt="..."></a>
-                                        </div>
-                                        <div class="media-body">
-                                            <h4 class="media-heading text-success">류라라</h4>
-                                            <p>오늘 점심엔 요 앞 백반집 가실래요?</p>
-                                            <p class="comment-date">1 hour ago</p>
-                                        </div>
-                                    </div>
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <a href="#"><img class="media-object mr-3" src="./images/avatar/4.png" alt="..."></a>
-                                        </div>
-                                        <div class="media-body">
-                                            <h4 class="media-heading text-primary">남나눔</h4>
-                                            <p>보고서 결재 부탁드립니다.</p>
-                                            <p class="comment-date">10 min ago</p>
-                                        </div>
-                                    </div>
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <a href="#"><img class="media-object mr-3" src="./images/avatar/2.png" alt="..."></a>
-                                        </div>
-                                        <div class="media-body">
-                                            <h4 class="media-heading text-success">류라라</h4>
-                                            <p>오늘 점심엔 요 앞 백반집 가실래요?</p>
-                                            <p class="comment-date">1 hour ago</p>
-                                        </div>
-                                    </div>
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <a href="#"><img class="media-object mr-3" src="./images/avatar/4.png" alt="..."></a>
-                                        </div>
-                                        <div class="media-body">
-                                            <h4 class="media-heading text-primary">남나눔</h4>
-                                            <p>보고서 결재 부탁드립니다.</p>
-                                            <p class="comment-date">10 min ago</p>
-                                        </div>
-                                    </div>
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <a href="#"><img class="media-object mr-3" src="./images/avatar/2.png" alt="..."></a>
-                                        </div>
-                                        <div class="media-body">
-                                            <h4 class="media-heading text-success">류라라</h4>
-                                            <p>오늘 점심엔 요 앞 백반집 가실래요?</p>
-                                            <p class="comment-date">1 hour ago</p>
-                                        </div>
-                                    </div>
+                                <div class="recent-comment m-t-15" style="overflow:auto; height:400px;">
+                                	<c:forEach var="ch" items="${ list }">
+	                                    <div class="media">
+	                                        <div class="media-left">
+	                                            <a href="#"><img src="/codeus/resources/assets/images/empty-profile.png" class="img-fluid rounded-circle" alt="" style="width: 70px"></a>
+	                                        </div>
+	                                        <div class="media-body">
+	                                            <h4 class="media-heading text-primary sander">
+	                                            	${ ch.mName }
+		                                  		</h4>
+	                                            <input type="checkbox" style="float: right; margin-right: 30px;" value="${ ch.mId }">
+	                                            <p>${ ch.deptName }, ${ ch.jobName }</p>
+	                                        </div>
+	                                    </div>
+                                    </c:forEach>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
                     <div class="col-xl-1 col-lg-2 col-xxl-2 col-md-2">
-                        <div class="card">
+                        <div class="card" style="height: 500px;">
                             <div class="card-body">
                                 <div class="recent-comment m-t-15">
                                     <div class="media">

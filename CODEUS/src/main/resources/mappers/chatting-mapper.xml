@@ -35,4 +35,34 @@
 		insert into chat_message
 		values(chatmsg_seq.nextval, #{msg}, sysdate, 0, #{roomNum}, #{userId}, #{sander})
 	</insert>
+	
+	<resultMap type="Member" id="memberResultSet">
+		<id column="M_ID" property="mId" />
+		<result column="M_PWD" property="mPwd"/>
+		<result column="M_NAME" property="mName"/>
+		<result column="M_BIRTH_DATE" property="birthDate"/>
+		<result column="M_EMAIL" property="email"/>
+		<result column="M_PHONE" property="phone"/>
+		<result column="M_ADDRESS" property="address"/>
+		<result column="M_PROFILE" property="profile"/>
+		<result column="M_IMG_ORIGIN_NAME" property="imgOriginName"/>
+		<result column="M_IMG_CHANGE_NAME" property="imgChangeName"/>
+		<result column="M_ENROLL_DATE" property="enrollDate"/>
+		<result column="M_UPDATE_DATE" property="updateDate"/>
+		<result column="M_HIRE_DATE" property="hireDate"/>
+		<result column="M_END_DATE" property="endDate"/>
+		<result column="M_STATUS" property="status"/>
+		<result column="M_MANAGER_YN" property="managerYn"/>
+		<result column="JOB_NAME" property="jobName"/>
+		<result column="DEPT_ID" property="deptId"/>
+		<result column="DEPT_NAME" property="deptName"/>
+	</resultMap>
+	
+	<select id="selectChatMember" resultMap="memberResultSet">
+		select *
+		from member
+		join department using(dept_id)
+		join job using(job_id)
+		where m_status = '0' and m_manager_yn = 'N' and m_id not in #{userId}
+	</select>
 </mapper>

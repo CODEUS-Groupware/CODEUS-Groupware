@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.codeusgroup.codeus.address.model.exception.AddressException;
 import com.codeusgroup.codeus.chatting.exception.ChattingException;
 import com.codeusgroup.codeus.chatting.model.service.ChatService;
 import com.codeusgroup.codeus.chatting.model.vo.Chatroom;
@@ -43,8 +44,24 @@ public class ChattingController {
 	}
 	
 	@RequestMapping("chatSearch.ch")
-	public String chetSearchView() {
-		return "chatSearchView";
+	public ModelAndView chetSearchView(@RequestParam(value="page", required = false) Integer page,
+			  					 HttpServletRequest request,
+			  					 ModelAndView mv) {
+		
+		String userId = ((Member)request.getSession().getAttribute("loginUser")).getmId();
+		
+		ArrayList<Member> list = chService.selectChatMember(userId);
+		
+		if(list != null) {
+			mv.addObject("list", list);
+			mv.setViewName("chatSearchView");
+			
+		} else {
+			throw new AddressException("주소록 조회에 실패했습니다.");
+		}
+		
+		//return "boardListView";
+		return mv;
 	}
 	
 	@RequestMapping("chatRoom.ch")
