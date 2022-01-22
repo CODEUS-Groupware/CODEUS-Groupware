@@ -121,8 +121,8 @@
 									<li>
 										출근시간
 										<c:choose>
-											<c:when test="${empStatus1 != null }">
-												<input id="workInTime" name="workInTime" value="${empStatus1.getEmpOnTime()}">
+											<c:when test="${requestScope.empStatus1 != null }">
+												<input id="workInTime" name="workInTime" value="${requestScope.empStatus1.getEmpOnTime()}">
 											</c:when>
 											<c:otherwise>
 												<input id="workInTime" name="workInTime">
@@ -132,8 +132,8 @@
 									<li>
 										퇴근시간
 											<c:choose>
-												<c:when test="${empStatus1 != null }">
-													<input id="workOutTime" name="workOutTime" value="${empStatus1.getEmpOffTime()}">
+												<c:when test="${requestScope.empStatus1 != null }">
+													<input id="workOutTime" name="workOutTime" value="${requestScope.empStatus1.getEmpOffTime()}">
 												</c:when>
 												<c:otherwise>
 													<input id="workOutTime" name="workOutTime">
@@ -214,14 +214,14 @@
                                             </tr>
                                             <tr>
                                             <c:choose>
-                                            	<c:when test="${empStatus1.getEmpStatus() eq '업무종료' && empStatus1.getEmpOffTime() ne null}">                                           		                                            			
+                                            	<c:when test="${requestScope.empStatus1.getEmpStatus() eq '업무종료' && requestScope.empStatus1.getEmpOffTime() ne null}">                                           		                                            			
 			                                           <td style="height: 90px;" id="workingTime">
-			                                                	${ empStatus1.strGapTime }
+			                                                	${ requestScope.empStatus1.strGapTime }
 			                                           </td>
 			                                       <c:choose>
-			                                            <c:when test="${empStatus1.getOverTime() ne null}">
+			                                            <c:when test="${requestScope.empStatus1.getOverTime() ne null}">
 			                                                <td id="overTime">
-																 ${ empStatus1.strOverTime }
+																 ${ requestScope.empStatus1.strOverTime }
 			                                                </td>
 			                                            </c:when>
 			                                            <c:otherwise>
