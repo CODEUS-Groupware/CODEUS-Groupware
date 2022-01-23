@@ -70,7 +70,7 @@
 	<insert id="createChatting">
 		insert all
     		into chat_room values(SEQ_CHAT_NUM.nextval, default)
-   	 		into chat_message values(chatmsg_seq.nextval, '채팅방이 생성되었습니다.', sysdate, default, 5, #{sander}, #{userId})
+   	 		into chat_message values(chatmsg_seq.nextval, '채팅방이 생성되었습니다.', sysdate, default, 6, #{sander}, #{userId})
     	select * from DUAL
 	</insert>
 	
