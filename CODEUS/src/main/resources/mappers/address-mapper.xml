@@ -18,7 +18,7 @@
 		from member
 		join department using(dept_id)
 		join job using(job_id)
-		where m_status = '0' and m_manager_yn = 'N' and m_id not in #{userId}
+		where m_status = '0' and m_id not in #{userId}
 	</select>
 	
 	<resultMap type="Member" id="memberResultSet">

@@ -91,6 +91,8 @@
 	</div>
 	
 	<script>
+		
+		
 		$("#btnSubmit").click(function() {
 			var msg = $('#chatText').val();
 			var sander = $('#sand').text();
@@ -116,6 +118,19 @@
 			});
 			
 			$('#chatText').val('');
+		});
+		
+		function refresh(){  
+		      $("#chatlist").load(window.location.href + " #chatlist");
+		      console.log('load');
+		}
+		
+		$(function() {
+			refresh();
+			
+			setInterval(function() {
+				refresh();
+			}, 1000);
 		});
 	</script>
 	    
