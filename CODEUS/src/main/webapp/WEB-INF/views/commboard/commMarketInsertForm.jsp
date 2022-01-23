@@ -12,21 +12,6 @@
 		============================================ -->
 	<link rel="stylesheet" href="${contextPath}/resources/assets/vendor/summernote/summernote-lite.css">
 
-
-
-  <!-- <script>
-      //서머노트에 text 쓰기
-      $('#summernote').summernote('insertText');
-      // 서머노트 쓰기 활성화
-      $('#summernote').summernote('enable');
-      // 서머노트 리셋
-      $('#summernote').summernote('reset');
-      // 마지막으로 한 행동 취소 ( 뒤로가기 )
-      $('#summernote').summernote('undo');
-      // 앞으로가기
-      $('#summernote').summernote('redo');
-  </script> -->
-	
 <style>
      
 
@@ -292,6 +277,17 @@ var fileSize;
         }
 		
     </script>
+
+	<!-- <script>
+	   window.onbeforeunload = function(e) {
+	    var dialogText = 'Dialog text here';
+	    e.returnValue = dialogText;
+	    return dialogText;
+	};
+	   
+	    </script> 
+ -->
+
 
 
 
