@@ -2,6 +2,7 @@ package com.codeusgroup.codeus.chatting.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.codeusgroup.codeus.address.common.Pagination;
 import com.codeusgroup.codeus.address.model.exception.AddressException;
+import com.codeusgroup.codeus.address.model.vo.PageInfo;
 import com.codeusgroup.codeus.chatting.exception.ChattingException;
 import com.codeusgroup.codeus.chatting.model.service.ChatService;
 import com.codeusgroup.codeus.chatting.model.vo.Chatroom;
@@ -107,6 +110,43 @@ public class ChattingController {
 			
 		} else {
 			throw new ChattingException("메세지 전송에 실패했습니다.");
+		}
+	}
+	
+	@RequestMapping("research.ch")
+	public ModelAndView searchChatMember(@RequestParam(value="input", required = false) String input,
+			  ModelAndView mv) {
+	
+	System.out.println(input);
+
+	ArrayList<Member> list = chService.searchChatMember(input);
+	
+	if(list != null) {
+	mv.addObject("list", list);
+	mv.setViewName("chatResultView");
+	
+	} else {
+	throw new ChattingException("대화상대 검색에 실패했습니다.");
+	}
+	return mv;
+	}
+	
+	@RequestMapping("createChat.ch")
+	@ResponseBody
+	public String createChatting(@RequestParam("sander") String sander,
+								 HttpServletRequest request) {
+		
+		String userId = ((Member)request.getSession().getAttribute("loginUser")).getmId();
+		
+		int result = chService.createChatting(userId, sander);
+		
+		if(result > 0) {
+			
+			System.out.println("채팅방 생성");
+			return "success";
+			
+		} else {
+			throw new ChattingException("채팅방 생성에 실패했습니다.");
 		}
 	}
 }

@@ -17,4 +17,8 @@ public interface ChatService {
 
 	ArrayList<Member> selectChatMember(String userId);
 
+	int createChatting(String userId, String sander);
+
+	ArrayList<Member> searchChatMember(String input);
+
 }

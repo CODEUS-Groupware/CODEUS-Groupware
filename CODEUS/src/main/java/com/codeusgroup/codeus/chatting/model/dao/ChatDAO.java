@@ -36,4 +36,16 @@ public class ChatDAO {
 	public ArrayList<Member> selectChatMember(SqlSessionTemplate sqlSession, String userId) {
 		return (ArrayList)sqlSession.selectList("chattingMapper.selectChatMember", userId);
 	}
+
+	public int createChatting(SqlSessionTemplate sqlSession, String userId, String sander) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("userId", userId);
+		map.put("sander", sander);
+		
+		return sqlSession.insert("chattingMapper.createChatting", map);
+	}
+
+	public ArrayList<Member> searchChatMember(SqlSessionTemplate sqlSession, String input) {
+		return (ArrayList)sqlSession.selectList("chattingMapper.searchChatMember", input);
+	}
 }

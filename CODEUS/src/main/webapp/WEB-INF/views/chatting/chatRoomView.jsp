@@ -17,12 +17,12 @@
         .chat_wrap .item{margin-top:15px}
         .chat_wrap .item:first-child{margin-top:0px}
         
-        .chat_wrap .box{display:inline-block; max-width:180px; position:relative}
+        .chat_wrap .box{display:inline-block; max-width:180px; position:relative;}
         .chat_wrap .box::before{content:""; position:absolute; left:-8px; top:9px; border-top:0px solid transparent; border-bottom:8px solid transparent; border-right:8px solid #fff;}
         .chat_wrap .box .msg {background:#fff; border-radius:10px; padding:8px; text-align:left}
         .chat_wrap .box .time {font-size:11px; color:#999; position:absolute; right: -75px; bottom:5px; width:70px}
         
-        .chat_wrap .mybox{display:inline-block; max-width:180px; float: right;}
+        .chat_wrap .mybox{display:inline-block; max-width:180px; position:relative; left: 280px;}
         .chat_wrap .mybox::before{content:""; position:absolute; right:8px; top:9px; border-top:0px solid transparent; border-bottom:8px solid transparent; border-right:8px solid #fff;}
         .chat_wrap .mybox .msg {background:#ff0; border-radius:10px; padding:8px; text-align:right}
         .chat_wrap .mybox .time {font-size:11px; color:#999; position:absolute; right: 100px; bottom:5px; width:70px; text-align:right}

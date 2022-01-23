@@ -41,4 +41,14 @@ public class ChatServiceImpl implements ChatService {
 	public ArrayList<Member> selectChatMember(String userId) {
 		return chDAO.selectChatMember(sqlSession, userId);
 	}
+
+	@Override
+	public int createChatting(String userId, String sander) {
+		return chDAO.createChatting(sqlSession, userId, sander);
+	}
+
+	@Override
+	public ArrayList<Member> searchChatMember(String input) {
+		return chDAO.searchChatMember(sqlSession, input);
+	}
 }

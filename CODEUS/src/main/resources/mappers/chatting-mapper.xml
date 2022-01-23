@@ -29,6 +29,7 @@
 		from chat_message
 		join chat_room using(chat_num)
 		where msg_status = '0' and (sander = #{userId} or m_id = #{userId}) and chat_num = #{roomNum}
+		order by msg_time asc
 	</select>
 	
 	<insert id="insertMessage">
@@ -64,5 +65,22 @@
 		join department using(dept_id)
 		join job using(job_id)
 		where m_status = '0' and m_manager_yn = 'N' and m_id not in #{userId}
+	</select>
+	
+	<insert id="createChatting">
+		insert all
+    		into chat_room values(SEQ_CHAT_NUM.nextval, default)
+   	 		into chat_message values(chatmsg_seq.nextval, '채팅방이 생성되었습니다.', sysdate, default, 5, #{sander}, #{userId})
+    	select * from DUAL
+	</insert>
+	
+	<select id="searchChatMember" resultMap="memberResultSet">
+		select *
+		from member
+		join department using(dept_id)
+		join job using(job_id)
+		where m_status = '0' and (m_name like '%' || #{input} || '%'
+			or job_name like '%' || #{input} || '%'
+			or dept_name like '%' || #{input} || '%')
 	</select>
 </mapper>
