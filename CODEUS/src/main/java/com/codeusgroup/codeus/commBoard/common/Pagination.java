@@ -2,6 +2,7 @@ package com.codeusgroup.codeus.commBoard.common;
 
 import com.codeusgroup.codeus.commBoard.model.vo.PageInfo;
 
+
 public class Pagination {
 		
 		public static PageInfo getPageInfo(int currentPage, int listCount) {
@@ -9,7 +10,7 @@ public class Pagination {
 			int maxPage;
 			int startPage;
 			int endPage;
-			int boardLimit = 5;
+			int boardLimit = 6;
 			
 			maxPage = (int)Math.ceil((double)listCount / boardLimit);
 			
