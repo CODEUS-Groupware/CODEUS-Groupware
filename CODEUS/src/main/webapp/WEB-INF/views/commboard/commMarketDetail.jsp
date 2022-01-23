@@ -39,15 +39,24 @@
 	.replyUpdateBtn{float:right; padding-right: 10px;}
   	 #replyArea{font-size: 13px;}
   	 .nestedReply{margin-left: 20px;}
-  	 .file a{color: black;}	
-		
-			 
-			 
+  	 .file a{color: black;}
+  	 
+  	 /* scrap 관련 css */
 	.scrapBtn {float: right;}
 	.scrapBtn .bi, .scrapBtn span{color: black;}
 	.scrapBtn:hover {border-color: MediumSlateBlue; background-color: Lavender;}
 	.scrapBtn:hover .bi, .scrapBtn:hover span {color: MediumSlateBlue;}
 	.scrap{background: Lavender;}  	 
+	
+	/* 댓글 관련 css */
+	.nestedReplyWrite{margin-left: 20px; display: none;}
+	.nestedReplyWrite textarea {display: inline; max-width: 1050px;}
+	.nestedReplyWrite button, .replyWriteArea button, .replyEditArea button{float: right; margin-right: 10px;}
+	.replyWriteArea textarea{display: inline; max-width: 1070px;}
+	.replyUpdateBtn{display: none;}
+	.nestedReplywriteFormBtn{color: #696969;}
+	.replyEditArea textarea{display: inline; max-width: 1000px;}
+	.deleted span{color: gray;} 
     
 </style>
 </head>
