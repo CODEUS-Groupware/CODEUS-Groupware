@@ -38,16 +38,12 @@
      				<div class="col-xl-11 col-lg-10 col-xxl-10 col-md-10">
                         <div class="card">
                         	<div class="card-header">
-                        		<form name="searchform" method="post" action="research.ch" style="width: 100%">
                                 <table style="border: none; width: 100%">
-                                
 		                        	<tr>
-		                        		<td><input type="text" id="input" name="input" class="form-control input-default" placeholder="대화상대 검색"><td>
+		                        		<td><input type="text" class="form-control input-default" placeholder="대화상대 검색"><td>
 		                        		<td><button class="form-control input-default" style="background: #593bdb; color: white;"><i class="bi bi-search"></i></button><td>
 		                        	</tr>
-		                        
                        	 		</table>
-                       	 		</form>
                             </div>
                             <div class="card-body">
                                 <div class="recent-comment m-t-15" style="overflow:auto; height:400px;">

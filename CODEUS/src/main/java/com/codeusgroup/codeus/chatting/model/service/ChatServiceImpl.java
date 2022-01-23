@@ -11,6 +11,7 @@ import com.codeusgroup.codeus.address.model.dao.AddressDAO;
 import com.codeusgroup.codeus.chatting.model.dao.ChatDAO;
 import com.codeusgroup.codeus.chatting.model.vo.Chatroom;
 import com.codeusgroup.codeus.chatting.model.vo.Message;
+import com.codeusgroup.codeus.member.model.vo.Member;
 
 @Service("chetService")
 public class ChatServiceImpl implements ChatService {
@@ -34,5 +35,20 @@ public class ChatServiceImpl implements ChatService {
 	@Override
 	public int insertMessage(HashMap<String, Object> map) {
 		return chDAO.insertMessage(sqlSession, map);
+	}
+
+	@Override
+	public ArrayList<Member> selectChatMember(String userId) {
+		return chDAO.selectChatMember(sqlSession, userId);
+	}
+
+	@Override
+	public int createChatting(String userId, String sander) {
+		return chDAO.createChatting(sqlSession, userId, sander);
+	}
+
+	@Override
+	public ArrayList<Member> searchChatMember(String input) {
+		return chDAO.searchChatMember(sqlSession, input);
 	}
 }

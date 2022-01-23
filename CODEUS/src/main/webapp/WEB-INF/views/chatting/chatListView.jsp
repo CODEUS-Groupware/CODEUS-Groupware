@@ -50,8 +50,10 @@
 	                                            <h4 class="media-heading text-primary sander">
 	                                            	${ ch.sander }
 	                                            	<input type="hidden" class="roomNum" value="${ ch.roomNum }">
+	                                            	
 	                                            </h4>
 	                                            <p>${ ch.msgContent }</p>
+	                                            <input type="checkbox" style="float: right; margin-right: 30px;" name="num" value="${ ch.roomNum }">
 	                                            <p class="comment-date"><fmt:formatDate pattern="yyyy-MM-dd hh:mm" value="${ ch.msgTime }"/></p>
 	                                        </div>
 	                                    </div>
@@ -67,9 +69,6 @@
                                 <div class="recent-comment m-t-15" style="height:500px;">
                                     <div class="media">
                                         <button class="form-control input-default" style="background: #593bdb; color: white; height: 80px;" onclick="location.href='chatSearch.ch'">대화<br>상대<br>검색</button>
-                                    </div>
-                                    <div class="media">
-                                        <button id="delete" class="form-control input-default" style="background: #593bdb; color: white; height: 50px;">채팅방<br>삭제</button>
                                     </div>
                                     <div class="media">
                                         <button class="form-control input-default" style="background: #593bdb; color: white; height: 50px;">채팅방<br>나가기</button>

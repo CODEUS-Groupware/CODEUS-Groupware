@@ -48,11 +48,9 @@ public class AddressDAO {
 		return sqlSession.insert("addressMapper.addAddress", map);
 	}
 
-	public ArrayList<Member> selectMyList(SqlSessionTemplate sqlSession, PageInfo pi, String userId) {
-		int offset = (pi.getCurrentPage() - 1) * pi.getAddressLimit();
-		RowBounds rowBounds = new RowBounds(offset, pi.getAddressLimit());
+	public ArrayList<Member> selectMyList(SqlSessionTemplate sqlSession, String userId) {
 		
-		return (ArrayList)sqlSession.selectList("addressMapper.selectMyList", userId, rowBounds);
+		return (ArrayList)sqlSession.selectList("addressMapper.selectMyList", userId);
 	}
 
 	public int minusAddress(SqlSessionTemplate sqlSession, String userId, String mId) {

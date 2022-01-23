@@ -29,10 +29,58 @@
 		from chat_message
 		join chat_room using(chat_num)
 		where msg_status = '0' and (sander = #{userId} or m_id = #{userId}) and chat_num = #{roomNum}
+		order by msg_time asc
 	</select>
 	
 	<insert id="insertMessage">
 		insert into chat_message
 		values(chatmsg_seq.nextval, #{msg}, sysdate, 0, #{roomNum}, #{userId}, #{sander})
 	</insert>
+	
+	<resultMap type="Member" id="memberResultSet">
+		<id column="M_ID" property="mId" />
+		<result column="M_PWD" property="mPwd"/>
+		<result column="M_NAME" property="mName"/>
+		<result column="M_BIRTH_DATE" property="birthDate"/>
+		<result column="M_EMAIL" property="email"/>
+		<result column="M_PHONE" property="phone"/>
+		<result column="M_ADDRESS" property="address"/>
+		<result column="M_PROFILE" property="profile"/>
+		<result column="M_IMG_ORIGIN_NAME" property="imgOriginName"/>
+		<result column="M_IMG_CHANGE_NAME" property="imgChangeName"/>
+		<result column="M_ENROLL_DATE" property="enrollDate"/>
+		<result column="M_UPDATE_DATE" property="updateDate"/>
+		<result column="M_HIRE_DATE" property="hireDate"/>
+		<result column="M_END_DATE" property="endDate"/>
+		<result column="M_STATUS" property="status"/>
+		<result column="M_MANAGER_YN" property="managerYn"/>
+		<result column="JOB_NAME" property="jobName"/>
+		<result column="DEPT_ID" property="deptId"/>
+		<result column="DEPT_NAME" property="deptName"/>
+	</resultMap>
+	
+	<select id="selectChatMember" resultMap="memberResultSet">
+		select *
+		from member
+		join department using(dept_id)
+		join job using(job_id)
+		where m_status = '0' and m_manager_yn = 'N' and m_id not in #{userId}
+	</select>
+	
+	<insert id="createChatting">
+		insert all
+    		into chat_room values(SEQ_CHAT_NUM.nextval, default)
+   	 		into chat_message values(chatmsg_seq.nextval, '채팅방이 생성되었습니다.', sysdate, default, 6, #{sander}, #{userId})
+    	select * from DUAL
+	</insert>
+	
+	<select id="searchChatMember" resultMap="memberResultSet">
+		select *
+		from member
+		join department using(dept_id)
+		join job using(job_id)
+		where m_status = '0' and (m_name like '%' || #{input} || '%'
+			or job_name like '%' || #{input} || '%'
+			or dept_name like '%' || #{input} || '%')
+	</select>
 </mapper>
