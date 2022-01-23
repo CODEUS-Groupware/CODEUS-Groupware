@@ -108,4 +108,9 @@ public class MeetingResrvServiceImpl implements MeetingResrvService {
         return mrDAO.cancelsMeetingResrv(sqlSession, chksList);
     }
     
+    @Override
+    public MeetingRoom selectMeetingRoom(int meet_no) {
+        return mrDAO.selectMeetingRoom(sqlSession, meet_no);
+    }
+    
 }

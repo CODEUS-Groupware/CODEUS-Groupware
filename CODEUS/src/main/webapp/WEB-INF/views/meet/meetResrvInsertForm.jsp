@@ -118,15 +118,27 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-xl-12">
+                                            <div class="col-xl-6">
                                                 <div class="form-group row">
                                                     <label class="col-lg-2 col-form-label" for="r_content">예약목적
                                                         <span class="text-danger">*</span>
                                                     </label>
-                                                    <div class="col-lg-10 form-group">
-                                                        <textarea class="form-control" rows="6" id="r_content" name="r_content" placeholder="- 사용 목적 : &#13;&#10;&#13;&#10;- 사용 인원 : " required></textarea>
+                                                    <div class="col-lg-8 form-group">
+                                                        <textarea class="form-control" rows="8" id="r_content" name="r_content" placeholder="- 사용 목적 : &#13;&#10;&#13;&#10;- 사용 인원 : " required></textarea>
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <div class="form-group row">
+                                                    <div class="col-lg-4">
+                                                        <img class="img-fluid" id="room_img" src="${contextPath}/resources/assets/images/empty-photo.jpg" alt="회의실 사진">
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <textarea class="form-control" rows="8" id="room_info" readonly></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-12">
                                                 <div class="d-flex justify-content-end">
                                                     <!-- 버튼 -->
                                                     <button type="button" class="btn btn-primary btn-sm mr-2" data-toggle="modal" data-target="#basicModal" onclick="lastCheck();">신청하기</button>
@@ -237,6 +249,8 @@
                 return false;
         }
         
+        var roomInfoList = null;
+        
         
         
         
@@ -258,6 +272,7 @@
             inputRoomName = null;
             
             inputDate = picker.get('select', 'yyyy-mm-dd');
+            roomInfoChk();
         });
         
         $("#r_date").change(function() {
@@ -308,6 +323,7 @@
             isTimeUsable = false;
             
             inputStartTime = $('#r_start_time').val();
+            roomInfoChk();
         });
         
         $('#r_end_time').one('click', function() {
@@ -326,6 +342,7 @@
             inputRoomName = null;
             
             isRoomUsable = false;
+            roomInfoChk();
         });
         
         $('#r_end_time').on('change paste input', function() {
@@ -346,6 +363,8 @@
                 success: function(data) {
                     console.log(data);
                     
+                    roomInfoList = data;
+                    
                     $select = $('#r_room');
                     $select.find('option').remove();
                     
@@ -363,9 +382,27 @@
             });
         });
         
+        function roomInfoChk() {
+            if(isEmpty(inputRoom)) {
+                $('#room_img').attr('src', '${contextPath}/resources/assets/images/empty-photo.jpg');
+                $('#room_info').text('');
+            }
+        }
+        
         $('#r_room').on('click change paste input', function() {
             inputRoom = $('#r_room').val();
             inputRoomName = $('#r_room option:selected').text();
+            
+            for(var i in roomInfoList) {
+                if(roomInfoList[i].meet_no == inputRoom) {
+                    if(!isEmpty(roomInfoList[i].img_change_name)) {
+                        $('#room_img').attr('src', '${contextPath}/resources/uploadFiles/' + roomInfoList[i].img_change_name);
+                    }
+                    $('#room_info').text(roomInfoList[i].meet_info);
+                }
+            }
+            
+            roomInfoChk();
             
             if(!isEmpty(inputRoom))
                 isRoomUsable = true;
