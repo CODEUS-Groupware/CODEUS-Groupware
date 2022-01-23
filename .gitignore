@@ -125,3 +125,4 @@ Servers/
 .settings
 pom.properties
 CODEUS/src/main/webapp/resources/uploadFiles/
+CODEUS/src/main/webapp/resources/buploadFiles/
