@@ -53,7 +53,7 @@
 	        
 			<div class="chat_wrap">
 	        	<div class="inner">
-	        
+	        	<div id="chatlist">
 	       		<table>
 	       			<c:forEach var="msg" items="${ list }">
 	       			<input type="hidden" id="roomNum" value="${msg.roomNum}">
@@ -82,7 +82,7 @@
 	            	</tr>
 	            	</c:if>
 	            	</c:forEach>
-	           	</table>
+	           	</table></div>
 	           	
 	        	</div>
 	
