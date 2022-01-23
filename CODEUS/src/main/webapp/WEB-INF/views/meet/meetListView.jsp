@@ -903,7 +903,12 @@
             $(this).parent().css({'font-weight':'normal', 'background':'white'});
         }).click(function() {
             var rNo = $(this).parent().children().eq(0).text();
-            location.href="mrupdateview.mr?rNo=" + rNo + "&page2=" + ${ pi2.currentPage };
+            
+            if($(this).parent().children().eq(2).children().text() != '예약 완료') {
+                location.href="mrdetail.mr?rNo=" + rNo + "&page1=" + ${ pi1.currentPage };
+            } else {
+                location.href="mrupdateview.mr?rNo=" + rNo + "&page2=" + ${ pi2.currentPage };
+            }
         });
         
         // 체크박스 기능
@@ -952,7 +957,12 @@
             $(this).parent().css({'font-weight':'normal', 'background':'white'});
         }).click(function() {
             var rNo = $(this).parent().children().eq(0).text();
-            location.href="mrupdateview.mr?rNo=" + rNo + "&page2=" + ${ searchPi2.currentPage };
+            
+            if($(this).parent().children().eq(2).children().text() != '예약 완료') {
+                location.href="mrdetail.mr?rNo=" + rNo + "&page1=" + ${ searchPi1.currentPage };
+            } else {
+                location.href="mrupdateview.mr?rNo=" + rNo + "&page2=" + ${ searchPi2.currentPage };
+            }
         });
         
         // 체크박스 기능

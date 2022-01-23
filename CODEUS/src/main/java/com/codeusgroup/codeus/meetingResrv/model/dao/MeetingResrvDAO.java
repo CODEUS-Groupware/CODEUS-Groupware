@@ -96,4 +96,8 @@ public class MeetingResrvDAO {
         return sqlSession.update("meetResrvMapper.cancelsMeetingResrv", chksList);
     }
     
+    public MeetingRoom selectMeetingRoom(SqlSessionTemplate sqlSession, int meet_no) {
+        return sqlSession.selectOne("meetRoomMapper.selectMeetRoom", meet_no);
+    }
+    
 }

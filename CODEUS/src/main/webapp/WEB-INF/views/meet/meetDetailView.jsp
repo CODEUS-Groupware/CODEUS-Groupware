@@ -132,14 +132,31 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-12">
+                                        <div class="col-xl-6">
                                             <div class="form-group row">
                                                 <label class="col-lg-2 col-form-label" for="r_content">예약목적
                                                 </label>
                                                 <div class="col-lg-10 form-group">
-                                                    <textarea class="form-control" rows="6" id="r_content" name="r_content" readonly>${ mr.rev_content }</textarea>
+                                                    <textarea class="form-control" rows="8" id="r_content" name="r_content" readonly>${ mr.rev_content }</textarea>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <div class="form-group row">
+                                                <div class="col-lg-4">
+                                                    <c:if test="${ mInfo.img_change_name eq null }">
+                                                        <img class="img-fluid" id="room_img" src="${contextPath}/resources/assets/images/empty-photo.jpg" alt="회의실 사진">
+                                                    </c:if>
+                                                    <c:if test="${ mInfo.img_change_name ne null }">
+                                                        <img class="img-fluid" id="room_img" src="${contextPath}/resources/uploadFiles/${ mInfo.img_change_name }" alt="회의실 사진">
+                                                    </c:if>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <textarea class="form-control" rows="8" id="room_info" readonly>${ mInfo.meet_info }</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-12">
                                             <div class="d-flex justify-content-end">
                                                <button type="button" class="btn btn-outline-primary btn-sm" onclick="location.href='${ mrlist }'">돌아가기</button>
                                             </div>

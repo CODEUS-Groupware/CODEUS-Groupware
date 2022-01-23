@@ -9,7 +9,7 @@
 	
 	<select id="selectMarketBoard" resultMap="marketboardResultSet">
 		SELECT B_NUM, B_TYPE, B_TITLE, B_VIEWS, B_CREARE_DATE, B_MODIFY_DATE, B_STATUS,
-			   B.M_ID M_ID,B_ETC, B_CATEGORY, B_CONTENT
+			   B.M_ID M_ID,B_ETC, B_CATEGORY, B_CONTENT,M_NAME
 		FROM BOARD B
 		 		LEFT JOIN MEMBER M ON(B.M_ID = M.M_ID)
 		WHERE B_NUM = #{bId} AND B_STATUS = '0'
@@ -72,6 +72,7 @@
 		<result property="mbStatus" column="B_STATUS"/>
 		<result property="mbPin" column="B_PIN"/>
 		<result property="mbWriter" column="M_ID"/>
+		<result property="mbWName" column="M_NAME"/>
 		<result property="mbCategory" column="B_CATEGORY"/>
 		<result property="marketPrice" column="B_ETC"/>
 		

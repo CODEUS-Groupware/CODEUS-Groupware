@@ -90,6 +90,7 @@
                                                               and to_char(rev_date, 'YYYY-MM-DD') = to_char(#{inputDate}, 'YYYY-MM-DD')
                                                               and rev_start_time > #{inputStartTime}
                                                               and rev_end_time < #{inputEndTime}))
+                  and meet_status = 0
             ]]>
             <if test="rNo != null">
             union
@@ -124,6 +125,7 @@
                                                               and to_char(rev_date, 'YYYY-MM-DD') = to_char(#{inputDate}, 'YYYY-MM-DD')
                                                               and rev_start_time > #{inputStartTime}
                                                               and rev_end_time < #{inputEndTime})))
+                  and meet_status = 0
             ]]>
             </if>)
         order by meet_name

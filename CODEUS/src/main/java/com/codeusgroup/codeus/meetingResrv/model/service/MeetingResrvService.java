@@ -45,4 +45,6 @@ public interface MeetingResrvService {
     
     int cancelsMeetingResrv(List<Integer> chksList);
     
+    MeetingRoom selectMeetingRoom(int meet_no);
+    
 }
