@@ -211,10 +211,12 @@ public class MeetingResrvController {
     @RequestMapping("mrdetail.mr")
     public String meetingDetail(@RequestParam("rNo") int rNo, @RequestParam("page1") int page1, Model model) {
         MeetingResrv mr = mrService.selectMeetingResrv(rNo);
+        MeetingRoom mInfo = mrService.selectMeetingRoom(mr.getMeet_no());
         
         if (mr != null) {
             model.addAttribute("mr", mr);
             model.addAttribute("page1", page1);
+            model.addAttribute("mInfo", mInfo);
         } else
             throw new MeetingResrvException("예약 정보 상세 조회에 실패하였습니다.");
         
