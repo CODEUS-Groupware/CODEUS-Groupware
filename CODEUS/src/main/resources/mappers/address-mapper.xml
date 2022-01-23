@@ -73,7 +73,7 @@
 		where m_id in (
 			select addr_m_id
 			from address
-			where m_id = #{userId} and m_status = '0' and m_manager_yn = 'N'
+			where m_id = #{userId} and m_status = '0'
 			)
 	</select>
 	
