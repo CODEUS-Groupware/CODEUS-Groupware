@@ -29,70 +29,74 @@
 </head>
 
 <body>
-    <!--**********************************
+	<!--**********************************
         Main wrapper start
     ***********************************-->
-    <div id="main-wrapper">	
+	<div id="main-wrapper">
 
-		<c:import url="../common/menubar.jsp"/>
-	<div class="content-body">
-        <div class="container-fluid">
-	         <div class="row">
-	             <div class="col-12">
-	                  <div class="card">
-	                        <div class="card-body">
-							 <!-- 본문 시작 -->
+		<c:import url="../common/menubar.jsp" />
+		<div class="content-body">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-12">
+						<div class="card">
+							<div class="card-body">
+								<!-- 본문 시작 -->
 								<h3 style="width: 200px; height: 30px;">자유게시판</h3>
 								<br>
 								<p>*불쾌함을 주는 내용이나 광고성 게시글은 관리자에 의해 삭제될 수 있습니다.</p>
-									<div class='market-insert-form'>
-						   				<form action="binsert.bo" method="post" enctype="Multipart/form-data">	 
-									      <table class="table table-write" id="add_mt" style="color:black ">
-											<colgroup>			
-											<col style="width:120px" />
-											<col style="width:*" />						
+								<div class='market-insert-form'>
+									<form action="binsert.bo" method="post"
+										enctype="Multipart/form-data">
+										<table class="table table-write" id="add_mt"
+											style="color: black">
+											<colgroup>
+												<col style="width: 120px" />
+												<col style="width: *" />
 											</colgroup>
-											
-											<tr>						
+
+											<tr>
 												<th>제목</th>
-												<td><input type="text" class="form-control" id="bTitle" 
+												<td><input type="text" class="form-control" id="bTitle"
 													name="bTitle" placeholder="제목" value="${title}" required></td>
 											</tr>
 											<tr>
 												<th>작성자</th>
-												<td><input type="text" class="form-control" 
-														id="bWriter" name="bWriter" readonly value="${ sessionScope.loginUser.mId }"></td>
+												<td><input type="text" class="form-control"
+													id="bWriter" name="bWriter" readonly
+													value="${ sessionScope.loginUser.mId }"></td>
 											</tr>
 											<tr>
-											<th>내용</th>
+												<th>내용</th>
 												<td><div class="container">
-													  <textarea id="summernote" class="summernote" name="bContent" ></textarea>
-												 </div></td>
+														<textarea id="summernote" class="summernote"
+															name="bContent"></textarea>
+													</div></td>
 											</tr>
-						                              		
-						                   <tr> 
-						                       <td colspan ="4" style="text-align: center;">
-						                       		<input type="submit" value="등록" id="bSubmit" class="btn btn-primary">
-													<button type="button" onclick="location.href='Commblist.bo'" class="btn btn-primary">취소</button>
-												</td>
-											</tr>		
+
+											<tr>
+												<td colspan="4" style="text-align: center;"><input
+													type="submit" value="등록" id="bSubmit"
+													class="btn btn-primary">
+													<button type="button"
+														onclick="location.href='Commblist.bo'"
+														class="btn btn-primary">취소</button></td>
+											</tr>
 										</table>
-							  		</form>
+									</form>
 								</div>
 							</div>
-							</div>
-							     </div>
-							      	</div>
-							   			 </div>
-							  				</div>
-			 			
-
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-	 <!--**********************************
+	</div>
+	<!--**********************************
             Content body end
         ***********************************-->
-    
-		<!--**********************************
+
+	<!--**********************************
 		       Summernote  Scripts
 		***********************************-->
  	<script src="${contextPath}/resources/assets/vendor/summernote/summernote-lite.js"></script>
@@ -151,8 +155,8 @@
         }
 		
     </script>
+    
 
-		                            	
         <!--**********************************
             Footer start
         ***********************************-->

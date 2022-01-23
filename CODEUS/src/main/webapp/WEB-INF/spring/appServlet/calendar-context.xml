@@ -15,4 +15,11 @@
 		<property name="suffix" value=".jsp"/>
 	</bean>
 	<context:component-scan base-package="com.codeusgroup.codeus"/>
+	
+	<mvc:interceptors>
+ 		<mvc:interceptor>
+			<mvc:mapping path="/**"/> <!-- "/**" : 모든 요청(url)에 다 적용 --> 
+			<bean id="Interceptor" class="com.codeusgroup.codeus.common.interceptor.MemberEnterInterceptor"/> <!-- 실행되는 객체 지정 -->
+		</mvc:interceptor>
+	</mvc:interceptors>	
 </beans>

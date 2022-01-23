@@ -26,13 +26,6 @@
 	
 	<context:component-scan base-package="com.codeusgroup.codeus" />
 	
-	<!-- 웹 소켓 핸들러 -->
-    <websocket:handlers>
-        <websocket:mapping path="/websocket/echo.do" handler="myHandler"/>
-    </websocket:handlers>
-
-    <beans:bean id="myHandler" class="com.codeusgroup.codeus.chatting.handler.WebSocketHandler"/>
-	
 	<interceptors>
 		<interceptor>
 			<mapping path="/**"/>
