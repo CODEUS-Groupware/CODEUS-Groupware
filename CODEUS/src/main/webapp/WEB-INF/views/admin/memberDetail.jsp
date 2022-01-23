@@ -13,6 +13,9 @@
 	.form-col{padding-left: 15px;}
 	.member-info input[type=date], .member-info input[type=text], .member-info select{display: inline;  width: 150px;}
 </style>
+    
+    <!-- flatpicker css  -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 <body>
 
@@ -103,10 +106,28 @@
 	                                        </select>
 	                                        <br>
 	                                        <label class="col-form-label">입사일</label>
-	                                        <input type="text" id="hireDate" class="form-control" name="inputHireDate" value="${ member.hireDate }" readonly>
+	                                        <div class="flatpickr" style="display: inline-block;">
+												<input type="text" id="hireDate" name="inputHireDate" class="form-control"  value="${ member.hireDate }"  data-input>
+												<a class="input-button" title="toggle" data-toggle>
+													<i class="icon-calendar"></i>
+												</a>
+												 
+												<a id="clearBtn1" class="input-button" title="clear" data-clear>
+													<i class="icon-close"></i>
+												</a>
+											</div>
 	                                        <br>                                        
 	                                        <label class="col-form-label">퇴사일</label>
-	                                        <input type="text" id="endDate" class="form-control" name="inputEndDate" value="${ member.endDate }" readonly>
+	                                        <div class="flatpickr" style="display: inline-block;">
+												<input type="text" id="endDate" name="inputEndDate" class="form-control"  value="${ member.endDate }"  data-input>
+												<a class="input-button" title="toggle" data-toggle>
+													<i class="icon-calendar"></i>
+												</a>
+												 
+												<a id="clearBtn2" class="input-button" title="clear" data-clear>
+													<i class="icon-close"></i>
+												</a>
+											</div>
 	                                        <br>                   
 	                                        <label class="col-form-label">계정 상태</label>
 	                                        <c:if test="${ member.status == 0 }">
@@ -220,82 +241,47 @@
 		    				        		}
                                 </script>
                                 
-                                
-                                <!-- datepicker cdn  -->
-								<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-                                <script>
-                                	$(function(){
-                                		// datepicker에 지우기 버튼 추가
-                                		var old_fn = $.datepicker._updateDatepicker;
-                                		
-                                		$.datepicker._updateDatepicker = function(inst) {
-                                			old_fn.call(this, inst);
-                                			
-                                			var buttonPane = $(this).datepicker("widget").find(".ui-datepicker-buttonpane");
-                                    		
-                                    		$("<button type='button' class='ui-datepicker-clean ui-state-default ui-priority-primary ui-corner-all'>지우기</button>").appendTo(buttonPane).click(function(ev) {
-                                    			$.datepicker._clearDate(inst.input);
-                                    		});
-                                		}
-                                	});
-                                	
-                                	// 입사일은 퇴사일 이전 날짜만 선택 가능
-	                            	$('#hireDate').datepicker({
-	                            		dateFormat : 'yy-mm-dd',
-	                            		prevText : '이전 달',
-	                            		nextText : '다음 달',
-	                            		cleanText : '지우기',
-	                            		//yearRange: '-100:+0', // ex)'1950:2013' : 지정한 년도 범위 내 선택 스크롤바
-	                            		monthNames : [ '1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월',
-	                            				'10월', '11월', '12월' ],
-	                            		monthNamesShort : [ '1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월',
-	                            				'9월', '10월', '11월', '12월' ],
-	                            		dayNames : [ '일', '월', '화', '수', '목', '금', '토' ],
-	                            		dayNamesShort : [ '일', '월', '화', '수', '목', '금', '토' ],
-	                            		dayNamesMin : [ '일', '월', '화', '수', '목', '금', '토' ],
-	                            		showMonthAfterYear : true,
-	                            		yearSuffix : '년',
-	                            		buttonImageOnly : true,
-	                            		changeMonth : true,
-	                            		changeYear : true,
+                                <!-- flatpicker cdn  -->
+								<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+								<script src="https://npmcdn.com/flatpickr/dist/flatpickr.min.js"></script>
+								<script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
+                            	<script>
+	                            	const $flatpickr1 = $("#hireDate").flatpickr();
+	                            	const $flatpickr2 = $("#endDate").flatpickr();
+	                            	
+	                            	flatpickr.localize(flatpickr.l10ns.ko);
+	                            	flatpickr("mySelector");
+
+	                            	// 입력한 데이터 지우기 버튼
+	                            	$("#clearBtn1").click(function() {
+	                            	   $flatpickr1.clear();
+	                            	});
+	                            	
+	                            	$("#clearBtn2").click(function() {
+		                            	$flatpickr2.clear();
+		                            });
+	                            	
+	                            	// 입사일은 퇴사일 이전 날짜만 선택 가능
+	                            	$("#hireDate").flatpickr({
+	                            		dateFormat: "Y-m-d",
+	                            		"locale": "ko", // 언어 한글로 설정
+	                            		onChange: function(selectedDates, dateStr, instance) {
+	                            			$('#endDate').flatpickr({"minDate": new Date(dateStr)});
+	                            		},
 	                            		maxDate : new Date('${ member.endDate }'),
-	                            		showButtonPanel : true,
-	                            		currentText : '오늘 날짜',
-	                            		closeText : '닫기',
-	                            		showAnim : "slide",
-	                            		regional : "ko"
-	                            	}).on('change', function() {
-	                            		$('#endDate').datepicker("option", "minDate", new Date($(this).val()));
-	                            	});
-                                	
+	                            	})
+	                            	
 	                            	// 퇴사일은 입사일 이후 날짜만 선택 가능
-	                            	$('#endDate').datepicker({
-	                            		dateFormat : 'yy-mm-dd',
-	                            		prevText : '이전 달',
-	                            		nextText : '다음 달',
-	                            		cleanText : '지우기',
-	                            		monthNames : [ '1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월',
-	                            				'10월', '11월', '12월' ],
-	                            		monthNamesShort : [ '1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월',
-	                            				'9월', '10월', '11월', '12월' ],
-	                            		dayNames : [ '일', '월', '화', '수', '목', '금', '토' ],
-	                            		dayNamesShort : [ '일', '월', '화', '수', '목', '금', '토' ],
-	                            		dayNamesMin : [ '일', '월', '화', '수', '목', '금', '토' ],
-	                            		showMonthAfterYear : true,
-	                            		yearSuffix : '년',
-	                            		buttonImageOnly : true,
-	                            		changeMonth : true,
-	                            		changeYear : true,
+	                            	$("#endDate").flatpickr({
+	                            		dateFormat: "Y-m-d",
+	                            		"locale": "ko", // 언어 한글로 설정
+	                            		onChange: function(selectedDates, dateStr, instance) {
+	                            			$('#hireDate').flatpickr({"maxDate": new Date(dateStr)});
+	                            		},
 	                            		minDate : new Date('${ member.hireDate }'),
-	                            		showButtonPanel : true,
-	                            		currentText : '오늘 날짜',
-	                            		closeText : '닫기',
-	                            		showAnim : "slide",
-	                            		regional : "ko" 
-	                            	}).on('change', function() {
-	                            		$('#hireDate').datepicker("option", "maxDate", new Date($(this).val()));
 	                            	});
-                                </script>
+	                            	
+                            	</script>
                             </div>
                         </div>
                     </div>

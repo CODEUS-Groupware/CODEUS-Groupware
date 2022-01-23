@@ -1,7 +1,9 @@
 package com.codeusgroup.codeus.myPage.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.mail.MessagingException;
@@ -117,11 +119,21 @@ public class MyPageController {
 	
 	@RequestMapping("memberUpdate.mp")
 	public String updateMyInfo(@ModelAttribute Member member, 
+								@RequestParam("inputBirthDate") String inputBirthDate,
 								@RequestParam(value="post", required=false) String post,
 								@RequestParam(value="address1", required=false) String address1, 
 								@RequestParam(value="address2", required=false) String address2,
 								@RequestParam("reloadImg") MultipartFile reloadImg, 
 								HttpServletRequest request, Model model) {
+		
+		if(!inputBirthDate.equals("")) {
+			String[] eSplit = inputBirthDate.split("-");
+			int eYear = Integer.parseInt(eSplit[0]);
+			int eMonth = Integer.parseInt(eSplit[1]) - 1;
+			int eDate = Integer.parseInt(eSplit[2]);
+			Date birthDate = new Date(new GregorianCalendar(eYear, eMonth, eDate).getTimeInMillis());	
+			member.setBirthDate(birthDate);
+		}
 		
 		member.setAddress(post + "/" + address1 + "/" + address2);
 		System.out.println(member);
