@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
@@ -13,9 +13,11 @@
 	 		 color: black;
 	}
 	div > p {color : black;
-			 font-size : 15px;	}
+			 font-size : 15px;}
 	div > a {color : black;}
 	
+	li > a {color : black;
+			font-size : 20x;}
 	
 	#buttonTab{border-left: hidden; border-right: hidden;}
 	
@@ -80,7 +82,7 @@
 										</div>
 									</div>
 									<c:forEach var="mb" items="${ list }">
-									<a href="'marketinsertView.bo?bId=${mb.bId}&page=${pi.currentPage}'">
+									<a href="marketDetail.bo?bId=${mb.bId}&page=${pi.currentPage}">
 									<ul>
 										<li style="float: left; padding: 20px; display: inline-block; white-space: nowrap;" >
 											<div class="row" style="">
@@ -100,7 +102,7 @@
 															</c:forEach>
 														</div>
 														<div class="card-body">
-															<h1 class="card-title"><b>${ mb.mbTitle }</b></h1>
+															<p class="card-title" style="font-size : 20px; text-align: center;"><b>${ mb.mbTitle }</b></p>
 														</div>
 														<div class="card-footer">
 															<p class="card-text d-inline">${ mb.marketPrice }원</p>
@@ -139,52 +141,7 @@
 							<div class="table-responsive">
 								<div class="col-lg-12">
 									<div class="card">
-										<%-- <table class="table table-hover table-responsive-sm" style="color : black;">
-                                    <thead>
-                                        <tr>
-							              <th>No</th>
-							              <th></th>
-							              <th>분류</th>
-							              <th width="200"></th>
-							              <th>작성자</th>
-							              <th>조회수</th>
-							              <th>가격</th>
-							          </tr>
-							       </thead>
-							        <tbody>
-									<c:forEach var="mb" items="${ list }">
-									<tr class="contentTR">
-										<th align="center">${ mb.bId }</th>
-										<th style="height= 400px; width = 400px;">
-										<c:forEach var ="att" items="${attList}">
-											<c:if test="${ mb.bId eq att.bId }">
-												<div id="file${ att.fileNo}" class="file">
-				              						<img id="img${ att.fileNo }" src="${contextPath}/resources/buploadFiles/${ att.reFileName }" width="200" height="200" download><br>
-												</div>
-											</c:if>
-										</c:forEach>		
-										</th>
-										<th align="center">${ mb.mbCategory}</th>
-										<th align="left">${ mb.mbTitle }</th>	
-										<th align="center">${ mb.mbWriter }</th>
-										<th align="center">${ mb.mbViews }</th>
-										<th align="center">${ mb.marketPrice }</th>
-										</tr>
-											</c:forEach>
-							    				<tbody>
-								    				<c:if test="${ empty nbList && searchValue ne null }">
-		                                        		<tr>
-				                                        	<td colspan="9">검색 결과가 없습니다.</td>
-			                                         	</tr>
-		                                        	</c:if>
-                                    				<c:if test="${ empty list }">
-                                       					<tr>
-		                                				<td colspan="6">등록된 게시물이 없습니다.</td>
-				                                   		</tr>
-								        			</c:if>
-												  </table>
-												 </div> 
-										<!-- 본문 테이블 영역  끝--> --%>
+										<!-- 본문 테이블 영역  끝--> 
 													<!-- 페이징 처리 -->
 													<div style="margin-left: auto; margin-right: auto;">
 														<nav>
@@ -277,34 +234,22 @@
 			</div>
 		</div>
 
-
-		<script>
-		$(function() {
-			$('.contentTR').click(function() {
-				var bId = $(this).children("th").eq(0).text();
-				location.href = 'marketDetail.bo?bId=' + ${mb.bId} + "&page=" + ${pi.currentPage}
-				
-			});
-		});
-	
-	</script>
-
 		<script>
 	var searchText;
 	var searchOption;
 	var option;
 		$('#a1').click(function(){
-			option = '최신순';
+			option = 'new';
 			location.href = 'poption.bo?option=' + option;
 		});
 		
 		$('#a3').click(function(){
-			option = '낮은가격순';
+			option = 'lowprice';
 			location.href = 'poption.bo?option=' + option;
 		});
 		
 		$('#a4').click(function(){
-			option = '높은가격순';
+			option = 'highprice';
 			location.href = 'poption.bo?option=' + option;
 		});
 
@@ -335,7 +280,6 @@
 		<!--**********************************
     Support ticket button end
  ***********************************-->
-	</div>
 	<!--**********************************
      Main wrapper end
  ***********************************-->
@@ -346,10 +290,4 @@
     
   </body>
   </html>  
-    
-    
-    
-    
-    
-    
     

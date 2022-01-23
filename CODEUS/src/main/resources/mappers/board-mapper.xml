@@ -8,7 +8,7 @@
 	</select>
 	
 	<select id="selectBoard" resultMap="boardResultSet">
-		SELECT B_NUM, B_TYPE, B_TITLE, B_VIEWS, B_CREARE_DATE, B_MODIFY_DATE, B_STATUS
+		SELECT B_NUM, B_TYPE, B_TITLE, B_VIEWS, B_CREARE_DATE, B_MODIFY_DATE, B_STATUS,
 			   B.M_ID M_ID
 		FROM BOARD B
 		 		LEFT JOIN MEMBER M ON(B.M_ID = M.M_ID)
