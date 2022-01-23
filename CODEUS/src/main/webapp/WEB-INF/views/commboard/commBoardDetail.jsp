@@ -264,7 +264,7 @@
 							        	   if(data == 'success'){
 								        	  	 alert("신고되었습니다. 관리자 확인 후 처리 됩니다.");
 								        	   }else if(data == 'fail'){
-								        		   alert('이미 신고된 댓글 입니다.');               
+								        		   alert('이미 신고된 게시글 입니다.');               
 						               }
 							        	   
 							        	   console.log(2); 
