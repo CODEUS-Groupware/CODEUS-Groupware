@@ -143,7 +143,7 @@ $(document).ready(function() {
 											var $btnArea;
 											var $btnAreaT;
 						
-											$("#rCount").text('문의 사항(' + data.length + ')');
+											$("#rCount").text('댓글(' + data.length + ')');
 											
 											
 											if(data.length > 0) {
@@ -171,7 +171,7 @@ $(document).ready(function() {
 												}
 											} else {
 												var $tr = $('<tr>');
-												var $rContent = $('<td colspan="3">').text("등록된 문의사항이 없습니다.");
+												var $rContent = $('<td colspan="3">').text("등록된 댓글이 없습니다.");
 												$tr.append($rContent);
 												$tableBody.append($tr);
 											}

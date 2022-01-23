@@ -74,8 +74,6 @@
 					<!-- 본문 테이블 영역  -->
 
 					<div class="col-lg-12">
-                        <div class="card">
-                            	<div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-hover table-responsive-sm" style="color : black;">
                                         <thead>

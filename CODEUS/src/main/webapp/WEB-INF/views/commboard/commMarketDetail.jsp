@@ -27,6 +27,7 @@
 	tr,td {
 		color:black;
 		padding: 5px;
+		font-size: 15px;
 	}	
 			
 			 
@@ -39,24 +40,15 @@
 	.replyUpdateBtn{float:right; padding-right: 10px;}
   	 #replyArea{font-size: 13px;}
   	 .nestedReply{margin-left: 20px;}
-  	 .file a{color: black;}
-  	 
-  	 /* scrap 관련 css */
+  	 .file a{color: black;}	
+		
+			 
+			 
 	.scrapBtn {float: right;}
 	.scrapBtn .bi, .scrapBtn span{color: black;}
 	.scrapBtn:hover {border-color: MediumSlateBlue; background-color: Lavender;}
 	.scrapBtn:hover .bi, .scrapBtn:hover span {color: MediumSlateBlue;}
 	.scrap{background: Lavender;}  	 
-	
-	/* 댓글 관련 css */
-	.nestedReplyWrite{margin-left: 20px; display: none;}
-	.nestedReplyWrite textarea {display: inline; max-width: 1050px;}
-	.nestedReplyWrite button, .replyWriteArea button, .replyEditArea button{float: right; margin-right: 10px;}
-	.replyWriteArea textarea{display: inline; max-width: 1070px;}
-	.replyUpdateBtn{display: none;}
-	.nestedReplywriteFormBtn{color: #696969;}
-	.replyEditArea textarea{display: inline; max-width: 1000px;}
-	.deleted span{color: gray;} 
     
 </style>
 </head>
@@ -106,7 +98,7 @@
 									<h3>${ mb.mbTitle }</h3>
 									</td>
 									<td>
-										 <c:if test="${ loginUser.mId ne mb.mbWriter ||  loginUser.mId eq 'kimdo' }">   
+										 <c:if test="${ loginUser.mId eq mb.mbWriter || loginUser.mId eq 'kimdo' }">    
 											 <p align="right">
 											  <span  type="button"  id="popup_open_btn" id="report">
 											  <img class='fit-picture' 
@@ -404,7 +396,7 @@
 		               }
 			        	   
 			        	  
-			               $('#my_modal').hide(); 
+			              $('#my_modal').hide();
 		            }, 
 		            error: function(data) {
 		            	console.log(data); 
