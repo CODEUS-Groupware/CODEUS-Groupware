@@ -97,7 +97,7 @@
 									<h3>${ mb.mbTitle }</h3>
 									</td>
 									<td>
-										 <c:if test="${ loginUser.mId ne mb.mbWriter || loginUser.mId eq '' }">   
+										 <c:if test="${ loginUser.mId ne mb.mbWriter ||  loginUser.mId eq 'kimdo' }">   
 											 <p align="right">
 											  <span  type="button"  id="popup_open_btn" id="report">
 											  <img class='fit-picture' 
@@ -395,7 +395,7 @@
 		               }
 			        	   
 			        	  
-			              $('#my_modal').hide();
+			               $('#my_modal').hide(); 
 		            }, 
 		            error: function(data) {
 		            	console.log(data); 
