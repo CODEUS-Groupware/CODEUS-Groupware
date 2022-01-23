@@ -8,7 +8,7 @@
 	</select>
 	
 	<select id="selectMarketBoard" resultMap="marketboardResultSet">
-		SELECT B_NUM, B_TYPE, B_TITLE, B_VIEWS, B_CREARE_DATE, B_MODIFY_DATE, B_STATUS
+		SELECT B_NUM, B_TYPE, B_TITLE, B_VIEWS, B_CREARE_DATE, B_MODIFY_DATE, B_STATUS,
 			   B.M_ID M_ID,B_ETC, B_CATEGORY, B_CONTENT
 		FROM BOARD B
 		 		LEFT JOIN MEMBER M ON(B.M_ID = M.M_ID)
