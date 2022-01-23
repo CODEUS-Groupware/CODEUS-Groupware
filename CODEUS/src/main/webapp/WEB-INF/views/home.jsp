@@ -480,7 +480,10 @@
 								outputData.parentElement.hidden = false;
 								// QR코드 메시지 출력
 								outputData.innerHTML = code.data;
-								
+								 comTime();
+								//카메라 끄기
+			                      mediaStream.stop();
+								 $('#QRModal').modal('hide'); 
 								Swal.fire({
 									  title: '출근되었습니다.',
 									  //text: "이미 생성하셨다면 취소를 눌러주세요.",
@@ -491,19 +494,18 @@
 									  confirmButtonText: '확인',
 									  cancelButtonText: '취소'
 								}).then((result) => {
-                    if(result.value){ //확인
-
-                      //카메라 끄기
-                      mediaStream.stop();
-
-                      comTime();
-                      $('#QRModal').modal('hide'); 
-
-                      return;
-                      
-                    } else {
-                      return false;
-                    }
+				                    if(result.value){ //확인
+				
+				                      
+				
+				                     // comTime();
+				                      
+				
+				                      return;
+				                      
+				                    } else {
+				                      return false;
+				                    }
 								})
 							}
 							// QR코드 인식에 실패한 경우 
