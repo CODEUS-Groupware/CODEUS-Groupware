@@ -391,7 +391,7 @@
         var mr_startTime = '<c:out value="${ mr.rev_start_time }"/>'.substr(11, 5);
         var mr_endTime = '<c:out value="${ mr.rev_end_time }"/>'.substr(11, 5);
         var mr_room = '<c:out value="${ mr.meet_name }"/>';
-        var mr_content = '<c:out value="${ fn:replace(fn:replace(mr.rev_content, CRLF, BR), LF, BR) }" escapeXml="false"/>';
+        var mr_content = '<c:out value="${ fn:replace(fn:replace(fn:replace(mr.rev_content, CRLF, BR), CR, BR), LF, BR) }" escapeXml="false"/>';
         mr_content = mr_content.replaceAll('<br/>', '\n');
         
         
