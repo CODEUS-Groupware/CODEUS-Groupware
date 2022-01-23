@@ -26,8 +26,8 @@
 	
 	tr,td {
 		color:black;
-		padding: 5px;
-		font-size: 15px;
+/* 		padding: 5px; */
+		font-size: 18px;
 	}	
 			
 			 
@@ -40,15 +40,15 @@
 	.replyUpdateBtn{float:right; padding-right: 10px;}
   	 #replyArea{font-size: 13px;}
   	 .nestedReply{margin-left: 20px;}
-  	 .file a{color: black;}	
-		
-			 
-			 
+  	 .file a{color: black;}
+  	 
+  	 /* scrap 관련 css */
 	.scrapBtn {float: right;}
 	.scrapBtn .bi, .scrapBtn span{color: black;}
 	.scrapBtn:hover {border-color: MediumSlateBlue; background-color: Lavender;}
 	.scrapBtn:hover .bi, .scrapBtn:hover span {color: MediumSlateBlue;}
 	.scrap{background: Lavender;}  	 
+	
     
 </style>
 </head>
@@ -123,7 +123,7 @@
 								
 							    <tr>
 								<td>작성자</td>
-								<td>${ mb.mbWriter }</td>
+								<td>${ mb.mbWName }</td>
 								</tr>
 								
 								<tr>
@@ -150,15 +150,11 @@
 										</p>
 									</c:if>	
 								<td>
-                                       <%--  <!-- 스크랩 버튼 -->
+										<p style="padding-right : 150px;">
                             			<button class="scrapBtn btn btn-rounded btn-outline-light ${ scrapStatus == 1 ? 'scrap' : '' }" onclick="scrap('${ mb.bId }')">
-                            				<i class="bi bi-bookmark-star-fill"></i><span> 스크랩</span>
-                            			</button> --%>
-                            			<button class="scrapBtn btn btn-rounded btn-outline-light ${ scrapStatus == 1 ? 'scrap' : '' }" onclick="scrap('${ mb.bId }')">
-                            				<i class="bi bi-bookmark-star-fill"></i><span>찜하기</span>
-                            			</button>
-                                		<button type="button" class="btn  btn-square btn-secondary">연락하기</button>
-										</td>
+                            			<i class="fa fa-heart"></i><span>&nbsp;찜하기</span></button>
+                            			</p>
+								</td>
 									</tr>
 								</table>
 								<script>
@@ -396,7 +392,6 @@
 		               }
 			        	   
 			        	  
-			              $('#my_modal').hide();
 		            }, 
 		            error: function(data) {
 		            	console.log(data); 
