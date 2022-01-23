@@ -101,7 +101,7 @@
 								</tr>
 								<tr>
 								<td colspan="5">
-	                        	 <p style="color:black">${mb.mbContent} </p>
+	                        	 <p style="color:black">${b.bContent} </p>
 								</div>
 								<% pageContext.setAttribute("newLineChar", "\r\n"); %>
 								<p>${ fn:replace(b.bContent, newLineChar, "<br>") }</p>	
