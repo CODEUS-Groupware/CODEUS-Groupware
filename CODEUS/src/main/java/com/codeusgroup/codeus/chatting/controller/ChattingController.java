@@ -80,7 +80,7 @@ public class ChattingController {
 			mv.setViewName("chatRoomView");
 			
 		} else {
-			throw new ChattingException("채팅 목록 조회에 실패했습니다.");
+			throw new ChattingException("메시지 조회에 실패했습니다.");
 		}
 		
 	    return mv;

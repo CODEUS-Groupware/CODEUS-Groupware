@@ -5,8 +5,9 @@
 	<select id="selectChatroom" resultMap="MessageResultSet">
 		select *
 		from chat_message
-		join chat_room on(chat_message.chat_num = chat_room.chat_num)
+		join chat_room using(chat_num)
 		where chat_status = '0' and (sander = #{userId} or m_id = #{userId}) and sander not in #{userId}
+		order by chat_num desc
 	</select>
 	
 	<resultMap type="Chatroom" id="ChattingResultSet">
@@ -29,7 +30,7 @@
 		from chat_message
 		join chat_room using(chat_num)
 		where msg_status = '0' and (sander = #{userId} or m_id = #{userId}) and chat_num = #{roomNum}
-		order by msg_time asc
+		order by msg_num asc
 	</select>
 	
 	<insert id="insertMessage">
