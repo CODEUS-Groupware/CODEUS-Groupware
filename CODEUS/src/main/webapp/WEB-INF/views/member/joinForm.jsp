@@ -45,7 +45,7 @@
                             <div class="col-xl-12">
                                 <div class="auth-form">
                                     <div align="center">
-	                                	<a href="${contextPath}" class="brand-logo" >
+	                                	<a class="brand-logo" >
 	                						<img class="logo-abbr" src="${contextPath}/resources/assets/images/mainlogo.png" style="width: 250px; height: 120px;">		
 	            						</a>
                                 	</div>

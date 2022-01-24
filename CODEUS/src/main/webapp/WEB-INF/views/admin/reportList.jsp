@@ -255,7 +255,7 @@
 						                                                </td>
 						                                                <td>
 						                                                	<c:if test="${ (r.reportStatus eq 0 || r.reportStatus eq 2) && r.bStatus ne 1 && r.bStatus ne 2 }">
-							                                                	<c:set var="url" value="${ br.bType == '자유' ? 'CommBoardDetail.bo' : 'marketDetail.bo' }"/>
+							                                                	<c:set var="url" value="${ r.bType == '자유' ? 'CommBoardDetail.bo' : 'marketDetail.bo' }"/>
 						                                         				<c:url var="ReplyBoardDetail" value="${ url }">
 									                                                <c:param name="bId" value="${ r.bNum }"/>
 									                                                <c:param name="page" value="${ pi.currentPage }"/>
