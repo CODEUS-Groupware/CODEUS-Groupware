@@ -213,7 +213,7 @@
     <script src="${contextPath}/resources/assets/vendor/pickadate/translations/ko_KR.js"></script>
     <!-- pickadate 옵션 수정 : 오늘 날짜 이후 + 주중만 선택 가능 -->
     <script>
-        jQuery.extend(jQuery.fn.pickadate.defaults,{format: "yyyy-mm-dd", formatSubmit: "yyyy-mm-dd", disable: [1, 7], min: "0"});
+        jQuery.extend(jQuery.fn.pickadate.defaults,{format: "yyyy-mm-dd", formatSubmit: "yyyy-mm-dd", firstDay: 0, disable: [7, 8], min: "0"});
     </script>
 
 
@@ -430,20 +430,6 @@
         
         /********** 입력 정보 메세지 출력 **********/
         function lastCheck() {
-            console.log(inputDate);
-            console.log(isDateUsable);
-            
-            console.log(inputStartTime);
-            console.log(inputEndTime);
-            console.log(isTimeUsable);
-            
-            console.log(inputRoom);
-            console.log(inputRoomName);
-            console.log(isRoomUsable);
-            
-            console.log(inputContent);
-            console.log(isContentUsable);
-            
             $('#chkMsg').next().find('button').remove();
             var submitBtn = '<button type="submit" class="btn btn-primary">신청</button>';
             var dismissBtn1 = '<button type="button" class="btn btn-outline-primary" data-dismiss="modal">취소</button>';
