@@ -46,6 +46,8 @@
 	<select id="searchMemebrList" resultMap="memberResultSet">
 		select *
 		from member
+		join department using(dept_id)
+		join job using(job_id)
 		where m_status = '0'
 		<choose>
 			<when test="field == 'name'">
