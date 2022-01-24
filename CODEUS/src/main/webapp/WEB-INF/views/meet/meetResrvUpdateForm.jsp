@@ -266,7 +266,7 @@
                                                                             width: '400px'
                                                                         });
                                                                         
-                                                                        location.href="mrcomplete.mr?rNo=" + rNo + "&page2=" + page2;
+                                                                        location.href="mrcomplete.mr?rNo=" + rNo + "&page2=" + page2 + "&cal=0";
                                                                     }
                                                                 });
                                                             } else {
@@ -306,7 +306,7 @@
                                                                         width: '400px'
                                                                     });
                                                                     
-                                                                    location.href="mrcancel.mr?rNo=" + rNo + "&page2=" + page2;
+                                                                    location.href="mrcancel.mr?rNo=" + rNo + "&page2=" + page2 + "&cal=0";
                                                                 }
                                                             });
                                                         });

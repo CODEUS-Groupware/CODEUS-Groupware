@@ -53,7 +53,7 @@
                         </div>
                     </div>
                     <div class="col-lg-12">
-                        <div class="d-flex justify-content-end">
+                        <div class="d-flex justify-content-start">
                             <span class="badge badge-success">예약 완료</span>
                             <span class="badge badge-secondary">사용 완료</span>
                             <span class="badge badge-warning">예약 취소</span>
