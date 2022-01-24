@@ -100,4 +100,8 @@ public class MeetingResrvDAO {
         return sqlSession.selectOne("meetRoomMapper.selectMeetRoom", meet_no);
     }
     
+    public ArrayList<MeetingResrv> selectList(SqlSessionTemplate sqlSession) {
+        return (ArrayList) sqlSession.selectList("meetResrvMapper.selectList");
+    }
+    
 }

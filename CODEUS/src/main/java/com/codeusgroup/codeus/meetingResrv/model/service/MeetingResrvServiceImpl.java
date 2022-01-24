@@ -113,4 +113,9 @@ public class MeetingResrvServiceImpl implements MeetingResrvService {
         return mrDAO.selectMeetingRoom(sqlSession, meet_no);
     }
     
+    @Override
+    public ArrayList<MeetingResrv> selectList() {
+        return mrDAO.selectList(sqlSession);
+    }
+    
 }
