@@ -38,6 +38,7 @@
                         <c:param name="rNo" value="${ mr.rev_no }"/>
                         <c:param name="page1" value="${ page1 }"/>
                     </c:url>
+                    <c:url var="mrcal" value="mrcalview.mr"/>
                     <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">회의실 예약</li>
@@ -158,7 +159,12 @@
                                         </div>
                                         <div class="col-xl-12">
                                             <div class="d-flex justify-content-end">
-                                               <button type="button" class="btn btn-outline-primary btn-sm" onclick="location.href='${ mrlist }'">돌아가기</button>
+                                                <c:if test="${ cal == 0 }">
+                                                    <button type="button" class="btn btn-outline-primary btn-sm" onclick="location.href='${ mrlist }'">돌아가기</button>
+                                                </c:if>
+                                                <c:if test="${ cal == 1 }">
+                                                    <button type="button" class="btn btn-outline-primary btn-sm" onclick="location.href='${ mrcal }'">돌아가기</button>
+                                                </c:if>
                                             </div>
                                         </div>
                                     </div>

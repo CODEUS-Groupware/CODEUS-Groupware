@@ -113,7 +113,12 @@
             header: {
                 left: 'prev,next today',
                 center: 'title',
-                right: 'month,list'
+                right: 'month,basicWeek'
+            },
+            views: {
+                basicWeek: {
+                    hiddenDays: [ 0, 6 ]
+                }
             },
             themeSystem: 'bootstrap4',
             height: 'parent',
@@ -138,7 +143,7 @@
                                     end: item.rev_end_time,
                                     id: item.rev_no,
                                     color: item.rev_status == 0 ? '#71d540' : (item.rev_status == 1 ? '#6e32b3' : '#ffad33'),
-                                    url: item.mId != uId ? ('mrdetail.mr?rNo=' + item.rev_no + '&page1=1') : ('mrupdateview.mr?rNo=' + item.rev_no + '&page2=1')
+                                    url: item.mId != uId ? ('mrdetail.mr?rNo=' + item.rev_no + '&page1=1&cal=1') : ('mrupdateview.mr?rNo=' + item.rev_no + '&page2=1&cal=1')
                                 });
                             }
                         });
