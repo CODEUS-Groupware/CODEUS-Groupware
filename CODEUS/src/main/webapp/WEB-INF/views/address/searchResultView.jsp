@@ -121,7 +121,9 @@
                                         	<c:if test="${ !empty list }">
 	                                            <tr id="info">
 	                                            	<td></td>
-	                                                <td id="name">${ addr.mName }</td>
+	                                                <td id="name">${ addr.mName }
+	                                               		<input type="hidden" class="mId" value="${ addr.mId }">	
+	                                                </td>
 	                                                <td id="job">${ addr.jobName }</td>
 	                                                <td id="dept">${ addr.deptName }</td>
 	                                                <td id="phone">${ addr.phone }</td>
@@ -275,6 +277,8 @@
 		$('.addrPlus').click(function() {
 			var thisRow = $(this).closest('tr');
 			var mId = thisRow.find('td:eq(1)').find('input').val();
+			
+			console.log(mId);
 			
 			$.ajax({
 				url: "add.addr",
