@@ -265,10 +265,6 @@
 								        		   alert('이미 신고된 게시글 입니다.');               
 						               }
 							        	   
-							        	   console.log(2); 
-							               //bg.remove();
-							              // modal.style.display = 'none';
-							              $('#my_modal').hide();
 						            }, 
 						            error: function(data) {
 						            	console.log(data); 

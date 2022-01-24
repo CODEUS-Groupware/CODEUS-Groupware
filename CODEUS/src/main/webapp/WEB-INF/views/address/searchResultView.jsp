@@ -224,7 +224,7 @@
 	    
 	    <script>
 	    
-	 	// sweet alert customize
+	 // sweet alert customize
 		var alert = function(msg, title, icon) {
 			Swal.fire({
 				position: 'top', // 상단 중앙에 띄우기
@@ -284,8 +284,8 @@
 					console.log(data);
 					
 					if(data == "success") {
-						alert("추가되었습니다.");
 						location.reload();
+						alert("추가되었습니다.");
 					}
 				},
 				error: function() {

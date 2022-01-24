@@ -24,8 +24,8 @@
         
         .chat_wrap .mybox{display:inline-block; max-width:180px; position:relative; left: 280px;}
         .chat_wrap .mybox::before{content:""; position:absolute; right:8px; top:9px; border-top:0px solid transparent; border-bottom:8px solid transparent; border-right:8px solid #fff;}
-        .chat_wrap .mybox .msg {background:#ff0; border-radius:10px; padding:8px; text-align:right}
-        .chat_wrap .mybox .time {font-size:11px; color:#999; position:absolute; right: 100px; bottom:5px; width:70px; text-align:right}
+        .chat_wrap .mybox .msg {background:#ff0; border-radius:10px; padding:8px; text-align:left}
+        .chat_wrap .mybox .time {font-size:11px; color:#999; position:absolute; left: -75px; bottom:5px; width:70px; text-align:right}
 
         textarea{border: 0; width:70%; background:#fff; border-radius:5px; height: 80px; padding-left:5px; box-sizing:border-box; margin-top:5px; resize: none;}
         textarea::placeholder{color:#999}
@@ -59,7 +59,7 @@
 	       			<input type="hidden" id="roomNum" value="${msg.roomNum}">
 	       			<c:if test="${ msg.sander != loginUser.mId }">
 	            	<tr>
-	            		<td>
+	            		<td style="float: left;">
 	            			<div class="box">
 	            				<br>
 	            				<div id="sand">${ msg.sander }</div>
@@ -71,10 +71,9 @@
 	            	</c:if>
 	            	<c:if test="${ msg.sander == loginUser.mId }">
 	            	<tr>
-	            		<td>
+	            		<td style="float: right;">
 	            			<div class="mybox">
 	            				<br>
-	            				<div style="display: inline-block; text-align: right;">나</div>
 	            				<p class="msg">${ msg.msgContent }</p>
 	                    		<span class="time"><fmt:formatDate pattern="yyyy-MM-dd hh:mm" value="${ msg.msgTime }"/></span>
 	            			</div>
