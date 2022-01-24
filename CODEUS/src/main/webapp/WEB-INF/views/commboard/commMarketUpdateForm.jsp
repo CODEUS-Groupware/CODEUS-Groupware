@@ -10,6 +10,8 @@
 <link rel="stylesheet" href="${contextPath}/resources/assets/vendor/summernote/summernote-lite.css">
 
 
+
+
 <style>
         table th {
             font-size: 15px;
@@ -111,7 +113,7 @@
 										  <div class="form-group row">
 								   		 <label for="mbContent" class="col-sm-2 col-form-label">내용</label>
 										    <div class="container">
-							 					 <textarea id="summernote" class="summernote" name="mbContent" ></textarea>
+							 					 <textarea id="summernote" class="summernote" name="mbContent" >${ mb.mbContent }</textarea>
 											</div>
 										  </div>
 										  <div class="col-lg-12">
@@ -241,10 +243,7 @@
                     $(editor).summernote('insertImage', data.url);
                 }
             });
-        }
-
-	}
-}	
+	}	
 		
     </script>
 

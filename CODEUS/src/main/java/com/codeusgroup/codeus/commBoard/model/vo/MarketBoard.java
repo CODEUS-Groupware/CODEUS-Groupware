@@ -21,14 +21,17 @@ public class MarketBoard {
 	private String mbStatus; 
 	private String mbPin;
 	private String mbWriter; 
+	private String mbWName; 
+	
 
 	
 	public MarketBoard() {}
 
 
+
 	public MarketBoard(int bId, String mbType, String mbCategory, String mbTitle, String marketPrice, String mbContent,
 			int mbViews, String originalFileName, String renameFileName, Date mbCreateDate, Date mbModifyDate,
-			String mbStatus, String mbPin, String mbWriter) {
+			String mbStatus, String mbPin, String mbWriter, String mbWName) {
 		super();
 		this.bId = bId;
 		this.mbType = mbType;
@@ -44,7 +47,9 @@ public class MarketBoard {
 		this.mbStatus = mbStatus;
 		this.mbPin = mbPin;
 		this.mbWriter = mbWriter;
+		this.mbWName = mbWName;
 	}
+
 
 
 	public int getbId() {
@@ -52,9 +57,11 @@ public class MarketBoard {
 	}
 
 
+
 	public void setbId(int bId) {
 		this.bId = bId;
 	}
+
 
 
 	public String getMbType() {
@@ -62,9 +69,11 @@ public class MarketBoard {
 	}
 
 
+
 	public void setMbType(String mbType) {
 		this.mbType = mbType;
 	}
+
 
 
 	public String getMbCategory() {
@@ -72,9 +81,11 @@ public class MarketBoard {
 	}
 
 
+
 	public void setMbCategory(String mbCategory) {
 		this.mbCategory = mbCategory;
 	}
+
 
 
 	public String getMbTitle() {
@@ -82,9 +93,11 @@ public class MarketBoard {
 	}
 
 
+
 	public void setMbTitle(String mbTitle) {
 		this.mbTitle = mbTitle;
 	}
+
 
 
 	public String getMarketPrice() {
@@ -92,9 +105,11 @@ public class MarketBoard {
 	}
 
 
+
 	public void setMarketPrice(String marketPrice) {
 		this.marketPrice = marketPrice;
 	}
+
 
 
 	public String getMbContent() {
@@ -102,9 +117,11 @@ public class MarketBoard {
 	}
 
 
+
 	public void setMbContent(String mbContent) {
 		this.mbContent = mbContent;
 	}
+
 
 
 	public int getMbViews() {
@@ -112,9 +129,11 @@ public class MarketBoard {
 	}
 
 
+
 	public void setMbViews(int mbViews) {
 		this.mbViews = mbViews;
 	}
+
 
 
 	public String getOriginalFileName() {
@@ -122,9 +141,11 @@ public class MarketBoard {
 	}
 
 
+
 	public void setOriginalFileName(String originalFileName) {
 		this.originalFileName = originalFileName;
 	}
+
 
 
 	public String getRenameFileName() {
@@ -132,9 +153,11 @@ public class MarketBoard {
 	}
 
 
+
 	public void setRenameFileName(String renameFileName) {
 		this.renameFileName = renameFileName;
 	}
+
 
 
 	public Date getMbCreateDate() {
@@ -142,9 +165,11 @@ public class MarketBoard {
 	}
 
 
+
 	public void setMbCreateDate(Date mbCreateDate) {
 		this.mbCreateDate = mbCreateDate;
 	}
+
 
 
 	public Date getMbModifyDate() {
@@ -152,9 +177,11 @@ public class MarketBoard {
 	}
 
 
+
 	public void setMbModifyDate(Date mbModifyDate) {
 		this.mbModifyDate = mbModifyDate;
 	}
+
 
 
 	public String getMbStatus() {
@@ -162,9 +189,11 @@ public class MarketBoard {
 	}
 
 
+
 	public void setMbStatus(String mbStatus) {
 		this.mbStatus = mbStatus;
 	}
+
 
 
 	public String getMbPin() {
@@ -172,9 +201,11 @@ public class MarketBoard {
 	}
 
 
+
 	public void setMbPin(String mbPin) {
 		this.mbPin = mbPin;
 	}
+
 
 
 	public String getMbWriter() {
@@ -182,11 +213,24 @@ public class MarketBoard {
 	}
 
 
+
 	public void setMbWriter(String mbWriter) {
 		this.mbWriter = mbWriter;
 	}
-	
-	
+
+
+
+	public String getMbWName() {
+		return mbWName;
+	}
+
+
+
+	public void setMbWName(String mbWName) {
+		this.mbWName = mbWName;
+	}
+
+
 
 	@Override
 	public String toString() {
@@ -194,19 +238,8 @@ public class MarketBoard {
 				+ ", marketPrice=" + marketPrice + ", mbContent=" + mbContent + ", mbViews=" + mbViews
 				+ ", originalFileName=" + originalFileName + ", renameFileName=" + renameFileName + ", mbCreateDate="
 				+ mbCreateDate + ", mbModifyDate=" + mbModifyDate + ", mbStatus=" + mbStatus + ", mbPin=" + mbPin
-				+ ", mbWriter=" + mbWriter + ", getbId()=" + getbId() + ", getMbType()=" + getMbType()
-				+ ", getMbCategory()=" + getMbCategory() + ", getMbTitle()=" + getMbTitle() + ", getMarketPrice()="
-				+ getMarketPrice() + ", getMbContent()=" + getMbContent() + ", getMbViews()=" + getMbViews()
-				+ ", getOriginalFileName()=" + getOriginalFileName() + ", getRenameFileName()=" + getRenameFileName()
-				+ ", getMbCreateDate()=" + getMbCreateDate() + ", getMbModifyDate()=" + getMbModifyDate()
-				+ ", getMbStatus()=" + getMbStatus() + ", getMbPin()=" + getMbPin() + ", getMbWriter()=" + getMbWriter()
-				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
-				+ "]";
+				+ ", mbWriter=" + mbWriter + ", mbWName=" + mbWName + "]";
 	}
-
-
-	
-	
 
 	
 	
