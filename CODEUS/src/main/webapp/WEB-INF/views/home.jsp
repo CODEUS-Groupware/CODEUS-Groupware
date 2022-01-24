@@ -242,29 +242,29 @@
                             </div>
                             
                             <!---- 결재상태 ----->
-                            <div class="card-body" id="approvalStatus">
-								<div class="table-responsive">
-                                    <table class="table student-data-table m-t-20">
-                                        <thead>
-                                            <tr>
-                                                <th>Expense Type</th>
-                                                <th>Amount</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
+<!--                             <div class="card-body" id="approvalStatus"> -->
+<!-- 								<div class="table-responsive"> -->
+<!--                                     <table class="table student-data-table m-t-20"> -->
+<!--                                         <thead> -->
+<!--                                             <tr> -->
+<!--                                                 <th>Expense Type</th> -->
+<!--                                                 <th>Amount</th> -->
+<!--                                             </tr> -->
+<!--                                         </thead> -->
+<!--                                         <tbody> -->
+<!--                                             <tr> -->
 
-                                                <td>
-                                                    $2000
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-primary">Paid</span>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-							</div>
+<!--                                                 <td> -->
+<!--                                                     $2000 -->
+<!--                                                 </td> -->
+<!--                                                 <td> -->
+<!--                                                     <span class="badge badge-primary">Paid</span> -->
+<!--                                                 </td> -->
+<!--                                             </tr> -->
+<!--                                         </tbody> -->
+<!--                                     </table> -->
+<!--                                 </div> -->
+<!-- 							</div> -->
                         </div>
                     </div>
                              <script>

@@ -191,15 +191,15 @@
                             <li><a href="chatSearch.ch">채팅방 검색</a></li>
                        	</ul>
                     </li>
-                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                    		<i class="bi bi-file-text"></i><span class="nav-text">전자결재</span></a>
-                        <ul aria-expanded="false">
-                            <li><a href="mydocView.dc">내 문서함</a></li>
-                            <li><a href="teamdocView.dc">부서 문서함</a></li>
-                            <li><a href="newApprovalView.dc">문서 기안</a></li>
-                            <li><a href="approvalView.dc">문서 전체 목록</a></li>
-                        </ul>
-                    </li>
+<!--                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"> -->
+<!--                     		<i class="bi bi-file-text"></i><span class="nav-text">전자결재</span></a> -->
+<!--                         <ul aria-expanded="false"> -->
+<!--                             <li><a href="mydocView.dc">내 문서함</a></li> -->
+<!--                             <li><a href="teamdocView.dc">부서 문서함</a></li> -->
+<!--                             <li><a href="newApprovalView.dc">문서 기안</a></li> -->
+<!--                             <li><a href="approvalView.dc">문서 전체 목록</a></li> -->
+<!--                         </ul> -->
+<!--                     </li> -->
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
                     		<i class="bi bi-people"></i><span class="nav-text">커뮤니티</span></a>
                         <ul aria-expanded="false">

@@ -263,7 +263,7 @@
 	                       					$('.guide').text('1 이상의 정수를 입력해주세요.');
 	                       					totalCapacity.focus();
 	                       				} else if (togalCapacityValue < currCapacity) {
- 					        				$('.guide').text('총 용량은 현재 용량보다 작게 설정해야 합니다.');
+ 					        				$('.guide').text('총 용량은 현재 용량보다 크게 설정해야 합니다.');
 	                       					totalCapacity.focus();
  					        			} else {
 	                       					$('#updateCapacityForm').submit();
