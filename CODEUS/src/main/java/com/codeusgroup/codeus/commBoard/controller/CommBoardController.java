@@ -42,6 +42,7 @@ import com.codeusgroup.codeus.commBoard.model.vo.Reply;
 import com.codeusgroup.codeus.commBoard.model.vo.Report;
 import com.codeusgroup.codeus.commBoard.model.vo.Search;
 import com.codeusgroup.codeus.member.model.vo.Member;
+import com.codeusgroup.codeus.noticeBoard.model.service.NoticeBoardService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
@@ -50,6 +51,9 @@ import com.google.gson.JsonObject;
 @SessionAttributes("loginUser")
 @Controller
 public class CommBoardController {
+	
+	@Autowired
+	private NoticeBoardService nbService;
 	
 	@Autowired
 	private CommBoardService bService;
@@ -342,7 +346,7 @@ public class CommBoardController {
 }
 //------ 신고하기
 	
-	//자유 게시글 신고 - 모달 오류 고쳐야함 
+	//자유 게시글 신고 
 	
 	@ResponseBody
 	@RequestMapping("reportCommPost.bo")
@@ -445,7 +449,7 @@ public class CommBoardController {
 		public String marketDetail(@RequestParam("bId") int bId, @RequestParam(value="page", required=false) Integer page, 
 										 Model model, HttpSession session) {
 		
-			String replyWriter = ((Member)session.getAttribute("loginUser")).getmId();
+			String mId = ((Member)session.getAttribute("loginUser")).getmId();
 			
 			MarketBoard mb = mbService.selectMarketOneBoard(bId);
 			MarketAtt att = mbService.selectAttachmentList(bId);
@@ -454,10 +458,10 @@ public class CommBoardController {
 //			String mId = ((Member)session.getAttribute("loginUser")).getmId();
 			
 			HashMap<String, String> map = new HashMap<String, String>();
-			map.put("bId", String.valueOf(bId));
-			map.put("replyWriter", replyWriter);
-			
-			int scrapStatus = mbService.getScrapStatus(map);
+			map.put("bNum", String.valueOf(bId));
+			map.put("mId", mId);
+			System.out.println(map);
+			int scrapStatus = nbService.getScrapStatus(map);
 			
 			System.out.println(scrapStatus);
 			if( mb != null) {
