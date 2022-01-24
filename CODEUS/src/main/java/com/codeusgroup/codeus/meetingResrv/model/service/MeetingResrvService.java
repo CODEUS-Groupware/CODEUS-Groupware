@@ -47,4 +47,6 @@ public interface MeetingResrvService {
     
     MeetingRoom selectMeetingRoom(int meet_no);
     
+    ArrayList<MeetingResrv> selectList();
+    
 }

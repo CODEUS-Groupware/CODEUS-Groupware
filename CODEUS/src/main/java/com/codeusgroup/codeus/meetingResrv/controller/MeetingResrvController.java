@@ -116,10 +116,26 @@ public class MeetingResrvController {
         return mv;
     }
     
-    @RequestMapping("mrcal.mr")
-    public String meetingResrvCal() {
-        // 캘린더 연동 데이터 출력
+    // 예약 캘린더 페이지 연결
+    @RequestMapping("mrcalview.mr")
+    public String meetingResrvCalView() {
         return "meetCalcView";
+    }
+    
+    // 예약 캘린더 용 데이터 전송(ajax)
+    @RequestMapping(value = "mrcal.mr", produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public String meetingResrvCal() {
+        // 예약 종료 시간 이후에는 자동적으로 사용 완료로 변경
+        Timestamp tNow = new Timestamp(System.currentTimeMillis());
+        
+        mrService.autoUpdate(tNow);
+        
+        ArrayList<MeetingResrv> list = mrService.selectList();
+        
+        Gson gson = new Gson();
+        
+        return gson.toJson(list);
     }
     
     // 예약 신청 페이지 연결
