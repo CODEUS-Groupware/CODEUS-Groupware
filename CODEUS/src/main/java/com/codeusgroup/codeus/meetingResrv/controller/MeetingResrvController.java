@@ -225,7 +225,8 @@ public class MeetingResrvController {
     
     // 예약 내역 세부 조회
     @RequestMapping("mrdetail.mr")
-    public String meetingDetail(@RequestParam("rNo") int rNo, @RequestParam("page1") int page1, Model model) {
+    public String meetingDetail(@RequestParam("rNo") int rNo, @RequestParam("page1") int page1, Model model,
+            @RequestParam("cal") int cal) {
         MeetingResrv mr = mrService.selectMeetingResrv(rNo);
         MeetingRoom mInfo = mrService.selectMeetingRoom(mr.getMeet_no());
         
@@ -233,6 +234,7 @@ public class MeetingResrvController {
             model.addAttribute("mr", mr);
             model.addAttribute("page1", page1);
             model.addAttribute("mInfo", mInfo);
+            model.addAttribute("cal", cal);
         } else
             throw new MeetingResrvException("예약 정보 상세 조회에 실패하였습니다.");
         
@@ -241,10 +243,11 @@ public class MeetingResrvController {
     
     // 예약 내역 수정 페이지 연결
     @RequestMapping("mrupdateview.mr")
-    public String meetingResrvUpdateView(@RequestParam("rNo") int rNo, @RequestParam("page2") int page2, Model model) {
+    public String meetingResrvUpdateView(@RequestParam("rNo") int rNo, @RequestParam("page2") int page2, Model model,
+            @RequestParam("cal") int cal) {
         MeetingResrv mr = mrService.selectMeetingResrv(rNo);
         
-        model.addAttribute("mr", mr).addAttribute("rNo", rNo).addAttribute("page2", page2);
+        model.addAttribute("mr", mr).addAttribute("rNo", rNo).addAttribute("page2", page2).addAttribute("cal", cal);
         
         return "meetResrvUpdateForm";
     }
@@ -254,7 +257,8 @@ public class MeetingResrvController {
     public String meetingResrvUpdate(@RequestParam("r_no") int r_no, @RequestParam("page2") int page2,
             @RequestParam("datepicker") Date r_date, @RequestParam("r_start_time") String r_start_time,
             @RequestParam("r_end_time") String r_end_time, @RequestParam("r_room") int r_room,
-            @RequestParam("r_content") String r_content, HttpSession session, Model model) {
+            @RequestParam("r_content") String r_content, HttpSession session, Model model,
+            @RequestParam("cal") int cal) {
         // 예약 정보 입력
         MeetingResrv mr = new MeetingResrv();
         
@@ -278,6 +282,7 @@ public class MeetingResrvController {
             int page1 = 1;
             model.addAttribute("page1", page1);
             model.addAttribute("page2", page2);
+            model.addAttribute("cal", cal);
         } else
             throw new MeetingResrvException("회의실 예약 수정에 실패하였습니다.");
         
