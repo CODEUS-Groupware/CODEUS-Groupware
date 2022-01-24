@@ -138,7 +138,7 @@
                         $.each(data, function(index, item) {
                             if(data.length > 0) {
                                 events.push({
-                                    title: item.meet_name + ' / ' + item.mName,
+                                    title: item.meet_name + ' [' + item.rev_no + '] ' + item.mName,
                                     start: item.rev_start_time,
                                     end: item.rev_end_time,
                                     id: item.rev_no,
@@ -156,7 +156,7 @@
                 });
             },
             eventRender: function(event, element) {
-                element.css('font-size', '0.9em');
+                element.css('font-size', '0.85em');
                 element.css('padding', '1px');
                 element.css('font-weight', 'lighter');
             }
