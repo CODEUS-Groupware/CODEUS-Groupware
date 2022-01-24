@@ -662,7 +662,7 @@
                                                                     if(chkCount == 1 && $('.chk:checked').parent().parent().children().eq(2).children().text() == '예약 완료') {
                                                                         rNo = $('.chk:checked').val();
                                                                         
-                                                                        location.href="mrupdateview.mr?rNo=" + rNo + "&page2=" + ${ pi2.currentPage };
+                                                                        location.href="mrupdateview.mr?rNo=" + rNo + "&page2=" + ${ pi2.currentPage } + "&cal=0";
                                                                     } else {
                                                                         Swal.fire({
                                                                             title: '예약 상태 수정 불가',
@@ -685,7 +685,7 @@
                                                                     if(chkCount == 1 && $('.chk:checked').parent().parent().children().eq(2).children().text() == '예약 완료') {
                                                                         rNo = $('.chk:checked').val();
                                                                         
-                                                                        location.href="mrupdateview.mr?rNo=" + rNo + "&page2=" + ${ searchPi2.currentPage };
+                                                                        location.href="mrupdateview.mr?rNo=" + rNo + "&page2=" + ${ searchPi2.currentPage } + "&cal=0";
                                                                     } else {
                                                                         Swal.fire({
                                                                             title: '예약 상태 수정 불가',
@@ -894,7 +894,7 @@
             $(this).parent().css({'font-weight':'normal', 'background':'white'});
         }).click(function() {
             var rNo = $(this).parent().children().eq(0).text();
-            location.href="mrdetail.mr?rNo=" + rNo + "&page1=" + ${ pi1.currentPage };
+            location.href="mrdetail.mr?rNo=" + rNo + "&page1=" + ${ pi1.currentPage } + "&cal=0";
         });
         
         $('#tb2 tbody td:not(:has(input)):not(".nothing")').mouseenter(function() {
@@ -905,9 +905,9 @@
             var rNo = $(this).parent().children().eq(0).text();
             
             if($(this).parent().children().eq(2).children().text() != '예약 완료') {
-                location.href="mrdetail.mr?rNo=" + rNo + "&page1=" + ${ pi1.currentPage };
+                location.href="mrdetail.mr?rNo=" + rNo + "&page1=" + ${ pi1.currentPage } + "&cal=0";
             } else {
-                location.href="mrupdateview.mr?rNo=" + rNo + "&page2=" + ${ pi2.currentPage };
+                location.href="mrupdateview.mr?rNo=" + rNo + "&page2=" + ${ pi2.currentPage } + "&cal=0";
             }
         });
         
@@ -947,7 +947,7 @@
             $(this).parent().css({'font-weight':'normal', 'background':'white'});
         }).click(function() {
             var rNo = $(this).parent().children().eq(0).text();
-            location.href="mrdetail.mr?rNo=" + rNo + "&page1=" + ${ searchPi1.currentPage };
+            location.href="mrdetail.mr?rNo=" + rNo + "&page1=" + ${ searchPi1.currentPage } + "&cal=0";
         });
         
         // 체크박스 활성화
@@ -959,9 +959,9 @@
             var rNo = $(this).parent().children().eq(0).text();
             
             if($(this).parent().children().eq(2).children().text() != '예약 완료') {
-                location.href="mrdetail.mr?rNo=" + rNo + "&page1=" + ${ searchPi1.currentPage };
+                location.href="mrdetail.mr?rNo=" + rNo + "&page1=" + ${ searchPi1.currentPage } + "&cal=0";
             } else {
-                location.href="mrupdateview.mr?rNo=" + rNo + "&page2=" + ${ searchPi2.currentPage };
+                location.href="mrupdateview.mr?rNo=" + rNo + "&page2=" + ${ searchPi2.currentPage } + "&cal=0";
             }
         });
         

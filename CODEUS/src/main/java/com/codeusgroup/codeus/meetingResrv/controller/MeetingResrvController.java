@@ -116,10 +116,26 @@ public class MeetingResrvController {
         return mv;
     }
     
-    @RequestMapping("mrcal.mr")
-    public String meetingResrvCal() {
-        // 캘린더 연동 데이터 출력
+    // 예약 캘린더 페이지 연결
+    @RequestMapping("mrcalview.mr")
+    public String meetingResrvCalView() {
         return "meetCalcView";
+    }
+    
+    // 예약 캘린더 용 데이터 전송(ajax)
+    @RequestMapping(value = "mrcal.mr", produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public String meetingResrvCal() {
+        // 예약 종료 시간 이후에는 자동적으로 사용 완료로 변경
+        Timestamp tNow = new Timestamp(System.currentTimeMillis());
+        
+        mrService.autoUpdate(tNow);
+        
+        ArrayList<MeetingResrv> list = mrService.selectList();
+        
+        Gson gson = new Gson();
+        
+        return gson.toJson(list);
     }
     
     // 예약 신청 페이지 연결
@@ -209,7 +225,8 @@ public class MeetingResrvController {
     
     // 예약 내역 세부 조회
     @RequestMapping("mrdetail.mr")
-    public String meetingDetail(@RequestParam("rNo") int rNo, @RequestParam("page1") int page1, Model model) {
+    public String meetingDetail(@RequestParam("rNo") int rNo, @RequestParam("page1") int page1, Model model,
+            @RequestParam("cal") int cal) {
         MeetingResrv mr = mrService.selectMeetingResrv(rNo);
         MeetingRoom mInfo = mrService.selectMeetingRoom(mr.getMeet_no());
         
@@ -217,6 +234,7 @@ public class MeetingResrvController {
             model.addAttribute("mr", mr);
             model.addAttribute("page1", page1);
             model.addAttribute("mInfo", mInfo);
+            model.addAttribute("cal", cal);
         } else
             throw new MeetingResrvException("예약 정보 상세 조회에 실패하였습니다.");
         
@@ -225,10 +243,11 @@ public class MeetingResrvController {
     
     // 예약 내역 수정 페이지 연결
     @RequestMapping("mrupdateview.mr")
-    public String meetingResrvUpdateView(@RequestParam("rNo") int rNo, @RequestParam("page2") int page2, Model model) {
+    public String meetingResrvUpdateView(@RequestParam("rNo") int rNo, @RequestParam("page2") int page2, Model model,
+            @RequestParam("cal") int cal) {
         MeetingResrv mr = mrService.selectMeetingResrv(rNo);
         
-        model.addAttribute("mr", mr).addAttribute("rNo", rNo).addAttribute("page2", page2);
+        model.addAttribute("mr", mr).addAttribute("rNo", rNo).addAttribute("page2", page2).addAttribute("cal", cal);
         
         return "meetResrvUpdateForm";
     }
@@ -238,7 +257,8 @@ public class MeetingResrvController {
     public String meetingResrvUpdate(@RequestParam("r_no") int r_no, @RequestParam("page2") int page2,
             @RequestParam("datepicker") Date r_date, @RequestParam("r_start_time") String r_start_time,
             @RequestParam("r_end_time") String r_end_time, @RequestParam("r_room") int r_room,
-            @RequestParam("r_content") String r_content, HttpSession session, Model model) {
+            @RequestParam("r_content") String r_content, HttpSession session, Model model,
+            @RequestParam("cal") int cal) {
         // 예약 정보 입력
         MeetingResrv mr = new MeetingResrv();
         
@@ -262,6 +282,7 @@ public class MeetingResrvController {
             int page1 = 1;
             model.addAttribute("page1", page1);
             model.addAttribute("page2", page2);
+            model.addAttribute("cal", cal);
         } else
             throw new MeetingResrvException("회의실 예약 수정에 실패하였습니다.");
         
