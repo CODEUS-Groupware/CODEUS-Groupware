@@ -85,7 +85,6 @@ public class ArchiveServiceImpl implements ArchiveService {
 			String[] archive = a.split("/");
 			totalSize += Long.parseLong(archive[1]);
 			
-			System.out.println(totalSize);
 		}
 		
 		int result2 = 0;
@@ -95,8 +94,28 @@ public class ArchiveServiceImpl implements ArchiveService {
 	}
 
 	@Override
-	public int deleteFolder(int[] folderIdArr) {
-		return archDAO.deleteFolder(sqlSession, folderIdArr);
+	@Transactional
+	public int deleteFolder(int[] folderIdArr,  String[] subFileArr) {
+		
+		int result = 0;
+		if (subFileArr == null) {
+			// 삭제할 폴더 내부파일이 없었다면 폴더만 삭제
+			result = archDAO.deleteFolder(sqlSession, folderIdArr);
+			
+		} else {
+			// 삭제할 폴더 내부에 파일이 존재했다면
+			// delteFile메소드를 호출해 파일을 삭제
+			result = deleteFile(subFileArr);
+			
+			// 파일 삭제 후 폴더 용량 수정까지 완료됐다면 폴더 삭제
+			if (result >= subFileArr.length + 1) { 
+				result = archDAO.deleteFolder(sqlSession, folderIdArr);
+			} else {
+				result = 0;
+			}
+		}
+		
+		return result;
 	}
 
 	@Override
@@ -117,6 +136,12 @@ public class ArchiveServiceImpl implements ArchiveService {
 	@Override
 	public int moveFolder(ArrayList<ArchiveFolder> folderList) {
 		return archDAO.moveFolder(sqlSession, folderList);
+	}
+
+
+	@Override
+	public List<ArchiveFile> selectDeleteFileList(int[] folderIdArr) {
+		return archDAO.selectDeleteFileList(sqlSession, folderIdArr);
 	}
 
 }

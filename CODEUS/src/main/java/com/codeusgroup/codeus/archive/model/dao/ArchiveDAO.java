@@ -106,4 +106,9 @@ public class ArchiveDAO {
 		return result;
 	}
 
+	public List<ArchiveFile> selectDeleteFileList(SqlSessionTemplate sqlSession, int[] folderIdArr) {
+		
+		return sqlSession.selectList("archiveMapper.selectDeleteFileList", folderIdArr);
+	}
+
 }
