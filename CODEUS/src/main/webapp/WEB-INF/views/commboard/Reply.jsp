@@ -176,7 +176,7 @@ $(document).ready(function() {
 												}
 											} else {
 												var $tr = $('<tr>');
-												var $rContent = $('<td colspan="3">').text("등록된 문의사항이 없습니다.");
+												var $rContent = $('<td colspan="3">').text("등록된 댓글이  없습니다.");
 												$tr.append($rContent);
 												$tableBody.append($tr);
 											}
