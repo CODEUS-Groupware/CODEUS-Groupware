@@ -78,12 +78,12 @@
 											</tr>
 	                                   		<tr> 
 	                                   		<td colspan ="4" style="text-align: center;">
-											<input type="submit" id="bSubmit" class="btn btn-primary" value="수정하기"> &nbsp;
+											<input type="submit" id="bSubmit" class="btn btn-primary" value="수정"> &nbsp;
 														<c:url var="Commblist.bo" value="Commblist.bo">
 															<c:param name="page" value="${ page }"/>
 														</c:url>
-											<button type="button"  onclick="location.href='Commblist.bo'" class="btn btn-primary" >목록으로</button> &nbsp;
-											<button type="button"  class="btn btn-primary" onclick="back()">이전페이지로</button>
+											<button type="button"  onclick="location.href='Commblist.bo'" class="btn btn-primary" >목록</button> &nbsp;
+											<button type="button"  class="btn btn-primary" onclick="back()">이전페이지</button>
 											</td>
 											</tr>
 									</table>					

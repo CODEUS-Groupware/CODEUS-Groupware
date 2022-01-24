@@ -92,7 +92,7 @@
 	
 	<update id="updateMarketBoard">
 		UPDATE BOARD 
-		SET B_TITLE = #{mbTitle}, B_CONTENT = #{mbContent}, B_MODIFY_DATE = SYSDATE
+		SET B_TITLE = #{mbTitle}, B_CONTENT = #{mbContent}, B_MODIFY_DATE = SYSDATE, B_ETC = #{marketPrice}
 		<if test="originalFileName != null">
 				, ORIGINAL_FILENAME = #{originalFileName}, RENAME_FILENAME = #{renameFileName}
 			</if>
