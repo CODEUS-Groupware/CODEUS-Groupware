@@ -26,6 +26,7 @@ a, .text {
    color : black;
  }
 .replyTable {
+	width: 100%;
 	margin: auto;
 	color : black;
 }
@@ -154,13 +155,13 @@ $(document).ready(function() {
 											if(data.length > 0) {
 												for(var i in data) {
 													$tr = $("<tr id='modifyTr'>");
-													$rWriter = $("<td width='80' style='font-weight:bold'>").text(data[i].rWriter);
+													$rWriter = $("<td width='25%' style='font-weight:bold'>").text(data[i].rWriter);
 													$rContent = $('<td>').text(data[i].rContent);
-													$rCreateDate = $('<td width="100">').text(data[i].rCreateDate);
+													$rCreateDate = $('<td width="25%">').text(data[i].rCreateDate);
 													$btnArea = $("<td width='80' class='modi'>")
 								                    .append("<a href ='#' onclick='modifyReply(this,"+bId+","+data[i].rId+",\""+data[i].rContent+"\");'>수정/<a> ")
 								                    .append("<a href ='#' onclick='removeReply("+bId+","+data[i].rId+")'>삭제<a>");
-												    $btnAreaT = $("<td width='80' class='modi'>")
+												    $btnAreaT = $("<td width='25%' class='modi'>")
 												   .append("<a href ='#' onclick='ReportReply("+bId+","+data[i].rId+")'><img class='fit-picture' src='${contextPath}/resources/assets/images/1224162.png' alt=''>신고<a>");
 //			                                       
 						

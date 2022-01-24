@@ -217,7 +217,7 @@
 								<div class="row">
 			                    <div class="col-md-20">
 			                        <div class="card">
-			                            <div class="card-body" style="width: 65rem;">
+			                            <div class="card-body" style="width: 80rem;">
 			                                <!-- Nav tabs -->
 			                                <div class="default-tab">
 			                                    <ul class="nav nav-tabs" role="tablist">

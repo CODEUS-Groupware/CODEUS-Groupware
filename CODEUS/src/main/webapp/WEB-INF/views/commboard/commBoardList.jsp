@@ -50,12 +50,12 @@
                   </div>
                    <div class="card-body">
                        <div class="table-responsive">
-                       	<div id ="searchBox" class="col-sm-11 col-md-11 text-right">
+                       	<div id ="searchBox" class="col-sm-12 col-md-12">
 	
 						<!--  검색 영역 -->
 									
-						<div id="searchArea" align="center" class="form-group row justify-content-center">
-							<div class="w100" style="padding-right:10px">
+						<div id="searchArea" >
+							<div style="padding-right:10px">
 							<form action="commBoardSearch.bo" method="get" class="form-inline">
 								<select id="searchCondition" name="searchCondition" class="form-control form-control-sm">
 									<option value="all"
@@ -70,6 +70,8 @@
 							</form>					
 							</div>
 						</div>	
+						
+						<br><br>
 					<!-- 검색 영역  -->
 					<!-- 본문 테이블 영역  -->
 
@@ -79,10 +81,10 @@
                                         <thead>
                                         <tr>
 							              <th width="10%">No</th>
-							              <th  width="30%">제목</th>
-							              <th>작성자</th>
-							              <th>작성일</th>
-							              <th>조회수</th>
+							              <th width="50%">제목</th>
+							              <th width="20%">작성자</th>
+							              <th width="10%">작성일</th>
+							              <th width="10%">조회수</th>
 							          </tr>
 							       </thead>
 							        <tbody>
@@ -96,7 +98,7 @@
 									
 									<tr class="contentTR">
 										<th align="center">${ b.bId }</th>
-										<th align="left">${ b.bTitle }</th>	
+										<th align="center">${ b.bTitle }</th>	
 										<th align="center">${ b.bWriter }</th>
 										<th align="center">${ b.bCreateDate }</th>
 										<th align="center">${ b.bViews }</th>
