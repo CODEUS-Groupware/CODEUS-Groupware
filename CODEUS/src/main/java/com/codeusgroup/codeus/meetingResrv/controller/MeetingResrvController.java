@@ -291,13 +291,15 @@ public class MeetingResrvController {
     
     // 사용 완료 상태로 변경(수정 페이지: 1개)
     @RequestMapping("mrcomplete.mr")
-    public String meetingResrvComplete(@RequestParam("rNo") int rNo, @RequestParam("page2") int page2, Model model) {
+    public String meetingResrvComplete(@RequestParam("rNo") int rNo, @RequestParam("page2") int page2, Model model,
+            @RequestParam("cal") int cal) {
         int result = mrService.completeMeetingResrv(rNo);
         
         if (result > 0) {
             int page1 = 1;
             model.addAttribute("page1", page1);
             model.addAttribute("page2", page2);
+            model.addAttribute("cal", cal);
         } else
             throw new MeetingResrvException("회의실 예약 상태 수정(사용 완료)에 실패하였습니다.");
         
@@ -318,13 +320,15 @@ public class MeetingResrvController {
     
     // 예약 취소 상태로 변경(수정 페이지: 1개)
     @RequestMapping("mrcancel.mr")
-    public String meetingResrvCancel(@RequestParam("rNo") int rNo, @RequestParam("page2") int page2, Model model) {
+    public String meetingResrvCancel(@RequestParam("rNo") int rNo, @RequestParam("page2") int page2, Model model,
+            @RequestParam("cal") int cal) {
         int result = mrService.cancelMeetingResrv(rNo);
         
         if (result > 0) {
             int page1 = 1;
             model.addAttribute("page1", page1);
             model.addAttribute("page2", page2);
+            model.addAttribute("cal", cal);
         } else
             throw new MeetingResrvException("회의실 예약 상태 수정(예약 취소)에 실패하였습니다.");
         
