@@ -147,6 +147,7 @@
         update meet_reservation
         set rev_status = '1'
         where rev_end_time <= #{tNow}
+              and rev_status = '0'
         ]]>
     </update>
     
