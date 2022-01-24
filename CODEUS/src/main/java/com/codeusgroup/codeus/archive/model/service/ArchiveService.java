@@ -23,7 +23,7 @@ public interface ArchiveService {
 
 	int deleteFile(String[] archArr);
 
-	int deleteFolder(int[] folderIdArr);
+	int deleteFolder(int[] folderIdArr, String[] subFileArr);
 
 	int addFolder(ArchiveFolder folder);
 
@@ -34,6 +34,8 @@ public interface ArchiveService {
 	int moveFolder(ArrayList<ArchiveFolder> folderList);
 
 	List<ArchiveFolder> selectHierarchicalfolderList();
+
+	List<ArchiveFile> selectDeleteFileList(int[] folderIdArr);
 
 
 

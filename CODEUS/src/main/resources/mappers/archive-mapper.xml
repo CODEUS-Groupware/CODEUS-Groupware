@@ -91,7 +91,15 @@
 		set upper_folder = #{upperFolderId}
 		where folder_id = #{folderId}
 	</update>
-
+	
+	<select id="selectDeleteFileList" resultMap="archiveFileResultSet">
+		select *
+		from archive
+		where folder_id in
+		<foreach collection="array" item="arr" open="(" close=")" separator=",">
+			#{arr}
+		</foreach>
+	</select>
 	
 	<resultMap type="ArchiveCapacity" id="ArchiveCapacityResultSet">
 		<id column="ARC_TOTAL_CAPACITY" property="totalCapacity"/>

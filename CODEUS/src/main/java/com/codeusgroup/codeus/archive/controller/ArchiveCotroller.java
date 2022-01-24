@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -151,8 +150,8 @@ public class ArchiveCotroller {
 					if (currentFolder != null) {
 						file.setFolderId(currentFolder);
 					}
+					
 					fList.add(file);
-					System.out.println(file);
 				}
 			}
 			
@@ -206,15 +205,42 @@ public class ArchiveCotroller {
 			
 		} 
 		
-		
-		// 폴더 삭제
+		// 폴더 삭제 및 하위 파일들 삭제
 		int result2 = 0;
+		String[] subFileArr = null;
 		int folderIdArrLength = 0;
+		List<ArchiveFile> deleteFileList = null;
 		if (folderIdArr != null && folderIdArr.length > 0) {
-			result2 = archService.deleteFolder(folderIdArr);
+			
+			// 폴더 삭제 전 폴더 내 하위 파일들도 삭제 (뷰에서 하위 폴더가 있을시에는 삭제 못하도록 막았기 때문에 하위 파일만 삭제)
+				
+			// 폴더 내부에 있는 파일들 목록 select
+			deleteFileList = archService.selectDeleteFileList(folderIdArr);
+				
+			// 내부에 파일이 있으면 삭제 처리
+			if (!deleteFileList.isEmpty() && deleteFileList != null) {
+				
+				subFileArr = new String[deleteFileList.size()];
+				
+				int i = 0;
+				for (ArchiveFile f : deleteFileList) {
+					subFileArr[i] = f.getArchNo() + "/" + f.getSize();
+					i++;
+						
+					fileManager.deleteFile(f.getChangeName(), request, "/uploadFiles/archive");
+				}
+					
+				// 내부에 파일이 없으면 파일과 폴더 동시에 삭제
+				result2 = archService.deleteFolder(folderIdArr, subFileArr);
+				
+			} else {
+				// 내부에 파일이 없으면 폴더만 삭제
+				result2 = archService.deleteFolder(folderIdArr, null);
+			}
+			
 			folderIdArrLength = folderIdArr.length;
 		}
-		
+			
 		
 		if (result1 + result2 < archLength + folderIdArrLength) {
 			throw new ArchiveException("파일 또는 폴더 삭제에 실패하엿습니다.");	
