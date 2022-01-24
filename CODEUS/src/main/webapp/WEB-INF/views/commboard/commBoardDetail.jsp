@@ -101,8 +101,6 @@
 								</tr>
 								<tr>
 								<td colspan="5">
-	                        	 <p style="color:black">${b.bContent} </p>
-								</div>
 								<% pageContext.setAttribute("newLineChar", "\r\n"); %>
 								<p>${ fn:replace(b.bContent, newLineChar, "<br>") }</p>	
 								</td>
@@ -326,21 +324,6 @@
         Scripts
     ***********************************-->
 
-    
-   <!-- Tree Viewer JS
-	============================================ -->
-<!-- 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script> -->
-
-
-<!-- <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script> -->
-
-	<script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.cookie.js"></script>
-	<script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.treeview.js" type="text/javascript"></script>
-	<script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.treeview.edit.js" type="text/javascript"></script>
-	<script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.treeview.async.js" type="text/javascript"></script>
-	
-	<!-- drag and drop 관련 js -->
-	<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
-</body>
+   
 
 </html>

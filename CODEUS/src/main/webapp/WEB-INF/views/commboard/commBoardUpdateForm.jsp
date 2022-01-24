@@ -73,7 +73,7 @@
 											<tr>
 												<th>내용</th>
 												<td>
-												<textarea id="summernote" name="bContent" ></textarea>
+												<textarea id="summernote" name="bContent" >${ b.bContent }</textarea>
 												</td>
 											</tr>
 	                                   		<tr> 

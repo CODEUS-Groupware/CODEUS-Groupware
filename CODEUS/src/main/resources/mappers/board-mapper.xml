@@ -9,7 +9,7 @@
 	
 	<select id="selectBoard" resultMap="boardResultSet">
 		SELECT B_NUM, B_TYPE, B_TITLE, B_VIEWS, B_CREARE_DATE, B_MODIFY_DATE, B_STATUS,
-			   B.M_ID M_ID
+			   B.M_ID M_ID, B_CONTENT
 		FROM BOARD B
 		 		LEFT JOIN MEMBER M ON(B.M_ID = M.M_ID)
 		WHERE B_NUM = #{bId} AND B_STATUS = '0'
@@ -19,7 +19,7 @@
 	
 	<select id="CommBoardSelectList" resultMap="boardResultSet">
 		SELECT B_NUM, B_TYPE, B_TITLE, B_VIEWS, B_CREARE_DATE, B_MODIFY_DATE, B_STATUS, 
-			   B_PIN, B.M_ID M_ID
+			   B_PIN, B.M_ID M_ID, B_CONTENT
 		FROM BOARD B
 			LEFT JOIN MEMBER M ON(B.M_ID = M.M_ID)
 		WHERE B_TYPE = '자유' AND B_STATUS = '0'
@@ -53,7 +53,7 @@
 	<select id="commSearchList" parameterType="Search" resultMap="boardResultSet">
 		<bind name="value" value="'%' + _parameter.getSearchValue() + '%'"/>
 		SELECT B_NUM, B_TYPE, B_TITLE, B_VIEWS, B_CREARE_DATE, B_MODIFY_DATE, B_STATUS, 
-			   B_PIN, B.M_ID M_ID
+			   B_PIN, B.M_ID M_ID, B_CONTENT
 		FROM BOARD B
 			LEFT JOIN MEMBER M ON(B.M_ID = M.M_ID)
 		<where>
