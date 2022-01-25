@@ -341,7 +341,7 @@
 	                			$(function(){
 	                				console.log('${message}')
 	                				if ('${message}' != '') {
-	                					let msg = '${message}' == 'success' ? '등록되었습니다.' : '삭제되었습니다.';
+	                					let msg = '${message}' == 'c' ? '신고 취소되었습니다.' : '삭제되었습니다.';
 	                					alert(msg);
 	                					<c:remove var="message" scope="request"/>
 		                				history.replaceState({}, null, location.pathname);
