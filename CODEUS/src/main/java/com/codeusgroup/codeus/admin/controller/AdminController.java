@@ -389,7 +389,7 @@ public class AdminController {
 			throw new AdminException("하위 부서 목록 불러오기에 실패하였습니다.");
 		}
 		
-		// 해당 부서의 하위 부서 목록과 해당 부서의 부서원 목록을 한 JSONArry객체에 담아서 view로 전송
+		// 해당 부서의 하위 부서 목록과 해당 부서의 부서원 목록을 한 JSONArry에 담아서 view로 전송
 		JSONArray jArr = new JSONArray();
 		JSONObject jObj = null;
 		for (Member m : deptMemberList) {
@@ -626,7 +626,7 @@ public class AdminController {
 		
 		if (result > 0) {
 			model.addAttribute("page", page);
-			model.addAttribute("message", page);
+			model.addAttribute("message", message);
 		} else {
 			throw new AdminException("신고글 처리에 실패하였습니다.");
 		}
@@ -652,7 +652,7 @@ public class AdminController {
 		
 		if (result > 0) {
 			model.addAttribute("page", page);
-			model.addAttribute("message", page);
+			model.addAttribute("message", message);
 		} else {
 			throw new AdminException("신고글 처리에 실패하였습니다.");
 		}
