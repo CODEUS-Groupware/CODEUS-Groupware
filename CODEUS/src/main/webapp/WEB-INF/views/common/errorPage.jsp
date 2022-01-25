@@ -32,7 +32,7 @@
                         </div>
                         <h1 class="error-text font-weight-bold">${ error_code }</h1>
                         <h4 class="mt-4"><i class="fa fa-exclamation-triangle text-warning"></i> ${ msg }</h4>
-                        <!-- 나중에 삭제  --><p><%= request.getAttribute("javax.servlet.error.message") %></p>
+<%--                         <!-- 나중에 삭제  --><p><%= request.getAttribute("javax.servlet.error.message") %></p> --%>
                     </div>
                 </div>
             </div>
