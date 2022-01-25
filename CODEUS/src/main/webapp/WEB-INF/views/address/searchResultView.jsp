@@ -288,8 +288,8 @@
 					console.log(data);
 					
 					if(data == "success") {
-						location.reload();
 						alert("추가되었습니다.");
+						location.reload();
 					}
 				},
 				error: function() {
