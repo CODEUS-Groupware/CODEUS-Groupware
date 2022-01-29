@@ -389,7 +389,7 @@ public class AdminController {
 			throw new AdminException("하위 부서 목록 불러오기에 실패하였습니다.");
 		}
 		
-		// 해당 부서의 하위 부서 목록과 해당 부서의 부서원 목록을 한 JSONArry에 담아서 view로 전송
+		// 해당 부서의 하위 부서 목록과 부서원 목록을 한 JSONArry에 담아서 view로 전송
 		JSONArray jArr = new JSONArray();
 		JSONObject jObj = null;
 		for (Member m : deptMemberList) {
@@ -425,21 +425,7 @@ public class AdminController {
 		
 		if (dept.getUpperDept() != null) {
 			ArrayList<Department> subDeptList = aService.getSubDeptList(dept.getUpperDept());
-			// dept.setDeptOrder(subDeptList.size() + 1); // 정렬순서 마지막이 되도록 설정
-			
-			// 같은 상위부서를 가지고 있는 하위부서들의 정렬순서 중 가장 큰 것으로 저장되게 함
-			int deptOrder = 0;
-			if (subDeptList.size() > 0) {
-				for (Department d : subDeptList) {
-					if (deptOrder < d.getDeptOrder()) { 
-						deptOrder = d.getDeptOrder(); 
-					}
-				}
-				dept.setDeptOrder(deptOrder + 1);
-			} else {
-				dept.setDeptOrder(1);
-			}
-			
+			dept.setDeptOrder(subDeptList.size() + 1); // 선택한 상위부서의 하위부서 목록에서 정렬순서가 마지막이 되도록 설정
 		} else {
 			dept.setDeptOrder(1);
 		}
@@ -448,7 +434,6 @@ public class AdminController {
 		if (d == null) {
 			throw new AdminException("부서 등록에 실패하였습니다.");
 		}
-		System.out.println(d);
 		
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		try {
@@ -466,11 +451,7 @@ public class AdminController {
 	@RequestMapping("admin/ddelete.ad")
 	public String deleteDept(@RequestParam("deptId") int deptId, @RequestParam("upperDeptId") int upperDeptId) {
 		
-		System.out.println(upperDeptId);
-		
-		// 부서 삭제시 부서 정렬순서 업데이트하기 위해 정렬순으로 삭제된 부서의 상위부서의 하위부서 목록 가져옴
 		ArrayList<Department> subDeptList = aService.getSubDeptList(upperDeptId);
-		
 		int result1 = 0;
 		// 부서 삭제시 같은 상위부서를 가지고 있던 부서 그룹 정렬 새로하기, 1부터 차례대로 값이 들어가게 정렬 
 		if (subDeptList.size() >= 2) {
@@ -482,16 +463,15 @@ public class AdminController {
 				}
 			}
 			
-			// 부서 삭제와 동시에 같은 그룹 내에 있던 부서들 정렬 순서 업데이트 하기 위해 subDeptList도 매개변수로 함꼐 보냄
 			result1 = aService.sortDeptOrder(subDeptList);
 			result1 = result1 >= subDeptList.size() ? 1 : 0;
-			
 		} else {
 			result1 = 1;
 		}
-		 
+		
+		// 정렬순서 업데이트 성공시 부서 삭제
 		int result2 = 0;
-		if (result1 > 0) {
+		if (result1 == 1) {
 			result2 = aService.deleteDept(deptId);
 		}
 		
@@ -557,9 +537,9 @@ public class AdminController {
 			result1 = 1;
 		}
 		
+		// 정렬순서 업데이트 성공시 부서 위치 이동
 		int result2 = 0;
 		if (result1 == 1) {
-			
 			HashMap<String, Integer> map = new HashMap<String, Integer>();
 			map.put("moveDeptId", moveDeptId);
 			map.put("upperDeptId", upperDeptId);
