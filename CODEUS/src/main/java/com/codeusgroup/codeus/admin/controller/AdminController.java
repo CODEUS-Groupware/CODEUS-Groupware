@@ -376,7 +376,7 @@ public class AdminController {
 	}	
 	
     /**
-     * 하위 부서 목록 조회
+     * 하위 부서 및 부서원 목록 조회
      */
 	@RequestMapping("admin/subDeptList.ad")
 	@ResponseBody
