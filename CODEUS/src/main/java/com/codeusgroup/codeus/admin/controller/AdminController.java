@@ -425,7 +425,7 @@ public class AdminController {
 		
 		if (dept.getUpperDept() != null) {
 			ArrayList<Department> subDeptList = aService.getSubDeptList(dept.getUpperDept());
-			dept.setDeptOrder(subDeptList.size() + 1); // 선택한 상위부서의 하위부서 목록에서 정렬순서가 마지막이 되도록 설정
+			dept.setDeptOrder(subDeptList.size() + 1); // 같은 상위부서를 가지고 있는 하위부서 목록에서 정렬순서가 마지막이 되도록 설정
 		} else {
 			dept.setDeptOrder(1);
 		}

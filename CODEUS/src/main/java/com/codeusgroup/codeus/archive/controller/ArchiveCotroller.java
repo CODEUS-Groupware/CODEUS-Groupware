@@ -44,15 +44,12 @@ public class ArchiveCotroller {
 		if (capacity != null) {
 			
 			List<ArchiveFolder> folderList = archService.selectFolderList();
-			
 			List<ArchiveFolder> hierarchicalFolderList = archService.selectHierarchicalfolderList();
 			
 			if (folderList != null && folderList.size() > 0) {
 				for (ArchiveFolder f : folderList) {
 					if (f.getUpperFolderId() != null && f.getFolderId() == currentFolder) {
 						currentUpperFolder = f.getUpperFolderId();
-						
-						System.out.println(currentUpperFolder);
 					}
 				}
 			}
@@ -60,12 +57,10 @@ public class ArchiveCotroller {
 			List<ArchiveFile> fileList = archService.selectFileList(currentFolder);
 			
 			if (folderList != null && hierarchicalFolderList != null && fileList != null) {
-				
 				mv.addObject("capacity", capacity);
 				mv.addObject("folderList", folderList);
 				mv.addObject("hierarchicalFolderList", hierarchicalFolderList);
 				mv.addObject("fileList", fileList);
-				
 			} else {
 				throw new ArchiveException("파일 조회에 실패하였습니다.");
 			}
@@ -123,21 +118,17 @@ public class ArchiveCotroller {
 	public String uploadFile(@RequestParam("uploadFile") List<MultipartFile> uploadFileList, HttpServletRequest request, 
 							@RequestParam(value="currentFolder", required=false) Integer currentFolder, 
 							@RequestParam("mId") String mId, Model model) {
-		System.out.println(currentFolder);
-		System.out.println(uploadFileList);
+
 		if (uploadFileList != null && !uploadFileList.isEmpty()) {
 			
 			ArrayList<ArchiveFile> fList = new ArrayList<ArchiveFile>();
-			
 			for (MultipartFile f : uploadFileList) {
-				System.out.println(f);
 				String path = "/uploadFiles/archive";
 				String root = request.getSession().getServletContext().getRealPath("resources");
 				String savePath = root + path;
 				
 				String renameFileName = fileManager.saveFile(f, request, path);
 				String extension = f.getOriginalFilename().substring(f.getOriginalFilename().indexOf(".") + 1);
-				System.out.println(extension);
 				
 				if (renameFileName != null) {
 					ArchiveFile file = new ArchiveFile();
@@ -158,7 +149,6 @@ public class ArchiveCotroller {
 			int result = archService.insertArchiveFile(fList);
 			
 			if (result < fList.size() + 1) {
-			
 				if (!fList.isEmpty()) {
 					for (ArchiveFile f : fList) {
 						fileManager.deleteFile(f.getChangeName(), request, "/uploadFiles/archive");
@@ -167,13 +157,10 @@ public class ArchiveCotroller {
 				
 				throw new ArchiveException("파일 등록에 실패하였습니다.");
 			}
-			
-			
 		}
 		
 		model.addAttribute("currentFolder", currentFolder);
 		return "redirect:archive.arch?message=success";
-		
 	}
 	
 	
@@ -191,7 +178,6 @@ public class ArchiveCotroller {
 			
 			// 드라이브에 저장된 파일 삭제
 			for (String a : archArr) {
-				
 				String[] archive = a.split("/");
 				String changeName = archive[2];
 				
@@ -199,29 +185,22 @@ public class ArchiveCotroller {
 			}
 			
 			archLength = archArr.length + 1;
-			
-			// DB 파일 상태 삭제로 변경하고 자료실 현재 용량 감소
 			result1 = archService.deleteFile(archArr);
-			
 		} 
 		
-		// 폴더 삭제 및 하위 파일들 삭제
+		// 폴더 삭제 및 내부 파일 삭제
 		int result2 = 0;
 		String[] subFileArr = null;
 		int folderIdArrLength = 0;
 		List<ArchiveFile> deleteFileList = null;
 		if (folderIdArr != null && folderIdArr.length > 0) {
 			
-			// 폴더 삭제 전 폴더 내 하위 파일들도 삭제 (뷰에서 하위 폴더가 있을시에는 삭제 못하도록 막았기 때문에 하위 파일만 삭제)
-				
-			// 폴더 내부에 있는 파일들 목록 select
+			// 폴더 내부에 있는 파일 목록 select
 			deleteFileList = archService.selectDeleteFileList(folderIdArr);
 				
-			// 내부에 파일이 있으면 삭제 처리
+			// 폴더 내부에 파일이 있으면 파일과 폴더 동시에 삭제
 			if (!deleteFileList.isEmpty() && deleteFileList != null) {
-				
 				subFileArr = new String[deleteFileList.size()];
-				
 				int i = 0;
 				for (ArchiveFile f : deleteFileList) {
 					subFileArr[i] = f.getArchNo() + "/" + f.getSize();
@@ -230,17 +209,14 @@ public class ArchiveCotroller {
 					fileManager.deleteFile(f.getChangeName(), request, "/uploadFiles/archive");
 				}
 					
-				// 내부에 파일이 없으면 파일과 폴더 동시에 삭제
 				result2 = archService.deleteFolder(folderIdArr, subFileArr);
-				
 			} else {
-				// 내부에 파일이 없으면 폴더만 삭제
+				// 폴더 내부에 파일이 없으면 폴더만 삭제
 				result2 = archService.deleteFolder(folderIdArr, null);
 			}
 			
 			folderIdArrLength = folderIdArr.length;
 		}
-			
 		
 		if (result1 + result2 < archLength + folderIdArrLength) {
 			throw new ArchiveException("파일 또는 폴더 삭제에 실패하엿습니다.");	
@@ -324,10 +300,8 @@ public class ArchiveCotroller {
 				folderList.add(folder);
 			}
 			
-			
 			result2 = archService.moveFolder(folderList);
 		}
-		
 		
 		if (result1 + result2 < fileList.size() + folderList.size()) {
 			throw new ArchiveException("파일 또는 폴더 이동에 실패하엿습니다.");	

@@ -106,7 +106,7 @@
 	                       				$('#meetInfo').val($('#meetInfo').val().trim());
 	                       			});
 	                        		
-	                          		// 회의실 저장 버튼 클릭시
+	                          		// 회의실 저장 버튼 클릭시 실행
 	                          		function check() {
 	                          			
 	                          			if ($('#meetRoomName').val().trim() == "") {
