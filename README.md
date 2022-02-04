@@ -88,6 +88,8 @@
 
 ### [자료실]
 ![자료실](https://user-images.githubusercontent.com/78662802/152479274-87e28fb1-31e9-4fd0-9632-25bb655c89c7.png)
+![자료 및 폴더 이동](https://user-images.githubusercontent.com/78662802/152481592-9e1fcb88-6793-4f09-b2fe-98f849d47bfd.png)
+
 ### [회의실 예약]
 ![회의실 예약](https://user-images.githubusercontent.com/78662802/152479675-31054e65-4d71-4b6c-9154-e1a680045d47.png)
 
