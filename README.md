@@ -19,7 +19,8 @@
     Framework : MyBatis 3.4.6, Spring 5.3.13
     Build Tool : Maven 3.8.4
     Development Language :  JAVA 8 , HTML5, CSS3, JavaScript, jQuery, SQL, JSP, Ajax
-    형상관리 : Github, Sourcetree, ERDCloud, Figma, Notion
+    형상관리 : Github, Sourcetree 
+    Team Coop: ERDCloud, Figma, Notion
     Open API : Summer Note, FullCalender
     Design tool : Bootstrap4
 
