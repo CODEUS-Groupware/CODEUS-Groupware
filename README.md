@@ -81,26 +81,25 @@
 
 ### [캘린더]
 ![사내캘린더 일정등록](https://user-images.githubusercontent.com/78662802/152480063-de75420d-f91c-4e56-b82b-66139a96c909.png)
+
 ### [공지사항 게시판]
 ![공지사항 목록](https://user-images.githubusercontent.com/78662802/152479263-cb4b579b-ca3c-429d-9998-82a54e1035d4.png)
-![공지사항 상세](https://user-images.githubusercontent.com/78662802/152479264-cfdeb888-7411-4cb8-a4fa-feb76bb2bda0.png)
-![댓글 답댓글png](https://user-images.githubusercontent.com/78662802/152480585-7c351285-db2d-42dc-8654-32a44b37a05b.png)
-![공지사항 수정](https://user-images.githubusercontent.com/78662802/152480694-4040e949-4358-482d-89f3-193342c19636.png)
 
 ### [자료실]
 ![자료실](https://user-images.githubusercontent.com/78662802/152479274-87e28fb1-31e9-4fd0-9632-25bb655c89c7.png)
-![자료 및 폴더 이동](https://user-images.githubusercontent.com/78662802/152481592-9e1fcb88-6793-4f09-b2fe-98f849d47bfd.png)
 
 ### [회의실 예약]
 ![회의실 예약](https://user-images.githubusercontent.com/78662802/152479675-31054e65-4d71-4b6c-9154-e1a680045d47.png)
 
 ### [중고장터]
 ![중고장터](https://user-images.githubusercontent.com/78662802/152479275-6abfe76f-2e36-4504-a395-65e6527b53ee.png)
+
 ### [주소록]
 ![주소록 검색](https://user-images.githubusercontent.com/78662802/152479767-94e6e1e4-8a14-44cc-849d-9e8f2435e856.png)
 
 ### [마이페이지 - 스크랩 관리]
 ![스크랩 관리](https://user-images.githubusercontent.com/78662802/152479271-bfcae3d5-89c9-4918-89c9-a81a3985bc51.png)
+
 ### [관리자페이지 - 부서 관리]
 ![부서관리-조직도](https://user-images.githubusercontent.com/78662802/152479496-7d3af94b-454d-40d2-85a4-5a43dac6e72b.png)
 
