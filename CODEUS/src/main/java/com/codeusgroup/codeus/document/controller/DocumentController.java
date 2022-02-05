@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.codeusgroup.codeus.document.common.FileManager;
+import com.codeusgroup.codeus.common.FileManager;
 import com.codeusgroup.codeus.document.model.service.DocumentService;
 import com.codeusgroup.codeus.document.model.vo.Document;
 import com.codeusgroup.codeus.member.model.vo.Member;

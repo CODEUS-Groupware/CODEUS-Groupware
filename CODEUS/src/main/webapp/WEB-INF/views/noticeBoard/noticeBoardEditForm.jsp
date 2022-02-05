@@ -9,11 +9,6 @@
 <meta charset="UTF-8">
 <title>공지사항</title>
 <style>
-/* 	#searchForm button{background: none; border: none;} */
-/* 	.disabled a:hover{background: white; color: white} */
-/* 	.searchArea input{display: inline;  width: 150px;} */
-/* 	.searchArea select{display: inline;  width: 100px;} */
-/* 	.searchArea select, .searchArea input{font-size: small;} */
 	a:hover{cursor: pointer;}
 	.card-body{color: black;}
 	.button:hover{cursor: pointer;}

@@ -136,7 +136,7 @@
 									  	  $(this).val($(this).val().trim()); // 공백 입력시 자동으로 공백 제거되게 함
 									  	  let deptManager = $(this).val();  
 									  	  
-									  	  // 입력한 사원 아이디가 존재하는 아이디인지 검증
+									  	  // 부서책임자 입력란에 입력한 사원 아이디가 존재하는 아이디인지 검증
 			                              <c:forEach var="m" items="${ mList }">
 								          	if ("${ m.mId }" == deptManager) {
 								          		existenceCheck = true;
@@ -162,6 +162,7 @@
 								  			upperDept = null;
 								  			deptLevel = 1;
 								  		 } 
+								  		 
 								  		 let deptName = $('#insertDeptName').val().trim();  
 								  		 let deptManager = $('#insertDeptMgr').val().trim();  
 								  		 
@@ -317,7 +318,7 @@
 							                    	<c:set var="hasChildren" value="true"/> 
 							                    </c:if>
 				 	                        </c:forEach>
-	                                        <c:if test="${ dList[0].hasChildren == 0 || hasChildren }">
+	                                        <c:if test="${ dList[0].hasChildren == 1 || hasChildren }">
 	                                        	<c:set var="hasChildren" value="false"/> 
 		                                    	<ul class="hasChildren">
 		                                        	<c:forEach var="m" items="${ mList }">
@@ -335,7 +336,7 @@
 												                    	<c:set var="hasChildren" value="true"/> 
 												                    </c:if>
 								 	                        	</c:forEach>
-			                                            		<c:if test="${ d2.hasChildren == 0 || hasChildren }">
+			                                            		<c:if test="${ d2.hasChildren == 1 || hasChildren }">
 			                                            			<c:set var="hasChildren" value="false"/> 
 			                                            			<ul class="hasChildren">
 				                                            			<c:forEach var="m" items="${ mList }">
@@ -356,13 +357,13 @@
 																	                	<c:set var="hasChildren" value="true"/> 
 																	            	</c:if>
 													 	                        </c:forEach>
-					                                                        	<c:if test="${ (d3.hasChildren == 0 || hasChildren) && vs.index != lastIndex }">
+					                                                        	<c:if test="${ (d3.hasChildren == 1 || hasChildren) && vs.index != lastIndex }">
 					                                                            	<li class="expandable d3">
 					                                                            </c:if>
-					                                                            <c:if test="${ (d3.hasChildren == 0 || hasChildren) && vs.index == lastIndex }">
+					                                                            <c:if test="${ (d3.hasChildren == 1 || hasChildren) && vs.index == lastIndex }">
 					                                                            	<li class="expandable lastExpandable d3">
 					                                                            </c:if>
-					                                                            <c:if test="${ d3.hasChildren != 0 && !hasChildren }">
+					                                                            <c:if test="${ d3.hasChildren != 1 && !hasChildren }">
 					                                                            	<li>
 					                                                            </c:if>
 					                                                            	<input type="hidden" name="deptId" value="${ d3.deptId }">
@@ -372,7 +373,7 @@
 																	                    	<c:set var="hasChildren" value="true"/> 
 																	                    </c:if>
 													 	                        	</c:forEach>
-						                                                            <c:if test="${ d3.hasChildren == 0 || hasChildren }">
+						                                                            <c:if test="${ d3.hasChildren == 1 || hasChildren }">
 						                                                            	<c:set var="hasChildren" value="false"/> 
 						                                                            	<ul class="hasChildren">
 						                                                            	</ul>
@@ -499,12 +500,11 @@
 		            		let upperDept = $(this).next().val();
 		            		let $rootNode = $(this).parent().find('ul');
 
-		            		// depth level이 3 이상인 부서는 처음 페이지가 로드될 때 부서 목록에 보이게 하고, 
-		            		// depth level4부터는 부서이름 옆의 확장 버튼을 클릭했을 때 해당 부서의 하위 부서 목록을 ajax로 불러옴
-		            		// newNode라는 클래스명을 포함하고 있으면 ajax 호출하여 새로 생성된 요소를 의미. 이미 생성된 요소를 중복하여 불러오지 않게 하기 위하여 조건 추가 
+		            		// depth level이 3 이상인 부서는 처음 페이지가 로드될 때 출력, 
+		            		// level 4부터는 부서이름 옆의 확장 버튼을 클릭했을 때 해당 부서의 하위 부서와 부서원 목록을 ajax로 불러와 출력
+		            		// newNode라는 클래스명을 포함하고 있으면 ajax 호출하여 새로 생성된 요소를 의미. 이미 생성된 요소를 중복하여 불러오지 않게 하기 위한 조건 
 		            		if (!$(this).next().hasClass('lv') && !$rootNode.hasClass('newNode')) {
 		            			if ($(this).parent().hasClass('expandable') || $rootNode.css('display') == 'none') {
-		            				console.log($(this).parent().hasClass('expandable'));
 		            				$.ajax({
 				            			url: 'subDeptList.ad',
 				            			dataType: 'json',
@@ -539,8 +539,7 @@
 										                    }
 						 	                       		</c:forEach>
 					            						
-						 	                       		// data[i].hasChildren : 0이면 자식노드가 있다는 뜻
-				            							if (data[i].hasChildren == 0 || hasChildren) {
+				            							if (data[i].hasChildren == 1 || hasChildren) {
 				            								$li = $('<li class="expandable">');
 				            								$div =  $('<div class="hitarea expandable-hitarea">');
 															if (i == data.length - 1) {
@@ -557,7 +556,6 @@
 							            					$li.append($a);
 							            					$li.append($ul);
 							            					$rootNode.append($li);
-															
 				            							} else {
 				            								$li = $('<li>');
 															if (i == data.length - 1) {
@@ -571,7 +569,6 @@
 							            					$rootNode.append($li);
 				            							}
 				            						}
-
 				            					}
 				            					
 				            					$hitarea.addClass('collapsable-hitarea').removeClass('expandable-hitarea');
@@ -585,14 +582,12 @@
 				            					
 				            					$("#deptList").treeview({});
 				            				} 
-				            				
 				            			},
 				            			error: function(data) {
 				            				console.log(data);
 				            				alert('알 수 없는 오류가 발생했습니다.', '', 'error');
 				            			},
 				            		});
-		            				
 		            			} 
 		            		}
 		            	});
@@ -602,7 +597,6 @@
 		             
 		            <!------------------- 조직도 내 부서 위치 이동 관련 js 시작 -------------------->
 					<script>
-                 		// 조직도 내 부서 위치 이동(drag and drop function)
                  		$(function(){
                  			moveDept();
 						});  
@@ -610,120 +604,93 @@
                  	    // 새롭게 생성된 객체도 적용될 수 있게 $(document).on()사용
                  		$(document).on('drag', '.draggable', moveDept);
                  		
+                 		// 조직도 내 부서 위치 이동(drag and drop function)
                  		function moveDept() {
-                 			// drop된 곳에 위치한 부서의 id;
-                 			let upperDeptId = "";
-                 			
-                 		    // 드래그되는 객체인 부서의 id
-                 			let moveDeptId = "";
-                 		    
-                 		    // 중복 이벤트 방지를 위한 count
-                 			let count = 0;
+                 			let upperDeptId = ""; // drop된 곳에 위치한 부서의 id;
+                 			let moveDeptId = ""; // 드래그되는 객체인 부서의 id
+                 			let count = 0; // 중복 이벤트 방지를 위한 count
+		                    let isRevert = false; // revert check
 	
-		                    // boolean to revert check
-		                    let isRevert = false;
+		                    $contain= $(".dropable"); // droppable target 
+		                    $object = $(".draggable"); // draggable target
 	
-		                    // droppable target 
-		                    $contain= $(".dropable");
-	
-		                    // draggable target
-		                    $object = $(".draggable");
-	
-		                	// 움직일 객체
-		                    $object.draggable(
-		                        {
-		                            // 드래그가 끝난뒤 제자리로 돌아오게 하는 속성값
-		                            revert:function(event,ui){
-		                                // droppable 객체가 아닌곳에 드래그 됫을때
-		                                if(event==false){
-		                                    isRevert=false;
-		                                    return true;
-		                                // droppable 객체에 들어갓을때
-		                                } else{
-		                                    isRevert=true;
-		                                }
-	
-		                            },
-	
-		                            // 드래그되는 객체가 본인 자체일지 아니면 그외 다른것일지
-		                            // 해당 함수의 return 값이 드래그되어서 움직임
-		                            helper:function(){
-		                                $helper=$(this).clone();
-		                                return $helper; 
-	
-		                            },
-	
-		                            // 드래그가 시작됬을때 발생
-		                            start:function(event,ui){
-		                                // 최종 더해질 객체
-		                                $final=$(this).clone();
-		                                // 잠시 더해져서 에니메이션을 보여줄 객체
-		                                $clone=$(this).clone();
-	
-		                            },
-	
-		                            // 드래그가 중지됬을때 발생
-		                            stop:function(event,ui){
+		                	// 움직이는 객체
+		                    $object.draggable({
+		                    	// 드래그가 끝난뒤 제자리로 돌아오게 하는 속성값
+		                        revert:function(event,ui){ 
+		                          if(event==false){ // droppable 객체가 아닌곳에 드래그 됐을때
+		                          	isRevert=false;
+		                            return true;
+		                          } else{ // droppable 객체에 들어갔을때
+		                           	isRevert=true;
+		                          }
+								},
+								helper:function(){
+		                        	$helper=$(this).clone();
+		                            return $helper; 
+		                        },
+		                     	// 드래그가 시작됐을때 발생
+								start:function(event,ui){ 
+		                        	$final=$(this).clone(); // 최종 더해질 객체
+		                            $clone=$(this).clone(); // 잠시 더해져서 에니메이션을 보여줄 객체 
+		                        },
+		                     	// 드래그가 중지됐을때 발생
+								stop:function(event,ui){  
+		                        	moveDeptId = $(this).prev().val();
 		                                
-		                                moveDeptId = $(this).prev().val();
+		                            // 제대로 droppable 객체 안에 들어갔을때 
+		                            if(isRevert && upperDeptId != "" && moveDeptId != ""){
+			                        	let upperDeptLevel = 0; // 드롭된 곳에 위치한 부서의 depth level
+		                                let moveDeptLevel = 0; // 드래그되는 객체인 부서의 depth level
+		                                let originUpperDept = 0; // 드래그되는 객체인 부서의 기존 상위부서의 id
 		                                
-		                                // 제대로 droppable 객체 안에 들어갔을때 
-		                                if(isRevert && upperDeptId != "" && moveDeptId != ""){
-											
-		                                	// 상위 부서의 depth level
-			                                let upperDeptLevel = 0;
-		                                	
-			                                // 드래그되는 객체인 부서의 depth level
-		                                	let moveDeptLevel = 0;
-			                                
-		                                	// 드래그되는 객체인 부서의 기존 상위부서의 id
-		                                	let originUpperDept = 0;
-		                                	for(let i in deptArr) {
-									  		 	if (upperDeptId == deptArr[i].deptId) {
-									  		 		upperDeptLevel = Number(deptArr[i].deptLevel);
-									  		 	}
-									  		 	if (moveDeptId == deptArr[i].deptId) {
-									  		 		moveDeptLevel = Number(deptArr[i].deptLevel);
-									  		 		originUpperDept = Number(deptArr[i].upperDept);
-									  		 	}
+		                                for(let i in deptArr) {
+									  		if (upperDeptId == deptArr[i].deptId) {
+									  		 	upperDeptLevel = Number(deptArr[i].deptLevel);
 									  		}
+									  		
+									  		if (moveDeptId == deptArr[i].deptId) {
+									  			moveDeptLevel = Number(deptArr[i].deptLevel);
+									  		 	originUpperDept = Number(deptArr[i].upperDept);
+									  		}
+									  	}
 		                                	
-		                                	// 드래그되어 움직이는 부서가 드롭되면 상위 부서를 드롭된 자리에 있는 부서로 update
-		                                	if (upperDeptLevel <= moveDeptLevel) {
-		                                		if (originUpperDept != upperDeptId) {
-		                                			$.ajax({
-														url: 'dmove.ad',
-								                		data: {moveDeptId:moveDeptId, upperDeptId:upperDeptId, upperDeptLevel:upperDeptLevel, originUpperDept:originUpperDept},
-								                		type: 'POST',
-								                		success: function(data){
-								                			console.log(data);
-								                			if (data.length > 0) {
-								                				location.reload();
-								                			}
-								                		},
-								                		error: function(data){
-								                			console.log(data);
-								                			alert('알 수 없는 오류가 발생했습니다.', '', 'error');
+		                                // 드래그되어 움직이는 부서가 드롭되면 상위 부서를 드롭된 자리에 있는 부서로 update
+		                                if (upperDeptLevel <= moveDeptLevel) {
+		                                	if (originUpperDept != upperDeptId) {
+		                                		$.ajax({
+													url: 'dmove.ad',
+								                	data: {moveDeptId:moveDeptId, upperDeptId:upperDeptId, upperDeptLevel:upperDeptLevel, originUpperDept:originUpperDept},
+								                	type: 'POST',
+								                	success: function(data){
+								                		console.log(data);
+								                		if (data.length > 0) {
+								                			location.reload();
 								                		}
-													})
-		                                		}
-		                                	} else {
-		                                		// depth level이 낮은 부서로는 이동 못하게 제한
-		                                		alert('하위 부서로 이동할 수 없습니다.');
+								                	},
+								                	error: function(data){
+								                		console.log(data);
+								                		alert('알 수 없는 오류가 발생했습니다.', '', 'error');
+								                	}
+												})
 		                                	}
+		                                } else {
+		                                	// depth level이 낮은 부서로는 이동 못하게 제한
+		                                	alert('하위 부서로 이동할 수 없습니다.');
 		                                }
-		                            }
-	                        	});			
+		                             }
+		                    	}
+	                        });			
 		                	
-			                    $contain.droppable({
-	                				 accept:".draggable",
-								     drop: function( event, ui ) {  // drop function : draggable의 stop function이 종료된 후에 발생
-								    	 if (count == 0) {
-								    		 upperDeptId = $(this).prev().val(); 
-								    	 }
-								    	 count++;
-							     	}
-								});
+			                $contain.droppable({
+	                			accept:".draggable",
+								drop: function( event, ui ) { 
+									if (count == 0) {
+								    	upperDeptId = $(this).prev().val(); 
+								   	}
+								    count++;
+							    }
+							});
                  		}
                  	</script>
                  	<!------------------- 조직도 내 부서 위치 이동 관련 js 끝 -------------------->
@@ -896,7 +863,7 @@
 		        			});
 		        		}
 		            </script>
-		             <!------------------- 부서 수정 관련 js 끝 -------------------->
+		            <!------------------- 부서 수정 관련 js 끝 -------------------->
 		             
               </div>
            </div>
