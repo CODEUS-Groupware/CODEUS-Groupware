@@ -73,8 +73,13 @@
 
 ## 결과물
 ### [메인페이지]
-
 ![메인페이지](https://user-images.githubusercontent.com/78662802/152479269-f28f5a2b-2d94-4f2a-ba3f-157ce6ed4efa.png)
+
+### [로그인 페이지]
+![로그인 페이지](https://user-images.githubusercontent.com/78662802/152756868-1f22cad3-fd4e-4aa6-8b1b-5bc28bbf7b8f.png)
+
+### [회원가입 페이지]
+![회원가입 페이지](https://user-images.githubusercontent.com/78662802/152756998-87902cf0-b099-4ab9-b194-e34e7ac7271a.png)
 
 ### [근태 관리]
 ![누적 근태현황](https://user-images.githubusercontent.com/78662802/152480307-7a1fb816-adc5-4d68-9689-7611fbbe73d2.png)
@@ -100,11 +105,23 @@
 ### [마이페이지 - 스크랩 관리]
 ![스크랩 관리](https://user-images.githubusercontent.com/78662802/152479271-bfcae3d5-89c9-4918-89c9-a81a3985bc51.png)
 
+### [마이페이지 - 내 정보 수정]
+![마이페이지 - 내 정보 수정](https://user-images.githubusercontent.com/78662802/152756877-1547eede-74c7-40e7-b5d0-003a1f44140a.png)
+
 ### [관리자페이지 - 부서 관리]
 ![부서관리-조직도](https://user-images.githubusercontent.com/78662802/152479496-7d3af94b-454d-40d2-85a4-5a43dac6e72b.png)
 
 ### [관리자페이지 - 사원 관리]
 ![사원 관리](https://user-images.githubusercontent.com/78662802/152480390-9aed672e-1d75-4373-8495-83b90052aa92.png)
+
+### [관리자페이지 - 직위 관리]
+![직위 관리](https://user-images.githubusercontent.com/78662802/152756909-6b213d11-5e73-4eab-bcd2-a47d676a3cec.png)
+
+### [관리자페이지 - 신고글 관리]
+![신고글 관리](https://user-images.githubusercontent.com/78662802/152758145-2c2af364-55a0-4ec0-b789-769b6a1e676d.png)
+
+### [관리자페이지 - 회의실 관리]
+![회의실 관리](https://user-images.githubusercontent.com/78662802/152756896-b40c651d-5c3b-4842-b6cf-bc782c5fde37.png)
 
 <br>
 
