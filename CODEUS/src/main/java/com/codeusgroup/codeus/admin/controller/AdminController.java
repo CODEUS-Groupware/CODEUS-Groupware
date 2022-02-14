@@ -451,23 +451,8 @@ public class AdminController {
 	@RequestMapping("admin/ddelete.ad")
 	public String deleteDept(@RequestParam("deptId") int deptId, @RequestParam("upperDeptId") int upperDeptId) {
 		
-		ArrayList<Department> subDeptList = aService.getSubDeptList(upperDeptId);
-		int result1 = 0;
-		// 부서 삭제시 같은 상위부서를 가지고 있던 부서 그룹 정렬 새로하기, 1부터 차례대로 값이 들어가게 정렬 
-		if (subDeptList.size() >= 2) {
-			int i = 1;
-			for (Department d : subDeptList) {
-				if (d.getDeptId() != deptId) {
-					d.setDeptOrder(i);
-					i++;
-				}
-			}
-			
-			result1 = aService.sortDeptOrder(subDeptList);
-			result1 = result1 >= subDeptList.size() ? 1 : 0;
-		} else {
-			result1 = 1;
-		}
+		// 부서  삭제시 기존에 같은 상위부서를 가지고 있던 부서 그룹 정렬 새로 하기, 1부터 차례대로 값이 들어가게 정렬 
+		int result1 = sortDept(deptId, upperDeptId);
 		
 		// 정렬순서 업데이트 성공시 부서 삭제
 		int result2 = 0;
@@ -519,23 +504,7 @@ public class AdminController {
 		int deptOrder = subDeptList.size() + 1; // 같은 그룹내 가장 마지막 순서로 이동되게 정렬순서 세팅
 		
 		// 부서 이동시 기존에 같은 상위부서를 가지고 있던 부서 그룹 정렬 새로 하기, 1부터 차례대로 값이 들어가게 정렬 
-		ArrayList<Department> sortDeptList = aService.getSubDeptList(originUpperDept);
-		int result1 = 0;
-		if (sortDeptList.size() >= 2) {
-			int i = 1;
-			for (Department d : sortDeptList) {
-				if (d.getDeptId() != moveDeptId) {
-					d.setDeptOrder(i);
-					i++;
-				}
-			}
-			
-			result1 = aService.sortDeptOrder(sortDeptList);
-			result1 = result1 >= sortDeptList.size() ? 1 : 0;
-			
-		} else {
-			result1 = 1;
-		}
+		int result1 = sortDept(moveDeptId, originUpperDept);
 		
 		// 정렬순서 업데이트 성공시 부서 위치 이동
 		int result2 = 0;
@@ -555,6 +524,28 @@ public class AdminController {
 		}
 	}
 	
+	public int sortDept(int deptId, int upperDeptId) {
+		
+		// 부서 이동 또는 삭제시 기존에 같은 상위부서를 가지고 있던 부서 그룹 정렬 새로 하기, 1부터 차례대로 값이 들어가게 정렬 
+		ArrayList<Department> sortDeptList = aService.getSubDeptList(upperDeptId);
+		int result = 0;
+		if (sortDeptList.size() >= 2) {
+			int i = 1;
+			for (Department d : sortDeptList) {
+				if (d.getDeptId() != deptId) {
+					d.setDeptOrder(i);
+					i++;
+				}
+			}
+			
+			result = aService.sortDeptOrder(sortDeptList) >= sortDeptList.size() ? 1 : 0;
+			
+		} else {
+			result = 1;
+		}
+		
+		return result;
+	}
 	
     /**
      * 신고글 목록 조회
