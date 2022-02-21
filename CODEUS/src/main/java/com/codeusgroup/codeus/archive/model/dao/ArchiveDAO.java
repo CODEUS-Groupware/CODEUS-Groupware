@@ -53,12 +53,12 @@ public class ArchiveDAO {
 		return sqlSession.update("archiveMapper.updateCurrCapacity", totalSize);
 	}
 
-	public int deleteFile(SqlSessionTemplate sqlSession, String[] archArr) {
+	public int deleteFile(SqlSessionTemplate sqlSession, String[] fileArr) {
 		
 		int result = 0;
-		for (String a : archArr) {
-			int archNo = Integer.parseInt(a.split("/")[0]);
-			result += sqlSession.update("archiveMapper.deleteFile", archNo);
+		for (String f : fileArr) {
+			int fileNo = Integer.parseInt(f.split("/")[0]);
+			result += sqlSession.update("archiveMapper.deleteFile", fileNo);
 		}
 		
 		return result;

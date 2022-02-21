@@ -168,24 +168,23 @@ public class ArchiveCotroller {
      * 파일 및 폴더 삭제
      */		
 	@RequestMapping("deleteFile.arch")
-	public String deleteFile(@RequestParam(value="archNo", required=false) String[] archArr, 
+	public String deleteFile(@RequestParam(value="fileNo", required=false) String[] fileArr, 
 							 @RequestParam(value="folderId", required=false) int[] folderIdArr, HttpServletRequest request,
 							 @RequestParam(value="currentFolder", required=false) Integer currentFolder, Model model) {
 		
 		int result1 = 0;
-		int archLength = 0;
-		if (archArr != null && archArr.length > 0) {
+		int fileLength = 0;
+		if (fileArr != null && fileArr.length > 0) {
 			
 			// 드라이브에 저장된 파일 삭제
-			for (String a : archArr) {
-				String[] archive = a.split("/");
-				String changeName = archive[2];
+			for (String f : fileArr) {
+				String changeName = f.split("/")[2];
 				
 				fileManager.deleteFile(changeName, request, "/uploadFiles/archive");
 			}
 			
-			archLength = archArr.length + 1;
-			result1 = archService.deleteFile(archArr);
+			fileLength = fileArr.length + 1;
+			result1 = archService.deleteFile(fileArr);
 		} 
 		
 		// 폴더 삭제 및 내부 파일 삭제
@@ -203,7 +202,7 @@ public class ArchiveCotroller {
 				subFileArr = new String[deleteFileList.size()];
 				int i = 0;
 				for (ArchiveFile f : deleteFileList) {
-					subFileArr[i] = f.getArchNo() + "/" + f.getSize();
+					subFileArr[i] = f.getFileNo() + "/" + f.getSize();
 					i++;
 						
 					fileManager.deleteFile(f.getChangeName(), request, "/uploadFiles/archive");
@@ -218,7 +217,7 @@ public class ArchiveCotroller {
 			folderIdArrLength = folderIdArr.length;
 		}
 		
-		if (result1 + result2 < archLength + folderIdArrLength) {
+		if (result1 + result2 < fileLength + folderIdArrLength) {
 			throw new ArchiveException("파일 또는 폴더 삭제에 실패하엿습니다.");	
 		}
 		
@@ -266,19 +265,19 @@ public class ArchiveCotroller {
      */	
 	@RequestMapping("moveFolder.arch")
 	public String moveFolder(@RequestParam(value="targetFolder", required=false) Integer targetFolder, 
-							 @RequestParam(value="archNo", required=false) String[] archArr, 
+							 @RequestParam(value="fileNo", required=false) String[] fileArr, 
 							 @RequestParam(value="folderId", required=false) int[] folderIdArr, HttpServletRequest request,
 							 @RequestParam(value="currentFolder", required=false) Integer currentFolder, Model model) {
 		
 		// 파일의 폴더 변경
 		int result1 = 0;
 		ArrayList<ArchiveFile> fileList = new ArrayList<ArchiveFile>();
-		if (archArr != null && archArr.length > 0) {
+		if (fileArr != null && fileArr.length > 0) {
 					
-			for (String a : archArr) {
+			for (String f : fileArr) {
 				ArchiveFile file = new ArchiveFile();
-				int archNo = Integer.parseInt(a.split("/")[0]);
-				file.setArchNo(archNo);
+				int fileNo = Integer.parseInt(f.split("/")[0]);
+				file.setFileNo(fileNo);
 				file.setFolderId(targetFolder);
 				
 				fileList.add(file);

@@ -128,40 +128,41 @@
 			                         	</script>
 			                         	
 			                         	<!-- moveFolder Modal -->
-			                            <div class="modal fade" id="moveFolder">
-			                                <div class="modal-dialog modal-dialog-centered" role="document">
-			                                	<div class="modal-content">
-			                                    	<div class="modal-header">
-			                                        	<h5 class="modal-title">대상 폴더 선택</h5>
-			                                            <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
-			                                            </button>
-			                                   		</div>
-			                                   		<form id="moveFolderForm" action="moveFolder.arch" method="post">
-				                                        <div class="modal-body" style="color: black;">
-				                                        	<div class="modal-body" style="color: black;">
-					                                            <span class="text-danger">*</span><label class="col-form-label">대상 폴더</label>
-					                                            <select id="folderId" name="folderId" class="form-control">
-					                                            	<option value="">전사 자료실</option>
-					                                            	<c:forEach var="folder" items="${ hierarchicalFolderList }">
-					                                            		<option value="${ folder.folderId }">
-					                                            			&nbsp;&nbsp;&nbsp;
-					                                            			${fn:replace(folder.folderName, ' ', "&nbsp;&nbsp;")}
-					                                            		</option>
-					                                            	</c:forEach>
-					                                            </select>
-					                                            <span class="guide text-danger"></span><br>
-					                                        </div>
-				                                        </div>
-				                                        <div class="modal-footer">
-				                                            <button id="moveFolderBtn" type="button" class="btn btn-primary">저장</button>
-				                                            <button type="button" class="btn btn-light" data-dismiss="modal">취소</button>
-				                                        </div>
-			                                        </form>
-			                                    </div>
-			                                </div>
-			                         	</div>
-	                            		
-	                            		<!-- 총 용량 update Modal -->
+										<div class="modal fade" id="moveFolder">
+											<div class="modal-dialog modal-dialog-centered" role="document">
+												<div class="modal-content">
+													<div class="modal-header">
+														<h5 class="modal-title">대상 폴더 선택</h5>
+														<button type="button" class="close" data-dismiss="modal">
+															<span>&times;</span>
+														</button>
+													</div>
+													<div class="modal-body" style="color: black;">
+														<div class="modal-body" style="color: black;">
+															<span class="text-danger">*</span><label class="col-form-label">대상 폴더</label> 
+															<select id="folderId" name="folderId" class="form-control">
+																<option value="">전사 자료실</option>
+																<c:forEach var="folder"
+																	items="${ hierarchicalFolderList }">
+																	<option value="${ folder.folderId }">
+																		&nbsp;&nbsp;&nbsp; ${fn:replace(folder.folderName, ' ', "&nbsp;&nbsp;")}
+																	</option>
+																</c:forEach>
+															</select> 
+															<span class="guide text-danger"></span><br>
+														</div>
+													</div>
+													<div class="modal-footer">
+														<button id="moveFolderBtn" type="button"
+															class="btn btn-primary">저장</button>
+														<button type="button" class="btn btn-light"
+															data-dismiss="modal">취소</button>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<!-- 총 용량 update Modal -->
 			                            <div class="modal fade" id="updateCapacity">
 			                                <div class="modal-dialog modal-dialog-centered" role="document">
 			                                	<div class="modal-content">
@@ -461,7 +462,7 @@
 	                                         	<c:forEach var="file" items="${ fileList }">
 	                                         	
 	                                         		<tr style="text-align: left;">
-	                                         			<td><input type="checkbox" class="checkOne" name="archNo" value="${ file.archNo }/${ file.size }/${ file.changeName }"></td>
+	                                         			<td><input type="checkbox" class="checkOne" name="fileNo" value="${ file.fileNo }/${ file.size }/${ file.changeName }"></td>
 		                                                <td>
 		                                                	${ file.originName }
 		                                                	<a class="badge badge-light" href="${contextPath}/resources/uploadFiles/archive/${ file.changeName }" download> 
