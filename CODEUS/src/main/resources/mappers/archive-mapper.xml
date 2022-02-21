@@ -56,7 +56,7 @@
 	<update id="deleteFile">
 		update archive
 		set file_status = 1
-		where arc_no = #{archNo}
+		where arc_no = #{fileNo}
 	</update>
 	
 	<delete id="deleteFolder">
@@ -83,7 +83,7 @@
 	<update id="moveFile">
 		update archive
 		set folder_id = #{folderId}
-		where arc_no = #{archNo}
+		where arc_no = #{fileNo}
 	</update>
 	
 	<update id="moveFolder">
@@ -114,7 +114,7 @@
 	</resultMap>
 		
 	<resultMap type="ArchiveFile" id="archiveFileResultSet">
-		<id column="ARC_NO" property="archNo"/>
+		<id column="ARC_NO" property="fileNo"/>
 		<result column="ARC_PATH" property="path"/>
 		<result column="ARC_UPLOAD_DATE" property="uploadDate"/>
 		<result column="FILE_ORIGIN_NAME" property="originName"/>

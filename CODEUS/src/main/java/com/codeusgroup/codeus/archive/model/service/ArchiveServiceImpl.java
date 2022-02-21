@@ -75,16 +75,15 @@ public class ArchiveServiceImpl implements ArchiveService {
 
 	@Override
 	@Transactional
-	public int deleteFile(String[] archArr) {
+	public int deleteFile(String[] fileArr) {
 		
 		int result1 = 0;
-		result1 = archDAO.deleteFile(sqlSession, archArr);
+		result1 = archDAO.deleteFile(sqlSession, fileArr);
 		
 		// 삭제한 파일 크기만큼 자료실의 현재 용량 감소
 		long totalSize = 0;
-		for (String a : archArr) {
-			String[] archive = a.split("/");
-			totalSize += Long.parseLong(archive[1]);
+		for (String f : fileArr) {
+			totalSize += Long.parseLong(f.split("/")[1]);
 		}
 		
 		int result2 = 0;

@@ -21,7 +21,7 @@ public interface ArchiveService {
 
 	int insertArchiveFile(ArrayList<ArchiveFile> fList);
 
-	int deleteFile(String[] archArr);
+	int deleteFile(String[] fileArr);
 
 	int deleteFolder(int[] folderIdArr, String[] subFileArr);
 

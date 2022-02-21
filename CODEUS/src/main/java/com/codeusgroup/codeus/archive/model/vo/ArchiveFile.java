@@ -3,7 +3,7 @@ package com.codeusgroup.codeus.archive.model.vo;
 import java.sql.Date;
 
 public class ArchiveFile {
-	private int archNo;
+	private int fileNo;
 	private String path;
 	private Date uploadDate;
 	private String originName;
@@ -17,10 +17,10 @@ public class ArchiveFile {
 	
 	public ArchiveFile() {}
 
-	public ArchiveFile(int archNo, String path, Date uploadDate, String originName, String changeName, long size,
+	public ArchiveFile(int fileNo, String path, Date uploadDate, String originName, String changeName, long size,
 			String extension, int status, String mId, Integer folderId, String folderName) {
 		super();
-		this.archNo = archNo;
+		this.fileNo = fileNo;
 		this.path = path;
 		this.uploadDate = uploadDate;
 		this.originName = originName;
@@ -33,12 +33,12 @@ public class ArchiveFile {
 		this.folderName = folderName;
 	}
 
-	public int getArchNo() {
-		return archNo;
+	public int getFileNo() {
+		return fileNo;
 	}
 
-	public void setArchNo(int archNo) {
-		this.archNo = archNo;
+	public void setFileNo(int fileNo) {
+		this.fileNo = fileNo;
 	}
 
 	public String getPath() {
@@ -123,7 +123,7 @@ public class ArchiveFile {
 
 	@Override
 	public String toString() {
-		return "ArchiveFile [archNo=" + archNo + ", path=" + path + ", uploadDate=" + uploadDate + ", originName="
+		return "ArchiveFile [fileNo=" + fileNo + ", path=" + path + ", uploadDate=" + uploadDate + ", originName="
 				+ originName + ", changeName=" + changeName + ", size=" + size + ", extension=" + extension + ", status="
 				+ status + ", mId=" + mId + ", folderId=" + folderId + ", folderName=" + folderName + "]";
 	}
